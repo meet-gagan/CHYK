@@ -18,13 +18,15 @@ const registrationSchema = new mongoose.Schema(
     standard: { type: String, default: null, trim: true }, // e.g. "8th", "9th", "10th"
     profession: { type: String, default: null, trim: true },
     dateOfBirth: { type: Date },
+    dob: { type: String, trim: true, default: null },
     isStudent: { type: Boolean, default: true },
     institutionName: { type: String, default: 'N/A', trim: true },
     contactNumber: { type: String, required: true, trim: true, index: true },
     tShirtSize: {
       type: String,
       enum: ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
-      required: true,
+      required: false,
+      default: 'M',
     },
     registrationType: {
       type: String,

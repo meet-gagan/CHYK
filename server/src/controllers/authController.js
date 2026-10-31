@@ -23,12 +23,28 @@ const normalizePhone = (rawPhone) => {
 };
 
 /**
+ * Calculate age accurately from Date of Birth
+ */
+const calculateAgeFromDob = (dobString) => {
+  if (!dobString) return null;
+  const birthDate = new Date(dobString);
+  if (isNaN(birthDate.getTime())) return null;
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age >= 0 ? age : null;
+};
+
+/**
  * Public User Signup
  * POST /api/auth/signup
  */
 export const signupUser = async (req, res) => {
   try {
-    const { fullName, email, phone, password, confirmPassword, age, profession } = req.body;
+    const { fullName, email, phone, password, confirmPassword, age, dob, dateOfBirth, profession } = req.body;
 
     // 1. Validate required fields
     if (!fullName || !fullName.trim()) {
@@ -62,15 +78,24 @@ export const signupUser = async (req, res) => {
     }
 
     let parsedAge = undefined;
-    if (age !== undefined && age !== null && age !== '') {
-      parsedAge = parseInt(age, 10);
-      if (isNaN(parsedAge) || parsedAge < 5 || parsedAge > 120) {
-        return res.status(400).json({
-          success: false,
-          message: 'Please enter a valid age between 5 and 120 years',
-          errorCode: 'INVALID_AGE',
-        });
+    const finalDob = (dob || dateOfBirth || '').toString().trim();
+    if (finalDob) {
+      const calcAge = calculateAgeFromDob(finalDob);
+      if (calcAge !== null) {
+        parsedAge = calcAge;
       }
+    }
+    if (age !== undefined && age !== null && age !== '') {
+      const directAge = parseInt(age, 10);
+      if (!isNaN(directAge)) parsedAge = directAge;
+    }
+
+    if (parsedAge !== undefined && (parsedAge < 5 || parsedAge > 120)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please enter a valid Date of Birth / Age (between 5 and 120 years)',
+        errorCode: 'INVALID_AGE',
+      });
     }
 
     if (!password || password.length < 6) {
@@ -125,6 +150,11 @@ export const signupUser = async (req, res) => {
     if (parsedAge !== undefined) {
       userDoc.age = parsedAge;
     }
+    if (finalDob) {
+      userDoc.dob = finalDob;
+      const d = new Date(finalDob);
+      if (!isNaN(d.getTime())) userDoc.dateOfBirth = d;
+    }
 
     const newUser = new User(userDoc);
     await newUser.save();
@@ -137,6 +167,7 @@ export const signupUser = async (req, res) => {
       email: newUser.email,
       phone: newUser.phone,
       age: newUser.age,
+      dob: newUser.dob || null,
       profession: newUser.profession,
       role: newUser.role,
       createdAt: newUser.createdAt,
@@ -218,6 +249,7 @@ export const loginUser = async (req, res) => {
       fullName: user.fullName,
       phone: user.phone,
       age: user.age,
+      dob: user.dob || null,
       profession: user.profession,
       email: user.email,
       role: user.role,
@@ -358,7 +390,7 @@ export const getProfile = async (req, res) => {
  */
 export const updateProfile = async (req, res) => {
   try {
-    const { fullName, email, phone, age, profession } = req.body;
+    const { fullName, email, phone, age, dob, dateOfBirth, profession } = req.body;
     const user = await User.findById(req.user._id);
     if (!user) {
       return res.status(404).json({
@@ -424,6 +456,21 @@ export const updateProfile = async (req, res) => {
       }
     }
 
+    if (dob !== undefined || dateOfBirth !== undefined) {
+      const finalDob = (dob || dateOfBirth || '').toString().trim();
+      user.dob = finalDob || null;
+      if (finalDob) {
+        const d = new Date(finalDob);
+        user.dateOfBirth = !isNaN(d.getTime()) ? d : null;
+        const calcAge = calculateAgeFromDob(finalDob);
+        if (calcAge !== null && age === undefined) {
+          user.age = calcAge;
+        }
+      } else {
+        user.dateOfBirth = null;
+      }
+    }
+
     if (age !== undefined) {
       const parsedAge = parseInt(age, 10);
       if (!isNaN(parsedAge) && parsedAge >= 5 && parsedAge <= 120) {
@@ -443,6 +490,7 @@ export const updateProfile = async (req, res) => {
       email: user.email,
       phone: user.phone,
       age: user.age,
+      dob: user.dob || null,
       profession: user.profession,
       role: user.role,
       createdAt: user.createdAt,

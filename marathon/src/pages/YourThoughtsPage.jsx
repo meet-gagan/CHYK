@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   PenLine,
-  Sparkles,
   Compass,
   Search,
   Filter,
@@ -326,14 +325,6 @@ export const YourThoughtsPage = () => {
 
         <div className="relative max-w-4xl mx-auto text-center space-y-6">
           
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-[#EBD6A2] shadow-xs backdrop-blur-xs">
-            <Sparkles className="w-4 h-4 text-[#F0441D]" />
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#07162D]">
-              {f.thoughts_hero?.badge || 'Community Reflections & Voices'}
-            </span>
-          </div>
-
           {/* Elegant Oversized Heading */}
           <div className="space-y-3">
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-black font-heading tracking-tight text-[#07162D]">

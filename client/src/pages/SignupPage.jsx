@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { useAuth } from '../context/AuthContext';
 import { formatPhoneInput, getCleanPhoneNumber } from '../utils/phoneUtils';
+import { calculateAgeFromDob, getMaxDobDate } from '../utils/dateUtils';
 import {
   User,
   Mail,
@@ -32,7 +33,7 @@ export const SignupPage = () => {
     phone: '',
     password: '',
     confirmPassword: '',
-    age: '',
+    dob: '',
     profession: '',
   });
 
@@ -75,10 +76,10 @@ export const SignupPage = () => {
       newErrors.phone = 'Valid 10-digit mobile number starting with 6-9 required';
     }
 
-    if (formData.age) {
-      const parsedAge = parseInt(formData.age, 10);
-      if (isNaN(parsedAge) || parsedAge < 5 || parsedAge > 120) {
-        newErrors.age = 'Age must be between 5 and 120 years';
+    if (formData.dob) {
+      const calcAge = calculateAgeFromDob(formData.dob);
+      if (calcAge === null || calcAge < 5 || calcAge > 120) {
+        newErrors.dob = 'Please enter a valid Date of Birth (Age must be between 5 and 120 years)';
       }
     }
 
@@ -103,13 +104,16 @@ export const SignupPage = () => {
     setSubmitting(true);
     try {
       const cleanPhone = getCleanPhoneNumber(formData.phone);
+      const calcAge = formData.dob ? calculateAgeFromDob(formData.dob) : undefined;
       const res = await signup({
         fullName: formData.fullName.trim(),
         email: formData.email.trim().toLowerCase(),
         phone: cleanPhone,
         password: formData.password,
         confirmPassword: formData.confirmPassword,
-        age: formData.age ? parseInt(formData.age, 10) : undefined,
+        dob: formData.dob || undefined,
+        dateOfBirth: formData.dob || undefined,
+        age: calcAge !== null ? calcAge : undefined,
         profession: formData.profession?.trim() || undefined,
       });
 
@@ -250,29 +254,34 @@ export const SignupPage = () => {
 
           {/* 4. Age & Profession Grid (Optional) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Age */}
+            {/* Date of Birth (DOB) */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
-                Age <span className="text-[10px] text-[var(--text-muted)] font-normal">(Optional)</span>
-              </label>
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                  Date of Birth (DOB) <span className="text-[10px] text-[var(--text-muted)] font-normal">(Optional)</span>
+                </label>
+                {formData.dob && calculateAgeFromDob(formData.dob) !== null && (
+                  <span className="text-[11px] font-bold text-[var(--orange)] bg-[var(--orange)]/10 px-2 py-0.5 rounded-full">
+                    Age: {calculateAgeFromDob(formData.dob)} yrs
+                  </span>
+                )}
+              </div>
               <div className="relative flex items-center">
                 <div className="absolute left-3.5 pointer-events-none text-[var(--text-muted)]">
                   <Calendar className="w-4 h-4 text-[var(--orange)]" />
                 </div>
                 <input
-                  type="number"
-                  name="age"
-                  min="5"
-                  max="120"
-                  value={formData.age}
+                  type="date"
+                  name="dob"
+                  max={getMaxDobDate()}
+                  value={formData.dob}
                   onChange={handleChange}
-                  placeholder="e.g. 24"
                   className={`w-full pl-10 pr-4 py-3 rounded-2xl bg-[var(--bg-tertiary)] border text-[var(--text-primary)] font-semibold text-sm placeholder-[var(--text-muted)] focus:outline-none transition-all shadow-inner ${
-                    errors.age ? 'border-red-500' : 'border-[var(--border-color)] focus:border-[var(--orange)]'
+                    errors.dob ? 'border-red-500' : 'border-[var(--border-color)] focus:border-[var(--orange)]'
                   }`}
                 />
               </div>
-              {errors.age && <p className="text-[11px] font-semibold text-red-500 pl-1">{errors.age}</p>}
+              {errors.dob && <p className="text-[11px] font-semibold text-red-500 pl-1">{errors.dob}</p>}
             </div>
 
             {/* Profession */}

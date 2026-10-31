@@ -26,6 +26,22 @@ const sanitizePhone = (phone) => {
 };
 
 /**
+ * Calculate age accurately from Date of Birth
+ */
+const calculateAgeFromDob = (dobString) => {
+  if (!dobString) return null;
+  const birthDate = new Date(dobString);
+  if (isNaN(birthDate.getTime())) return null;
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age >= 0 ? age : null;
+};
+
+/**
  * Normalize registration type filter for queries
  */
 const normalizeTypeQuery = (type) => {
@@ -72,9 +88,10 @@ export const registrationService = {
       studentName,
       name,
       age,
+      dob,
+      dateOfBirth,
       standard,
       profession,
-      dateOfBirth,
       isStudent = true,
       institutionName,
       schoolName,
@@ -102,15 +119,19 @@ export const registrationService = {
     const finalSize = validSizes.includes(rawSize) ? rawSize : 'M';
 
     const finalInstitution = (institutionName || schoolName || school || 'N/A').trim();
-    const parsedAge = age ? parseInt(age, 10) : null;
+    const rawDob = (dob || dateOfBirth || '').toString().trim();
+    let parsedDob = null;
+    let computedAge = null;
+    if (rawDob) {
+      const d = new Date(rawDob);
+      if (!isNaN(d.getTime())) {
+        parsedDob = d;
+        computedAge = calculateAgeFromDob(rawDob);
+      }
+    }
+    const parsedAge = age ? parseInt(age, 10) : computedAge;
     const finalStandard = standard ? String(standard).trim() : null;
     const finalProfession = profession ? String(profession).trim() : null;
-
-    let parsedDob = null;
-    if (dateOfBirth) {
-      const d = new Date(dateOfBirth);
-      if (!isNaN(d.getTime())) parsedDob = d;
-    }
 
     // Duplicate submission guard (15 seconds window for exact same student & phone)
     const fifteenSecondsAgo = new Date(Date.now() - 15 * 1000);
@@ -136,6 +157,7 @@ export const registrationService = {
       entryPassId,
       fullName: finalName,
       age: isNaN(parsedAge) ? null : parsedAge,
+      dob: rawDob || null,
       standard: finalStandard,
       profession: finalProfession,
       dateOfBirth: parsedDob,
@@ -189,7 +211,17 @@ export const registrationService = {
     const validSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
     const rawPrimarySize = (primaryData.tShirtSize || primaryData.size || 'M').toUpperCase();
     const primarySize = validSizes.includes(rawPrimarySize) ? rawPrimarySize : 'M';
-    const parsedPrimaryAge = primaryData.age ? parseInt(primaryData.age, 10) : null;
+    const rawPrimaryDob = (primaryData.dob || primaryData.dateOfBirth || '').toString().trim();
+    let parsedPrimaryDob = null;
+    let computedPrimaryAge = null;
+    if (rawPrimaryDob) {
+      const d = new Date(rawPrimaryDob);
+      if (!isNaN(d.getTime())) {
+        parsedPrimaryDob = d;
+        computedPrimaryAge = calculateAgeFromDob(rawPrimaryDob);
+      }
+    }
+    const parsedPrimaryAge = primaryData.age ? parseInt(primaryData.age, 10) : computedPrimaryAge;
     const primaryStandard = primaryData.standard ? String(primaryData.standard).trim() : null;
     const primaryProfession = primaryData.profession ? String(primaryData.profession).trim() : null;
     const primaryInstitution = (primaryData.institutionName || primaryData.schoolName || 'N/A').trim();
@@ -209,7 +241,17 @@ export const registrationService = {
       }
       const rawFriendSize = (friendData.tShirtSize || friendData.size || 'M').toUpperCase();
       const friendSize = validSizes.includes(rawFriendSize) ? rawFriendSize : 'M';
-      const parsedFriendAge = friendData.age ? parseInt(friendData.age, 10) : null;
+      const rawFriendDob = (friendData.dob || friendData.dateOfBirth || '').toString().trim();
+      let parsedFriendDob = null;
+      let computedFriendAge = null;
+      if (rawFriendDob) {
+        const d = new Date(rawFriendDob);
+        if (!isNaN(d.getTime())) {
+          parsedFriendDob = d;
+          computedFriendAge = calculateAgeFromDob(rawFriendDob);
+        }
+      }
+      const parsedFriendAge = friendData.age ? parseInt(friendData.age, 10) : computedFriendAge;
       const friendStandard = friendData.standard ? String(friendData.standard).trim() : null;
       const friendProfession = friendData.profession ? String(friendData.profession).trim() : null;
       const friendInstitution = (friendData.institutionName || friendData.schoolName || 'N/A').trim();
@@ -218,6 +260,8 @@ export const registrationService = {
         friendName,
         friendPhone,
         friendSize,
+        friendDob: rawFriendDob || null,
+        parsedFriendDob,
         parsedFriendAge,
         friendStandard,
         friendProfession,
@@ -271,6 +315,8 @@ export const registrationService = {
       entryPassId: entryPassId1,
       fullName: primaryName,
       age: isNaN(parsedPrimaryAge) ? null : parsedPrimaryAge,
+      dob: rawPrimaryDob || null,
+      dateOfBirth: parsedPrimaryDob,
       standard: primaryStandard,
       profession: primaryProfession,
       isStudent: Boolean(primaryData.isStudent),
@@ -299,6 +345,8 @@ export const registrationService = {
         entryPassId: entryPassIdFriend,
         fullName: vf.friendName,
         age: isNaN(vf.parsedFriendAge) ? null : vf.parsedFriendAge,
+        dob: vf.friendDob,
+        dateOfBirth: vf.parsedFriendDob,
         standard: vf.friendStandard,
         profession: vf.friendProfession,
         isStudent: vf.isStudent,

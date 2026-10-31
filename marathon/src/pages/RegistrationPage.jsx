@@ -5,8 +5,10 @@ import { useAuth } from '../context/AuthContext';
 import { registrationService, eventService, webContentService } from '../services/api';
 import { SearchableSelect } from '../components/SearchableSelect';
 import { EntryPassModal } from '../components/EntryPassModal';
+import { MarathonRouteMap } from '../components/MarathonRouteMap';
 import { adoniInstitutionsList } from '../utils/constants';
 import { formatPhoneInput, getCleanPhoneNumber } from '../utils/phoneUtils';
+import { calculateAgeFromDob, getMaxDobDate } from '../utils/dateUtils';
 import {
   Award,
   CheckCircle,
@@ -42,6 +44,7 @@ export const RegistrationPage = () => {
   // Participant 1 (Primary User) Form State
   const [indForm, setIndForm] = useState({
     fullName: '',
+    dob: '',
     age: '',
     standard: '',
     profession: '',
@@ -54,9 +57,10 @@ export const RegistrationPage = () => {
   });
   const [indErrors, setIndErrors] = useState({});
 
-  // Add Friends Feature State (Supports 1 to 10 friends)
+  // Add Friends Feature State (Supports 1 to 5 participants)
   const createBlankFriend = () => ({
     fullName: '',
+    dob: '',
     age: '',
     standard: '',
     profession: '',
@@ -81,6 +85,7 @@ export const RegistrationPage = () => {
     phone: '',
     institutionType: 'SCHOOL',
     institutionName: '',
+    otherInstitution: '',
   });
   const [bulkFile, setBulkFile] = useState(null);
   const [parsedData, setParsedData] = useState(null);
@@ -102,10 +107,19 @@ export const RegistrationPage = () => {
 
   useEffect(() => {
     if (location.hash === '#marathon-map') {
-      setTimeout(() => {
+      const scrollToMap = () => {
         const el = document.getElementById('marathon-map');
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 250);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      };
+      scrollToMap();
+      const t1 = setTimeout(scrollToMap, 150);
+      const t2 = setTimeout(scrollToMap, 450);
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
     } else {
       window.scrollTo(0, 0);
     }
@@ -133,10 +147,13 @@ export const RegistrationPage = () => {
   // Pre-fill Participant 1 fields from authenticated user session
   useEffect(() => {
     if (user) {
+      const userDob = user.dob || (user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split('T')[0] : '');
+      const userAge = userDob ? calculateAgeFromDob(userDob) : (user.age ? String(user.age) : '');
       setIndForm((prev) => ({
         ...prev,
         fullName: prev.fullName || user.fullName || '',
-        age: prev.age || (user.age ? String(user.age) : ''),
+        dob: prev.dob || userDob || '',
+        age: prev.age || (userAge ? String(userAge) : ''),
         profession: prev.profession || user.profession || '',
         contactNumber: prev.contactNumber || (user.phone ? formatPhoneInput(user.phone) : ''),
       }));
@@ -173,25 +190,24 @@ export const RegistrationPage = () => {
       }
     }
 
-    if (!indForm.tShirtSize) errs.tShirtSize = 'Please select a T-shirt size';
     if (!indForm.agreeTerms) errs.agreeTerms = 'You must accept the physical fitness declaration and event rules';
 
     setIndErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
-  // Handle friend count change via dropdown (1 to 10)
+  // Handle participant count change via dropdown (1 to 5)
   const handleFriendsCountChange = (newCount) => {
     const count = parseInt(newCount, 10);
-    if (isNaN(count) || count < 1 || count > 10) return;
+    if (isNaN(count) || count < 1 || count > 5) return;
 
     if (count < friendsList.length) {
       const removedFriendsHaveData = friendsList.slice(count).some((f) =>
-        f.fullName.trim() || f.contactNumber.trim() || f.profession.trim() || f.age.trim()
+        f.fullName.trim() || f.contactNumber.trim() || f.profession.trim() || f.dob?.trim() || f.age?.trim()
       );
       if (removedFriendsHaveData) {
         const confirmDecrease = window.confirm(
-          `Reducing to ${count} ${count === 1 ? 'friend' : 'friends'} will clear details entered for additional members. Do you want to proceed?`
+          `Reducing to ${count} ${count === 1 ? 'participant' : 'participants'} will clear details entered for additional members. Do you want to proceed?`
         );
         if (!confirmDecrease) return;
       }
@@ -216,7 +232,7 @@ export const RegistrationPage = () => {
     });
   };
 
-  // Update specific friend's field
+  // Update specific participant's field
   const updateFriendField = (index, field, value) => {
     setFriendsList((prev) => {
       const updated = [...prev];
@@ -232,15 +248,15 @@ export const RegistrationPage = () => {
     }
   };
 
-  // Remove all friends with confirmation
+  // Remove all participants with confirmation
   const handleRemoveAllFriends = () => {
     const hasData = friendsList.some((f) =>
-      f.fullName.trim() || f.contactNumber.trim() || f.profession.trim() || f.age.trim()
+      f.fullName.trim() || f.contactNumber.trim() || f.profession.trim() || f.dob?.trim() || f.age?.trim()
     );
 
     if (hasData) {
       const confirmRemove = window.confirm(
-        'Are you sure you want to remove all friends? Any entered friend details will be cleared.'
+        'Are you sure you want to remove all additional participants? Any entered details will be cleared.'
       );
       if (!confirmRemove) return;
     }
@@ -251,7 +267,7 @@ export const RegistrationPage = () => {
     setFriendsErrors([{}]);
   };
 
-  // Remove a single friend at specific index
+  // Remove a single participant at specific index
   const handleRemoveFriendAtIndex = (idx) => {
     if (friendsList.length <= 1) {
       handleRemoveAllFriends();
@@ -259,9 +275,9 @@ export const RegistrationPage = () => {
     }
 
     const f = friendsList[idx];
-    if (f.fullName.trim() || f.contactNumber.trim() || f.age.trim() || f.profession.trim()) {
+    if (f.fullName.trim() || f.contactNumber.trim() || f.dob?.trim() || f.age?.trim() || f.profession.trim()) {
       const confirmRemove = window.confirm(
-        `Are you sure you want to remove Friend ${idx + 1} (${f.fullName.trim() || 'Participant'})?`
+        `Are you sure you want to remove Participant ${idx + 2} (${f.fullName.trim() || 'Participant'})?`
       );
       if (!confirmRemove) return;
     }
@@ -272,15 +288,15 @@ export const RegistrationPage = () => {
     setFriendsErrors((prev) => prev.filter((_, i) => i !== idx));
   };
 
-  // Validate All Friends Form
+  // Validate All Participants Form
   const validateFriends = () => {
     let isValid = true;
     const newErrors = [];
 
     friendsList.forEach((f, idx) => {
       const errs = {};
-      const friendLabel = `Friend ${idx + 1}`;
-      if (!f.fullName.trim()) errs.fullName = `${friendLabel}'s Full Name is required for certificate`;
+      const participantLabel = `Participant ${idx + 2}`;
+      if (!f.fullName.trim()) errs.fullName = `${participantLabel}'s Full Name is required for certificate`;
 
       const cleanPhone = getCleanPhoneNumber(f.contactNumber);
       if (cleanPhone.length !== 10 || !/^[6-9]/.test(cleanPhone)) {
@@ -289,14 +305,13 @@ export const RegistrationPage = () => {
 
       if (f.isStudent) {
         if (!f.institutionName) {
-          errs.institutionName = `Please select ${friendLabel}'s School/College`;
+          errs.institutionName = `Please select ${participantLabel}'s School/College`;
         } else if (f.institutionName === 'OTHER' && !f.otherInstitution.trim()) {
-          errs.otherInstitution = `Please enter ${friendLabel}'s institution name`;
+          errs.otherInstitution = `Please enter ${participantLabel}'s institution name`;
         }
       }
 
-      if (!f.tShirtSize) errs.tShirtSize = `Please select a T-shirt size for ${friendLabel}`;
-      if (!f.agreeTerms) errs.agreeTerms = `Declaration must be accepted on behalf of ${friendLabel}`;
+      if (!f.agreeTerms) errs.agreeTerms = `Declaration must be accepted on behalf of ${participantLabel}`;
 
       if (Object.keys(errs).length > 0) {
         isValid = false;
@@ -332,27 +347,40 @@ export const RegistrationPage = () => {
             : indForm.institutionName
           : 'N/A';
 
+      const primaryAge = indForm.dob
+        ? calculateAgeFromDob(indForm.dob)
+        : (indForm.age ? parseInt(indForm.age, 10) : undefined);
+
       if (hasFriends && friendsList.length > 0) {
-        // Group registration submission (Primary + 1 to 10 friends)
-        const formattedFriends = friendsList.map((f) => ({
-          fullName: f.fullName.trim(),
-          age: f.age ? parseInt(f.age, 10) : undefined,
-          standard: f.standard || undefined,
-          profession: f.profession ? f.profession.trim() : undefined,
-          isStudent: f.isStudent,
-          institutionName: f.isStudent
-            ? f.institutionName === 'OTHER'
-              ? f.otherInstitution
-              : f.institutionName
-            : 'N/A',
-          contactNumber: f.contactNumber,
-          tShirtSize: f.tShirtSize,
-        }));
+        // Group registration submission (Primary + 1 to 5 friends)
+        const formattedFriends = friendsList.map((f) => {
+          const friendAge = f.dob
+            ? calculateAgeFromDob(f.dob)
+            : (f.age ? parseInt(f.age, 10) : undefined);
+          return {
+            fullName: f.fullName.trim(),
+            dob: f.dob || undefined,
+            dateOfBirth: f.dob || undefined,
+            age: friendAge,
+            standard: f.standard || undefined,
+            profession: f.profession ? f.profession.trim() : undefined,
+            isStudent: f.isStudent,
+            institutionName: f.isStudent
+              ? f.institutionName === 'OTHER'
+                ? f.otherInstitution
+                : f.institutionName
+              : 'N/A',
+            contactNumber: f.contactNumber,
+            tShirtSize: f.tShirtSize,
+          };
+        });
 
         const payload = {
           primary: {
             fullName: indForm.fullName.trim(),
-            age: indForm.age ? parseInt(indForm.age, 10) : undefined,
+            dob: indForm.dob || undefined,
+            dateOfBirth: indForm.dob || undefined,
+            age: primaryAge,
             standard: indForm.standard || undefined,
             profession: indForm.profession ? indForm.profession.trim() : undefined,
             isStudent: indForm.isStudent,
@@ -386,7 +414,9 @@ export const RegistrationPage = () => {
         // Single participant submission
         const payload = {
           fullName: indForm.fullName.trim(),
-          age: indForm.age ? parseInt(indForm.age, 10) : undefined,
+          dob: indForm.dob || undefined,
+          dateOfBirth: indForm.dob || undefined,
+          age: primaryAge,
           standard: indForm.standard || undefined,
           profession: indForm.profession ? indForm.profession.trim() : undefined,
           isStudent: indForm.isStudent,
@@ -479,8 +509,17 @@ export const RegistrationPage = () => {
       alert('Please enter a valid 10-digit Indian phone number starting with 6-9');
       return;
     }
-    if (!bulkForm.institutionName.trim()) {
-      alert('Please enter School or College Name');
+    const finalBulkInstitution =
+      bulkForm.institutionName === 'OTHER'
+        ? (bulkForm.otherInstitution || '').trim()
+        : (bulkForm.institutionName || '').trim();
+
+    if (!finalBulkInstitution) {
+      alert(
+        bulkForm.institutionName === 'OTHER'
+          ? 'Please specify your School or College Name'
+          : 'Please select or enter School or College Name'
+      );
       return;
     }
     if (!bulkFile) {
@@ -500,7 +539,7 @@ export const RegistrationPage = () => {
       formData.append('contactPersonName', bulkForm.contactPersonName.trim());
       formData.append('phone', cleanPhone);
       formData.append('institutionType', bulkForm.institutionType);
-      formData.append('institutionName', bulkForm.institutionName.trim());
+      formData.append('institutionName', finalBulkInstitution);
       formData.append('file', bulkFile);
       if (parsedData?.preview) {
         formData.append(
@@ -634,7 +673,7 @@ export const RegistrationPage = () => {
                     1
                   </span>
                   <h3 className="text-base sm:text-lg font-black font-heading text-[var(--text-primary)]">
-                    {hasFriends ? 'Participant 1 — Your Registration' : 'Participant Details'}
+                    Participant 1 - Registration
                   </h3>
                 </div>
                 {hasFriends && (
@@ -647,7 +686,7 @@ export const RegistrationPage = () => {
               {/* Full Name */}
               <div>
                 <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                  Full Name (For Certificate) *
+                  Participant 1's Full Name (For Certificate) *
                 </label>
                 <div className="relative">
                   <User className="w-5 h-5 text-[var(--orange)] absolute left-3.5 top-3.5" />
@@ -657,7 +696,7 @@ export const RegistrationPage = () => {
                     disabled={!isRegistrationOpen}
                     value={indForm.fullName}
                     onChange={(e) => setIndForm({ ...indForm, fullName: e.target.value })}
-                    placeholder="Enter your full name as it should appear on certificate"
+                    placeholder="Enter Participant 1's full name as it should appear on certificate"
                     className={`w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border text-sm text-[var(--text-primary)] focus:outline-none ${
                       indErrors.fullName ? 'border-red-500' : 'border-[var(--border-color)] focus:border-[var(--orange)]'
                     }`}
@@ -666,22 +705,38 @@ export const RegistrationPage = () => {
                 {indErrors.fullName && <p className="text-xs text-red-500 font-bold mt-1">{indErrors.fullName}</p>}
               </div>
 
-              {/* Age & Profession / Occupation */}
+              {/* Date of Birth & Profession / Occupation */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                    Age (Years)
-                  </label>
-                  <input
-                    type="number"
-                    min="5"
-                    max="100"
-                    disabled={!isRegistrationOpen}
-                    value={indForm.age}
-                    onChange={(e) => setIndForm({ ...indForm, age: e.target.value })}
-                    placeholder="e.g. 18"
-                    className="w-full px-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--orange)]"
-                  />
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                      Participant 1's Date of Birth (DOB)
+                    </label>
+                    {indForm.dob && calculateAgeFromDob(indForm.dob) !== null && (
+                      <span className="text-[11px] font-bold text-[var(--orange)] bg-[var(--orange)]/10 px-2 py-0.5 rounded-full">
+                        Age: {calculateAgeFromDob(indForm.dob)} yrs
+                      </span>
+                    )}
+                  </div>
+                  <div className="relative">
+                    <Calendar className="w-5 h-5 text-[var(--orange)] absolute left-3.5 top-3.5 pointer-events-none" />
+                    <input
+                      type="date"
+                      disabled={!isRegistrationOpen}
+                      max={getMaxDobDate()}
+                      value={indForm.dob || ''}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        const calcAge = calculateAgeFromDob(val);
+                        setIndForm({
+                          ...indForm,
+                          dob: val,
+                          age: calcAge !== null ? String(calcAge) : indForm.age,
+                        });
+                      }}
+                      className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--orange)]"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -788,56 +843,30 @@ export const RegistrationPage = () => {
                 </div>
               )}
 
-              {/* Contact Number & T-Shirt Size */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                    Contact Mobile Number *
-                  </label>
-                  <div className="relative flex items-center">
-                    <div className="absolute left-3.5 flex items-center gap-1.5 pointer-events-none text-[var(--text-muted)] border-r border-[var(--border-color)] pr-2.5">
-                      <Phone className="w-4 h-4 text-[var(--orange)]" />
-                      <span className="text-xs font-bold text-[var(--text-primary)]">+91</span>
-                    </div>
-                    <input
-                      type="tel"
-                      required
-                      disabled={!isRegistrationOpen}
-                      value={indForm.contactNumber}
-                      onChange={(e) => setIndForm({ ...indForm, contactNumber: formatPhoneInput(e.target.value) })}
-                      placeholder="98765 43210"
-                      maxLength={12}
-                      className={`w-full pl-20 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border text-sm text-[var(--text-primary)] focus:outline-none ${
-                        indErrors.contactNumber ? 'border-red-500' : 'border-[var(--border-color)] focus:border-[var(--orange)]'
-                      }`}
-                    />
+              {/* Contact Number */}
+              <div>
+                <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
+                  Contact Mobile Number *
+                </label>
+                <div className="relative flex items-center">
+                  <div className="absolute left-3.5 flex items-center gap-1.5 pointer-events-none text-[var(--text-muted)] border-r border-[var(--border-color)] pr-2.5">
+                    <Phone className="w-4 h-4 text-[var(--orange)]" />
+                    <span className="text-xs font-bold text-[var(--text-primary)]">+91</span>
                   </div>
-                  {indErrors.contactNumber && <p className="text-xs text-red-500 font-bold mt-1">{indErrors.contactNumber}</p>}
+                  <input
+                    type="tel"
+                    required
+                    disabled={!isRegistrationOpen}
+                    value={indForm.contactNumber}
+                    onChange={(e) => setIndForm({ ...indForm, contactNumber: formatPhoneInput(e.target.value) })}
+                    placeholder="98765 43210"
+                    maxLength={12}
+                    className={`w-full pl-20 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border text-sm text-[var(--text-primary)] focus:outline-none ${
+                      indErrors.contactNumber ? 'border-red-500' : 'border-[var(--border-color)] focus:border-[var(--orange)]'
+                    }`}
+                  />
                 </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                    T-Shirt Size *
-                  </label>
-                  <div className="flex flex-wrap items-center gap-2">
-                    {['S', 'M', 'L', 'XL'].map((size) => (
-                      <button
-                        key={size}
-                        type="button"
-                        disabled={!isRegistrationOpen}
-                        onClick={() => setIndForm({ ...indForm, tShirtSize: size })}
-                        className={`px-3.5 py-2.5 rounded-xl text-xs font-extrabold border transition-all ${
-                          indForm.tShirtSize === size
-                            ? 'bg-[var(--orange)] text-white border-[var(--orange)] shadow-md'
-                            : 'bg-[var(--bg-primary)] border-[var(--border-color)] text-[var(--text-primary)]'
-                        }`}
-                      >
-                        {size}
-                      </button>
-                    ))}
-                  </div>
-                  {indErrors.tShirtSize && <p className="text-xs text-red-500 font-bold mt-1">{indErrors.tShirtSize}</p>}
-                </div>
+                {indErrors.contactNumber && <p className="text-xs text-red-500 font-bold mt-1">{indErrors.contactNumber}</p>}
               </div>
 
               {/* Participant 1 Terms Checkbox */}
@@ -862,7 +891,7 @@ export const RegistrationPage = () => {
             {/* ADD A FRIEND BUTTON OR PARTICIPANT 2 FORM */}
             {/* ======================================================== */}
             {/* ======================================================== */}
-            {/* ADD FRIENDS BUTTON OR MULTI-FRIEND FORMS */}
+            {/* ADD PARTICIPANT BUTTON OR MULTI-PARTICIPANT FORMS */}
             {/* ======================================================== */}
             {!hasFriends ? (
               <div className="pt-2 pb-2">
@@ -880,15 +909,15 @@ export const RegistrationPage = () => {
                   className="w-full py-4 px-5 rounded-2xl border-2 border-dashed border-[var(--orange)] bg-[var(--orange)]/10 hover:bg-[var(--orange)]/20 text-[var(--orange)] transition-all font-black text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-sm"
                 >
                   <UserPlus className="w-5 h-5" />
-                  <span>+ ADD FRIENDS TO THIS REGISTRATION</span>
+                  <span>+ ADD PARTICIPANT TO THIS REGISTRATION</span>
                 </button>
                 <p className="text-[11px] text-[var(--text-muted)] text-center mt-2 font-medium">
-                  Add 1 to 10 friends along with you in a single step! You can select the number of friends and everyone will receive a unique entry pass.
+                  Add 1 to 5 additional participants along with you in a single step! You can select the number of participants and everyone will receive a unique entry pass.
                 </p>
               </div>
             ) : (
               <div className="space-y-6 animate-in slide-in-from-top-3">
-                {/* Control Bar: Select number of friends & Remove All */}
+                {/* Control Bar: Select number of participants & Remove All */}
                 <div className="p-5 sm:p-6 rounded-3xl bg-[var(--bg-tertiary)] border-2 border-[var(--orange)]/40 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-2xl bg-[var(--orange)]/20 flex items-center justify-center text-[var(--orange)]">
@@ -896,10 +925,10 @@ export const RegistrationPage = () => {
                     </div>
                     <div>
                       <h4 className="text-sm sm:text-base font-black font-heading text-[var(--text-primary)]">
-                        Add Friends to Registration
+                        Add Participant To Registration
                       </h4>
                       <p className="text-xs text-[var(--text-muted)] font-medium">
-                        Choose how many friends to register (1 to 10 members)
+                        Choose how many participants to register (1 to 5 members)
                       </p>
                     </div>
                   </div>
@@ -907,7 +936,7 @@ export const RegistrationPage = () => {
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-2">
                       <label htmlFor="friends-count-select" className="text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider whitespace-nowrap">
-                        Number of Friends:
+                        Number of Participants:
                       </label>
                       <select
                         id="friends-count-select"
@@ -916,9 +945,9 @@ export const RegistrationPage = () => {
                         onChange={(e) => handleFriendsCountChange(e.target.value)}
                         className="py-2.5 px-4 rounded-xl bg-[var(--bg-primary)] border-2 border-[var(--orange)] text-sm font-extrabold text-[var(--orange)] focus:outline-none shadow-sm cursor-pointer"
                       >
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                        {[1, 2, 3, 4, 5].map((num) => (
                           <option key={num} value={num} className="bg-[var(--bg-primary)] text-[var(--text-primary)] font-bold">
-                            {num} {num === 1 ? 'Friend' : 'Friends'}
+                            {num} {num === 1 ? 'Participant' : 'Participants'}
                           </option>
                         ))}
                       </select>
@@ -928,7 +957,7 @@ export const RegistrationPage = () => {
                       type="button"
                       onClick={handleRemoveAllFriends}
                       className="text-xs font-bold text-red-500 hover:text-red-600 flex items-center gap-1.5 px-3 py-2 rounded-xl hover:bg-red-500/10 transition-colors whitespace-nowrap"
-                      title="Remove All Friends"
+                      title="Remove All Participants"
                     >
                       <Trash2 className="w-4 h-4" />
                       <span className="hidden sm:inline">Remove All</span>
@@ -936,7 +965,7 @@ export const RegistrationPage = () => {
                   </div>
                 </div>
 
-                {/* Dynamic list of friend cards */}
+                {/* Dynamic list of participant cards */}
                 {friendsList.map((friendItem, idx) => (
                   <div
                     key={idx}
@@ -949,7 +978,7 @@ export const RegistrationPage = () => {
                         </span>
                         <div>
                           <h3 className="text-base sm:text-lg font-black font-heading text-[var(--text-primary)]">
-                            Participant {idx + 2} — Friend {idx + 1}'s Registration
+                            Participant {idx + 2} - Registration
                           </h3>
                         </div>
                       </div>
@@ -959,7 +988,7 @@ export const RegistrationPage = () => {
                           type="button"
                           onClick={() => handleRemoveFriendAtIndex(idx)}
                           className="text-xs font-bold text-red-500 hover:text-red-600 flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-red-500/10 transition-colors"
-                          title={`Remove Friend ${idx + 1}`}
+                          title={`Remove Participant ${idx + 2}`}
                         >
                           <Trash2 className="w-4 h-4" />
                           <span>Remove</span>
@@ -967,10 +996,10 @@ export const RegistrationPage = () => {
                       )}
                     </div>
 
-                    {/* Friend Full Name */}
+                    {/* Participant Full Name */}
                     <div>
                       <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                        Friend {idx + 1}'s Full Name (For Certificate) *
+                        Participant {idx + 2}'s Full Name (For Certificate) *
                       </label>
                       <div className="relative">
                         <User className="w-5 h-5 text-[var(--cyan)] absolute left-3.5 top-3.5" />
@@ -980,7 +1009,7 @@ export const RegistrationPage = () => {
                           disabled={!isRegistrationOpen}
                           value={friendItem.fullName}
                           onChange={(e) => updateFriendField(idx, 'fullName', e.target.value)}
-                          placeholder={`Enter friend ${idx + 1}'s full name as it should appear on certificate`}
+                          placeholder={`Enter participant ${idx + 2}'s full name as it should appear on certificate`}
                           className={`w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border text-sm text-[var(--text-primary)] focus:outline-none ${
                             friendsErrors[idx]?.fullName
                               ? 'border-red-500'
@@ -993,27 +1022,42 @@ export const RegistrationPage = () => {
                       )}
                     </div>
 
-                    {/* Friend Age & Profession */}
+                    {/* Participant DOB & Profession */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                          Friend {idx + 1}'s Age (Years)
-                        </label>
-                        <input
-                          type="number"
-                          min="5"
-                          max="100"
-                          disabled={!isRegistrationOpen}
-                          value={friendItem.age}
-                          onChange={(e) => updateFriendField(idx, 'age', e.target.value)}
-                          placeholder="e.g. 19"
-                          className="w-full px-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--cyan)]"
-                        />
+                        <div className="flex items-center justify-between mb-1">
+                          <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                            Participant {idx + 2}'s Date of Birth (DOB)
+                          </label>
+                          {friendItem.dob && calculateAgeFromDob(friendItem.dob) !== null && (
+                            <span className="text-[11px] font-bold text-[var(--cyan)] bg-[var(--cyan)]/10 px-2 py-0.5 rounded-full">
+                              Age: {calculateAgeFromDob(friendItem.dob)} yrs
+                            </span>
+                          )}
+                        </div>
+                        <div className="relative">
+                          <Calendar className="w-5 h-5 text-[var(--cyan)] absolute left-3.5 top-3.5 pointer-events-none" />
+                          <input
+                            type="date"
+                            disabled={!isRegistrationOpen}
+                            max={getMaxDobDate()}
+                            value={friendItem.dob || ''}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              const calcAge = calculateAgeFromDob(val);
+                              updateFriendField(idx, 'dob', val);
+                              if (calcAge !== null) {
+                                updateFriendField(idx, 'age', String(calcAge));
+                              }
+                            }}
+                            className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--cyan)]"
+                          />
+                        </div>
                       </div>
 
                       <div>
                         <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                          Friend {idx + 1}'s Profession / Occupation
+                          Participant {idx + 2}'s Profession / Occupation
                         </label>
                         <div className="relative">
                           <Briefcase className="w-5 h-5 text-[var(--cyan)] absolute left-3.5 top-3.5" />
@@ -1029,10 +1073,10 @@ export const RegistrationPage = () => {
                       </div>
                     </div>
 
-                    {/* Friend Student Toggle */}
+                    {/* Participant Student Toggle */}
                     <div>
                       <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                        Is Friend {idx + 1} a Student? *
+                        Is Participant {idx + 2} a Student? *
                       </label>
                       <div className="grid grid-cols-2 gap-3 pt-1">
                         <button
@@ -1045,7 +1089,7 @@ export const RegistrationPage = () => {
                               : 'bg-[var(--bg-primary)] border-[var(--border-color)] text-[var(--text-primary)]'
                           }`}
                         >
-                          YES, FRIEND IS A STUDENT
+                          YES, PARTICIPANT IS A STUDENT
                         </button>
 
                         <button
@@ -1075,7 +1119,7 @@ export const RegistrationPage = () => {
                       </div>
                     </div>
 
-                    {/* Friend Student Specific Fields */}
+                    {/* Participant Student Specific Fields */}
                     {friendItem.isStudent && (
                       <div className="space-y-4 p-4 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] animate-in fade-in">
                         <div>
@@ -1116,7 +1160,7 @@ export const RegistrationPage = () => {
                               type="text"
                               value={friendItem.otherInstitution}
                               onChange={(e) => updateFriendField(idx, 'otherInstitution', e.target.value)}
-                              placeholder="Type your friend's institution name..."
+                              placeholder="Type participant's institution name..."
                               className="w-full py-3.5 px-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--orange)]"
                             />
                             {friendsErrors[idx]?.otherInstitution && (
@@ -1129,67 +1173,39 @@ export const RegistrationPage = () => {
                       </div>
                     )}
 
-                    {/* Friend Contact Number & T-Shirt Size */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                          Friend {idx + 1}'s Contact Mobile Number *
-                        </label>
-                        <div className="relative flex items-center">
-                          <div className="absolute left-3.5 flex items-center gap-1.5 pointer-events-none text-[var(--text-muted)] border-r border-[var(--border-color)] pr-2.5">
-                            <Phone className="w-4 h-4 text-[var(--cyan)]" />
-                            <span className="text-xs font-bold text-[var(--text-primary)]">+91</span>
-                          </div>
-                          <input
-                            type="tel"
-                            required
-                            disabled={!isRegistrationOpen}
-                            value={friendItem.contactNumber}
-                            onChange={(e) =>
-                              updateFriendField(idx, 'contactNumber', formatPhoneInput(e.target.value))
-                            }
-                            placeholder="98765 43210"
-                            maxLength={12}
-                            className={`w-full pl-20 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border text-sm text-[var(--text-primary)] focus:outline-none ${
-                              friendsErrors[idx]?.contactNumber
-                                ? 'border-red-500'
-                                : 'border-[var(--border-color)] focus:border-[var(--cyan)]'
-                            }`}
-                          />
+                    {/* Participant Contact Number */}
+                    <div>
+                      <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
+                        Participant {idx + 2}'s Contact Mobile Number *
+                      </label>
+                      <div className="relative flex items-center">
+                        <div className="absolute left-3.5 flex items-center gap-1.5 pointer-events-none text-[var(--text-muted)] border-r border-[var(--border-color)] pr-2.5">
+                          <Phone className="w-4 h-4 text-[var(--cyan)]" />
+                          <span className="text-xs font-bold text-[var(--text-primary)]">+91</span>
                         </div>
-                        {friendsErrors[idx]?.contactNumber && (
-                          <p className="text-xs text-red-500 font-bold mt-1">{friendsErrors[idx].contactNumber}</p>
-                        )}
+                        <input
+                          type="tel"
+                          required
+                          disabled={!isRegistrationOpen}
+                          value={friendItem.contactNumber}
+                          onChange={(e) =>
+                            updateFriendField(idx, 'contactNumber', formatPhoneInput(e.target.value))
+                          }
+                          placeholder="98765 43210"
+                          maxLength={12}
+                          className={`w-full pl-20 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border text-sm text-[var(--text-primary)] focus:outline-none ${
+                            friendsErrors[idx]?.contactNumber
+                              ? 'border-red-500'
+                              : 'border-[var(--border-color)] focus:border-[var(--cyan)]'
+                          }`}
+                        />
                       </div>
-
-                      <div>
-                        <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                          Friend {idx + 1}'s T-Shirt Size *
-                        </label>
-                        <div className="flex flex-wrap items-center gap-2">
-                          {['S', 'M', 'L', 'XL'].map((size) => (
-                            <button
-                              key={size}
-                              type="button"
-                              disabled={!isRegistrationOpen}
-                              onClick={() => updateFriendField(idx, 'tShirtSize', size)}
-                              className={`px-3.5 py-2.5 rounded-xl text-xs font-extrabold border transition-all ${
-                                friendItem.tShirtSize === size
-                                  ? 'bg-[var(--cyan)] text-white border-[var(--cyan)] shadow-md'
-                                  : 'bg-[var(--bg-primary)] border-[var(--border-color)] text-[var(--text-primary)]'
-                              }`}
-                            >
-                              {size}
-                            </button>
-                          ))}
-                        </div>
-                        {friendsErrors[idx]?.tShirtSize && (
-                          <p className="text-xs text-red-500 font-bold mt-1">{friendsErrors[idx].tShirtSize}</p>
-                        )}
-                      </div>
+                      {friendsErrors[idx]?.contactNumber && (
+                        <p className="text-xs text-red-500 font-bold mt-1">{friendsErrors[idx].contactNumber}</p>
+                      )}
                     </div>
 
-                    {/* Friend Terms Checkbox */}
+                    {/* Participant Terms Checkbox */}
                     <div className="pt-2">
                       <label className="flex items-start gap-3 cursor-pointer">
                         <input
@@ -1200,7 +1216,7 @@ export const RegistrationPage = () => {
                           className="w-5 h-5 mt-0.5 text-[var(--cyan)] rounded accent-[var(--cyan)]"
                         />
                         <span className="text-xs text-[var(--text-muted)] font-semibold leading-relaxed">
-                          I declare on behalf of Participant {idx + 2} ({friendItem.fullName.trim() || `Friend ${idx + 1}`}) that they are physically fit to participate in the Anti-Drug Movement Marathon Run 2026 and agree to the event rules, terms and conditions.
+                          I declare on behalf of Participant {idx + 2} ({friendItem.fullName.trim() || `Participant ${idx + 2}`}) that they are physically fit to participate in the Anti-Drug Movement Marathon Run 2026 and agree to the event rules, terms and conditions.
                         </span>
                       </label>
                       {friendsErrors[idx]?.agreeTerms && (
@@ -1230,7 +1246,7 @@ export const RegistrationPage = () => {
                     ? 'SUBMITTING REGISTRATION...'
                     : hasFriends
                     ? `SUBMIT REGISTRATION (YOU + ${friendsList.length} ${
-                        friendsList.length === 1 ? 'FRIEND' : 'FRIENDS'
+                        friendsList.length === 1 ? 'PARTICIPANT' : 'PARTICIPANTS'
                       })`
                     : 'SUBMIT MARATHON REGISTRATION'}
                 </span>
@@ -1323,18 +1339,33 @@ export const RegistrationPage = () => {
 
               <div>
                 <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                  School / College Name *
+                  School / College Name in Adoni *
+                </label>
+                <SearchableSelect
+                  options={[...institutions, 'OTHER']}
+                  value={bulkForm.institutionName}
+                  onChange={(val) => setBulkForm({ ...bulkForm, institutionName: val })}
+                  placeholder="Search and select School / College..."
+                  accentColor="cyan"
+                />
+              </div>
+            </div>
+
+            {bulkForm.institutionName === 'OTHER' && (
+              <div>
+                <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
+                  Specify School / College Name *
                 </label>
                 <input
                   type="text"
                   required
-                  value={bulkForm.institutionName}
-                  onChange={(e) => setBulkForm({ ...bulkForm, institutionName: e.target.value })}
-                  placeholder="e.g. St. Joseph's High School, Adoni"
-                  className="w-full px-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--cyan)]"
+                  value={bulkForm.otherInstitution || ''}
+                  onChange={(e) => setBulkForm({ ...bulkForm, otherInstitution: e.target.value })}
+                  placeholder="Type your school or college name here..."
+                  className="w-full py-3.5 px-4 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--cyan)]"
                 />
               </div>
-            </div>
+            )}
 
             {/* Template Download & Upload Area */}
             <div className="p-6 rounded-2xl border-2 border-dashed border-[var(--border-color)] bg-[var(--bg-primary)]/50 space-y-4">
@@ -1392,6 +1423,11 @@ export const RegistrationPage = () => {
           </form>
         </div>
       )}
+
+      {/* 7KM Marathon Interactive Route Map */}
+      <div className="pt-10 border-t border-[var(--border-color)]">
+        <MarathonRouteMap />
+      </div>
 
       {/* Entry Pass Modal upon Successful Registration */}
       {receiptData && (

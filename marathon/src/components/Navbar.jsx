@@ -11,12 +11,9 @@ import {
   User,
   Activity,
   LogIn,
-  ExternalLink,
   Sparkles,
   MessageSquare,
 } from 'lucide-react';
-
-const MAIN_SITE_URL = import.meta.env.VITE_MAIN_SITE_URL || 'https://chinmaya-mission-adoni-nine.vercel.app';
 
 export const Navbar = () => {
   const {
@@ -97,18 +94,6 @@ export const Navbar = () => {
                 )}
               </Link>
             ))}
-
-            {/* Link back to Main Chinmaya Mission website */}
-            <a
-              href={MAIN_SITE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs xl:text-sm font-bold tracking-wide text-[var(--text-muted)] hover:text-[var(--text-primary)] text-decoration-none flex items-center gap-1 transition-colors"
-              title="Return to Chinmaya Mission, Adoni main website"
-            >
-              <span>Main Mission Site</span>
-              <ExternalLink className="w-3 h-3 opacity-70" />
-            </a>
           </nav>
 
           {/* RIGHT CORNER: Actions & User Dropdown */}
@@ -191,13 +176,19 @@ export const Navbar = () => {
 
                   {/* CHYK Logo */}
                   <div className="flex items-center pl-1 sm:pl-2 border-l border-[var(--border-color)]/60 shrink-0">
-                    <img
-                      src="/assets/logos/chyk-logo.png"
-                      alt="Chinmaya Yuva Kendra, Adoni"
-                      style={{ height: '32px', maxHeight: '32px', width: 'auto', objectFit: 'contain', display: 'block' }}
-                      className="hover:scale-105 transition-transform duration-200 shrink-0"
-                      title="Chinmaya Yuva Kendra, Adoni"
-                    />
+                    <Link
+                      to="/"
+                      className="flex items-center text-decoration-none group cursor-pointer"
+                      title="Go to Marathon Home"
+                      aria-label="Go to Marathon Home"
+                    >
+                      <img
+                        src="/assets/logos/chyk-logo.png"
+                        alt="Chinmaya Yuva Kendra, Adoni"
+                        style={{ height: '32px', maxHeight: '32px', width: 'auto', objectFit: 'contain', display: 'block' }}
+                        className="hover:scale-105 transition-transform duration-200 shrink-0"
+                      />
+                    </Link>
                   </div>
                 </div>
               ) : (
@@ -221,13 +212,19 @@ export const Navbar = () => {
 
                   {/* CHYK Logo at right side of the signup button */}
                   <div className="flex items-center pl-1 sm:pl-2 border-l border-[var(--border-color)]/60 shrink-0">
-                    <img
-                      src="/assets/logos/chyk-logo.png"
-                      alt="Chinmaya Yuva Kendra, Adoni"
-                      style={{ height: '32px', maxHeight: '32px', width: 'auto', objectFit: 'contain', display: 'block' }}
-                      className="hover:scale-105 transition-transform duration-200 shrink-0"
-                      title="Chinmaya Yuva Kendra, Adoni"
-                    />
+                    <Link
+                      to="/"
+                      className="flex items-center text-decoration-none group cursor-pointer"
+                      title="Go to Marathon Home"
+                      aria-label="Go to Marathon Home"
+                    >
+                      <img
+                        src="/assets/logos/chyk-logo.png"
+                        alt="Chinmaya Yuva Kendra, Adoni"
+                        style={{ height: '32px', maxHeight: '32px', width: 'auto', objectFit: 'contain', display: 'block' }}
+                        className="hover:scale-105 transition-transform duration-200 shrink-0"
+                      />
+                    </Link>
                   </div>
                 </div>
               )}
@@ -235,13 +232,19 @@ export const Navbar = () => {
 
             {/* Mobile Menu Toggle Button */}
             <div className="flex md:hidden items-center gap-2">
-              <img
-                src="/assets/logos/chyk-logo.png"
-                alt="Chinmaya Yuva Kendra, Adoni"
-                style={{ height: '26px', maxHeight: '26px', width: 'auto', objectFit: 'contain', display: 'block' }}
-                className="mr-1 shrink-0"
-                title="Chinmaya Yuva Kendra, Adoni"
-              />
+              <Link
+                to="/"
+                className="flex items-center text-decoration-none mr-1 shrink-0 cursor-pointer"
+                title="Go to Marathon Home"
+                aria-label="Go to Marathon Home"
+              >
+                <img
+                  src="/assets/logos/chyk-logo.png"
+                  alt="Chinmaya Yuva Kendra, Adoni"
+                  style={{ height: '26px', maxHeight: '26px', width: 'auto', objectFit: 'contain', display: 'block' }}
+                  className="hover:scale-105 transition-transform duration-200 shrink-0"
+                />
+              </Link>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="p-2 rounded-xl bg-[var(--bg-tertiary)] text-[var(--text-primary)] border border-[var(--border-color)] focus:outline-none"
@@ -325,17 +328,6 @@ export const Navbar = () => {
                 )}
               </Link>
             ))}
-
-            {/* Main Mission Site link */}
-            <a
-              href={MAIN_SITE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-bold px-3 py-2 rounded-xl text-decoration-none text-[var(--text-muted)] hover:bg-[var(--bg-tertiary)] flex items-center justify-between"
-            >
-              <span>Main Mission Website</span>
-              <ExternalLink className="w-4 h-4 opacity-70" />
-            </a>
           </nav>
 
           {/* Mobile Bottom CTAs */}

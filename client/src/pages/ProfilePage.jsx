@@ -4,6 +4,7 @@ import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { userService } from '../services/api';
 import { formatPhoneInput, getCleanPhoneNumber } from '../utils/phoneUtils';
+import { calculateAgeFromDob, getMaxDobDate } from '../utils/dateUtils';
 import {
   User,
   Phone,
@@ -53,6 +54,7 @@ export const ProfilePage = ({ initialTab }) => {
     fullName: activeUser?.fullName || '',
     email: activeUser?.email || '',
     phone: activeUser?.phone || '',
+    dob: activeUser?.dob || (activeUser?.dateOfBirth ? new Date(activeUser.dateOfBirth).toISOString().split('T')[0] : '') || '',
     age: activeUser?.age || '',
     profession: activeUser?.profession || '',
   });
@@ -88,11 +90,14 @@ export const ProfilePage = ({ initialTab }) => {
   // Sync state when active user updates
   useEffect(() => {
     if (activeUser) {
+      const userDob = activeUser.dob || (activeUser.dateOfBirth ? new Date(activeUser.dateOfBirth).toISOString().split('T')[0] : '') || '';
+      const userAge = userDob ? calculateAgeFromDob(userDob) : (activeUser.age || '');
       setProfileFormData({
         fullName: activeUser.fullName || '',
         email: activeUser.email || '',
         phone: activeUser.phone || '',
-        age: activeUser.age || '',
+        dob: userDob,
+        age: userAge ? String(userAge) : '',
         profession: activeUser.profession || '',
       });
     }
@@ -173,13 +178,13 @@ export const ProfilePage = ({ initialTab }) => {
       return;
     }
 
-    let parsedAge = undefined;
-    if (profileFormData.age) {
-      parsedAge = parseInt(profileFormData.age, 10);
-      if (isNaN(parsedAge) || parsedAge < 5 || parsedAge > 120) {
-        setProfileError('Please enter a valid age between 5 and 120');
-        return;
-      }
+    const calcAge = profileFormData.dob
+      ? calculateAgeFromDob(profileFormData.dob)
+      : (profileFormData.age ? parseInt(profileFormData.age, 10) : undefined);
+
+    if (calcAge !== undefined && (isNaN(calcAge) || calcAge < 5 || calcAge > 120)) {
+      setProfileError('Please enter a valid Date of Birth / Age (between 5 and 120 years)');
+      return;
     }
 
     setSavingProfile(true);
@@ -188,7 +193,9 @@ export const ProfilePage = ({ initialTab }) => {
         fullName: profileFormData.fullName.trim(),
         email: cleanEmail || null,
         phone: cleanPhone,
-        age: parsedAge,
+        dob: profileFormData.dob || undefined,
+        dateOfBirth: profileFormData.dob || undefined,
+        age: calcAge || undefined,
         profession: profileFormData.profession.trim(),
       });
 
@@ -464,10 +471,12 @@ export const ProfilePage = ({ initialTab }) => {
                   <div className="p-4 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] space-y-1">
                     <span className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-1.5">
                       <Calendar className="w-3.5 h-3.5 text-[var(--orange)]" />
-                      Age
+                      Date of Birth (DOB)
                     </span>
                     <p className="text-sm font-black text-[var(--text-primary)]">
-                      {activeUser?.age ? `${activeUser.age} years` : 'Not specified'}
+                      {activeUser?.dob
+                        ? `${activeUser.dob} ${calculateAgeFromDob(activeUser.dob) !== null ? `(${calculateAgeFromDob(activeUser.dob)} yrs)` : ''}`
+                        : (activeUser?.age ? `${activeUser.age} years` : 'Not specified')}
                     </p>
                   </div>
 
@@ -543,18 +552,31 @@ export const ProfilePage = ({ initialTab }) => {
                       </div>
                     </div>
 
-                    {/* Age */}
+                    {/* Date of Birth (DOB) */}
                     <div className="space-y-1">
-                      <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
-                        Age (Years)
-                      </label>
+                      <div className="flex items-center justify-between">
+                        <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                          Date of Birth (DOB)
+                        </label>
+                        {profileFormData.dob && calculateAgeFromDob(profileFormData.dob) !== null && (
+                          <span className="text-[11px] font-bold text-[var(--orange)] bg-[var(--orange)]/10 px-2 py-0.5 rounded-full">
+                            Age: {calculateAgeFromDob(profileFormData.dob)} yrs
+                          </span>
+                        )}
+                      </div>
                       <input
-                        type="number"
-                        min="5"
-                        max="120"
-                        value={profileFormData.age}
-                        onChange={(e) => setProfileFormData({ ...profileFormData, age: e.target.value })}
-                        placeholder="e.g. 28"
+                        type="date"
+                        max={getMaxDobDate()}
+                        value={profileFormData.dob}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          const calcAge = calculateAgeFromDob(val);
+                          setProfileFormData({
+                            ...profileFormData,
+                            dob: val,
+                            age: calcAge !== null ? String(calcAge) : profileFormData.age,
+                          });
+                        }}
                         className="w-full px-4 py-3 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] text-[var(--text-primary)] font-semibold text-sm focus:outline-none focus:border-[var(--orange)] transition-all shadow-inner"
                       />
                     </div>

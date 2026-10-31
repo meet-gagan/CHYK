@@ -134,9 +134,6 @@ export const TransformationSection = ({ content }) => {
               <h3 className="text-xl sm:text-2xl font-bold text-white font-heading">
                 {negativeTitle}
               </h3>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">
-                Tap to explore
-              </span>
             </div>
             <p className="text-slate-300 text-xs sm:text-sm mb-4 leading-relaxed">
               Curiosity, stress, and negative influences lead young minds down a dangerous spiral, robbing youth of their dreams and peace.
@@ -192,9 +189,6 @@ export const TransformationSection = ({ content }) => {
               <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] font-heading">
                 {positiveTitle}
               </h3>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[var(--orange)]/10 text-[var(--orange)] border border-[var(--orange)]/25">
-                Tap to explore
-              </span>
             </div>
             <p className="text-slate-600 text-xs sm:text-sm mb-4 leading-relaxed">
               Running builds physical stamina, mental clarity, genuine friendships, and lasting self-respect.

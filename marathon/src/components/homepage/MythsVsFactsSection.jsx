@@ -4,7 +4,6 @@ import {
   ChevronRight,
   XCircle,
   CheckCircle2,
-  Sparkles,
   ArrowRight,
   ShieldCheck,
   AlertTriangle,
@@ -200,7 +199,6 @@ export const MythsVsFactsSection = ({ content }) => {
   // Format counter (e.g. 01 / 16, 02 / 16, ..., 16 / 16)
   const formattedCounter = `${String(currentIndex + 1).padStart(2, '0')} / ${String(totalCards).padStart(2, '0')}`;
 
-  const badgeText = content?.badgeText || 'Drug Awareness & Truth';
   const sectionTitle = content?.title || "MYTH's VS FACT's";
   const sectionSubtitle = content?.subtitle || 'Know the truth. Make the right choice.';
 
@@ -209,10 +207,6 @@ export const MythsVsFactsSection = ({ content }) => {
       <div className="mvf-container">
         {/* Section Heading */}
         <div className="mvf-header">
-          <div className="mvf-badge">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>{badgeText}</span>
-          </div>
           <h2 className="mvf-title">
             {sectionTitle}
           </h2>
@@ -346,7 +340,7 @@ export const MythsVsFactsSection = ({ content }) => {
               {/* Card Footer: Counter & Metadata */}
               <div className="mvf-card-footer">
                 <span className="mvf-card-category">
-                  {currentCard.type === 'intro' ? 'Overview' : `Myth & Fact #${currentIndex}`}
+                  {currentCard.type === 'intro' ? '' : `Myth & Fact #${currentIndex}`}
                 </span>
                 <span className="mvf-counter" aria-live="polite">
                   {formattedCounter}

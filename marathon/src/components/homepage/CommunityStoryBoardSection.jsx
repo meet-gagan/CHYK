@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   PenLine,
-  MessageSquare,
   ArrowRight,
   Sparkles,
   Lock,
@@ -83,7 +82,6 @@ export const CommunityStoryBoardSection = ({ content }) => {
   const [thoughts, setThoughts] = useState(FALLBACK_THOUGHTS);
   const [loading, setLoading] = useState(false);
 
-  const badgeText = content?.badgeText || 'COMMUNITY VOICES & STORY BOARD';
   const title = content?.title || 'Voices of Strength: Your Thoughts & Stories';
   const subtitle = content?.subtitle || 'Read real thoughts, pledges, and words of encouragement shared by runners, students, and citizens across Adoni standing united against addiction.';
 
@@ -116,10 +114,6 @@ export const CommunityStoryBoardSection = ({ content }) => {
         {/* Header Block */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--orange)]/10 border border-[var(--orange)]/25 text-[var(--orange)] text-xs font-black uppercase tracking-wider mb-3">
-              <MessageSquare className="w-3.5 h-3.5" />
-              <span>{badgeText}</span>
-            </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[var(--text-primary,#0B2340)] tracking-tight">
               {title.includes('Your Thoughts') ? (
                 <>

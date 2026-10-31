@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { calculateAgeFromDob, getMaxDobDate } from '../utils/dateUtils';
 import {
   User,
   Phone,
@@ -26,6 +27,7 @@ export const ProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     fullName: user?.fullName || '',
+    dob: user?.dob || (user?.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split('T')[0] : '') || '',
     age: user?.age || '',
     profession: user?.profession || '',
   });
@@ -46,9 +48,12 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     if (user) {
+      const userDob = user.dob || (user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split('T')[0] : '') || '';
+      const userAge = userDob ? calculateAgeFromDob(userDob) : (user.age || '');
       setFormData({
         fullName: user.fullName || '',
-        age: user.age || '',
+        dob: userDob,
+        age: userAge ? String(userAge) : '',
         profession: user.profession || '',
       });
     }
@@ -64,9 +69,12 @@ export const ProfilePage = () => {
       return;
     }
 
-    const parsedAge = parseInt(formData.age, 10);
-    if (formData.age && (isNaN(parsedAge) || parsedAge < 5 || parsedAge > 120)) {
-      setProfileError('Please enter a valid age between 5 and 120');
+    const calcAge = formData.dob
+      ? calculateAgeFromDob(formData.dob)
+      : (formData.age ? parseInt(formData.age, 10) : undefined);
+
+    if (calcAge !== undefined && (isNaN(calcAge) || calcAge < 5 || calcAge > 120)) {
+      setProfileError('Please enter a valid Date of Birth / Age (between 5 and 120 years)');
       return;
     }
 
@@ -74,7 +82,9 @@ export const ProfilePage = () => {
     try {
       const res = await updateProfile({
         fullName: formData.fullName.trim(),
-        age: parsedAge || undefined,
+        dob: formData.dob || undefined,
+        dateOfBirth: formData.dob || undefined,
+        age: calcAge || undefined,
         profession: formData.profession.trim(),
       });
       if (res.success) {
@@ -260,14 +270,16 @@ export const ProfilePage = () => {
                 <p className="text-sm font-black text-[var(--text-primary)]">{user?.fullName || '—'}</p>
               </div>
 
-              {/* Age */}
+              {/* Date of Birth / Age */}
               <div className="p-4 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] space-y-1">
                 <span className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-1.5">
                   <Calendar className="w-3.5 h-3.5 text-[var(--orange)]" />
-                  Age
+                  Date of Birth (DOB)
                 </span>
                 <p className="text-sm font-black text-[var(--text-primary)]">
-                  {user?.age ? `${user.age} years` : 'Not specified'}
+                  {user?.dob
+                    ? `${user.dob} ${calculateAgeFromDob(user.dob) !== null ? `(${calculateAgeFromDob(user.dob)} yrs)` : ''}`
+                    : (user?.age ? `${user.age} years` : 'Not specified')}
                 </p>
               </div>
 
@@ -327,18 +339,31 @@ export const ProfilePage = () => {
                   />
                 </div>
 
-                {/* Age */}
+                {/* Date of Birth (DOB) */}
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
-                    Age (Years)
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                      Date of Birth (DOB)
+                    </label>
+                    {formData.dob && calculateAgeFromDob(formData.dob) !== null && (
+                      <span className="text-[11px] font-bold text-[var(--orange)] bg-[var(--orange)]/10 px-2 py-0.5 rounded-full">
+                        Age: {calculateAgeFromDob(formData.dob)} yrs
+                      </span>
+                    )}
+                  </div>
                   <input
-                    type="number"
-                    min="5"
-                    max="120"
-                    value={formData.age}
-                    onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-                    required
+                    type="date"
+                    max={getMaxDobDate()}
+                    value={formData.dob}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      const calcAge = calculateAgeFromDob(val);
+                      setFormData({
+                        ...formData,
+                        dob: val,
+                        age: calcAge !== null ? String(calcAge) : formData.age,
+                      });
+                    }}
                     className="w-full px-4 py-3 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] text-[var(--text-primary)] font-semibold text-sm focus:outline-none focus:border-[var(--orange)] transition-all shadow-inner"
                   />
                 </div>

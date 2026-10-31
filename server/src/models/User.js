@@ -22,6 +22,15 @@ const userSchema = new mongoose.Schema(
       min: 5,
       max: 120,
     },
+    dob: {
+      type: String,
+      trim: true,
+      default: null,
+    },
+    dateOfBirth: {
+      type: Date,
+      default: null,
+    },
     profession: {
       type: String,
       trim: true,

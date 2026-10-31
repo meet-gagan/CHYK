@@ -8,6 +8,7 @@ import { EntryPassModal } from '../components/EntryPassModal';
 import { MarathonRouteMap } from '../components/MarathonRouteMap';
 import { adoniInstitutionsList } from '../utils/constants';
 import { formatPhoneInput, getCleanPhoneNumber } from '../utils/phoneUtils';
+import { calculateAgeFromDob, getMaxDobDate } from '../utils/dateUtils';
 import {
   Award,
   CheckCircle,
@@ -38,6 +39,7 @@ export const RegistrationPage = () => {
   // Individual Form State
   const [indForm, setIndForm] = useState({
     fullName: '',
+    dob: '',
     age: '',
     standard: '',
     profession: '',
@@ -57,6 +59,7 @@ export const RegistrationPage = () => {
     phone: '',
     institutionType: 'SCHOOL',
     institutionName: '',
+    otherInstitution: '',
   });
   const [bulkFile, setBulkFile] = useState(null);
   const [parsedData, setParsedData] = useState(null); // { totalRows, validRows, invalidRows, preview }
@@ -109,10 +112,13 @@ export const RegistrationPage = () => {
   // Pre-fill fields from authenticated user session
   useEffect(() => {
     if (user) {
+      const userDob = user.dob || (user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split('T')[0] : '');
+      const userAge = userDob ? calculateAgeFromDob(userDob) : (user.age ? String(user.age) : '');
       setIndForm((prev) => ({
         ...prev,
         fullName: prev.fullName || user.fullName || '',
-        age: prev.age || (user.age ? String(user.age) : ''),
+        dob: prev.dob || userDob || '',
+        age: prev.age || (userAge ? String(userAge) : ''),
         contactNumber: prev.contactNumber || (user.phone ? formatPhoneInput(user.phone) : ''),
       }));
       setBulkForm((prev) => ({
@@ -149,7 +155,6 @@ export const RegistrationPage = () => {
       }
     }
 
-    if (!indForm.tShirtSize) errs.tShirtSize = 'Please select a T-shirt size';
     if (!indForm.agreeTerms) errs.agreeTerms = 'You must agree to the Terms & Conditions';
 
     setIndErrors(errs);
@@ -170,9 +175,15 @@ export const RegistrationPage = () => {
             : indForm.institutionName
           : 'N/A';
 
+      const primaryAge = indForm.dob
+        ? calculateAgeFromDob(indForm.dob)
+        : (indForm.age ? parseInt(indForm.age, 10) : undefined);
+
       const payload = {
         fullName: indForm.fullName,
-        age: indForm.age ? parseInt(indForm.age, 10) : undefined,
+        dob: indForm.dob || undefined,
+        dateOfBirth: indForm.dob || undefined,
+        age: primaryAge,
         standard: indForm.standard || undefined,
         profession: indForm.profession ? indForm.profession.trim() : undefined,
         isStudent: indForm.isStudent,
@@ -279,8 +290,17 @@ export const RegistrationPage = () => {
       alert('Please enter a valid 10-digit Indian phone number starting with 6-9');
       return;
     }
-    if (!bulkForm.institutionName.trim()) {
-      alert('Please enter School or College Name');
+    const finalBulkInstitution =
+      bulkForm.institutionName === 'OTHER'
+        ? (bulkForm.otherInstitution || '').trim()
+        : (bulkForm.institutionName || '').trim();
+
+    if (!finalBulkInstitution) {
+      alert(
+        bulkForm.institutionName === 'OTHER'
+          ? 'Please specify your School or College Name'
+          : 'Please select or enter School or College Name'
+      );
       return;
     }
     if (!bulkFile) {
@@ -300,7 +320,7 @@ export const RegistrationPage = () => {
       formData.append('contactPersonName', bulkForm.contactPersonName.trim());
       formData.append('phone', cleanPhone);
       formData.append('institutionType', bulkForm.institutionType);
-      formData.append('institutionName', bulkForm.institutionName.trim());
+      formData.append('institutionName', finalBulkInstitution);
       formData.append('file', bulkFile);
       if (parsedData?.preview) {
         formData.append(
@@ -316,7 +336,7 @@ export const RegistrationPage = () => {
           success: true,
           message:
             res.data.message ||
-            `Successfully submitted bulk registration for ${bulkForm.institutionName}!`,
+            `Successfully submitted bulk registration for ${finalBulkInstitution}!`,
           error: null,
         });
         setParsedData(null);
@@ -326,6 +346,7 @@ export const RegistrationPage = () => {
           phone: '',
           institutionType: 'SCHOOL',
           institutionName: '',
+          otherInstitution: '',
         });
       }
     } catch (err) {
@@ -453,22 +474,38 @@ export const RegistrationPage = () => {
               {indErrors.fullName && <p className="text-xs text-red-500 font-bold mt-1">{indErrors.fullName}</p>}
             </div>
 
-            {/* Age & Profession / Occupation */}
+            {/* Date of Birth & Profession / Occupation */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                  Age (Years)
-                </label>
-                <input
-                  type="number"
-                  min="5"
-                  max="100"
-                  disabled={!isRegistrationOpen}
-                  value={indForm.age}
-                  onChange={(e) => setIndForm({ ...indForm, age: e.target.value })}
-                  placeholder="e.g. 14"
-                  className="w-full px-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--orange)]"
-                />
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                    Date of Birth (DOB)
+                  </label>
+                  {indForm.dob && calculateAgeFromDob(indForm.dob) !== null && (
+                    <span className="text-[11px] font-bold text-[var(--orange)] bg-[var(--orange)]/10 px-2 py-0.5 rounded-full">
+                      Age: {calculateAgeFromDob(indForm.dob)} yrs
+                    </span>
+                  )}
+                </div>
+                <div className="relative">
+                  <Calendar className="w-5 h-5 text-[var(--orange)] absolute left-3.5 top-3.5 pointer-events-none" />
+                  <input
+                    type="date"
+                    disabled={!isRegistrationOpen}
+                    max={getMaxDobDate()}
+                    value={indForm.dob || ''}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      const calcAge = calculateAgeFromDob(val);
+                      setIndForm({
+                        ...indForm,
+                        dob: val,
+                        age: calcAge !== null ? String(calcAge) : indForm.age,
+                      });
+                    }}
+                    className="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--orange)]"
+                  />
+                </div>
               </div>
 
               <div>
@@ -575,57 +612,30 @@ export const RegistrationPage = () => {
               </div>
             )}
 
-            {/* Contact Number & T-Shirt Size */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              
-              <div>
-                <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                  Contact Mobile Number *
-                </label>
-                <div className="relative flex items-center">
-                  <div className="absolute left-3.5 flex items-center gap-1.5 pointer-events-none text-[var(--text-muted)] border-r border-[var(--border-color)] pr-2.5">
-                    <Phone className="w-4 h-4 text-[var(--orange)]" />
-                    <span className="text-xs font-bold text-[var(--text-primary)]">+91</span>
-                  </div>
-                  <input
-                    type="tel"
-                    required
-                    disabled={!isRegistrationOpen}
-                    value={indForm.contactNumber}
-                    onChange={(e) => setIndForm({ ...indForm, contactNumber: formatPhoneInput(e.target.value) })}
-                    placeholder="98765 43210"
-                    maxLength={12}
-                    className={`w-full pl-20 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border text-sm text-[var(--text-primary)] focus:outline-none ${
-                      indErrors.contactNumber ? 'border-red-500' : 'border-[var(--border-color)] focus:border-[var(--orange)]'
-                    }`}
-                  />
+            {/* Contact Number */}
+            <div>
+              <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
+                Contact Mobile Number *
+              </label>
+              <div className="relative flex items-center">
+                <div className="absolute left-3.5 flex items-center gap-1.5 pointer-events-none text-[var(--text-muted)] border-r border-[var(--border-color)] pr-2.5">
+                  <Phone className="w-4 h-4 text-[var(--orange)]" />
+                  <span className="text-xs font-bold text-[var(--text-primary)]">+91</span>
                 </div>
-                {indErrors.contactNumber && <p className="text-xs text-red-500 font-bold mt-1">{indErrors.contactNumber}</p>}
+                <input
+                  type="tel"
+                  required
+                  disabled={!isRegistrationOpen}
+                  value={indForm.contactNumber}
+                  onChange={(e) => setIndForm({ ...indForm, contactNumber: formatPhoneInput(e.target.value) })}
+                  placeholder="98765 43210"
+                  maxLength={12}
+                  className={`w-full pl-20 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border text-sm text-[var(--text-primary)] focus:outline-none ${
+                    indErrors.contactNumber ? 'border-red-500' : 'border-[var(--border-color)] focus:border-[var(--orange)]'
+                  }`}
+                />
               </div>
-
-              <div>
-                <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                  T-Shirt Size *
-                </label>
-                <div className="flex flex-wrap items-center gap-2">
-                  {['S', 'M', 'L', 'XL'].map((size) => (
-                    <button
-                      key={size}
-                      type="button"
-                      disabled={!isRegistrationOpen}
-                      onClick={() => setIndForm({ ...indForm, tShirtSize: size })}
-                      className={`px-3.5 py-2.5 rounded-xl text-xs font-extrabold border transition-all ${
-                        indForm.tShirtSize === size
-                          ? 'bg-[var(--orange)] text-white border-[var(--orange)] shadow-md'
-                          : 'bg-[var(--bg-primary)] border-[var(--border-color)] text-[var(--text-primary)]'
-                      }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
+              {indErrors.contactNumber && <p className="text-xs text-red-500 font-bold mt-1">{indErrors.contactNumber}</p>}
             </div>
 
             {/* Terms & Conditions Checkbox */}
@@ -753,18 +763,33 @@ export const RegistrationPage = () => {
 
               <div>
                 <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
-                  Institution / School / College Name *
+                  School / College Name in Adoni *
+                </label>
+                <SearchableSelect
+                  options={[...institutions, 'OTHER']}
+                  value={bulkForm.institutionName}
+                  onChange={(val) => setBulkForm({ ...bulkForm, institutionName: val })}
+                  placeholder="Search and select School / College..."
+                  accentColor="cyan"
+                />
+              </div>
+            </div>
+
+            {bulkForm.institutionName === 'OTHER' && (
+              <div>
+                <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
+                  Specify School / College Name *
                 </label>
                 <input
                   type="text"
                   required
-                  value={bulkForm.institutionName}
-                  onChange={(e) => setBulkForm({ ...bulkForm, institutionName: e.target.value })}
-                  placeholder="e.g. Stonehill International School"
+                  value={bulkForm.otherInstitution || ''}
+                  onChange={(e) => setBulkForm({ ...bulkForm, otherInstitution: e.target.value })}
+                  placeholder="Type your school or college name here..."
                   className="w-full py-3.5 px-4 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--cyan)]"
                 />
               </div>
-            </div>
+            )}
 
             {/* Drag & Drop File Upload Box & Attached File Display */}
             {bulkFile ? (
