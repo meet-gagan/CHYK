@@ -112,14 +112,6 @@ export const getMediaById = async (req, res) => {
 // @access  Private/Admin
 export const uploadMedia = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({
-        success: false,
-        message: 'No image file uploaded',
-        errorCode: 'FILE_MISSING',
-      });
-    }
-
     const {
       title = '',
       description = '',
@@ -133,16 +125,43 @@ export const uploadMedia = async (req, res) => {
       displayOrder = 0,
       width = 0,
       height = 0,
+      imageUrl = '',
     } = req.body;
 
-    const folder = `chinmaya/media/${category.toLowerCase().replace(/\s+/g, '_')}`;
-    const result = await uploadToR2(req.file.buffer, folder, req.file.mimetype, req.file.originalname);
+    if (!req.file && !imageUrl) {
+      return res.status(400).json({
+        success: false,
+        message: 'No image file uploaded or image URL provided',
+        errorCode: 'FILE_MISSING',
+      });
+    }
+
+    let finalUrl = imageUrl;
+    let publicId = `media_${Date.now()}`;
+    let mimeType = 'image/jpeg';
+    let fileSize = 0;
+    let originalName = 'marathon_asset.jpg';
+
+    if (req.file) {
+      const folder = `chinmaya/media/${category.toLowerCase().replace(/\s+/g, '_')}`;
+      const result = await uploadToR2(req.file.buffer, folder, req.file.mimetype, req.file.originalname);
+      finalUrl = result.url;
+      publicId = result.public_id;
+      mimeType = req.file.mimetype;
+      fileSize = req.file.size || req.file.buffer.length;
+      originalName = req.file.originalname || 'uploaded_image';
+    } else if (imageUrl) {
+      originalName = imageUrl.split('/').pop()?.split('?')[0] || 'remote_image.jpg';
+      publicId = `ext_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+      if (imageUrl.endsWith('.png')) mimeType = 'image/png';
+      else if (imageUrl.endsWith('.webp')) mimeType = 'image/webp';
+      else if (imageUrl.endsWith('.svg')) mimeType = 'image/svg+xml';
+    }
 
     const parsedTags = typeof tags === 'string'
       ? tags.split(',').map((t) => t.trim()).filter(Boolean)
       : Array.isArray(tags) ? tags : [];
 
-    const originalName = req.file.originalname || 'uploaded_image';
     const cleanFileName = originalName.replace(/[^a-zA-Z0-9_.-]/g, '_');
 
     const media = new Media({
@@ -152,11 +171,11 @@ export const uploadMedia = async (req, res) => {
       description: description.trim(),
       caption: caption.trim(),
       altText: altText.trim() || 'Anti-Drug Movement Marathon 2026 Asset',
-      url: result.url,
-      thumbnailUrl: result.url,
-      publicId: result.public_id,
-      mimeType: req.file.mimetype,
-      fileSize: req.file.size || req.file.buffer.length,
+      url: finalUrl,
+      thumbnailUrl: finalUrl,
+      publicId: publicId,
+      mimeType: mimeType,
+      fileSize: fileSize,
       width: Number(width) || 0,
       height: Number(height) || 0,
       category,
@@ -182,6 +201,13 @@ export const uploadMedia = async (req, res) => {
     });
   } catch (err) {
     console.error('[Upload Media Error]:', err.message);
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Server error uploading media asset',
+      errorCode: 'UPLOAD_ERROR',
+    });
+  }
+};
     res.status(500).json({
       success: false,
       message: err.message || 'Image upload failed',
@@ -593,13 +619,36 @@ export const deleteMedia = async (req, res) => {
   }
 };
 
+// @desc    Get public active media list (e.g. for Marathon portal)
+// @route   GET /api/media/public
+// @access  Public
+export const getPublicMedia = async (req, res) => {
+  try {
+    const { category, pageName, section } = req.query;
+    const query = { status: 'ACTIVE' };
+    if (category && category !== 'ALL') query.category = category;
+    if (pageName && pageName !== 'ALL') query.page = pageName;
+    if (section && section !== 'ALL') query.section = section;
+
+    const media = await Media.find(query).sort({ displayOrder: 1, createdAt: -1 }).lean();
+    res.json({
+      success: true,
+      count: media.length,
+      data: media,
+    });
+  } catch (err) {
+    console.error('[Get Public Media Error]:', err.message);
+    res.status(500).json({ success: false, message: 'Server error retrieving media assets' });
+  }
+};
+
 // @desc    Get categories & page list for filters
 // @route   GET /api/media/categories
 // @access  Private/Admin
 export const getMediaCategories = async (req, res) => {
   try {
     const categories = ['Home', 'About', 'Activities', 'Let\'s Connect', 'Marathon', 'Registration', 'Banner', 'Footer', 'Gallery', 'Other'];
-    const pages = ['Home', 'About', 'Activities', 'Let\'s Connect', 'Registration', 'General'];
+    const pages = ['Home', 'About', 'Activities', 'Let\'s Connect', 'Marathon', 'Registration', 'General'];
     
     res.json({
       success: true,

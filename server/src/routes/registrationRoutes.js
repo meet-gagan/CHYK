@@ -28,7 +28,8 @@ router.post('/group', registrationLimiter, protect, submitGroupRegistration);
 router.post('/form', registrationLimiter, protect, submitIndividualRegistration); // alias
 router.post('/school-college', registrationLimiter, protect, uploadSpreadsheet, submitSchoolCollegeRegistration);
 router.post('/bulk', registrationLimiter, protect, uploadSpreadsheet, submitBulkRegistration); // alias
-router.post('/parse-file', protect, uploadSpreadsheet, parseSpreadsheetFile);
+// Spreadsheet Preview Parser (Accessible before submit with optional auth)
+router.post('/parse-file', optionalAuth, uploadSpreadsheet, parseSpreadsheetFile);
 
 // Public Entry Pass Verification (Opaque / QR scan verification)
 router.get('/verify-pass/:passId', verifyPass);

@@ -305,10 +305,14 @@ export const mediaService = {
   getMedia: (params) => api.get('/media', { params }),
   getMediaById: (id) => api.get(`/media/${id}`),
   getCategories: () => api.get('/media/categories'),
-  uploadMedia: (formData) =>
-    api.post('/media/upload', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    }),
+  uploadMedia: (data) => {
+    if (data instanceof FormData) {
+      return api.post('/media/upload', data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+    }
+    return api.post('/media/upload', data);
+  },
   updateMedia: (id, data) => {
     if (data instanceof FormData) {
       return api.put(`/media/${id}`, data, {

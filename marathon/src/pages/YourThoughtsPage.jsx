@@ -17,6 +17,7 @@ import {
   Send,
   LogIn,
   ChevronRight,
+  ChevronLeft,
   Maximize2,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -145,6 +146,10 @@ export const YourThoughtsPage = () => {
 
   const boardSectionRef = useRef(null);
   const textareaRef = useRef(null);
+
+  // Pagination state for the story board
+  const ITEMS_PER_PAGE = 8;
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Set document title & fetch multi-website CMS data
   useEffect(() => {
@@ -283,6 +288,28 @@ export const YourThoughtsPage = () => {
       return matchesSearch && matchesColor;
     });
   }, [thoughts, searchQuery, selectedColorFilter]);
+
+  // Reset pagination to page 1 whenever filters or data changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedColorFilter, thoughts]);
+
+  // Paginated thoughts for current page
+  const totalPages = Math.max(1, Math.ceil(filteredThoughts.length / ITEMS_PER_PAGE));
+  const paginatedThoughts = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredThoughts.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredThoughts, currentPage]);
+
+  // Page navigation helpers
+  const goToPage = (page) => {
+    const safePage = Math.max(1, Math.min(page, totalPages));
+    setCurrentPage(safePage);
+    // Scroll back to the top of the board section
+    if (boardSectionRef.current) {
+      boardSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   // Format non-identifying publication date
   const formatPublishedDate = (isoString) => {
@@ -516,71 +543,154 @@ export const YourThoughtsPage = () => {
         )}
 
         {/* ======================================================== */}
-        {/* STICKY NOTES MASONRY / RESPONSIVE GRID                   */}
+        {/* STICKY NOTES PAGINATED GRID                               */}
         {/* ======================================================== */}
         {!loading && !error && filteredThoughts.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7 pt-4">
-            {filteredThoughts.map((thought, idx) => {
-              const theme = COLOR_THEMES[thought.color] || COLOR_THEMES.yellow;
-              const rotationClass = ROTATION_STYLES[idx % ROTATION_STYLES.length];
-              const isLong = (thought.content || '').length > 220;
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7 pt-4">
+              {paginatedThoughts.map((thought, idx) => {
+                const theme = COLOR_THEMES[thought.color] || COLOR_THEMES.yellow;
+                // Use global index for rotation consistency
+                const globalIdx = (currentPage - 1) * ITEMS_PER_PAGE + idx;
+                const rotationClass = ROTATION_STYLES[globalIdx % ROTATION_STYLES.length];
+                const isLong = (thought.content || '').length > 220;
 
-              return (
-                <article
-                  key={thought._id}
-                  className={`relative group ${theme.bg} ${theme.border} border-2 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-[0_10px_25px_-5px_rgba(7,22,45,0.06)] hover:shadow-[0_20px_35px_-5px_rgba(7,22,45,0.12)] transition-all duration-300 transform ${rotationClass} hover:scale-[1.02] hover:z-20 flex flex-col justify-between min-h-[220px]`}
-                >
-                  {/* Decorative Washi Tape strip at top */}
-                  <div
-                    className={`absolute -top-3 left-1/2 -translate-x-1/2 w-14 sm:w-16 h-4 sm:h-5 ${theme.tape} rounded-xs shadow-xs backdrop-blur-xs transform -rotate-1 border border-black/5 pointer-events-none`}
-                    aria-hidden="true"
-                  />
+                return (
+                  <article
+                    key={thought._id}
+                    className={`relative group ${theme.bg} ${theme.border} border-2 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-[0_10px_25px_-5px_rgba(7,22,45,0.06)] hover:shadow-[0_20px_35px_-5px_rgba(7,22,45,0.12)] transition-all duration-300 transform ${rotationClass} hover:scale-[1.02] hover:z-20 flex flex-col justify-between min-h-[220px]`}
+                  >
+                    {/* Decorative Washi Tape strip at top */}
+                    <div
+                      className={`absolute -top-3 left-1/2 -translate-x-1/2 w-14 sm:w-16 h-4 sm:h-5 ${theme.tape} rounded-xs shadow-xs backdrop-blur-xs transform -rotate-1 border border-black/5 pointer-events-none`}
+                      aria-hidden="true"
+                    />
 
-                  {/* Top Bar inside note */}
-                  <div className="flex items-center justify-between pt-1 pb-3 border-b border-black/5 text-[11px] font-bold opacity-75">
-                    <span className="uppercase tracking-wider">
-                      {theme.name}
-                    </span>
-                    <time dateTime={thought.createdAt}>
-                      {formatPublishedDate(thought.createdAt)}
-                    </time>
-                  </div>
+                    {/* Top Bar inside note */}
+                    <div className="flex items-center justify-between pt-1 pb-3 border-b border-black/5 text-[11px] font-bold opacity-75">
+                      <span className="uppercase tracking-wider">
+                        {theme.name}
+                      </span>
+                      <time dateTime={thought.createdAt}>
+                        {formatPublishedDate(thought.createdAt)}
+                      </time>
+                    </div>
 
-                  {/* Thought Content */}
-                  <div className="py-3 flex-1">
-                    <p
-                      className={`text-sm sm:text-base leading-relaxed font-medium ${theme.text} whitespace-pre-line ${
-                        isLong ? 'line-clamp-6' : ''
-                      }`}
-                    >
-                      {thought.content}
-                    </p>
-
-                    {isLong && (
-                      <button
-                        onClick={() => setExpandedThought(thought)}
-                        className="mt-2 text-xs font-bold underline hover:opacity-80 flex items-center gap-1 cursor-pointer"
+                    {/* Thought Content */}
+                    <div className="py-3 flex-1">
+                      <p
+                        className={`text-sm sm:text-base leading-relaxed font-medium ${theme.text} whitespace-pre-line ${
+                          isLong ? 'line-clamp-6' : ''
+                        }`}
                       >
-                        <span>Read full note</span>
-                        <Maximize2 className="w-3 h-3" />
-                      </button>
-                    )}
-                  </div>
+                        {thought.content}
+                      </p>
 
-                  {/* Note Footer: Anonymity badge */}
-                  <div className="pt-3 border-t border-black/5 flex items-center justify-between text-[11px] font-bold opacity-70">
-                    <span className="inline-flex items-center gap-1">
-                      <Lock className="w-3 h-3" />
-                      <span>Anonymous Runner</span>
-                    </span>
-                    <span className="text-[10px] tracking-wide uppercase">
-                      Marathon 2026
-                    </span>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+                      {isLong && (
+                        <button
+                          onClick={() => setExpandedThought(thought)}
+                          className="mt-2 text-xs font-bold underline hover:opacity-80 flex items-center gap-1 cursor-pointer"
+                        >
+                          <span>Read full note</span>
+                          <Maximize2 className="w-3 h-3" />
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Note Footer: Anonymity badge */}
+                    <div className="pt-3 border-t border-black/5 flex items-center justify-between text-[11px] font-bold opacity-70">
+                      <span className="inline-flex items-center gap-1">
+                        <Lock className="w-3 h-3" />
+                        <span>Anonymous Runner</span>
+                      </span>
+                      <span className="text-[10px] tracking-wide uppercase">
+                        Marathon 2026
+                      </span>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+
+            {/* ======================================================== */}
+            {/* PAGINATION CONTROLS                                       */}
+            {/* ======================================================== */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-2 sm:gap-3 pt-6 pb-2">
+                {/* Left Arrow */}
+                <button
+                  onClick={() => goToPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  aria-label="Previous page"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white border border-[#EBD6A2] text-[#07162D] flex items-center justify-center shadow-xs hover:bg-[#FFF5E5] hover:border-[#F0441D] hover:text-[#F0441D] transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-[#EBD6A2] disabled:hover:text-[#07162D] cursor-pointer"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+
+                {/* Page Number Buttons */}
+                <div className="flex items-center gap-1.5">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                    // Show limited page numbers for clean UI
+                    const showPage =
+                      page === 1 ||
+                      page === totalPages ||
+                      Math.abs(page - currentPage) <= 1;
+
+                    const showEllipsisBefore =
+                      page === currentPage - 2 && currentPage > 3;
+                    const showEllipsisAfter =
+                      page === currentPage + 2 && currentPage < totalPages - 2;
+
+                    if (!showPage && !showEllipsisBefore && !showEllipsisAfter) return null;
+
+                    if ((showEllipsisBefore || showEllipsisAfter) && !showPage) {
+                      return (
+                        <span
+                          key={`ellipsis-${page}`}
+                          className="w-8 h-10 flex items-center justify-center text-xs font-bold text-[#59616D] select-none"
+                        >
+                          ···
+                        </span>
+                      );
+                    }
+
+                    return (
+                      <button
+                        key={page}
+                        onClick={() => goToPage(page)}
+                        aria-label={`Page ${page}`}
+                        aria-current={currentPage === page ? 'page' : undefined}
+                        className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
+                          currentPage === page
+                            ? 'bg-[#F0441D] text-white shadow-md shadow-[#F0441D]/25 scale-105'
+                            : 'bg-white border border-[#EBD6A2] text-[#07162D] hover:bg-[#FFF5E5] hover:border-[#F0441D] hover:text-[#F0441D] shadow-xs'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Right Arrow */}
+                <button
+                  onClick={() => goToPage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  aria-label="Next page"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white border border-[#EBD6A2] text-[#07162D] flex items-center justify-center shadow-xs hover:bg-[#FFF5E5] hover:border-[#F0441D] hover:text-[#F0441D] transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:border-[#EBD6A2] disabled:hover:text-[#07162D] cursor-pointer"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            )}
+
+            {/* Page Info Text */}
+            {totalPages > 1 && (
+              <p className="text-center text-xs font-semibold text-[#59616D]">
+                Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredThoughts.length)} of {filteredThoughts.length} stories
+              </p>
+            )}
+          </>
         )}
       </section>
 

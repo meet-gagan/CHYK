@@ -295,18 +295,10 @@ export function App() {
               }
             />
             <Route
-              path="/admin/about"
+              path="/admin/marathon-images"
               element={
                 <ProtectedRoute requireAdmin={true}>
-                  <AdminDashboardPage defaultTab="ABOUT_CMS" />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/activities"
-              element={
-                <ProtectedRoute requireAdmin={true}>
-                  <AdminDashboardPage defaultTab="ACTIVITIES" />
+                  <AdminDashboardPage defaultTab="MARATHON_IMAGES" />
                 </ProtectedRoute>
               }
             />

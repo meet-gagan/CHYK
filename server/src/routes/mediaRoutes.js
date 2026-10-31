@@ -7,6 +7,7 @@ import {
   replaceMediaFile,
   deleteMedia,
   getMediaCategories,
+  getPublicMedia,
 } from '../controllers/mediaController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import { requireAdmin } from '../middleware/adminMiddleware.js';
@@ -14,6 +15,7 @@ import { uploadSingleImage } from '../middleware/uploadMiddleware.js';
 
 const router = express.Router();
 
+router.get('/public', getPublicMedia);
 router.get('/categories', protect, requireAdmin, getMediaCategories);
 router.get('/', protect, requireAdmin, getMediaList);
 router.get('/:id', protect, requireAdmin, getMediaById);

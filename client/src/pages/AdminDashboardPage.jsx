@@ -20,6 +20,7 @@ import { AdminProfileManager } from './admin/AdminProfileManager';
 import { StoryBoardManager } from './admin/StoryBoardManager';
 import { UpdateContentManager } from './admin/UpdateContentManager';
 import { SevaBookingsManager } from './admin/SevaBookingsManager';
+import { MarathonImagesManager } from './admin/MarathonImagesManager';
 import { RegistrationSummaryCards } from '../components/admin/RegistrationSummaryCards';
 import { TshirtSummary } from '../components/admin/TshirtSummary';
 import { ClassSummary } from '../components/admin/ClassSummary';
@@ -40,6 +41,7 @@ import {
   Download,
   Settings,
   Image as ImageIcon,
+  Flame,
   HelpCircle,
   KeyRound,
   CheckCircle,
@@ -69,8 +71,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
     if (path.includes('/admin/registrations')) return 'REGISTRATIONS';
     if (path.includes('/admin/event-config')) return 'EVENT_CONFIG';
     if (path.includes('/admin/banners')) return 'BANNERS';
-    if (path.includes('/admin/activities')) return 'ACTIVITIES';
-    if (path.includes('/admin/about')) return 'ABOUT_CMS';
+    if (path.includes('/admin/marathon-images') || path.includes('/admin/marathon')) return 'MARATHON_IMAGES';
     if (path.includes('/admin/change-password')) return 'PASSWORD';
     if (path.includes('/admin/lets-connect')) return 'LETS_CONNECT';
     if (path.includes('/admin/volunteering')) return 'VOLUNTEERING';
@@ -131,17 +132,9 @@ export const AdminDashboardPage = ({ defaultTab }) => {
   });
   const [bannerUploading, setBannerUploading] = useState(false);
 
-  // Activities State
-  const [activities, setActivities] = useState([]);
-  const [activityForm, setActivityForm] = useState({ title: '', category: 'Marathon Training', description: '', file: null });
-
   // Password State
   const [pwdForm, setPwdForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
   const [pwdStatus, setPwdStatus] = useState({ success: false, error: null });
-
-  // About CMS State
-  const [aboutCmsForm, setAboutCmsForm] = useState(null);
-  const [aboutCmsSaving, setAboutCmsSaving] = useState(false);
 
   useEffect(() => {
     if (!isAdmin) {
@@ -277,49 +270,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
       }).catch(() => {});
     }
   }, [activeTab]);
-
-  // Fetch Activities
-  useEffect(() => {
-    if (activeTab === 'ACTIVITIES') {
-      activityService.getAllAdmin().then((res) => {
-        if (res.data?.success) setActivities(res.data.data);
-      }).catch(() => {});
-    }
-
-    if (activeTab === 'ABOUT_CMS') {
-      contentService.getContent('about_page').then((res) => {
-        if (res.data?.success && res.data?.data) {
-          setAboutCmsForm(res.data.data);
-        } else {
-          setAboutCmsForm({
-            hero: { title: '', subtitle: '', intro: '', imageUrl: '' },
-            whoWeAre: { p1: '', p2: '' },
-            chykSection: { imageUrl: '' },
-          });
-        }
-      }).catch(() => {
-        setAboutCmsForm({
-          hero: { title: '', subtitle: '', intro: '', imageUrl: '' },
-          whoWeAre: { p1: '', p2: '' },
-          chykSection: { imageUrl: '' },
-        });
-      });
-    }
-  }, [activeTab]);
-
-  const handleSaveAboutCms = async (e) => {
-    e.preventDefault();
-    if (!aboutCmsForm) return;
-    setAboutCmsSaving(true);
-    try {
-      await contentService.updateContent('about_page', aboutCmsForm);
-      alert('About Page content updated successfully!');
-    } catch (err) {
-      alert('Failed to update About Page content');
-    } finally {
-      setAboutCmsSaving(false);
-    }
-  };
 
   // Save Event Config
   const handleSaveEventConfig = async (e) => {
@@ -517,14 +467,13 @@ export const AdminDashboardPage = ({ defaultTab }) => {
           { id: 'LETS_CONNECT', label: "Let's Connect", icon: MessageSquare },
           { id: 'VOLUNTEERING', label: 'Volunteering', icon: HeartHandshake },
           { id: 'BOOKINGS', label: 'Bookings', icon: Landmark },
+          { id: 'MARATHON_IMAGES', label: 'Marathon Images', icon: Flame },
           { id: 'IMAGES', label: 'Images & Media', icon: ImageIcon },
           { id: 'HOME_PAGE', label: 'Home Page CMS', icon: Layout },
           { id: 'FOOTER_CMS', label: 'Footer CMS', icon: Settings },
           { id: 'REGISTRATIONS', label: 'Registrations', icon: Award },
           { id: 'EVENT_CONFIG', label: 'Event Control', icon: Settings },
           { id: 'BANNERS', label: 'Banner Uploads', icon: ImageIcon },
-          { id: 'ACTIVITIES', label: 'Activities CMS', icon: ImageIcon },
-          { id: 'ABOUT_CMS', label: 'About Page CMS', icon: Settings },
           { id: 'PASSWORD', label: 'Change Password', icon: KeyRound },
         ].map((tabItem) => {
           const IconComp = tabItem.icon;
@@ -565,6 +514,9 @@ export const AdminDashboardPage = ({ defaultTab }) => {
 
       {/* TAB: VOLUNTEERING APPLICATIONS */}
       {activeTab === 'VOLUNTEERING' && <VolunteeringManager />}
+
+      {/* TAB: MARATHON WEBSITE IMAGES & ASSETS */}
+      {activeTab === 'MARATHON_IMAGES' && <MarathonImagesManager />}
 
       {/* TAB: IMAGES & MEDIA LIBRARY */}
       {activeTab === 'IMAGES' && <AdminImagesPage />}
@@ -1366,21 +1318,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
         </div>
       )}
 
-      {/* TAB 6: ACTIVITIES MANAGEMENT */}
-      {activeTab === 'ACTIVITIES' && (
-        <div className="space-y-6 animate-in fade-in">
-          <div className="glass-card p-6 rounded-3xl border border-[var(--border-color)] max-w-2xl mx-auto space-y-4">
-            <h3 className="text-xl font-extrabold font-heading text-[var(--text-primary)]">
-              ADD NEW MOVEMENT ACTIVITY ITEM
-            </h3>
-            <p className="text-xs text-[var(--text-muted)]">
-              Add marathon bootcamps, school awareness drives, or youth rallies to the user gallery.
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* TAB 7: CHANGE ADMIN PASSWORD */}
+      {/* TAB: CHANGE ADMIN PASSWORD */}
       {activeTab === 'PASSWORD' && (
         <div className="glass-card p-8 rounded-3xl border border-[var(--border-color)] max-w-md mx-auto space-y-6 animate-in fade-in">
           <h3 className="text-xl font-extrabold font-heading text-[var(--text-primary)] text-center">
@@ -1484,159 +1422,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
               <span>{pwdSaving ? 'UPDATING PASSWORD...' : 'UPDATE ADMIN PASSWORD'}</span>
             </button>
           </form>
-        </div>
-      )}
-
-      {/* TAB: ABOUT PAGE CMS */}
-      {activeTab === 'ABOUT_CMS' && (
-        <div className="space-y-6 animate-in fade-in">
-          <div className="p-6 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-xl">
-            <h3 className="text-xl font-extrabold font-heading text-[var(--text-primary)] mb-2">
-              ABOUT PAGE CONTENT MANAGEMENT
-            </h3>
-            <p className="text-xs text-[var(--text-muted)] mb-6">
-              Update titles, subtitles, intro text, section headings and image URLs for the About Page.
-            </p>
-
-            {aboutCmsForm ? (
-              <form onSubmit={handleSaveAboutCms} className="space-y-8">
-                {/* Hero Section */}
-                <div className="p-6 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] space-y-4">
-                  <h4 className="text-base font-extrabold text-[var(--orange)] font-heading uppercase">
-                    1. HERO SECTION
-                  </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-[var(--text-muted)] mb-1">Hero Title</label>
-                      <input
-                        type="text"
-                        value={aboutCmsForm.hero?.title || ''}
-                        onChange={(e) => setAboutCmsForm({
-                          ...aboutCmsForm,
-                          hero: { ...aboutCmsForm.hero, title: e.target.value }
-                        })}
-                        className="w-full py-2.5 px-3.5 text-xs rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-[var(--text-muted)] mb-1">Hero Subtitle</label>
-                      <input
-                        type="text"
-                        value={aboutCmsForm.hero?.subtitle || ''}
-                        onChange={(e) => setAboutCmsForm({
-                          ...aboutCmsForm,
-                          hero: { ...aboutCmsForm.hero, subtitle: e.target.value }
-                        })}
-                        className="w-full py-2.5 px-3.5 text-xs rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)]"
-                      />
-                    </div>
-                    <div className="md:col-span-2">
-                      <label className="block text-xs font-bold text-[var(--text-muted)] mb-1">Hero Intro Text</label>
-                      <textarea
-                        rows={2}
-                        value={aboutCmsForm.hero?.intro || ''}
-                        onChange={(e) => setAboutCmsForm({
-                          ...aboutCmsForm,
-                          hero: { ...aboutCmsForm.hero, intro: e.target.value }
-                        })}
-                        className="w-full py-2.5 px-3.5 text-xs rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)]"
-                      />
-                    </div>
-                    <div className="md:col-span-2">
-                      <label className="block text-xs font-bold text-[var(--text-muted)] mb-1">Hero Image URL</label>
-                      <input
-                        type="text"
-                        value={aboutCmsForm.hero?.imageUrl || ''}
-                        onChange={(e) => setAboutCmsForm({
-                          ...aboutCmsForm,
-                          hero: { ...aboutCmsForm.hero, imageUrl: e.target.value }
-                        })}
-                        className="w-full py-2.5 px-3.5 text-xs rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)]"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Who We Are Section */}
-                <div className="p-6 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] space-y-4">
-                  <h4 className="text-base font-extrabold text-[var(--orange)] font-heading uppercase">
-                    2. WHO WE ARE SECTION
-                  </h4>
-                  <div className="space-y-3">
-                    <div>
-                      <label className="block text-xs font-bold text-[var(--text-muted)] mb-1">Paragraph 1</label>
-                      <textarea
-                        rows={3}
-                        value={aboutCmsForm.whoWeAre?.p1 || ''}
-                        onChange={(e) => setAboutCmsForm({
-                          ...aboutCmsForm,
-                          whoWeAre: { ...aboutCmsForm.whoWeAre, p1: e.target.value }
-                        })}
-                        className="w-full py-2.5 px-3.5 text-xs rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-[var(--text-muted)] mb-1">Paragraph 2</label>
-                      <textarea
-                        rows={3}
-                        value={aboutCmsForm.whoWeAre?.p2 || ''}
-                        onChange={(e) => setAboutCmsForm({
-                          ...aboutCmsForm,
-                          whoWeAre: { ...aboutCmsForm.whoWeAre, p2: e.target.value }
-                        })}
-                        className="w-full py-2.5 px-3.5 text-xs rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)]"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* CHYK Section Image URL */}
-                <div className="p-6 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] space-y-4">
-                  <h4 className="text-base font-extrabold text-[var(--orange)] font-heading uppercase">
-                    3. CHYK YUVA KENDRA & IMAGES
-                  </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold text-[var(--text-muted)] mb-1">CHYK Image URL</label>
-                      <input
-                        type="text"
-                        value={aboutCmsForm.chykSection?.imageUrl || ''}
-                        onChange={(e) => setAboutCmsForm({
-                          ...aboutCmsForm,
-                          chykSection: { ...aboutCmsForm.chykSection, imageUrl: e.target.value }
-                        })}
-                        className="w-full py-2.5 px-3.5 text-xs rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-[var(--text-muted)] mb-1">Spirituality In Action Image URL</label>
-                      <input
-                        type="text"
-                        value={aboutCmsForm.spiritualityInAction?.imageUrl || ''}
-                        onChange={(e) => setAboutCmsForm({
-                          ...aboutCmsForm,
-                          spiritualityInAction: { ...aboutCmsForm.spiritualityInAction, imageUrl: e.target.value }
-                        })}
-                        className="w-full py-2.5 px-3.5 text-xs rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)]"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={aboutCmsSaving}
-                  className="btn-primary py-3.5 px-8 text-xs font-extrabold"
-                >
-                  <span>{aboutCmsSaving ? 'SAVING CONTENT...' : 'SAVE ABOUT PAGE CONTENT'}</span>
-                </button>
-              </form>
-            ) : (
-              <div className="py-8 text-center text-[var(--text-muted)] text-xs font-bold">
-                Loading About Page CMS form...
-              </div>
-            )}
-          </div>
         </div>
       )}
 

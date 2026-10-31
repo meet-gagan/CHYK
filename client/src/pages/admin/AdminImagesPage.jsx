@@ -46,6 +46,7 @@ const PAGES = [
   'About',
   'Activities',
   "Let's Connect",
+  'Marathon',
   'Registration',
   'General',
 ];

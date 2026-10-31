@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { registrationService, eventService, webContentService } from '../services/api';
 import { SearchableSelect } from '../components/SearchableSelect';
 import { EntryPassModal } from '../components/EntryPassModal';
+import { RegistrationAuthModal } from '../components/auth/RegistrationAuthModal';
 import { MarathonRouteMap } from '../components/MarathonRouteMap';
 import { adoniInstitutionsList } from '../utils/constants';
 import { formatPhoneInput, getCleanPhoneNumber } from '../utils/phoneUtils';
@@ -96,6 +97,28 @@ export const RegistrationPage = () => {
   // Receipt / Entry Pass Modal State
   const [receiptData, setReceiptData] = useState(null);
 
+  // Auth Modal State (Triggered upon submitting if unauthenticated)
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState('signup'); // 'signup' | 'login'
+  const [pendingSubmitType, setPendingSubmitType] = useState(null); // 'INDIVIDUAL' | 'BULK'
+
+  // Helper to persist in-progress form inputs to sessionStorage
+  const saveFormToSession = () => {
+    try {
+      sessionStorage.setItem(
+        'chyk_marathon_pending_reg',
+        JSON.stringify({
+          tab,
+          indForm,
+          hasFriends,
+          friendsCount,
+          friendsList,
+          bulkForm,
+        })
+      );
+    } catch (_) {}
+  };
+
   // Dynamic CMS Content for Registration Guidelines
   const [regContent, setRegContent] = useState(() => {
     try {
@@ -143,6 +166,22 @@ export const RegistrationPage = () => {
       }
     }).catch(() => {});
   }, [location.hash]);
+
+  // Restore any saved form data from previous session (e.g. if user opened standalone login/signup)
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem('chyk_marathon_pending_reg');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.tab) setTab(parsed.tab);
+        if (parsed.indForm) setIndForm((prev) => ({ ...prev, ...parsed.indForm }));
+        if (parsed.hasFriends !== undefined) setHasFriends(parsed.hasFriends);
+        if (parsed.friendsCount) setFriendsCount(parsed.friendsCount);
+        if (parsed.friendsList) setFriendsList(parsed.friendsList);
+        if (parsed.bulkForm) setBulkForm((prev) => ({ ...prev, ...parsed.bulkForm }));
+      }
+    } catch (_) {}
+  }, []);
 
   // Pre-fill Participant 1 fields from authenticated user session
   useEffect(() => {
@@ -323,21 +362,8 @@ export const RegistrationPage = () => {
     return isValid;
   };
 
-  // Submit Registration (Individual or Group)
-  const handleIndividualSubmit = async (e) => {
-    e.preventDefault();
-
-    const p1Valid = validateParticipant1();
-    let pFriendsValid = true;
-
-    if (hasFriends) {
-      pFriendsValid = validateFriends();
-    }
-
-    if (!p1Valid || !pFriendsValid) {
-      return;
-    }
-
+  // Core Individual or Group Registration Submission Logic
+  const executeIndividualSubmit = async () => {
     setIndSubmitting(true);
     try {
       const finalPrimaryInstitution =
@@ -402,6 +428,7 @@ export const RegistrationPage = () => {
           });
 
           setReceiptData(res.data.data);
+          try { sessionStorage.removeItem('chyk_marathon_pending_reg'); } catch (_) {}
 
           // Reset friends form
           setHasFriends(false);
@@ -434,6 +461,7 @@ export const RegistrationPage = () => {
           });
 
           setReceiptData(res.data.data);
+          try { sessionStorage.removeItem('chyk_marathon_pending_reg'); } catch (_) {}
           setIndErrors({});
         }
       }
@@ -441,7 +469,35 @@ export const RegistrationPage = () => {
       alert(err.response?.data?.message || 'Registration submission failed. Please try again.');
     } finally {
       setIndSubmitting(false);
+      setPendingSubmitType(null);
     }
+  };
+
+  // Submit Registration Entry Point (Individual or Group)
+  const handleIndividualSubmit = async (e) => {
+    if (e) e.preventDefault();
+
+    const p1Valid = validateParticipant1();
+    let pFriendsValid = true;
+
+    if (hasFriends) {
+      pFriendsValid = validateFriends();
+    }
+
+    if (!p1Valid || !pFriendsValid) {
+      return;
+    }
+
+    // If user is not signed in / logged in, prompt Auth Modal first!
+    if (!isUserAuthenticated && !user) {
+      saveFormToSession();
+      setPendingSubmitType('INDIVIDUAL');
+      setAuthModalMode('signup');
+      setAuthModalOpen(true);
+      return;
+    }
+
+    await executeIndividualSubmit();
   };
 
   // Bulk File Upload & Client Parse
@@ -492,9 +548,62 @@ export const RegistrationPage = () => {
     document.body.removeChild(link);
   };
 
-  // Submit Bulk Batch
+  // Core Bulk Batch Registration Submission Logic
+  const executeBulkSubmit = async () => {
+    setBulkSubmitting(true);
+    setBulkStatus({ success: false, message: null, error: null });
+
+    try {
+      const cleanPhone = getCleanPhoneNumber(bulkForm.phone);
+      const finalBulkInstitution =
+        bulkForm.institutionName === 'OTHER'
+          ? (bulkForm.otherInstitution || '').trim()
+          : (bulkForm.institutionName || '').trim();
+
+      const formData = new FormData();
+      formData.append('contactPersonName', bulkForm.contactPersonName.trim());
+      formData.append('phone', cleanPhone);
+      formData.append('institutionType', bulkForm.institutionType);
+      formData.append('institutionName', finalBulkInstitution);
+      formData.append('file', bulkFile);
+      if (parsedData?.preview) {
+        formData.append(
+          'studentsData',
+          JSON.stringify(parsedData.preview.filter((row) => row.isValid))
+        );
+      }
+
+      const res = await registrationService.submitBulk(formData);
+      if (res.data?.success) {
+        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+        setBulkStatus({
+          success: true,
+          message:
+            res.data.message ||
+            `Successfully submitted ${parsedData?.validRows || ''} student registrations!`,
+          error: null,
+        });
+
+        try { sessionStorage.removeItem('chyk_marathon_pending_reg'); } catch (_) {}
+        // Reset
+        setBulkFile(null);
+        setParsedData(null);
+      }
+    } catch (err) {
+      setBulkStatus({
+        success: false,
+        message: null,
+        error: err.response?.data?.message || 'Bulk registration submission failed.',
+      });
+    } finally {
+      setBulkSubmitting(false);
+      setPendingSubmitType(null);
+    }
+  };
+
+  // Submit Bulk Batch Entry Point
   const handleBulkSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
 
     if (!isRegistrationOpen) {
       alert('Marathon registration is currently closed by the organizers.');
@@ -531,46 +640,28 @@ export const RegistrationPage = () => {
       return;
     }
 
-    setBulkSubmitting(true);
-    setBulkStatus({ success: false, message: null, error: null });
+    // If user is not signed in / logged in, prompt Auth Modal first!
+    if (!isUserAuthenticated && !user) {
+      saveFormToSession();
+      setPendingSubmitType('BULK');
+      setAuthModalMode('signup');
+      setAuthModalOpen(true);
+      return;
+    }
 
-    try {
-      const formData = new FormData();
-      formData.append('contactPersonName', bulkForm.contactPersonName.trim());
-      formData.append('phone', cleanPhone);
-      formData.append('institutionType', bulkForm.institutionType);
-      formData.append('institutionName', finalBulkInstitution);
-      formData.append('file', bulkFile);
-      if (parsedData?.preview) {
-        formData.append(
-          'studentsData',
-          JSON.stringify(parsedData.preview.filter((row) => row.isValid))
-        );
-      }
+    await executeBulkSubmit();
+  };
 
-      const res = await registrationService.submitBulk(formData);
-      if (res.data?.success) {
-        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-        setBulkStatus({
-          success: true,
-          message:
-            res.data.message ||
-            `Successfully submitted ${parsedData?.validRows || ''} student registrations!`,
-          error: null,
-        });
+  // Callback after the user successfully signs up or logs in via the Auth Modal
+  const handleAuthSuccess = async () => {
+    // Small delay so auth context state fully propagates
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
-        // Reset
-        setBulkFile(null);
-        setParsedData(null);
-      }
-    } catch (err) {
-      setBulkStatus({
-        success: false,
-        message: null,
-        error: err.response?.data?.message || 'Bulk registration submission failed.',
-      });
-    } finally {
-      setBulkSubmitting(false);
+    // Auto-submit the pending registration now that the user is authenticated
+    if (pendingSubmitType === 'INDIVIDUAL') {
+      await executeIndividualSubmit();
+    } else if (pendingSubmitType === 'BULK') {
+      await executeBulkSubmit();
     }
   };
 
@@ -599,24 +690,64 @@ export const RegistrationPage = () => {
           )}
         </p>
 
-        {/* Authenticated Member Session Banner */}
-        <div className="p-4 rounded-3xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center font-black text-sm">
-              {user?.fullName?.charAt(0) || '✓'}
+        {/* User Session Banner (Logged in vs Open guest) */}
+        {isUserAuthenticated && user ? (
+          <div className="p-4 rounded-3xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center font-black text-sm">
+                {user?.fullName?.charAt(0) || '✓'}
+              </div>
+              <div className="text-left">
+                <span className="font-bold text-[var(--text-primary)]">Logged in as {user?.fullName}</span>
+                <span className="text-[var(--text-muted)] block text-[11px]">+91 {user?.phone} • Your pass will be saved to My Passes</span>
+              </div>
             </div>
-            <div className="text-left">
-              <span className="font-bold text-[var(--text-primary)]">Logged in as {user?.fullName}</span>
-              <span className="text-[var(--text-muted)] block text-[11px]">+91 {user?.phone} • Your pass will be saved to My Passes</span>
+            <Link
+              to="/my-activity"
+              className="px-3.5 py-1.5 rounded-xl bg-emerald-500 text-white font-bold text-[11px] hover:bg-emerald-600 transition-colors text-decoration-none whitespace-nowrap"
+            >
+              My Passes & Activity →
+            </Link>
+          </div>
+        ) : (
+          <div className="p-3.5 sm:p-4 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-sm">
+            <div className="flex items-center gap-3 text-left">
+              <div className="w-9 h-9 rounded-full bg-[var(--orange)]/15 border border-[var(--orange)]/30 text-[var(--orange)] flex items-center justify-center font-black text-sm shrink-0">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <div>
+                <span className="font-bold text-[var(--text-primary)] block">Open Registration for All</span>
+                <span className="text-[var(--text-muted)] text-[11px] block">
+                  Fill in your details below. You can sign in or create an account when submitting.
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthModalMode('login');
+                  setPendingSubmitType(null);
+                  setAuthModalOpen(true);
+                }}
+                className="px-3.5 py-1.5 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] text-[var(--text-primary)] font-bold text-[11px] hover:border-[var(--orange)] transition-colors"
+              >
+                Sign In
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthModalMode('signup');
+                  setPendingSubmitType(null);
+                  setAuthModalOpen(true);
+                }}
+                className="px-3.5 py-1.5 rounded-xl bg-[var(--orange)] text-white font-bold text-[11px] hover:opacity-90 transition-opacity"
+              >
+                Sign Up
+              </button>
             </div>
           </div>
-          <Link
-            to="/my-activity"
-            className="px-3.5 py-1.5 rounded-xl bg-emerald-500 text-white font-bold text-[11px] hover:bg-emerald-600 transition-colors text-decoration-none whitespace-nowrap"
-          >
-            My Passes & Activity →
-          </Link>
-        </div>
+        )}
       </div>
 
       {/* Registration Mode Tab Toggle */}
@@ -1437,6 +1568,24 @@ export const RegistrationPage = () => {
           onClose={() => setReceiptData(null)}
         />
       )}
+
+      {/* Auth Modal - Triggered when unauthenticated user tries to submit */}
+      <RegistrationAuthModal
+        isOpen={authModalOpen}
+        onClose={() => {
+          setAuthModalOpen(false);
+          setPendingSubmitType(null);
+        }}
+        initialMode={authModalMode}
+        prefill={{
+          fullName: indForm.fullName || '',
+          phone: indForm.contactNumber || bulkForm.phone || '',
+          dob: indForm.dob || '',
+          profession: indForm.profession || '',
+        }}
+        onAuthSuccess={handleAuthSuccess}
+        pendingAction={pendingSubmitType || 'INDIVIDUAL'}
+      />
 
     </div>
   );

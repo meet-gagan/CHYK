@@ -56,15 +56,6 @@ const DEFAULT_HOMEPAGE_SECTIONS = [
     isEnabled: true,
     order: 5,
   },
-  {
-    sectionId: 'faq-1',
-    type: 'faq',
-    title: 'FREQUENTLY ASKED QUESTIONS',
-    subtitle: 'QUESTIONS & ANSWERS',
-    description: 'Everything you need to know about participating, registrations, certificates, and event details.',
-    isEnabled: true,
-    order: 6,
-  },
 ];
 
 const DEFAULT_ACTIVITIES = [
@@ -348,15 +339,18 @@ export const HomePage = () => {
   });
 
   const filteredSections = rawSections.filter(
-    (s) => s.type !== 'activities' && s.sectionId !== 'activities-1'
+    (s) =>
+      s.type !== 'activities' &&
+      s.sectionId !== 'activities-1' &&
+      s.type !== 'faq' &&
+      s.sectionId !== 'faq-1'
   );
 
-  // Guarantee strict section ordering: Hero -> Marathon -> CTA ("Be Part of the Movement") -> FAQ (directly above Footer)
+  // Guarantee strict section ordering: Hero -> Marathon -> CTA ("Be Part of the Movement")
   const SECTION_ORDER = {
     hero: 1,
     marathon: 2,
     cta: 3,
-    faq: 4,
   };
 
   const sections = [...filteredSections].sort((a, b) => {
@@ -386,8 +380,13 @@ export const HomePage = () => {
             {/* 2nd Image: Quote Banner placed directly above EVENT DETAILS & COUNTDOWN with zero overlap */}
             {section.type === 'marathon' && <QuoteBanner content={webContentData?.fieldsMap?.quote_banner} />}
 
-            {/* MYTHS VS FACTS Slider placed directly above BE PART OF THE MOVEMENT IN ADONI! */}
-            {section.type === 'cta' && <MythsVsFactsSection content={webContentData?.fieldsMap?.myths_vs_facts} />}
+            {/* MYTHS VS FACTS Slider & Community Story Board placed directly above BE PART OF THE MOVEMENT IN ADONI! */}
+            {section.type === 'cta' && (
+              <>
+                <MythsVsFactsSection content={webContentData?.fieldsMap?.myths_vs_facts} />
+                <CommunityStoryBoardSection content={webContentData?.fieldsMap?.community_storyboard} />
+              </>
+            )}
 
             <SectionRenderer
               section={section}
@@ -404,9 +403,6 @@ export const HomePage = () => {
           No homepage sections published yet.
         </div>
       )}
-
-      {/* Community Story Board & Voices Section */}
-      <CommunityStoryBoardSection content={webContentData?.fieldsMap?.community_storyboard} />
 
       {/* Movement Posters & Inspiration Banner Slider - Positioned directly above Footer */}
       <section className="py-2">

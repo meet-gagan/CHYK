@@ -46,13 +46,6 @@ export const Navbar = () => {
     return location.pathname === path;
   };
 
-  const handleRegisterClick = (e) => {
-    if (!isUserAuthenticated) {
-      e.preventDefault();
-      navigate('/login?redirect=/register');
-    }
-  };
-
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full bg-[var(--glass-bg,#FFFFFF)]/95 backdrop-blur-md border-b border-[var(--glass-border,rgba(11,35,64,0.1))] shadow-sm transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -104,7 +97,6 @@ export const Navbar = () => {
               {/* Registration CTA */}
               <Link
                 to="/register"
-                onClick={handleRegisterClick}
                 className="btn-primary text-decoration-none py-2 px-4 text-xs font-extrabold shadow-md flex items-center gap-1.5 hover:scale-[1.02] transition-transform"
               >
                 <Award className="w-4 h-4" />
@@ -334,10 +326,7 @@ export const Navbar = () => {
           <div className="pt-3 border-t border-[var(--border-color)] flex flex-col gap-2.5">
             <Link
               to="/register"
-              onClick={(e) => {
-                setMobileMenuOpen(false);
-                handleRegisterClick(e);
-              }}
+              onClick={() => setMobileMenuOpen(false)}
               className="btn-primary w-full justify-center text-decoration-none py-3 font-extrabold text-xs flex items-center gap-2"
             >
               <Award className="w-4 h-4" />

@@ -65,15 +65,8 @@ export function App() {
               <Route path="/story-board" element={<YourThoughtsPage />} />
               <Route path="/storyboard" element={<YourThoughtsPage />} />
 
-              {/* Marathon Registration Page (Protected - requires authentication) */}
-              <Route
-                path="/register"
-                element={
-                  <ProtectedRoute redirectTo="/login">
-                    <RegistrationPage />
-                  </ProtectedRoute>
-                }
-              />
+              {/* Marathon Registration Page (Open to all visitors - auth required on submit) */}
+              <Route path="/register" element={<RegistrationPage />} />
 
               {/* Authentication Routes */}
               <Route path="/login" element={<LoginPage />} />
