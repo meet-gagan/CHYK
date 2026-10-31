@@ -22,19 +22,22 @@ const fmt = (m) => Math.floor(m / 60) + ':' + String(Math.round(m % 60)).padStar
 export const MarathonRouteMap = ({ className = '' }) => {
   const pathRef = useRef(null);
   const svgRef = useRef(null);
-  const [pathLength, setPathLength] = useState(0);
+  // Default to pre-measured exact path length (2238.4) so checkpoints and runner render immediately in production
+  const [pathLength, setPathLength] = useState(2238.4);
   const [f, setF] = useState(0); // 0 to 1
   const [isPlaying, setIsPlaying] = useState(false);
   const [pace, setPace] = useState(6); // min/km
   const lastTimeRef = useRef(null);
   const animFrameRef = useRef(null);
 
-  // Measure path length on mount
+  // Measure path length on mount to get exact browser value
   useEffect(() => {
     if (pathRef.current) {
       try {
         const length = pathRef.current.getTotalLength();
-        setPathLength(length);
+        if (length > 0) {
+          setPathLength(length);
+        }
       } catch (err) {
         console.error("Error measuring path length:", err);
       }
