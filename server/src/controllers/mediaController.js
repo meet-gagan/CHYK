@@ -208,13 +208,6 @@ export const uploadMedia = async (req, res) => {
     });
   }
 };
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Image upload failed',
-      errorCode: 'UPLOAD_ERROR',
-    });
-  }
-};
 
 // Helper function to sync media URL & title changes across all CMS collections
 export const syncMediaImageToCollections = async (mediaItem, oldUrl) => {
