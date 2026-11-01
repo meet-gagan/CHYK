@@ -35,6 +35,42 @@ export const AuthProvider = ({ children }) => {
 
   const [loading, setLoading] = useState(false);
 
+  // Global Auth Modal State (Prompts Login/Signup when clicking Register Now or on /register)
+  const [authModalState, setAuthModalState] = useState({
+    isOpen: false,
+    mode: 'signup', // 'signup' | 'login'
+    redirectUrl: '/register',
+    pendingAction: 'INDIVIDUAL',
+    prefill: {},
+    onAuthSuccess: null,
+  });
+
+  const openAuthModal = useCallback((options = 'signup') => {
+    if (typeof options === 'string') {
+      setAuthModalState({
+        isOpen: true,
+        mode: options,
+        redirectUrl: '/register',
+        pendingAction: 'INDIVIDUAL',
+        prefill: {},
+        onAuthSuccess: null,
+      });
+    } else if (typeof options === 'object' && options !== null) {
+      setAuthModalState({
+        isOpen: true,
+        mode: options.mode || 'signup',
+        redirectUrl: options.redirectUrl || '/register',
+        pendingAction: options.pendingAction || 'INDIVIDUAL',
+        prefill: options.prefill || {},
+        onAuthSuccess: options.onAuthSuccess || null,
+      });
+    }
+  }, []);
+
+  const closeAuthModal = useCallback(() => {
+    setAuthModalState((prev) => ({ ...prev, isOpen: false }));
+  }, []);
+
   // Synchronize state across separate browser tabs via storage events
   useEffect(() => {
     const handleStorageChange = (e) => {
@@ -329,6 +365,9 @@ export const AuthProvider = ({ children }) => {
         isUserAuthenticated,
         isAuthenticated: isCurrentTabAdmin() ? isAdminAuthenticated : isUserAuthenticated,
         isAdmin: isAdminAuthenticated,
+        authModalState,
+        openAuthModal,
+        closeAuthModal,
       }}
     >
       {children}

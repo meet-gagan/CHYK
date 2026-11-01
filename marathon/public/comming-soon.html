@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coming Soon • Anti-Drug Movement Marathon Run 2026 | Chinmaya Mission Adoni</title>
+  <meta name="description" content="The official portal for the Anti-Drug Movement Marathon Run 2026 in Adoni is coming soon. Organized by Chinmaya Mission, Adoni & Chinmaya Yuva Kendra, Adoni." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --orange: #F0441D;
+      --orange-light: #FF5A36;
+      --yellow: #FFD12D;
+      --cyan: #06B6D4;
+      --bg: #07162D;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --text: #FFFFFF;
+      --text-muted: #94A3B8;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Background Ambient Glows */
+    .glow-1 {
+      position: absolute;
+      top: -100px;
+      left: 15%;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(240, 68, 29, 0.22) 0%, transparent 70%);
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-2 {
+      position: absolute;
+      bottom: -80px;
+      right: 10%;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.18) 0%, transparent 70%);
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glow-3 {
+      position: absolute;
+      top: 45%;
+      left: -80px;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 209, 45, 0.12) 0%, transparent 70%);
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Header */
+    header {
+      padding: 1.75rem 0 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .brand-icon {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .brand-icon svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      color: var(--orange);
+    }
+
+    .brand-title {
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange);
+      display: block;
+    }
+
+    .brand-sub {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      display: block;
+    }
+
+    .share-btn {
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #FFFFFF;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .share-btn:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
+
+    /* Main Content */
+    main {
+      padding: 3rem 0;
+      text-align: center;
+      margin: auto 0;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1.1rem;
+      border-radius: 9999px;
+      background: rgba(240, 68, 29, 0.18);
+      border: 1px solid rgba(240, 68, 29, 0.35);
+      color: var(--orange);
+      font-size: 0.72rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 16px rgba(240, 68, 29, 0.2);
+    }
+
+    .pulsing-dot {
+      width: 0.45rem;
+      height: 0.45rem;
+      border-radius: 50%;
+      background-color: var(--orange);
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--orange) 0%, var(--yellow) 50%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .lede {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #F6D9BA;
+      max-width: 600px;
+      margin: 0 auto 2.25rem;
+      line-height: 1.55;
+    }
+
+    /* Countdown Card */
+    .countdown-card {
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+      padding: 1.5rem;
+      border-radius: 1.5rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .countdown-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 0.85rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .countdown-header span:first-child { color: var(--cyan); }
+    .countdown-header span:last-child { color: var(--yellow); }
+
+    .timer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+
+    .timer-box {
+      padding: 0.85rem 0.5rem;
+      border-radius: 1rem;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .timer-val {
+      font-family: 'Outfit', monospace;
+      font-size: 1.85rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .timer-val.days { color: var(--orange); }
+    .timer-val.hours { color: var(--yellow); }
+    .timer-val.mins { color: var(--cyan); }
+    .timer-val.secs { color: #4ADE80; }
+
+    .timer-label {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    .countdown-loc {
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #CBD5E1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    /* Pillars */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      max-width: 720px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .pillar-box {
+      padding: 1rem;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: left;
+    }
+
+    .pillar-title {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 0.2rem;
+    }
+
+    .pillar-desc {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* CTA Buttons */
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.85rem;
+    }
+
+    .btn-wa {
+      padding: 0.75rem 1.6rem;
+      border-radius: 9999px;
+      background: #25D366;
+      color: #FFFFFF;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-wa:hover {
+      background: #20ba59;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      padding: 0.75rem 1.5rem;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #FFFFFF;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      padding: 1.5rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      position: relative;
+      z-index: 10;
+    }
+
+    footer strong { color: #CBD5E1; }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      h1 { font-size: 1.85rem; }
+      .lede { font-size: 0.95rem; }
+      .pillars-grid { grid-template-columns: 1fr 1fr; }
+      .timer-val { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+  <div class="glow-3"></div>
+
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="brand-icon">
+          <!-- Flame SVG -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
+          </svg>
+        </div>
+        <div>
+          <span class="brand-title">CHINMAYA MISSION & CHYK</span>
+          <span class="brand-sub">ADONI, ANDHRA PRADESH</span>
+        </div>
+      </div>
+
+      <button class="share-btn" id="shareBtn" onclick="sharePage()">
+        <span>Share</span>
+      </button>
+    </header>
+  </div>
+
+  <div class="container">
+    <main>
+      <div class="pill-badge">
+        <span class="pulsing-dot"></span>
+        <span>WE RISE • WE RUN • WE RESIST</span>
+      </div>
+
+      <h1>
+        ANTI-DRUG MOVEMENT <br />
+        <span class="gradient-text">MARATHON RUN 2026</span>
+      </h1>
+
+      <p class="lede">
+        Something powerful is coming to Adoni. The road is being mapped, the youth are assembling, and online registrations will open soon!
+      </p>
+
+      <!-- Countdown -->
+      <div class="countdown-card">
+        <div class="countdown-header">
+          <span>Sunday, 20 Dec 2026</span>
+          <span>Flag-off: 6:00 AM</span>
+        </div>
+        <div class="timer-grid">
+          <div class="timer-box">
+            <span class="timer-val days" id="days">00</span>
+            <span class="timer-label">Days</span>
+          </div>
+          <div class="timer-box">
+            <span class="timer-val hours" id="hours">00</span>
+            <span class="timer-label">Hours</span>
+          </div>
+          <div class="timer-box">
+            <span class="timer-val mins" id="minutes">00</span>
+            <span class="timer-label">Minutes</span>
+          </div>
+          <div class="timer-box">
+            <span class="timer-val secs" id="seconds">00</span>
+            <span class="timer-label">Seconds</span>
+          </div>
+        </div>
+        <div class="countdown-loc">
+          <span>Starting from Municipal High School to Chinmaya Mission, Adoni</span>
+        </div>
+      </div>
+
+      <!-- 4 Pillars -->
+      <div class="pillars-grid">
+        <div class="pillar-box">
+          <div class="pillar-title">7KM City Loop</div>
+          <div class="pillar-desc">Certified course across Adoni</div>
+        </div>
+        <div class="pillar-box">
+          <div class="pillar-title">Finisher Medals</div>
+          <div class="pillar-desc">& official certificates for all</div>
+        </div>
+        <div class="pillar-box">
+          <div class="pillar-title">Youth Movement</div>
+          <div class="pillar-desc">Schools & colleges united</div>
+        </div>
+        <div class="pillar-box">
+          <div class="pillar-title">Full Safety</div>
+          <div class="pillar-desc">Hydration, ambulances & marshals</div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="cta-row">
+        <a href="https://chat.whatsapp.com/Hd0DpUk36qSGIQ6UTULvke?mode=hq2tcli" target="_blank" rel="noopener noreferrer" class="btn-wa">
+          <span>Join WhatsApp Community</span>
+        </a>
+        <a href="https://www.instagram.com/chinmayamission_adoni?srtk=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="btn-outline">
+          <span>Follow on Instagram</span>
+        </a>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>Organized by <strong>Chinmaya Mission, Adoni</strong> & <strong>Chinmaya Yuva Kendra, Adoni</strong></p>
+      <p style="margin-top: 0.35rem; font-size: 0.7rem; color: #64748B;">© 2026 Anti-Drug Movement Marathon Run. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const targetDate = new Date('2026-12-20T06:00:00+05:30').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('days').innerText = '00';
+        document.getElementById('hours').innerText = '00';
+        document.getElementById('minutes').innerText = '00';
+        document.getElementById('seconds').innerText = '00';
+        return;
+      }
+
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('days').innerText = String(d).padStart(2, '0');
+      document.getElementById('hours').innerText = String(h).padStart(2, '0');
+      document.getElementById('minutes').innerText = String(m).padStart(2, '0');
+      document.getElementById('seconds').innerText = String(s).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    function sharePage() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Anti-Drug Movement Marathon Run 2026',
+          text: 'Get ready for the biggest youth movement in Adoni! Coming Soon.',
+          url: window.location.href
+        });
+      } else {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          const btn = document.getElementById('shareBtn');
+          btn.innerText = 'Copied!';
+          setTimeout(() => { btn.innerText = 'Share'; }, 2000);
+        });
+      }
+    }
+  </script>
+</body>
+</html>

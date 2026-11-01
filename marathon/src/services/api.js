@@ -343,4 +343,10 @@ export const videoService = {
   getVideos: () => api.get('/videos'),
 };
 
+export const marathonSiteSettingsService = {
+  getStatus: () => api.get('/marathon-site-settings'),
+  updateStatus: (isLive) => api.put('/marathon-site-settings', { isLive }),
+  toggleStatus: () => api.post('/marathon-site-settings/toggle'),
+};
+
 export default api;

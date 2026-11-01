@@ -220,13 +220,13 @@ export const MythsVsFactsSection = ({ content }) => {
           {/* Previous Arrow Button */}
           <button
             type="button"
-            className="mvf-nav-btn"
+            className="mvf-nav-btn mvf-nav-btn-prev"
             onClick={handlePrev}
             disabled={currentIndex === 0}
             aria-label="Previous card"
             title="Previous card"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
           {/* Main Card Viewport */}
@@ -237,7 +237,7 @@ export const MythsVsFactsSection = ({ content }) => {
           >
             <div
               key={currentCard.id}
-              className={`mvf-card-inner ${
+              className={`mvf-card-inner ${currentCard.type === 'intro' ? 'is-intro-inner' : ''} ${
                 slideDirection === 'next' ? 'mvf-slide-enter-next' : 'mvf-slide-enter-prev'
               }`}
             >
@@ -261,6 +261,11 @@ export const MythsVsFactsSection = ({ content }) => {
                     alt="Myth Busters - Anti-Drug Awareness Campaign"
                     className="mvf-intro-cover-img"
                   />
+                  {/* Floating counter badge on intro card */}
+                  <div className="mvf-intro-counter-badge">
+                    <span>{formattedCounter}</span>
+                  </div>
+
                   <div className="mvf-intro-image-overlay">
                     <button
                       type="button"
@@ -337,28 +342,30 @@ export const MythsVsFactsSection = ({ content }) => {
                 </div>
               )}
 
-              {/* Card Footer: Counter & Metadata */}
-              <div className="mvf-card-footer">
-                <span className="mvf-card-category">
-                  {currentCard.type === 'intro' ? '' : `Myth & Fact #${currentIndex}`}
-                </span>
-                <span className="mvf-counter" aria-live="polite">
-                  {formattedCounter}
-                </span>
-              </div>
+              {/* Card Footer: Counter & Metadata (Rendered only on content cards) */}
+              {currentCard.type !== 'intro' && (
+                <div className="mvf-card-footer">
+                  <span className="mvf-card-category">
+                    Myth & Fact #{currentIndex}
+                  </span>
+                  <span className="mvf-counter" aria-live="polite">
+                    {formattedCounter}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
           {/* Next Arrow Button */}
           <button
             type="button"
-            className="mvf-nav-btn"
+            className="mvf-nav-btn mvf-nav-btn-next"
             onClick={handleNext}
             disabled={currentIndex === totalCards - 1}
             aria-label="Next card"
             title="Next card"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
 

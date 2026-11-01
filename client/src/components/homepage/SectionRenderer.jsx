@@ -16,6 +16,7 @@ import {
   HelpCircle,
   ChevronDown,
   Sparkles,
+  ExternalLink,
 } from 'lucide-react';
 
 export const SectionRenderer = ({ section, eventConfig, banners, activities, faqs }) => {
@@ -80,14 +81,17 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                     <span>Sunday, 20 December 2026</span>
                   </div>
                   <div className="h-4 w-px bg-[var(--border-color)] hidden sm:block" />
-                  <Link
-                    to="/register#marathon-map"
+                  <a
+                    href="https://maps.app.goo.gl/aBVcfaNbbFJTNvmX9?g_st=aw"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center gap-2 text-decoration-none text-[var(--text-primary)] hover:text-[var(--orange)] transition-colors cursor-pointer group"
-                    title="Click to view Marathon Route Map"
+                    title="Click to view Marathon Route Map in Google Maps"
                   >
                     <MapPin className="w-4 h-4 text-[var(--cyan)] group-hover:scale-110 transition-transform shrink-0" />
                     <span className="underline decoration-dotted underline-offset-4 font-extrabold">Route of Marathon</span>
-                  </Link>
+                    <ExternalLink className="w-3.5 h-3.5 text-[var(--orange)] shrink-0" />
+                  </a>
                 </div>
 
                 {/* Primary & Secondary Buttons */}
@@ -378,24 +382,24 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
 
 export const QuoteBanner = () => {
   return (
-    <section className="relative overflow-hidden min-h-[100px] sm:min-h-[120px] flex items-center justify-center px-4 sm:px-8 lg:px-12 py-6 sm:py-7 text-white bg-[#07162D] border-y border-slate-800/80 shadow-xl">
+    <section className="relative overflow-hidden min-h-[90px] sm:min-h-[110px] flex items-center justify-center px-4 sm:px-6 lg:px-12 py-5 sm:py-6 text-white bg-[#07162D] border-y border-slate-800/80 shadow-xl">
       {/* Background Road Image with Dark Blue Tint */}
       <div
-        className="absolute inset-0 bg-cover bg-center pointer-events-none opacity-30 mix-blend-luminosity"
+        className="absolute inset-0 bg-cover bg-center pointer-events-none opacity-25 mix-blend-luminosity"
         style={{
           backgroundImage: "url('/assets/sunset-road.jpg')",
           backgroundPosition: "center 60%",
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#07162D]/95 via-[#07162D]/90 to-[#07162D]/85 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#07162D]/95 via-[#07162D]/90 to-[#07162D]/95 pointer-events-none" />
 
-      {/* Quote Content - Centered in one clean line, italic, size 28 */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto text-center">
-        <p className="font-serif italic text-base sm:text-xl md:text-2xl lg:text-[28px] text-white font-medium leading-relaxed mb-2 whitespace-nowrap overflow-x-auto">
-          <span className="font-serif not-italic text-[#FFD12D] text-xl sm:text-2xl md:text-3xl lg:text-[34px] mr-1 select-none">“</span>
-          The youth are not useless , they are used less. The youth are not careless , they are cared less.”
+      {/* Quote Content - Fully Responsive typography, natural line wrapping, zero overflow */}
+      <div className="relative z-10 w-full max-w-4xl mx-auto text-center px-2">
+        <p className="font-serif italic text-sm sm:text-base md:text-xl lg:text-2xl text-white font-medium leading-relaxed mb-2 sm:mb-2.5">
+          <span className="font-serif not-italic text-[#FFD12D] text-lg sm:text-2xl md:text-3xl mr-1 select-none">“</span>
+          The youth are not useless, they are used less. The youth are not careless, they are cared less.”
         </p>
-        <small className="block font-sans not-italic text-xs sm:text-sm text-[#F6D9BA] font-semibold tracking-wider uppercase">
+        <small className="inline-block font-sans not-italic text-[11px] sm:text-xs md:text-sm text-[#F6D9BA] font-bold tracking-widest uppercase">
           - Swami Chinmayananda
         </small>
       </div>

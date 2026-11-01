@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { formatPhoneInput, getCleanPhoneNumber } from '../../utils/phoneUtils';
 import { calculateAgeFromDob } from '../../utils/dateUtils';
@@ -26,8 +27,10 @@ export const RegistrationAuthModal = ({
   initialMode = 'signup',
   prefill = {},
   onAuthSuccess,
-  pendingAction = 'INDIVIDUAL', // 'INDIVIDUAL' | 'BULK'
+  pendingAction = 'REGISTER_NOW', // 'REGISTER_NOW' | 'INDIVIDUAL' | 'BULK'
+  redirectUrl = '/register',
 }) => {
+  const navigate = useNavigate();
   const { login, signup } = useAuth();
   const [mode, setMode] = useState(initialMode); // 'signup' | 'login'
 
@@ -174,6 +177,8 @@ export const RegistrationAuthModal = ({
       if (res.success) {
         if (onAuthSuccess) {
           await onAuthSuccess(res.user);
+        } else if (redirectUrl) {
+          navigate(redirectUrl);
         }
         onClose();
       } else {
@@ -204,6 +209,8 @@ export const RegistrationAuthModal = ({
       if (res.success) {
         if (onAuthSuccess) {
           await onAuthSuccess(res.user);
+        } else if (redirectUrl) {
+          navigate(redirectUrl);
         }
         onClose();
       } else {
@@ -243,17 +250,19 @@ export const RegistrationAuthModal = ({
         <div className="text-center space-y-1.5 mb-5 relative z-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-[var(--orange)]/15 text-[var(--orange)] border border-[var(--orange)]/30">
             <Sparkles className="w-3 h-3" />
-            <span>Almost Done!</span>
+            <span>Anti-Drug Movement Marathon 2026</span>
           </div>
 
           <h3 className="text-xl sm:text-2xl font-black font-heading text-[var(--text-primary)] tracking-tight">
-            {mode === 'signup' ? 'Create Account & Submit' : 'Sign In & Submit'}
+            {mode === 'signup' ? 'Create Account & Register' : 'Sign In & Register'}
           </h3>
 
           <p className="text-xs text-[var(--text-muted)] font-medium max-w-xs mx-auto">
             {pendingAction === 'BULK'
               ? 'Sign in or create an account to finalize your School/College batch registration'
-              : 'Sign in or create an account to finalize your registration and link your official entry pass'}
+              : mode === 'signup'
+              ? 'New participant? Create your account in 30 seconds to proceed with marathon registration.'
+              : 'Already have an account? Sign in with your phone and password to register.'}
           </p>
         </div>
 

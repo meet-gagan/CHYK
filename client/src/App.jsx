@@ -35,7 +35,7 @@ import { AdminLoginPage } from './pages/AdminLoginPage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
 
 const MARATHON_PORTAL_URL =
-  import.meta.env.VITE_MARATHON_URL || 'https://marathon-chinmaya-mission-adoni.vercel.app/';
+  import.meta.env.VITE_MARATHON_URL || 'https://marathon.chinmayamissionadoni.org';
 
 function MarathonPortalRedirect({ path = '' }) {
   useEffect(() => {
@@ -199,6 +199,9 @@ export function App() {
 
               {/* Marathon portal redirects (marathon is hosted separately) */}
               <Route path="/register" element={<MarathonPortalRedirect path="/register" />} />
+              <Route path="/route-map" element={<MarathonPortalRedirect path="/route-map" />} />
+              <Route path="/route" element={<MarathonPortalRedirect path="/route-map" />} />
+              <Route path="/marathon-map" element={<MarathonPortalRedirect path="/route-map" />} />
               <Route path="/your-thoughts" element={<MarathonPortalRedirect path="/your-thoughts" />} />
               <Route path="/story-board" element={<MarathonPortalRedirect path="/your-thoughts" />} />
               <Route path="/storyboard" element={<MarathonPortalRedirect path="/your-thoughts" />} />

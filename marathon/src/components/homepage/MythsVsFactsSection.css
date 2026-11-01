@@ -77,12 +77,17 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.25rem;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .mvf-slider-wrapper {
-    gap: 0.5rem;
+    position: relative;
+    gap: 0;
+    max-width: 100%;
   }
 }
 
@@ -102,7 +107,7 @@
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
-  z-index: 10;
+  z-index: 20;
 }
 
 .mvf-nav-btn:hover:not(:disabled) {
@@ -126,8 +131,23 @@
 
 @media (max-width: 640px) {
   .mvf-nav-btn {
-    width: 2.5rem;
-    height: 2.5rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.35rem;
+    height: 2.35rem;
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    border: 1.5px solid rgba(7, 22, 45, 0.15);
+  }
+
+  .mvf-nav-btn-prev {
+    left: 0.5rem;
+  }
+
+  .mvf-nav-btn-next {
+    right: 0.5rem;
   }
 }
 
@@ -135,6 +155,7 @@
 .mvf-card-viewport {
   flex: 1 1 0%;
   min-width: 0;
+  width: 100%;
   overflow: hidden;
   border-radius: 1.75rem;
   background: #FFFFFF;
@@ -143,21 +164,37 @@
   position: relative;
 }
 
+@media (max-width: 640px) {
+  .mvf-card-viewport {
+    border-radius: 1.5rem;
+  }
+}
+
 /* Card Animation Wrapper */
 .mvf-card-inner {
   width: 100%;
-  min-height: 420px;
+  min-height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 2.5rem 2.25rem 2rem;
+  padding: 2.25rem 2rem 1.75rem;
   transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mvf-card-inner.is-intro-inner {
+  padding: 0 !important;
+  min-height: unset;
+  justify-content: center;
 }
 
 @media (max-width: 640px) {
   .mvf-card-inner {
-    padding: 1.75rem 1.25rem 1.5rem;
-    min-height: 440px;
+    padding: 1.25rem 1rem 1.25rem;
+    min-height: 380px;
+  }
+  .mvf-card-inner.is-intro-inner {
+    padding: 0 !important;
+    min-height: unset;
   }
 }
 
@@ -223,7 +260,8 @@
   background: #07162D;
   overflow: hidden;
   border-radius: 1.75rem;
-  min-height: 440px;
+  width: 100%;
+  aspect-ratio: 4 / 5;
   max-height: 520px;
   cursor: pointer;
   box-shadow: 0 16px 40px -10px rgba(7, 22, 45, 0.45);
@@ -232,19 +270,43 @@
   justify-content: center;
 }
 
+@media (max-width: 640px) {
+  .mvf-intro-card-image {
+    aspect-ratio: 9 / 13;
+    min-height: 380px;
+    max-height: 480px;
+    border-radius: 1.5rem;
+  }
+}
+
 .mvf-intro-cover-img {
   width: 100%;
   height: 100%;
-  min-height: 440px;
-  max-height: 520px;
   object-fit: cover;
-  object-position: center;
+  object-position: center 20%;
   display: block;
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .mvf-intro-card-image:hover .mvf-intro-cover-img {
-  transform: scale(1.025);
+  transform: scale(1.02);
+}
+
+.mvf-intro-counter-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(7, 22, 45, 0.75);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
 }
 
 .mvf-intro-image-overlay {
@@ -252,12 +314,18 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 2rem 1.5rem 1.75rem;
-  background: linear-gradient(to top, rgba(7, 22, 45, 0.95) 0%, rgba(7, 22, 45, 0.65) 45%, transparent 100%);
+  padding: 2.5rem 1.25rem 1.75rem;
+  background: linear-gradient(to top, rgba(7, 22, 45, 0.98) 0%, rgba(7, 22, 45, 0.65) 55%, transparent 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
+}
+
+@media (max-width: 640px) {
+  .mvf-intro-image-overlay {
+    padding: 2rem 1rem 1.5rem;
+  }
 }
 
 .mvf-intro-glow {
@@ -386,6 +454,13 @@
 
 .mvf-intro-action-btn:active {
   transform: scale(0.97);
+}
+
+@media (max-width: 640px) {
+  .mvf-intro-action-btn {
+    padding: 0.75rem 1.6rem;
+    font-size: 0.85rem;
+  }
 }
 
 /* Content Cards (Cards 2 - 16) */

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import { CountdownTimer } from '../CountdownTimer';
 import { TransformationSection } from '../TransformationSection';
 import {
@@ -16,12 +17,31 @@ import {
   HelpCircle,
   ChevronDown,
   Sparkles,
+  ExternalLink,
 } from 'lucide-react';
 
-const MAIN_SITE_URL = import.meta.env.VITE_MAIN_SITE_URL || 'https://chinmaya-mission-adoni-nine.vercel.app';
+const MAIN_SITE_URL = import.meta.env.VITE_MAIN_SITE_URL || 'https://chinmayamissionadoni.org';
 
 export const SectionRenderer = ({ section, eventConfig, banners, activities, faqs }) => {
   const [openFaq, setOpenFaq] = useState(null);
+  const { isUserAuthenticated, openAuthModal } = useAuth();
+  const navigate = useNavigate();
+
+  const handleRegisterClick = (e, targetLink) => {
+    const link = targetLink || '/register';
+    if (link === '/register') {
+      if (e) e.preventDefault();
+      if (!isUserAuthenticated) {
+        openAuthModal('signup', '/register');
+      } else {
+        navigate('/register');
+      }
+    } else if (link.startsWith('http')) {
+      window.location.href = link;
+    } else {
+      navigate(link);
+    }
+  };
 
   if (!section || !section.isEnabled) return null;
 
@@ -81,26 +101,30 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                     <span>Sunday, 20 December 2026</span>
                   </div>
                   <div className="h-4 w-px bg-[var(--border-color)] hidden sm:block" />
-                  <Link
-                    to="/register#marathon-map"
+                  <a
+                    href="https://maps.app.goo.gl/aBVcfaNbbFJTNvmX9?g_st=aw"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="flex items-center gap-2 text-decoration-none text-[var(--text-primary)] hover:text-[var(--orange)] transition-colors cursor-pointer group"
-                    title="Click to view Marathon Route Map"
+                    title="Click to view Marathon Route Map in Google Maps"
                   >
                     <MapPin className="w-4 h-4 text-[var(--cyan)] group-hover:scale-110 transition-transform shrink-0" />
                     <span className="underline decoration-dotted underline-offset-4 font-extrabold">Route of Marathon</span>
-                  </Link>
+                    <ExternalLink className="w-3.5 h-3.5 text-[var(--orange)] shrink-0" />
+                  </a>
                 </div>
 
                 {/* Primary & Secondary Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-1 w-full sm:w-auto mx-auto lg:mx-0">
                   {section.primaryButtonText && (
-                    <Link
-                      to={section.primaryButtonLink || '/register'}
-                      className="btn-primary text-xs sm:text-sm py-3 sm:py-3.5 px-6 sm:px-7 text-decoration-none shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto justify-center"
+                    <button
+                      type="button"
+                      onClick={(e) => handleRegisterClick(e, section.primaryButtonLink)}
+                      className="btn-primary text-xs sm:text-sm py-3 sm:py-3.5 px-6 sm:px-7 shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto justify-center cursor-pointer"
                     >
                       <Award className="w-4 h-4 shrink-0" />
                       <span>{section.primaryButtonText}</span>
-                    </Link>
+                    </button>
                   )}
                   {section.secondaryButtonText && (
                     <a
@@ -267,9 +291,14 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
           {(section.primaryButtonText || section.secondaryButtonText) && (
             <div className="flex justify-center gap-4 pt-4">
               {section.primaryButtonText && (
-                <Link to={section.primaryButtonLink || '/register'} className="btn-primary py-3 px-6 text-xs text-decoration-none">
-                  {section.primaryButtonText}
-                </Link>
+                <button
+                  type="button"
+                  onClick={(e) => handleRegisterClick(e, section.primaryButtonLink)}
+                  className="btn-primary py-3 px-6 text-xs text-decoration-none cursor-pointer flex items-center gap-1.5"
+                >
+                  <Award className="w-4 h-4 shrink-0" />
+                  <span>{section.primaryButtonText}</span>
+                </button>
               )}
               {section.secondaryButtonText && (
                 <Link to={section.secondaryButtonLink || '/about'} className="btn-secondary py-3 px-6 text-xs text-decoration-none">
@@ -286,28 +315,35 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
 export const QuoteBanner = ({ content }) => {
   if (content?._isEnabled === false) return null;
 
-  const quoteText = content?.quoteText || 'The youth are not useless , they are used less. The youth are not careless , they are cared less.';
+  const rawQuote =
+    content?.quoteText ||
+    'The youth are not useless , they are used less. The youth are not careless , they are cared less.';
+  // Clean up punctuation (remove spaces before commas)
+  const quoteText = rawQuote
+    .replace(/\s+,/g, ',')
+    .replace(/^["“]|["”]$/g, '')
+    .trim();
   const quoteAuthor = content?.quoteAuthor || '- Swami Chinmayananda';
 
   return (
-    <section className="relative overflow-hidden min-h-[100px] sm:min-h-[120px] flex items-center justify-center px-4 sm:px-8 lg:px-12 py-6 sm:py-7 text-white bg-[#07162D] border-y border-slate-800/80 shadow-xl">
+    <section className="relative overflow-hidden min-h-[90px] sm:min-h-[110px] flex items-center justify-center px-4 sm:px-6 lg:px-12 py-5 sm:py-6 text-white bg-[#07162D] border-y border-slate-800/80 shadow-xl">
       {/* Background Road Image with Dark Blue Tint */}
       <div
-        className="absolute inset-0 bg-cover bg-center pointer-events-none opacity-30 mix-blend-luminosity"
+        className="absolute inset-0 bg-cover bg-center pointer-events-none opacity-25 mix-blend-luminosity"
         style={{
           backgroundImage: "url('/assets/sunset-road.jpg')",
           backgroundPosition: "center 60%",
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#07162D]/95 via-[#07162D]/90 to-[#07162D]/85 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#07162D]/95 via-[#07162D]/90 to-[#07162D]/95 pointer-events-none" />
 
-      {/* Quote Content - Centered in one clean line, italic, size 28 */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto text-center">
-        <p className="font-serif italic text-base sm:text-xl md:text-2xl lg:text-[28px] text-white font-medium leading-relaxed mb-2 whitespace-nowrap overflow-x-auto">
-          <span className="font-serif not-italic text-[#FFD12D] text-xl sm:text-2xl md:text-3xl lg:text-[34px] mr-1 select-none">“</span>
-          {quoteText.replace(/^["“]|["”]$/g, '').trim()}”
+      {/* Quote Content - Fully Responsive typography, natural line wrapping, zero overflow */}
+      <div className="relative z-10 w-full max-w-4xl mx-auto text-center px-2">
+        <p className="font-serif italic text-sm sm:text-base md:text-xl lg:text-2xl text-white font-medium leading-relaxed mb-2 sm:mb-2.5">
+          <span className="font-serif not-italic text-[#FFD12D] text-lg sm:text-2xl md:text-3xl mr-1 select-none">“</span>
+          {quoteText}”
         </p>
-        <small className="block font-sans not-italic text-xs sm:text-sm text-[#F6D9BA] font-semibold tracking-wider uppercase">
+        <small className="inline-block font-sans not-italic text-[11px] sm:text-xs md:text-sm text-[#F6D9BA] font-bold tracking-widest uppercase">
           {quoteAuthor}
         </small>
       </div>

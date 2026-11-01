@@ -17,9 +17,17 @@ import { VerifyPassPage } from './pages/VerifyPassPage';
 import { FaqPage } from './pages/FaqPage';
 import { YourThoughtsPage } from './pages/YourThoughtsPage';
 import { VideosPage } from './pages/VideosPage';
+import { RouteMapPage } from './pages/RouteMapPage';
+import { MarathonComingSoonPage } from './pages/MarathonComingSoonPage';
+import { MarathonSiteSettingsProvider } from './context/MarathonSiteSettingsContext';
+import { MarathonSiteAccessGate } from './components/MarathonSiteAccessGate';
+import { useAuth } from './context/AuthContext';
+import { RegistrationAuthModal } from './components/auth/RegistrationAuthModal';
 
 // Marathon Layout containing Marathon Navbar and Footer
 function MarathonLayout() {
+  const { authModalState, closeAuthModal } = useAuth();
+
   return (
     <div className="min-h-screen flex flex-col justify-between selection:bg-[var(--orange)] selection:text-white w-full max-w-full overflow-x-hidden">
       <Navbar />
@@ -27,6 +35,17 @@ function MarathonLayout() {
         <Outlet />
       </main>
       <Footer />
+
+      {/* Global Registration Auth Modal (Asks Sign Up or Login when clicking Register Now) */}
+      <RegistrationAuthModal
+        isOpen={Boolean(authModalState?.isOpen)}
+        onClose={closeAuthModal}
+        initialMode={authModalState?.mode || 'signup'}
+        prefill={authModalState?.prefill || {}}
+        onAuthSuccess={authModalState?.onAuthSuccess}
+        pendingAction={authModalState?.pendingAction || 'REGISTER_NOW'}
+        redirectUrl={authModalState?.redirectUrl || '/register'}
+      />
     </div>
   );
 }
@@ -50,12 +69,20 @@ export function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <Router>
-          <ScrollToTop />
-          <Routes>
-            <Route element={<MarathonLayout />}>
-              {/* Marathon Landing Page */}
-              <Route path="/" element={<HomePage />} />
+        <MarathonSiteSettingsProvider>
+          <Router>
+            <ScrollToTop />
+            <MarathonSiteAccessGate>
+              <Routes>
+                {/* Standalone Coming Soon / Launch Routes */}
+                <Route path="/coming-soon" element={<MarathonComingSoonPage />} />
+                <Route path="/comming-soon" element={<MarathonComingSoonPage />} />
+                <Route path="/launch" element={<MarathonComingSoonPage />} />
+                <Route path="/teaser" element={<MarathonComingSoonPage />} />
+
+                <Route element={<MarathonLayout />}>
+                  {/* Marathon Landing Page */}
+                  <Route path="/" element={<HomePage />} />
 
               {/* Dedicated FAQs Page with Ask Your FAQ doubt submission */}
               <Route path="/faqs" element={<FaqPage />} />
@@ -69,7 +96,12 @@ export function App() {
               <Route path="/story-board" element={<YourThoughtsPage />} />
               <Route path="/storyboard" element={<YourThoughtsPage />} />
 
-              {/* Marathon Registration Page (Open to all visitors - auth required on submit) */}
+              {/* Dedicated Route Map Page (Public - No signup/login required to view) */}
+              <Route path="/route-map" element={<RouteMapPage />} />
+              <Route path="/route" element={<RouteMapPage />} />
+              <Route path="/marathon-map" element={<RouteMapPage />} />
+
+              {/* Marathon Registration Page */}
               <Route path="/register" element={<RegistrationPage />} />
 
               {/* Authentication Routes */}
@@ -110,9 +142,11 @@ export function App() {
             {/* Catch-all Redirect */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </Router>
-      </AuthProvider>
-    </ThemeProvider>
+        </MarathonSiteAccessGate>
+      </Router>
+    </MarathonSiteSettingsProvider>
+  </AuthProvider>
+</ThemeProvider>
   );
 }
 

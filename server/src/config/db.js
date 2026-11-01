@@ -38,6 +38,23 @@ export const connectDB = async () => {
       // Ignore if collection doesn't exist yet or index is already absent
     }
 
+    // Ensure marathonsitesettings document exists in DB
+    try {
+      const marathonCol = conn.connection.collection('marathonsitesettings');
+      const existing = await marathonCol.findOne({ key: 'marathon' });
+      if (!existing) {
+        await marathonCol.insertOne({
+          key: 'marathon',
+          isLive: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+        console.log('[MongoDB] Initialized marathonsitesettings collection (isLive: true).');
+      }
+    } catch (mErr) {
+      // Ignore if collection error
+    }
+
     return true;
   } catch (error) {
     console.error(`[MongoDB Connection Error]: ${error.message}`);

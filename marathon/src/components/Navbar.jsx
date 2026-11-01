@@ -22,11 +22,21 @@ export const Navbar = () => {
     logoutUser,
     logout,
     isUserAuthenticated,
+    openAuthModal,
   } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
+  const handleRegisterClick = (e) => {
+    if (e) e.preventDefault();
+    if (!isUserAuthenticated) {
+      openAuthModal('signup', '/register');
+    } else {
+      navigate('/register');
+    }
+  };
 
   // Close dropdown and drawer on route change
   useEffect(() => {
@@ -36,9 +46,9 @@ export const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Videos', path: '/videos' },
-    { name: 'FAQs', path: '/faqs' },
     { name: 'Your Thoughts', path: '/your-thoughts' },
+    { name: 'FAQs', path: '/faqs' },
+    { name: 'Videos', path: '/videos' },
   ];
 
   const isActive = (path) => {
@@ -100,13 +110,14 @@ export const Navbar = () => {
             {/* Desktop Actions */}
             <div className="hidden md:flex items-center gap-3">
               {/* Registration CTA */}
-              <Link
-                to="/register"
-                className="btn-primary text-decoration-none py-2 px-4 text-xs font-extrabold shadow-md flex items-center gap-1.5 hover:scale-[1.02] transition-transform"
+              <button
+                type="button"
+                onClick={handleRegisterClick}
+                className="btn-primary py-2 px-4 text-xs font-extrabold shadow-md flex items-center gap-1.5 hover:scale-[1.02] transition-transform cursor-pointer"
               >
                 <Award className="w-4 h-4" />
                 <span>REGISTER NOW</span>
-              </Link>
+              </button>
 
               {/* Logged in User Dropdown */}
               {isUserAuthenticated && normalUser ? (
@@ -332,14 +343,17 @@ export const Navbar = () => {
 
           {/* Mobile Bottom CTAs */}
           <div className="pt-3 border-t border-[var(--border-color)] flex flex-col gap-2.5">
-            <Link
-              to="/register"
-              onClick={() => setMobileMenuOpen(false)}
-              className="btn-primary w-full justify-center text-decoration-none py-3 font-extrabold text-xs flex items-center gap-2"
+            <button
+              type="button"
+              onClick={(e) => {
+                setMobileMenuOpen(false);
+                handleRegisterClick(e);
+              }}
+              className="btn-primary w-full justify-center py-3 font-extrabold text-xs flex items-center gap-2 cursor-pointer"
             >
               <Award className="w-4 h-4" />
               <span>REGISTER FOR MARATHON</span>
-            </Link>
+            </button>
 
             {isUserAuthenticated && (
               <button

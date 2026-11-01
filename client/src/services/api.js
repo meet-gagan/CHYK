@@ -2,11 +2,15 @@ import axios from 'axios';
 
 const normalizeApiBaseUrl = (rawUrl) => {
   let url = (rawUrl || '').trim();
+  // If hosted on vercel.app or netlify, automatically target the active Render production API
+  if (typeof window !== 'undefined' && (window.location.hostname.includes('vercel.app') || window.location.hostname.includes('netlify.app'))) {
+    if (!url || url === '/api' || url.includes('localhost') || url.includes('127.0.0.1') || url === 'https://chinmaya-mission-adoni.onrender.com/api') {
+      return 'https://chinmaya-mission-adoni-1ofh.onrender.com/api';
+    }
+  }
   if (!url) return '/api';
-  // When running in production with Express serving the frontend,
-  // ensure requests target the same origin rather than hardcoded localhost
-  if (import.meta.env.PROD && (url.includes('localhost') || url.includes('127.0.0.1'))) {
-    return '/api';
+  if (import.meta.env.PROD && (url.includes('localhost') || url.includes('127.0.0.1') || url === 'https://chinmaya-mission-adoni.onrender.com/api')) {
+    return 'https://chinmaya-mission-adoni-1ofh.onrender.com/api';
   }
   url = url.replace(/\/+$/, '');
   if (!url.endsWith('/api')) {
@@ -363,6 +367,12 @@ export const siteSettingsService = {
   getStatus: () => api.get('/site-settings'),
   updateStatus: (isLive) => api.put('/site-settings', { isLive }),
   toggleStatus: () => api.post('/site-settings/toggle'),
+};
+
+export const marathonSiteSettingsService = {
+  getStatus: () => api.get('/marathon-site-settings'),
+  updateStatus: (isLive) => api.put('/marathon-site-settings', { isLive }),
+  toggleStatus: () => api.post('/marathon-site-settings/toggle'),
 };
 
 export const videoService = {

@@ -41,6 +41,7 @@ import webContentRoutes from './routes/webContentRoutes.js';
 import volunteerRoutes from './routes/volunteerRoutes.js';
 import sevaBookingRoutes from './routes/sevaBookingRoutes.js';
 import siteSettingsRoutes from './routes/siteSettingsRoutes.js';
+import marathonSiteSettingsRoutes from './routes/marathonSiteSettingsRoutes.js';
 import videoRoutes from './routes/videoRoutes.js';
 
 const app = express();
@@ -164,6 +165,8 @@ const routes = [
   { path: 'videos', router: videoRoutes },
   { path: 'site-settings', router: siteSettingsRoutes },
   { path: 'site-status', router: siteSettingsRoutes },
+  { path: 'marathon-site-settings', router: marathonSiteSettingsRoutes },
+  { path: 'marathon-site-status', router: marathonSiteSettingsRoutes },
 ];
 
 routes.forEach(({ path: routePath, router }) => {

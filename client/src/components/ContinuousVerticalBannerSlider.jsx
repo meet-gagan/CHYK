@@ -1,7 +1,8 @@
-import React from 'react';
-import { Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Sparkles, X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 
 export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
+  const [activeModalIndex, setActiveModalIndex] = useState(null);
   // Default 7 poster visuals if backend banners are loading or empty
   const defaultPosters = [
     {
@@ -63,6 +64,38 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
   // Duplicate list to guarantee seamless infinite loop from right to left
   const duplicatedItems = [...itemsToDisplay, ...itemsToDisplay];
 
+  // Lock background scroll and listen for keyboard navigation when popup is open
+  useEffect(() => {
+    if (activeModalIndex !== null) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+
+      const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+          setActiveModalIndex(null);
+        } else if (e.key === 'ArrowLeft') {
+          setActiveModalIndex((prev) => (prev > 0 ? prev - 1 : itemsToDisplay.length - 1));
+        } else if (e.key === 'ArrowRight') {
+          setActiveModalIndex((prev) => (prev < itemsToDisplay.length - 1 ? prev + 1 : 0));
+        }
+      };
+
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = prevOverflow;
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [activeModalIndex, itemsToDisplay.length]);
+
+  const activeItem = activeModalIndex !== null ? itemsToDisplay[activeModalIndex] : null;
+  const activeCleanTag = activeItem
+    ? (activeItem.tag || activeItem.category || '')
+        .replace(/\bmarathon\b\s*/gi, '')
+        .replace(/\b2026\b/gi, '')
+        .trim()
+    : '';
+
   return (
     <div className="w-full overflow-hidden py-10 sm:py-14 bg-[var(--bg-dark-section)] relative border-y border-[var(--border-color)]">
       
@@ -89,10 +122,22 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
             .replace(/\b2026\b/gi, '')
             .trim();
 
+          const originalIndex = idx % itemsToDisplay.length;
+
           return (
             <div
               key={`${item._id || item.id || idx}-${idx}`}
-              className="w-64 sm:w-72 h-88 sm:h-96 flex-shrink-0 rounded-3xl overflow-hidden relative group border border-white/15 shadow-2xl transition-all duration-300 hover:scale-[1.02] bg-slate-900"
+              role="button"
+              tabIndex={0}
+              onClick={() => setActiveModalIndex(originalIndex)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setActiveModalIndex(originalIndex);
+                }
+              }}
+              title="Click to view full photo"
+              className="w-64 sm:w-72 h-88 sm:h-96 flex-shrink-0 rounded-3xl overflow-hidden relative group border border-white/15 shadow-2xl transition-all duration-300 hover:scale-[1.03] hover:border-[var(--orange)] hover:shadow-[0_0_30px_rgba(249,115,22,0.35)] cursor-pointer bg-slate-900 select-none"
             >
               <img
                 src={item.imageUrl}
@@ -100,6 +145,12 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter brightness-90 group-hover:brightness-100 block"
                 loading="lazy"
               />
+
+              {/* Hover Click to Enlarge Badge */}
+              <div className="absolute top-3.5 right-3.5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold flex items-center gap-1.5 shadow-lg z-10 pointer-events-none">
+                <ZoomIn className="w-3 h-3 text-[var(--orange)]" />
+                <span>Click to expand</span>
+              </div>
               
               {/* Poster Card Overlay Gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent p-5 sm:p-6 flex flex-col justify-end text-left space-y-2">
@@ -119,6 +170,101 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
           );
         })}
       </div>
+
+      {/* Lightbox Pop-up Modal for Full Image Display */}
+      {activeModalIndex !== null && activeItem && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setActiveModalIndex(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200"
+        >
+          {/* Modal Container */}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-4xl max-h-[92vh] flex flex-col items-center justify-between rounded-3xl bg-slate-950/95 border border-white/20 p-3 sm:p-5 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
+          >
+            {/* Top Bar: Counter & Close Button */}
+            <div className="w-full flex items-center justify-between gap-3 pb-3 mb-2 border-b border-white/10 px-2">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[var(--orange)] animate-pulse" />
+                <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+                  Photo Preview ({activeModalIndex + 1} of {itemsToDisplay.length})
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setActiveModalIndex(null)}
+                aria-label="Close image popup"
+                className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Main Image with Navigation Arrows */}
+            <div className="relative w-full flex items-center justify-center overflow-hidden my-auto py-2">
+              {/* Prev Button */}
+              {itemsToDisplay.length > 1 && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveModalIndex((prev) => (prev > 0 ? prev - 1 : itemsToDisplay.length - 1));
+                  }}
+                  aria-label="Previous photo"
+                  className="absolute left-2 sm:left-4 z-20 p-2 sm:p-3 rounded-full bg-black/60 hover:bg-black/90 text-white border border-white/20 transition-all hover:scale-110 cursor-pointer shadow-lg backdrop-blur-sm"
+                >
+                  <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+                </button>
+              )}
+
+              {/* Full Image */}
+              <div className="max-h-[66vh] sm:max-h-[72vh] flex items-center justify-center overflow-hidden rounded-2xl bg-black/50">
+                <img
+                  src={activeItem.imageUrl}
+                  alt={activeItem.title || 'Chinmaya Yuva Kendra'}
+                  className="max-h-[66vh] sm:max-h-[72vh] max-w-full object-contain rounded-2xl select-none shadow-2xl"
+                />
+              </div>
+
+              {/* Next Button */}
+              {itemsToDisplay.length > 1 && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActiveModalIndex((prev) => (prev < itemsToDisplay.length - 1 ? prev + 1 : 0));
+                  }}
+                  aria-label="Next photo"
+                  className="absolute right-2 sm:right-4 z-20 p-2 sm:p-3 rounded-full bg-black/60 hover:bg-black/90 text-white border border-white/20 transition-all hover:scale-110 cursor-pointer shadow-lg backdrop-blur-sm"
+                >
+                  <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                </button>
+              )}
+            </div>
+
+            {/* Bottom Caption & Tag */}
+            <div className="w-full pt-3 mt-2 border-t border-white/10 px-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+              <div className="text-left">
+                <h4 className="text-base sm:text-lg font-black text-white leading-snug">
+                  {activeItem.title}
+                </h4>
+                <p className="text-xs text-slate-400 font-medium">
+                  Chinmaya Yuva Kendra • Anti-Drug Movement 2026
+                </p>
+              </div>
+
+              {activeCleanTag && activeCleanTag.toLowerCase() !== 'banner' && (
+                <span className="px-3 py-1 rounded-full bg-[var(--orange)] text-white text-[10px] font-black uppercase tracking-wider shadow">
+                  {activeCleanTag}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

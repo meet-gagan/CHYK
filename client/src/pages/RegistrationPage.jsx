@@ -256,12 +256,12 @@ export const RegistrationPage = () => {
   // Download Sample Excel/CSV Template
   const downloadSampleTemplate = () => {
     const csvContent =
-      'Student Name,Age,Standard / Class,Parent\'s Phone Number,School / College,T-Shirt Size\n' +
-      'Dummy Name 1,13,8th,+91 9876543212,XYZ High School,S\n' +
-      'Dummy Name 2,14,9th,+91 9123456780,ABC Public School,M\n' +
-      'Dummy Name 3,15,10th,+91 9988776655,PQR High School,L\n' +
-      'Dummy Name 4,13,8th,+91 9012345678,Sunrise High School,S\n' +
-      'Dummy Name 5,14,9th,+91 9090909090,Green Valley School,M\n';
+      'Student Name,Age,Standard / Class,Parent\'s Phone Number,School / College\n' +
+      'Dummy Name 1,13,8th,9999999999,XYZ High School\n' +
+      'Dummy Name 2,14,9th,9999999999,ABC Public School\n' +
+      'Dummy Name 3,15,10th,9999999999,PQR High School\n' +
+      'Dummy Name 4,13,8th,9999999999,Sunrise High School\n' +
+      'Dummy Name 5,14,9th,9999999999,Green Valley School\n';
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);

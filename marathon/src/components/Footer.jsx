@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { footerService } from '../services/api';
 import { MapPin, Phone, Mail, Globe, ExternalLink, MessageSquare } from 'lucide-react';
 
-const MAIN_SITE_URL = import.meta.env.VITE_MAIN_SITE_URL || 'https://chinmaya-mission-adoni-nine.vercel.app';
+const MAIN_SITE_URL = import.meta.env.VITE_MAIN_SITE_URL || 'https://chinmayamissionadoni.org';
 
 // Official Platform Social Media Logos
 const YouTubeIcon = ({ className = "w-5 h-5" }) => (
@@ -81,14 +81,15 @@ const FALLBACK_FOOTER = {
     heading: 'QUICK NAVIGATION',
     links: [
       { label: 'Home', url: '/', openInNewTab: false, enabled: true, displayOrder: 1 },
-      { label: 'FAQs', url: '/faqs', openInNewTab: false, enabled: true, displayOrder: 2 },
-      { label: 'Your Thoughts & Stories', url: '/your-thoughts', openInNewTab: false, enabled: true, displayOrder: 3 },
+      { label: 'Route Map', url: 'https://maps.app.goo.gl/aBVcfaNbbFJTNvmX9?g_st=aw', openInNewTab: true, enabled: true, displayOrder: 2 },
+      { label: 'FAQs', url: '/faqs', openInNewTab: false, enabled: true, displayOrder: 3 },
+      { label: 'Your Thoughts & Stories', url: '/your-thoughts', openInNewTab: false, enabled: true, displayOrder: 4 },
       {
         label: 'Main Mission Site',
-        url: 'https://chinmaya-mission-adoni-nine.vercel.app',
+        url: 'https://chinmayamissionadoni.org',
         openInNewTab: true,
         enabled: true,
-        displayOrder: 4,
+        displayOrder: 5,
       },
     ],
   },

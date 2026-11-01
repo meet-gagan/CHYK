@@ -531,12 +531,12 @@ export const RegistrationPage = () => {
   // Download Sample Excel/CSV Template
   const downloadSampleTemplate = () => {
     const csvContent =
-      'Student Name,Age,Standard / Class,Parent\'s Phone Number,School / College,T-Shirt Size\n' +
-      'Dummy Name 1,13,8th,+91 9876543212,XYZ High School,S\n' +
-      'Dummy Name 2,14,9th,+91 9123456780,ABC Public School,M\n' +
-      'Dummy Name 3,15,10th,+91 9988776655,PQR High School,L\n' +
-      'Dummy Name 4,13,8th,+91 9012345678,Sunrise High School,S\n' +
-      'Dummy Name 5,14,9th,+91 9090909090,Green Valley School,M\n';
+      'Student Name,Age,Standard / Class,Parent\'s Phone Number,School / College\n' +
+      'Dummy Name 1,13,8th,9999999999,XYZ High School\n' +
+      'Dummy Name 2,14,9th,9999999999,ABC Public School\n' +
+      'Dummy Name 3,15,10th,9999999999,PQR High School\n' +
+      'Dummy Name 4,13,8th,9999999999,Sunrise High School\n' +
+      'Dummy Name 5,14,9th,9999999999,Green Valley School\n';
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -710,30 +710,28 @@ export const RegistrationPage = () => {
             </Link>
           </div>
         ) : (
-          <div className="p-3.5 sm:p-4 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-sm">
-            <div className="flex items-center gap-3 text-left">
-              <div className="w-9 h-9 rounded-full bg-[var(--orange)]/15 border border-[var(--orange)]/30 text-[var(--orange)] flex items-center justify-center font-black text-sm shrink-0">
-                <Sparkles className="w-4 h-4" />
+          <div className="p-4 sm:p-5 rounded-3xl bg-[var(--bg-secondary)] border-2 border-[var(--orange)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs shadow-lg">
+            <div className="flex items-center gap-3.5 text-left">
+              <div className="w-10 h-10 rounded-2xl bg-[var(--orange)]/15 border border-[var(--orange)]/30 text-[var(--orange)] flex items-center justify-center font-black text-sm shrink-0">
+                <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                <span className="font-bold text-[var(--text-primary)] block">Open Registration for All</span>
-                <span className="text-[var(--text-muted)] text-[11px] block">
-                  Fill in your details below. You can sign in or create an account when submitting.
+                <span className="font-extrabold text-[var(--text-primary)] text-sm block">
+                  Sign In or Sign Up Required to Register
                 </span>
+                <span className="text-[var(--text-muted)] text-xs block mt-0.5">
+                  Please create an account or sign in to complete your marathon registration and link your entry pass.
+                </span>
+                <Link
+                  to="/route-map"
+                  className="inline-flex items-center gap-1.5 text-[var(--cyan)] font-extrabold text-[11px] hover:underline mt-1.5 text-decoration-none"
+                >
+                  <MapPin className="w-3.5 h-3.5" />
+                  <span>Looking for the Route Map? View Course Map without signing in →</span>
+                </Link>
               </div>
             </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <button
-                type="button"
-                onClick={() => {
-                  setAuthModalMode('login');
-                  setPendingSubmitType(null);
-                  setAuthModalOpen(true);
-                }}
-                className="px-3.5 py-1.5 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] text-[var(--text-primary)] font-bold text-[11px] hover:border-[var(--orange)] transition-colors"
-              >
-                Sign In
-              </button>
+            <div className="flex items-center gap-2.5 shrink-0 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={() => {
@@ -741,9 +739,22 @@ export const RegistrationPage = () => {
                   setPendingSubmitType(null);
                   setAuthModalOpen(true);
                 }}
-                className="px-3.5 py-1.5 rounded-xl bg-[var(--orange)] text-white font-bold text-[11px] hover:opacity-90 transition-opacity"
+                className="btn-primary py-2.5 px-4 text-xs font-black shadow-md flex-1 sm:flex-initial justify-center cursor-pointer flex items-center"
               >
-                Sign Up
+                <UserPlus className="w-3.5 h-3.5 mr-1" />
+                <span>Sign Up</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthModalMode('login');
+                  setPendingSubmitType(null);
+                  setAuthModalOpen(true);
+                }}
+                className="btn-secondary py-2.5 px-4 text-xs font-black bg-[var(--bg-tertiary)] border border-[var(--border-color)] flex-1 sm:flex-initial justify-center cursor-pointer flex items-center"
+              >
+                <LogIn className="w-3.5 h-3.5 mr-1" />
+                <span>Log In</span>
               </button>
             </div>
           </div>
@@ -1504,7 +1515,7 @@ export const RegistrationPage = () => {
                 <div>
                   <h4 className="text-sm font-black text-[var(--text-primary)]">Spreadsheet File (.xlsx, .xls, .csv)</h4>
                   <p className="text-xs text-[var(--text-muted)] font-medium">
-                    Upload your filled student list with columns: Student Name, Age, Standard, Phone Number, T-Shirt Size
+                    Upload your filled student list with columns: Student Name, Age, Standard / Class, Parent's Phone Number, School / College
                   </p>
                 </div>
                 <button
