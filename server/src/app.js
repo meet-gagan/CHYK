@@ -53,11 +53,15 @@ app.set('trust proxy', 1);
 app.use(helmet({ crossOriginResourcePolicy: false }));
 
 // Merge env origins with hardcoded ones (sanitizing trailing slashes)
-const envOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(',').map((o) => o.trim().replace(/\/+$/, '')).filter(Boolean)
-  : [];
+const envOrigins = [
+  ...(process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(',').map((o) => o.trim().replace(/\/+$/, '')).filter(Boolean)
+    : []),
+  ...(process.env.CLIENT_URL ? [process.env.CLIENT_URL.trim().replace(/\/+$/, '')] : []),
+];
 
 const allowedOriginsSet = new Set([
+  'https://chyk.vercel.app',
   'https://chinmayamissionadoni.org',
   'https://www.chinmayamissionadoni.org',
   'https://marathon.chinmayamissionadoni.org',
@@ -78,7 +82,8 @@ const allowedOriginsSet = new Set([
 const vercelPreviewPattern = /^https:\/\/chinmaya-mission-adoni(-[a-z0-9]+)*\.vercel\.app$/;
 const vercelAdminPattern = /^https:\/\/chinmaya-mission-adoni-admin(-[a-z0-9]+)*\.vercel\.app$/;
 const vercelMarathonPattern = /^https:\/\/(chinmaya-)?marathon(-[a-z0-9]+)*\.vercel\.app$/;
-const netlifyPattern = /^https:\/\/.*(chinmaya|marathon).*\.netlify\.app$/;
+const vercelChykPattern = /^https:\/\/chyk(-[a-z0-9]+)*\.vercel\.app$/;
+const netlifyPattern = /^https:\/\/.*(chinmaya|marathon|chyk).*\.netlify\.app$/;
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -92,6 +97,7 @@ const corsOptions = {
       vercelPreviewPattern.test(sanitized) ||
       vercelAdminPattern.test(sanitized) ||
       vercelMarathonPattern.test(sanitized) ||
+      vercelChykPattern.test(sanitized) ||
       netlifyPattern.test(sanitized)
     ) {
       return callback(null, true);
