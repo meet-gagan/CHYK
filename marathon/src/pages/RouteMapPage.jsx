@@ -13,7 +13,6 @@ import {
   Droplet,
   Users,
   Flag,
-  HelpCircle,
 } from 'lucide-react';
 
 export const RouteMapPage = () => {
@@ -38,14 +37,6 @@ export const RouteMapPage = () => {
       {/* Hero Banner */}
       <section className="relative pt-8 pb-12 sm:pt-12 sm:pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-[var(--orange)]/10 via-[var(--bg-primary)] to-[var(--bg-primary)] border-b border-[var(--border-color)]">
         <div className="max-w-6xl mx-auto">
-          {/* Breadcrumb / Category Tag */}
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--cyan)]/15 border border-[var(--cyan)]/30 text-[var(--cyan)] text-xs font-black tracking-wider uppercase">
-              <span className="w-2 h-2 rounded-full bg-[var(--cyan)] animate-pulse" />
-              <span>Official 3.5KM Course Route • Adoni 2026</span>
-            </div>
-          </div>
-
           <div className="max-w-3xl">
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tight leading-tight text-[var(--text-primary)]">
               Anti-Drug Movement <span className="text-[var(--orange)]">Marathon Route Map</span>
@@ -53,12 +44,12 @@ export const RouteMapPage = () => {
             <p className="mt-3 sm:mt-4 text-sm sm:text-base text-[var(--text-muted)] leading-relaxed font-medium">
               Explore the certified 3.5 kilometer marathon route weaving through Adoni's prominent landmarks.
               Beginning from <strong>Municipal High School Grounds</strong> and triumphantly finishing at{' '}
-              <strong>Chinmaya Mission Complex</strong>. Publicly accessible to all participants and families!
+              <strong>Chinmaya Mission, Adoni</strong>. Publicly accessible to all participants and families!
             </p>
           </div>
 
           {/* Quick Stats Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-6 sm:mt-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6 sm:mt-8">
             <div className="p-3.5 sm:p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-sm">
               <div className="flex items-center gap-2 text-xs font-extrabold text-[var(--orange)] uppercase tracking-wider mb-1">
                 <Navigation className="w-4 h-4 shrink-0" />
@@ -95,35 +86,6 @@ export const RouteMapPage = () => {
               <p className="text-[11px] text-[var(--text-muted)] font-medium">Medals & Breakfast</p>
             </div>
           </div>
-
-          {/* Quick Actions Bar */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-6">
-            <a
-              href="https://maps.app.goo.gl/aBVcfaNbbFJTNvmX9?g_st=aw"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary py-3 px-6 sm:px-8 text-xs sm:text-sm font-extrabold shadow-lg hover:shadow-xl flex items-center gap-2 cursor-pointer transition-transform hover:scale-[1.02] text-decoration-none"
-            >
-              <Navigation className="w-4 h-4" />
-              <span>OPEN IN GOOGLE MAPS</span>
-            </a>
-
-            <button
-              onClick={handleRegisterClick}
-              className="py-3 px-5 sm:px-6 text-xs sm:text-sm font-extrabold rounded-2xl bg-[var(--cyan)] hover:bg-[var(--cyan)]/80 text-slate-950 flex items-center gap-2 cursor-pointer transition-transform hover:scale-[1.02] shadow-md border-0"
-            >
-              <Award className="w-4 h-4" />
-              <span>REGISTER NOW</span>
-            </button>
-
-            <Link
-              to="/faqs"
-              className="btn-secondary py-3 px-5 sm:px-6 text-xs sm:text-sm font-bold text-decoration-none bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[var(--orange)] transition-colors flex items-center gap-2"
-            >
-              <HelpCircle className="w-4 h-4 text-[var(--text-muted)]" />
-              <span>FAQs</span>
-            </Link>
-          </div>
         </div>
       </section>
 
@@ -146,7 +108,7 @@ export const RouteMapPage = () => {
               <div>
                 <strong className="block text-[var(--text-primary)] font-bold mb-0.5">Continuous Hydration</strong>
                 <p className="text-[var(--text-muted)] leading-relaxed">
-                  Drinking water bottles and electrolytes provided at every 1.5 KM along with waste bins.
+                  Drinking water bottles and electrolytes provided at every Designated Hydration Point
                 </p>
               </div>
             </div>
@@ -164,9 +126,9 @@ export const RouteMapPage = () => {
             <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-[var(--bg-tertiary)]/50 border border-[var(--border-color)]">
               <Users className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
               <div>
-                <strong className="block text-[var(--text-primary)] font-bold mb-0.5">100+ Route Marshals</strong>
+                <strong className="block text-[var(--text-primary)] font-bold mb-0.5">Route Marshals</strong>
                 <p className="text-[var(--text-muted)] leading-relaxed">
-                  Dedicated CYK volunteers and Adoni police officers ensuring zero-traffic running lanes.
+                  Dedicated CYK volunteers ensuring zero-traffic running lanes.
                 </p>
               </div>
             </div>
@@ -191,10 +153,10 @@ export const RouteMapPage = () => {
           <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 w-full sm:w-auto">
             <button
               onClick={handleRegisterClick}
-              className="btn-primary w-full sm:w-auto py-3.5 px-7 text-xs sm:text-sm font-extrabold shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer transition-transform hover:scale-105"
+              className="btn-primary w-full sm:w-auto py-3 px-6 text-xs sm:text-sm font-extrabold shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer transition-transform hover:scale-105 whitespace-nowrap"
             >
-              <Award className="w-4 h-4" />
-              <span>REGISTER NOW</span>
+              <Award className="w-4 h-4 shrink-0" />
+              <span className="whitespace-nowrap">REGISTER NOW</span>
             </button>
             <Link
               to="/"

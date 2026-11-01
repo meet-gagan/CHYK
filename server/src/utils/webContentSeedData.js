@@ -543,7 +543,7 @@ export const DEFAULT_WEBSITE_PAGES = {
             { key: 'addressLine1', label: 'Address Line 1', type: 'text', value: 'Chinmaya Cultural Complex,' },
             { key: 'addressLine2', label: 'Address Line 2', type: 'text', value: 'Near Arts College Road,' },
             { key: 'addressLine3', label: 'Address Line 3', type: 'text', value: 'Adoni - 518301.' },
-            { key: 'phone', label: 'Phone Number', type: 'text', value: '+91 98765 43210 / +91 85122 34567' },
+            { key: 'phone', label: 'Phone Number', type: 'text', value: '+91 8825611612 / +91 8111869368' },
             { key: 'email', label: 'Email Address', type: 'text', value: 'contact@chinmayamissionadoni.org' },
             { key: 'hours', label: 'Visiting Hours', type: 'text', value: 'Morning: 6:00 AM – 11:30 AM | Evening: 5:30 PM – 8:30 PM' },
           ],
@@ -781,7 +781,7 @@ export const DEFAULT_WEBSITE_PAGES = {
           isEnabled: true,
           fields: [
             { key: 'badge', label: 'Badge Text', type: 'text', value: 'Community Reflections & Voices' },
-            { key: 'heading', label: 'Section Title', type: 'text', value: 'Our Story Board' },
+            { key: 'heading', label: 'Section Title', type: 'text', value: 'Story Board' },
             { key: 'subtitle', label: 'Subtitle Description', type: 'textarea', value: 'Every step has a story. Share your thoughts and discover the words that inspire our community.' },
             { key: 'primaryBtnText', label: 'Primary Button Label', type: 'text', value: 'Write Your Thoughts' },
             { key: 'secondaryBtnText', label: 'Secondary Button Label', type: 'text', value: 'Explore the Story Board' },

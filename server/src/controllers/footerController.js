@@ -34,7 +34,7 @@ export const defaultFooterConfig = {
       state: 'Andhra Pradesh',
       country: 'India',
     },
-    phoneNumbers: ['+91 98765 43210', '+91 85122 34567'],
+    phoneNumbers: ['+91 8825611612', '+91 8111869368'],
     emails: ['contact@chinmayamissionadoni.org'],
     googleMapsUrl: '',
     whatsappNumber: '',

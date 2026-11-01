@@ -74,7 +74,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
     if (path.includes('/admin/event-config')) return 'EVENT_CONFIG';
     if (path.includes('/admin/banners')) return 'BANNERS';
     if (path.includes('/admin/marathon-images') || path.includes('/admin/marathon')) return 'MARATHON_IMAGES';
-    if (path.includes('/admin/videos') || path.includes('/admin/youtube')) return 'VIDEOS';
+    if (path.includes('/admin/videos') || path.includes('/admin/youtube') || path.includes('/admin/udaan')) return 'VIDEOS';
     if (path.includes('/admin/change-password')) return 'PASSWORD';
     if (path.includes('/admin/lets-connect')) return 'LETS_CONNECT';
     if (path.includes('/admin/volunteering')) return 'VOLUNTEERING';
@@ -471,7 +471,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
           { id: 'VOLUNTEERING', label: 'Volunteering', icon: HeartHandshake },
           { id: 'BOOKINGS', label: 'Bookings', icon: Landmark },
           { id: 'MARATHON_IMAGES', label: 'Marathon Images', icon: Flame },
-          { id: 'VIDEOS', label: 'Videos', icon: Video },
+          { id: 'VIDEOS', label: 'Udaan (Videos)', icon: Video },
           { id: 'IMAGES', label: 'Images & Media', icon: ImageIcon },
           { id: 'HOME_PAGE', label: 'Home Page CMS', icon: Layout },
           { id: 'FOOTER_CMS', label: 'Footer CMS', icon: Settings },

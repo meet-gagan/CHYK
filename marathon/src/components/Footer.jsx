@@ -75,7 +75,7 @@ const FALLBACK_FOOTER = {
   },
   initiativeBy: {
     heading: 'AN INITIATIVE BY',
-    text: 'Chinmaya Yuva Kendra, Adoni',
+    text: 'CHINMAYA YUVA KENDRA, ADONI',
   },
   quickNavigation: {
     heading: 'QUICK NAVIGATION',
@@ -85,7 +85,7 @@ const FALLBACK_FOOTER = {
       { label: 'FAQs', url: '/faqs', openInNewTab: false, enabled: true, displayOrder: 3 },
       { label: 'Your Thoughts & Stories', url: '/your-thoughts', openInNewTab: false, enabled: true, displayOrder: 4 },
       {
-        label: 'Main Mission Site',
+        label: 'Chinmaya Mission Site',
         url: 'https://chinmayamissionadoni.org',
         openInNewTab: true,
         enabled: true,
@@ -103,7 +103,7 @@ const FALLBACK_FOOTER = {
       state: 'Andhra Pradesh',
       country: 'India',
     },
-    phoneNumbers: ['+91 98765 43210', '+91 85122 34567'],
+    phoneNumbers: ['+91 8825611612', '+91 8111869368'],
     emails: ['contact@chinmayamissionadoni.org'],
     googleMapsUrl: '',
     whatsappNumber: '',
@@ -116,7 +116,7 @@ const FALLBACK_FOOTER = {
       '"To give maximum happiness to the maximum number of people for the maximum time is our motto." — Pujya Gurudev Swami Chinmayananda',
   },
   bottomFooter: {
-    copyrightText: '© Chinmaya Mission, Adoni.',
+    copyrightText: 'Copyright © Chinmaya Yuva Kendra Adoni | All Rights Reserved',
     privacyPolicy: { label: 'Privacy Policy', url: '/privacy' },
     termsConditions: { label: 'Terms & Conditions', url: '/terms' },
   },
@@ -207,16 +207,37 @@ export const Footer = ({ overrideData = null }) => {
 
   // Quick Navigation links for Marathon
   // Replace old main site links (About Us, Activities Gallery, What We Do, Let's Connect)
-  // with Home, FAQs, and Main Mission Site
-  const unwantedLabels = ['about us', 'activities gallery', 'what we do', "let's connect", 'lets connect'];
-  const unwantedUrls = ['/about', '/activities', '/what-we-do', '/lets-connect'];
+  // with Home, FAQs, and Chinmaya Mission Site
+  const unwantedLabels = [
+    'about us',
+    'activities gallery',
+    'what we do',
+    "let's connect",
+    'lets connect',
+    'events',
+    'chinmaya sanjeevaraya temple',
+    'shri shantamalleshwara swami',
+    'shri shantamalleshwara swami temple',
+    'sanjeevaraya',
+    'shantamalleshwara',
+    'malleshwara',
+  ];
+  const unwantedUrls = [
+    '/about',
+    '/activities',
+    '/what-we-do',
+    '/lets-connect',
+    '/events',
+    '/chinmaya-sanjeevaraya-temple',
+    '/shri-shantamalleshwara-swami-temple',
+  ];
 
   const defaultMarathonLinks = [
     { label: 'Home', url: '/', openInNewTab: false, enabled: true, displayOrder: 1 },
     { label: 'FAQs', url: '/faqs', openInNewTab: false, enabled: true, displayOrder: 2 },
     { label: 'Your Thoughts & Stories', url: '/your-thoughts', openInNewTab: false, enabled: true, displayOrder: 3 },
     {
-      label: 'Main Mission Site',
+      label: 'Chinmaya Mission Site',
       url: MAIN_SITE_URL,
       openInNewTab: true,
       enabled: true,
@@ -233,8 +254,8 @@ export const Footer = ({ overrideData = null }) => {
     return true;
   });
 
-  // Ensure Home, FAQs, Your Thoughts, and Main Mission Site are the quick navigation links
-  const navLinks = rawLinks.length === 0 || rawLinks.every((l) => ['home', 'faqs', 'your thoughts', 'your thoughts & stories', 'main mission site'].includes(l.label?.toLowerCase().trim()))
+  // Ensure Home, FAQs, Your Thoughts, and Chinmaya Mission Site are the quick navigation links
+  const navLinks = rawLinks.length === 0 || rawLinks.every((l) => ['home', 'faqs', 'your thoughts', 'your thoughts & stories', 'main mission site', 'chinmaya mission site'].includes(l.label?.toLowerCase().trim()))
     ? defaultMarathonLinks
     : [
         ...defaultMarathonLinks,
@@ -247,6 +268,7 @@ export const Footer = ({ overrideData = null }) => {
             l.label?.toLowerCase() !== 'home' &&
             l.label?.toLowerCase() !== 'faqs' &&
             !l.label?.toLowerCase().includes('thoughts') &&
+            !l.label?.toLowerCase().includes('mission site') &&
             !l.label?.toLowerCase().includes('main mission')
         ),
       ];
@@ -321,13 +343,19 @@ export const Footer = ({ overrideData = null }) => {
             </h4>
             <ul className="space-y-2 text-xs font-semibold list-none p-0">
               {navLinks.map((rawLink, idx) => {
+                const lowerLabel = (rawLink.label || '').toLowerCase().trim();
                 const isMainSite =
-                  (rawLink.label || '').toLowerCase().includes('main mission') ||
+                  lowerLabel.includes('main mission') ||
+                  lowerLabel.includes('chinmaya mission site') ||
                   (rawLink.url || '').toLowerCase().includes('chinmaya-mission-adoni') ||
                   (rawLink.url || '').toLowerCase().includes('localhost:5176');
+                const displayLabel =
+                  lowerLabel === 'main mission site' || lowerLabel.includes('main mission')
+                    ? 'Chinmaya Mission Site'
+                    : rawLink.label;
                 const link = isMainSite
-                  ? { ...rawLink, url: MAIN_SITE_URL, openInNewTab: true }
-                  : rawLink;
+                  ? { ...rawLink, label: displayLabel, url: MAIN_SITE_URL, openInNewTab: true }
+                  : { ...rawLink, label: displayLabel };
                 const isHighlight =
                   link.url === '/register' || link.label?.toLowerCase().includes('marathon');
                 return (
@@ -378,12 +406,19 @@ export const Footer = ({ overrideData = null }) => {
                 </div>
               </div>
 
-              {contact.phoneNumbers && contact.phoneNumbers.length > 0 && (
-                <p className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-cyan-400 flex-shrink-0" />
-                  <span>{contact.phoneNumbers.join(' / ')}</span>
-                </p>
-              )}
+              {(() => {
+                const rawPhones = contact.phoneNumbers || [];
+                const phonesToDisplay =
+                  rawPhones.length === 0 || rawPhones.some((p) => p.includes('98765') || p.includes('85122'))
+                    ? ['+91 8825611612', '+91 8111869368']
+                    : rawPhones;
+                return (
+                  <p className="flex items-center gap-2">
+                    <Phone className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                    <span>{phonesToDisplay.join(' / ')}</span>
+                  </p>
+                );
+              })()}
 
               {contact.emails && contact.emails.length > 0 && (
                 <p className="flex items-center gap-2">
@@ -459,8 +494,10 @@ export const Footer = ({ overrideData = null }) => {
             >
               {initiativeBy?.heading || 'AN INITIATIVE BY'}
             </h4>
-            <p className="text-white font-extrabold text-xs sm:text-sm leading-snug">
-              {initiativeBy?.text || 'Chinmaya Yuva Kendra, Adoni'}
+            <p className="text-white font-extrabold text-xs sm:text-sm leading-snug tracking-wider uppercase">
+              {initiativeBy?.text?.toUpperCase().includes('CHINMAYA YUVA KENDRA')
+                ? 'CHINMAYA YUVA KENDRA, ADONI'
+                : initiativeBy?.text || 'CHINMAYA YUVA KENDRA, ADONI'}
             </p>
           </div>
 
@@ -471,17 +508,19 @@ export const Footer = ({ overrideData = null }) => {
           style={{ borderColor: appearance?.dividerColor || 'rgba(255, 255, 255, 0.1)' }}
           className="pt-5 border-t flex flex-col sm:flex-row items-center justify-between text-xs opacity-75 gap-3"
         >
-          <p>{bottomFooter.copyrightText || '© Chinmaya Mission, Adoni.'}</p>
-          <div className="flex items-center gap-4">
-            {bottomFooter.privacyPolicy?.url && (
-              <Link to={bottomFooter.privacyPolicy.url} className="hover:text-white text-decoration-none">
-                {bottomFooter.privacyPolicy.label || 'Privacy Policy'}
-              </Link>
-            )}
-            <span>•</span>
+          <p>
+            {bottomFooter.copyrightText || 'Copyright © Chinmaya Yuva Kendra Adoni | All Rights Reserved'}
+          </p>
+          <div className="flex items-center gap-3">
             {bottomFooter.termsConditions?.url && (
               <Link to={bottomFooter.termsConditions.url} className="hover:text-white text-decoration-none">
                 {bottomFooter.termsConditions.label || 'Terms & Conditions'}
+              </Link>
+            )}
+            <span>|</span>
+            {bottomFooter.privacyPolicy?.url && (
+              <Link to={bottomFooter.privacyPolicy.url} className="hover:text-white text-decoration-none">
+                {bottomFooter.privacyPolicy.label || 'Privacy Policy'}
               </Link>
             )}
           </div>

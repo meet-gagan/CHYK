@@ -155,7 +155,7 @@ export const RegistrationPage = () => {
       }
     }
 
-    if (!indForm.agreeTerms) errs.agreeTerms = 'You must agree to the Terms & Conditions';
+    if (!indForm.agreeTerms) errs.agreeTerms = 'Please click on the Terms And Conditions to accept before submitting.';
 
     setIndErrors(errs);
     return Object.keys(errs).length === 0;
@@ -164,7 +164,12 @@ export const RegistrationPage = () => {
   // Submit Individual Registration
   const handleIndividualSubmit = async (e) => {
     e.preventDefault();
-    if (!validateIndividual()) return;
+    if (!validateIndividual()) {
+      if (!indForm.agreeTerms) {
+        document.getElementById('terms-checkbox-section')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return;
+    }
 
     setIndSubmitting(true);
     try {
@@ -639,26 +644,54 @@ export const RegistrationPage = () => {
             </div>
 
             {/* Terms & Conditions Checkbox */}
-            <div className="pt-2">
+            <div
+              id="terms-checkbox-section"
+              className={`pt-2 p-3 rounded-2xl transition-all duration-300 ${
+                indErrors.agreeTerms
+                  ? 'bg-red-500/10 border-2 border-red-500/50 shadow-sm'
+                  : 'bg-transparent border border-transparent'
+              }`}
+            >
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
                   type="checkbox"
                   disabled={!isRegistrationOpen}
                   checked={indForm.agreeTerms}
-                  onChange={(e) => setIndForm({ ...indForm, agreeTerms: e.target.checked })}
-                  className="w-5 h-5 mt-0.5 text-[var(--orange)] rounded accent-[var(--orange)]"
+                  onChange={(e) => {
+                    setIndForm({ ...indForm, agreeTerms: e.target.checked });
+                    if (e.target.checked && indErrors.agreeTerms) {
+                      setIndErrors((prev) => {
+                        const updated = { ...prev };
+                        delete updated.agreeTerms;
+                        return updated;
+                      });
+                    }
+                  }}
+                  className="w-5 h-5 mt-0.5 text-[var(--orange)] rounded accent-[var(--orange)] cursor-pointer"
                 />
                 <span className="text-xs text-[var(--text-muted)] font-semibold leading-relaxed">
-                  I hereby declare that I am physically fit to participate in the Anti-Drug Movement Marathon Run 2026. I agree to the event rules, terms and conditions.
+                  I hereby declare that I am physically fit to participate in the Anti-Drug Movement Marathon Run 2026. I agree to the event rules,{' '}
+                  <Link
+                    to="/terms"
+                    className="text-[var(--orange)] underline font-bold hover:text-[var(--orange)]/80"
+                    title="View Event Terms And Conditions"
+                  >
+                    Terms And Conditions
+                  </Link>.
                 </span>
               </label>
-              {indErrors.agreeTerms && <p className="text-xs text-red-500 font-bold mt-1">{indErrors.agreeTerms}</p>}
+              {indErrors.agreeTerms && (
+                <p className="text-xs text-red-500 font-bold mt-1.5 flex items-center gap-1.5">
+                  <span>⚠️</span>
+                  <span>{indErrors.agreeTerms}</span>
+                </p>
+              )}
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={!isRegistrationOpen || !indForm.agreeTerms || indSubmitting}
+              disabled={!isRegistrationOpen || indSubmitting}
               className="btn-primary w-full justify-center py-4 text-base shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Award className="w-5 h-5" />

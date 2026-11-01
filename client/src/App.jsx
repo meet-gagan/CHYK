@@ -21,6 +21,7 @@ import { SriShanthaMamleshwaraSwamiTemplePage } from './pages/SriShanthaMamleshw
 import { GalleryPage } from './pages/GalleryPage';
 import { SupportOurMissionPage } from './pages/SupportOurMissionPage';
 import { ComingSoonPage } from './pages/ComingSoonPage';
+import { TermsPage } from './pages/TermsPage';
 
 // Public Authentication Pages
 import { LoginPage } from './pages/LoginPage';
@@ -217,6 +218,17 @@ export function App() {
               <Route path="/your-thoughts" element={<MarathonPortalRedirect path="/your-thoughts" />} />
               <Route path="/story-board" element={<MarathonPortalRedirect path="/your-thoughts" />} />
               <Route path="/storyboard" element={<MarathonPortalRedirect path="/your-thoughts" />} />
+              <Route path="/udaan" element={<MarathonPortalRedirect path="/udaan" />} />
+              <Route path="/videos" element={<MarathonPortalRedirect path="/udaan" />} />
+              <Route path="/wellness-centers" element={<MarathonPortalRedirect path="/wellness-centers" />} />
+              <Route path="/wellness" element={<MarathonPortalRedirect path="/wellness-centers" />} />
+              <Route path="/about-the-marathon" element={<MarathonPortalRedirect path="/about" />} />
+              <Route path="/marathon-about" element={<MarathonPortalRedirect path="/about" />} />
+
+              {/* Terms and Conditions */}
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/terms-and-conditions" element={<TermsPage />} />
+              <Route path="/terms-conditions" element={<TermsPage />} />
             </Route>
 
             {/* Standalone Teaser / Coming Soon Page */}
@@ -319,6 +331,14 @@ export function App() {
             />
             <Route
               path="/admin/videos"
+              element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminDashboardPage defaultTab="VIDEOS" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/udaan"
               element={
                 <ProtectedRoute requireAdmin={true}>
                   <AdminDashboardPage defaultTab="VIDEOS" />

@@ -29,7 +29,7 @@ const DEFAULT_HOMEPAGE_SECTIONS = [
     primaryButtonLink: '/register',
     secondaryButtonText: 'EXPLORE THE MOVEMENT',
     secondaryButtonLink: '#about',
-    imageUrl: '/assets/images/hero-runners-graphic.png',
+    imageUrl: '/assets/images/hero-runners-chyk-2026.png',
     isEnabled: true,
     order: 1,
   },
@@ -300,18 +300,19 @@ export const HomePage = () => {
   const ctaUpdates = webContentData?.fieldsMap?.call_to_action;
 
   const rawSections = baseSections.map((s) => {
-    if (s.type === 'hero' && heroUpdates) {
+    if (s.type === 'hero') {
+      const heroConfig = heroUpdates || {};
       return {
         ...s,
-        title: heroUpdates.title || s.title,
-        subtitle: heroUpdates.subtitle || s.subtitle,
-        description: heroUpdates.description || s.description,
-        badgeText: heroUpdates.badgeText || s.badgeText,
-        primaryButtonText: heroUpdates.primaryButtonText || s.primaryButtonText,
-        primaryButtonLink: heroUpdates.primaryButtonLink || s.primaryButtonLink,
-        secondaryButtonText: heroUpdates.secondaryButtonText || s.secondaryButtonText,
-        secondaryButtonLink: heroUpdates.secondaryButtonLink || s.secondaryButtonLink,
-        imageUrl: heroUpdates.imageUrl || s.imageUrl,
+        title: heroConfig.title || s.title,
+        subtitle: heroConfig.subtitle || s.subtitle,
+        description: heroConfig.description || s.description,
+        badgeText: heroConfig.badgeText || s.badgeText,
+        primaryButtonText: heroConfig.primaryButtonText || s.primaryButtonText,
+        primaryButtonLink: heroConfig.primaryButtonLink || s.primaryButtonLink,
+        secondaryButtonText: heroConfig.secondaryButtonText || s.secondaryButtonText,
+        secondaryButtonLink: heroConfig.secondaryButtonLink || s.secondaryButtonLink,
+        imageUrl: '/assets/images/hero-runners-chyk-2026.png',
       };
     }
     if (s.type === 'marathon' && marathonUpdates) {

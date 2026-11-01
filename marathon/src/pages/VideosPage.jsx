@@ -36,6 +36,7 @@ export const VideosPage = () => {
   };
 
   useEffect(() => {
+    document.title = 'Udaan | Anti-Drug Movement Marathon Run 2026';
     fetchVideos();
   }, []);
 
@@ -113,9 +114,12 @@ export const VideosPage = () => {
             <Film className="w-3.5 h-3.5" />
             <span>Anti-Drug Movement Media</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading text-[var(--text-primary,#0B2340)] tracking-tight uppercase">
-            Videos
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading text-[var(--text-primary,#0B2340)] tracking-tight">
+            Udaan
           </h1>
+          <p className="text-base sm:text-lg lg:text-xl font-bold text-[var(--orange,#FF6600)] tracking-wide">
+            "Fly high; choose a meaningful life"
+          </p>
           <p className="text-xs sm:text-sm lg:text-base text-[var(--text-primary,#0B2340)]/75 font-medium leading-relaxed">
             Watch event highlights, inspirational messages, youth movements, and marathon stories
             from the Anti-Drug Movement Marathon 2026.

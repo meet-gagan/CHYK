@@ -77,8 +77,6 @@ const MAIN_SITE_FALLBACK_FOOTER = {
       { label: 'Home', url: '/', enabled: true, displayOrder: 1 },
       { label: 'About Us', url: '/chinmaya-mission-adoni', enabled: true, displayOrder: 2 },
       { label: 'Activities', url: '/activities', enabled: true, displayOrder: 3 },
-      { label: 'Chinmaya Sanjeevaraya Temple', url: '/chinmaya-sanjeevaraya-temple', enabled: true, displayOrder: 4 },
-      { label: 'Shri Shantamalleshwara Swami Temple', url: '/shri-shantamalleshwara-swami-temple', enabled: true, displayOrder: 5 },
     ],
   },
   contact: {
@@ -91,7 +89,7 @@ const MAIN_SITE_FALLBACK_FOOTER = {
       state: 'Andhra Pradesh',
       country: 'India',
     },
-    phoneNumbers: ['+91 98765 43210', '+91 85122 34567'],
+    phoneNumbers: ['+91 8825611612', '+91 8111869368'],
     emails: ['contact@chinmayamissionadoni.org'],
     googleMapsUrl: '',
     whatsappNumber: '',
@@ -104,7 +102,7 @@ const MAIN_SITE_FALLBACK_FOOTER = {
       '"To give maximum happiness to the maximum number of people for the maximum time is our motto." — Pujya Gurudev Swami Chinmayananda',
   },
   bottomFooter: {
-    copyrightText: '© Chinmaya Mission, Adoni. All Rights Reserved.',
+    copyrightText: 'Copyright © Chinmaya Yuva Kendra Adoni | All Rights Reserved',
     privacyPolicy: { label: 'Privacy Policy', url: '/privacy' },
     termsConditions: { label: 'Terms & Conditions', url: '/terms' },
   },
@@ -150,6 +148,17 @@ function sanitizeMainSiteFooter(rawData) {
       if (lower.includes('who are we') || lower.includes('who we are') || url.includes('/who-are-we') || url.includes('/who-we-are')) return false;
       if (lower.includes("let's connect") || lower.includes('lets connect') || url.includes('/lets-connect')) return false;
       if (lower.includes('marathon') || url.includes('marathon')) return false;
+      if (lower === 'events' || lower.includes('event') || url === '/events' || url.includes('/event')) return false;
+      if (lower.includes('sanjeevaraya') || url.includes('sanjeevaraya')) return false;
+      if (
+        lower.includes('shantamalleshwara') ||
+        lower.includes('malleshwara') ||
+        lower.includes('mamleshwara') ||
+        lower.includes('shantha') ||
+        url.includes('shantamalleshwara') ||
+        url.includes('malleshwara') ||
+        url.includes('mamleshwara')
+      ) return false;
       return true;
     })
     .map((link) => {
@@ -158,31 +167,8 @@ function sanitizeMainSiteFooter(rawData) {
       if (lower.includes('about')) {
         return { ...link, label: 'About Us', url: '/chinmaya-mission-adoni', displayOrder: 2 };
       }
-      if (lower.includes('activities') || linkUrl === '/activities' || lower === 'events' || linkUrl === '/events') {
+      if (lower.includes('activities') || linkUrl === '/activities') {
         return { ...link, label: 'Activities', url: '/activities', displayOrder: 3 };
-      }
-      if (
-        lower.includes('mamleshwara') ||
-        lower.includes('malleshwara') ||
-        lower.includes('shantamalleshwara') ||
-        lower.includes('shantha') ||
-        linkUrl.includes('mamleshwara') ||
-        linkUrl.includes('malleshwara')
-      ) {
-        return {
-          ...link,
-          label: 'Shri Shantamalleshwara Swami Temple',
-          url: '/shri-shantamalleshwara-swami-temple',
-          displayOrder: 5,
-        };
-      }
-      if (lower.includes('sanjeevaraya') || linkUrl.includes('sanjeevaraya')) {
-        return {
-          ...link,
-          label: 'Chinmaya Sanjeevaraya Temple',
-          url: '/chinmaya-sanjeevaraya-temple',
-          displayOrder: 4,
-        };
       }
       if (lower === 'home' || linkUrl === '/') {
         return {
@@ -195,7 +181,7 @@ function sanitizeMainSiteFooter(rawData) {
       return link;
     });
 
-  // Ensure the 5 canonical Chinmaya Mission navigation links are always present
+  // Ensure the canonical Chinmaya Mission navigation links are present
   const hasHome = filteredLinks.some((l) => l.url === '/' || l.label?.toLowerCase().trim() === 'home');
   if (!hasHome) {
     filteredLinks.push({ label: 'Home', url: '/', enabled: true, displayOrder: 1 });
@@ -206,37 +192,9 @@ function sanitizeMainSiteFooter(rawData) {
     filteredLinks.push({ label: 'About Us', url: '/chinmaya-mission-adoni', enabled: true, displayOrder: 2 });
   }
 
-  const hasActivities = filteredLinks.some((l) => l.url === '/activities' || l.url === '/events' || l.label?.toLowerCase().includes('activit') || l.label?.toLowerCase().includes('event'));
+  const hasActivities = filteredLinks.some((l) => l.url === '/activities' || l.label?.toLowerCase().includes('activit'));
   if (!hasActivities) {
     filteredLinks.push({ label: 'Activities', url: '/activities', enabled: true, displayOrder: 3 });
-  }
-
-  const hasSanjeevaraya = filteredLinks.some(
-    (l) => l.url?.includes('sanjeevaraya') || l.label?.toLowerCase().includes('sanjeevaraya')
-  );
-  if (!hasSanjeevaraya) {
-    filteredLinks.push({
-      label: 'Chinmaya Sanjeevaraya Temple',
-      url: '/chinmaya-sanjeevaraya-temple',
-      enabled: true,
-      displayOrder: 4,
-    });
-  }
-
-  const hasShantamalleshwara = filteredLinks.some(
-    (l) =>
-      l.url?.includes('malleshwara') ||
-      l.url?.includes('shantamalleshwara') ||
-      l.label?.toLowerCase().includes('malleshwara') ||
-      l.label?.toLowerCase().includes('shantamalleshwara')
-  );
-  if (!hasShantamalleshwara) {
-    filteredLinks.push({
-      label: 'Shri Shantamalleshwara Swami Temple',
-      url: '/shri-shantamalleshwara-swami-temple',
-      enabled: true,
-      displayOrder: 5,
-    });
   }
 
   // Sort according to canonical displayOrder
@@ -476,12 +434,19 @@ export const Footer = ({ overrideData = null }) => {
                 </div>
               </div>
 
-              {contact.phoneNumbers && contact.phoneNumbers.length > 0 && (
-                <p className="flex items-center gap-2.5 m-0">
-                  <Phone className="w-4 h-4 text-cyan-400 flex-shrink-0" />
-                  <span className="font-semibold tracking-wide text-white">{contact.phoneNumbers.join(' / ')}</span>
-                </p>
-              )}
+              {(() => {
+                const rawPhones = contact.phoneNumbers || [];
+                const phonesToDisplay =
+                  rawPhones.length === 0 || rawPhones.some((p) => p.includes('98765') || p.includes('85122'))
+                    ? ['+91 8825611612', '+91 8111869368']
+                    : rawPhones;
+                return (
+                  <p className="flex items-center gap-2.5 m-0">
+                    <Phone className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                    <span className="font-semibold tracking-wide text-white">{phonesToDisplay.join(' / ')}</span>
+                  </p>
+                );
+              })()}
 
               {contact.emails && contact.emails.length > 0 && (
                 <p className="flex items-center gap-2.5 m-0">
@@ -564,8 +529,8 @@ export const Footer = ({ overrideData = null }) => {
               >
                 An Initiative By
               </span>
-              <p className="text-white font-extrabold text-xs sm:text-sm leading-snug m-0 mt-0.5">
-                Chinmaya Yuva Kendra, Adoni
+              <p className="text-white font-extrabold text-xs sm:text-sm leading-snug m-0 mt-0.5 tracking-wider uppercase">
+                CHINMAYA YUVA KENDRA, ADONI
               </p>
             </div>
           </div>
@@ -577,17 +542,17 @@ export const Footer = ({ overrideData = null }) => {
           style={{ borderColor: appearance?.dividerColor || 'rgba(255, 255, 255, 0.1)' }}
           className="pt-4 border-t flex flex-col sm:flex-row items-center justify-between text-[11px] sm:text-xs opacity-75 gap-2 sm:gap-3"
         >
-          <p className="m-0">{bottomFooter.copyrightText || '© Chinmaya Mission, Adoni. All Rights Reserved.'}</p>
-          <div className="flex items-center gap-4">
-            {bottomFooter.privacyPolicy?.url && (
-              <Link to={bottomFooter.privacyPolicy.url} className="hover:text-white text-decoration-none">
-                {bottomFooter.privacyPolicy.label || 'Privacy Policy'}
-              </Link>
-            )}
-            <span>•</span>
+          <p className="m-0">{bottomFooter.copyrightText || 'Copyright © Chinmaya Yuva Kendra Adoni | All Rights Reserved'}</p>
+          <div className="flex items-center gap-3">
             {bottomFooter.termsConditions?.url && (
               <Link to={bottomFooter.termsConditions.url} className="hover:text-white text-decoration-none">
                 {bottomFooter.termsConditions.label || 'Terms & Conditions'}
+              </Link>
+            )}
+            <span>|</span>
+            {bottomFooter.privacyPolicy?.url && (
+              <Link to={bottomFooter.privacyPolicy.url} className="hover:text-white text-decoration-none">
+                {bottomFooter.privacyPolicy.label || 'Privacy Policy'}
               </Link>
             )}
           </div>

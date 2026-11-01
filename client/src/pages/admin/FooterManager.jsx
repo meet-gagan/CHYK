@@ -41,9 +41,7 @@ const DEFAULT_FORM_DATA = {
     links: [
       { label: 'Home', url: '/', openInNewTab: false, enabled: true, displayOrder: 1 },
       { label: 'About Us', url: '/about', openInNewTab: false, enabled: true, displayOrder: 2 },
-      { label: 'Events', url: '/events', openInNewTab: false, enabled: true, displayOrder: 3 },
-      { label: 'Chinmaya Sanjeevaraya Temple', url: '/chinmaya-sanjeevaraya-temple', openInNewTab: false, enabled: true, displayOrder: 4 },
-      { label: 'Shri Shantamalleshwara Swami Temple', url: '/shri-shantamalleshwara-swami-temple', openInNewTab: false, enabled: true, displayOrder: 5 },
+      { label: 'Activities', url: '/activities', openInNewTab: false, enabled: true, displayOrder: 3 },
     ],
   },
   contact: {
@@ -56,7 +54,7 @@ const DEFAULT_FORM_DATA = {
       state: 'Andhra Pradesh',
       country: 'India',
     },
-    phoneNumbers: ['+91 98765 43210', '+91 85122 34567'],
+    phoneNumbers: ['+91 8825611612', '+91 8111869368'],
     emails: ['contact@chinmayamissionadoni.org'],
     googleMapsUrl: '',
     whatsappNumber: '',

@@ -30,7 +30,7 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
       id: 'p4',
       imageUrl: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=800&auto=format&fit=crop',
       title: 'PEER PRESSURE IS OUT • INTEGRITY IS IN',
-      tag: 'CHINMAYA YUVA KENDRA',
+      tag: 'CHINMAYA YUVA KENDRA, ADONI',
       color: 'from-purple-600 to-indigo-500',
     },
     {
@@ -162,8 +162,8 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
                 <h4 className="text-base font-extrabold text-white leading-snug font-heading group-hover:text-[var(--yellow)] transition-colors line-clamp-2">
                   {item.title}
                 </h4>
-                <p className="text-[11px] text-slate-300 font-medium">
-                  Chinmaya Yuva Kendra, Adoni
+                <p className="text-xs text-[var(--yellow)] font-bold tracking-wider uppercase">
+                  CHINMAYA YUVA KENDRA, ADONI
                 </p>
               </div>
             </div>
@@ -251,8 +251,8 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
                 <h4 className="text-base sm:text-lg font-black text-white leading-snug">
                   {activeItem.title}
                 </h4>
-                <p className="text-xs text-slate-400 font-medium">
-                  Chinmaya Yuva Kendra, Adoni • Anti-Drug Movement 2026
+                <p className="text-xs text-slate-400 font-bold tracking-wider uppercase">
+                  CHINMAYA YUVA KENDRA, ADONI • Anti-Drug Movement 2026
                 </p>
               </div>
 

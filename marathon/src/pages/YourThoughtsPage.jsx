@@ -355,7 +355,9 @@ export const YourThoughtsPage = () => {
           {/* Elegant Oversized Heading */}
           <div className="space-y-3">
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-black font-heading tracking-tight text-[#07162D]">
-              {f.thoughts_hero?.heading || 'Our Story Board'}
+              {f.thoughts_hero?.heading && f.thoughts_hero?.heading !== 'Our Story Board'
+                ? f.thoughts_hero.heading
+                : 'Story Board'}
             </h1>
             <p className="text-base sm:text-xl text-[#59616D] max-w-2xl mx-auto font-medium leading-relaxed">
               {f.thoughts_hero?.subtitle || 'Every step has a story. Share your thoughts and discover the words that inspire our community.'}

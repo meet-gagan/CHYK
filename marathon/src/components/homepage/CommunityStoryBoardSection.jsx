@@ -112,9 +112,9 @@ export const CommunityStoryBoardSection = ({ content }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Block */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
-          <div className="max-w-2xl">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[var(--text-primary,#0B2340)] tracking-tight">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 sm:mb-12">
+          <div className="flex-1 min-w-0">
+            <h2 className="text-[17px] min-[420px]:text-xl sm:text-2xl md:text-3xl lg:text-[2rem] xl:text-4xl font-black text-[var(--text-primary,#0B2340)] tracking-tight whitespace-nowrap">
               {title.includes('Your Thoughts') ? (
                 <>
                   Voices of Strength: <span className="text-[var(--orange,#F0441D)]">Your Thoughts & Stories</span>
@@ -123,7 +123,7 @@ export const CommunityStoryBoardSection = ({ content }) => {
                 title
               )}
             </h2>
-            <p className="mt-3 text-sm sm:text-base text-[var(--text-muted,#475569)] leading-relaxed">
+            <p className="mt-3 text-sm sm:text-base text-[var(--text-muted,#475569)] leading-relaxed max-w-2xl">
               {subtitle}
             </p>
           </div>

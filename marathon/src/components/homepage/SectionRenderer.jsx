@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { CountdownTimer } from '../CountdownTimer';
+import heroRunnersImage from '../../assets/hero-runners-2026-new.jpg';
 import {
   Award,
   ArrowRight,
@@ -38,12 +39,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
 
   switch (section.type) {
     case 'hero': {
-      const heroGraphicUrl =
-        section.imageUrl &&
-        !section.imageUrl.includes('unsplash.com') &&
-        !section.imageUrl.includes('hero_main_horiz')
-          ? section.imageUrl
-          : '/assets/images/hero-runners-graphic.png';
+      const heroGraphicUrl = heroRunnersImage;
 
       const rawSubtitle = section.subtitle || '';
       const displaySubtitle =
@@ -58,33 +54,48 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
           : rawDescription;
 
       return (
-        <section className="relative overflow-hidden bg-gradient-to-b from-[#FFFDF9] via-[var(--bg-primary)] to-[#FFFDF9] border-b border-[var(--border-color)]/30">
+        <section className="relative overflow-hidden bg-gradient-to-b from-[#FFFDF9] via-[var(--bg-primary)] to-[#FFFDF9] border-b border-[var(--border-color)]/30 min-h-[440px] md:min-h-[480px] lg:min-h-[520px] flex items-center">
           {/* Subtle warm decorative glow */}
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-[var(--orange)]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-10 w-80 h-80 bg-[var(--yellow)]/10 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center justify-between py-6 sm:py-8 lg:py-10 relative z-10 px-4 sm:px-6 lg:px-8 gap-8 lg:gap-10">
-            {/* Left Column: Content */}
-            <div className="w-full lg:flex-1 flex justify-center lg:justify-start items-center py-2 z-10 text-center lg:text-left">
-              <div className="w-full max-w-xl flex flex-col items-center lg:items-start text-center lg:text-left space-y-4 sm:space-y-5">
+          {/* Desktop & Tablet: Right-side image set as background */}
+          <div className="hidden md:block absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <img
+              src={heroGraphicUrl}
+              alt={section.title || 'Anti-Drug Movement Marathon Runners'}
+              className="w-full h-full object-cover object-[center_right] lg:object-right"
+              onError={(e) => {
+                e.target.src = heroRunnersImage;
+              }}
+            />
+            {/* Elegant multi-stop gradient overlay: ensures 100% sharp readability of text on the left while showcasing runners vibrantly on the right */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FFFDF9] via-[#FFFDF9]/90 md:via-[#FFFDF9]/80 to-[#FFFDF9]/25 lg:to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#FFFDF9]/80 via-transparent to-[#FFFDF9]/40" />
+          </div>
+
+          <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row items-center justify-between py-6 sm:py-8 md:py-12 lg:py-14 relative z-10 px-4 sm:px-6 lg:px-8 gap-8">
+            {/* Content (Positioned on top of image for Desktop & Tablet) */}
+            <div className="w-full md:max-w-xl lg:max-w-2xl flex justify-center md:justify-start items-center py-2 z-10 text-center md:text-left">
+              <div className="w-full flex flex-col items-center md:items-start text-center md:text-left space-y-4 sm:space-y-5">
                 <div className="space-y-2 sm:space-y-2.5">
-                  <h1 className="text-2xl sm:text-4xl lg:text-[2.65rem] font-black font-heading tracking-tight text-[var(--text-primary)] leading-[1.1] uppercase">
+                  <h1 className="text-2xl sm:text-4xl lg:text-[2.65rem] font-black font-heading tracking-tight text-[var(--text-primary)] leading-[1.1] uppercase drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
                     {section.title || 'ANTI-DRUG MOVEMENT MARATHON RUN 2026'}
                   </h1>
                   {displaySubtitle && (
-                    <p className="text-base sm:text-xl lg:text-2xl font-black font-heading text-[var(--orange)] tracking-wide">
+                    <p className="text-base sm:text-xl lg:text-2xl font-black font-heading text-[var(--orange)] tracking-wide drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
                       {displaySubtitle}
                     </p>
                   )}
                   {displayDescription && (
-                    <p className="text-xs sm:text-sm lg:text-base font-extrabold text-[var(--text-primary)]/85 max-w-lg mx-auto lg:mx-0 leading-relaxed tracking-wider uppercase">
+                    <p className="text-xs sm:text-sm lg:text-base font-extrabold text-[var(--text-primary)]/85 max-w-lg mx-auto md:mx-0 leading-relaxed tracking-wider uppercase">
                       {displayDescription}
                     </p>
                   )}
                 </div>
 
                 {/* Date & Route Pill */}
-                <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-5 px-3.5 sm:px-4 py-2.5 rounded-2xl bg-white border border-[rgba(11,35,64,0.08)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)] text-xs font-bold text-[var(--text-primary)] mx-auto lg:mx-0">
+                <div className="inline-flex flex-wrap items-center justify-center md:justify-start gap-3 sm:gap-5 px-3.5 sm:px-4 py-2.5 rounded-2xl bg-white/95 backdrop-blur-sm border border-[rgba(11,35,64,0.08)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)] text-xs font-bold text-[var(--text-primary)] mx-auto md:mx-0">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-[var(--orange)] shrink-0" />
                     <span>Sunday, 20 December 2026</span>
@@ -101,7 +112,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                 </div>
 
                 {/* Primary & Secondary Buttons */}
-                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-1 w-full sm:w-auto mx-auto lg:mx-0">
+                <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 pt-1 w-full sm:w-auto mx-auto md:mx-0">
                   {section.primaryButtonText && (
                     <button
                       type="button"
@@ -115,7 +126,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                   {section.secondaryButtonText && (
                     <a
                       href={section.secondaryButtonLink || '#about'}
-                      className="btn-secondary text-xs sm:text-sm py-3 sm:py-3.5 px-6 sm:px-7 text-decoration-none bg-white/70 hover:bg-white transition-all duration-300 w-full sm:w-auto justify-center"
+                      className="btn-secondary text-xs sm:text-sm py-3 sm:py-3.5 px-6 sm:px-7 text-decoration-none bg-white/80 hover:bg-white backdrop-blur-sm transition-all duration-300 w-full sm:w-auto justify-center"
                     >
                       <span>{section.secondaryButtonText}</span>
                       <ArrowRight className="w-4 h-4 shrink-0" />
@@ -125,17 +136,15 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
               </div>
             </div>
 
-            {/* Right Column: Hero Runners Image (Large on Desktop and Tablet, kept exact same size on Mobile) */}
-            <div className="w-full lg:flex-1 shrink-0 flex justify-center lg:justify-end items-center">
-              <div className="w-full max-w-[340px] sm:max-w-[500px] md:max-w-[580px] lg:max-w-[540px] xl:max-w-[620px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-[rgba(11,35,64,0.08)] bg-white/60 backdrop-blur-sm group">
+            {/* Mobile Only: Runners Graphic Card below content (Hidden on tablet and desktop) */}
+            <div className="w-full md:hidden shrink-0 flex justify-center items-center">
+              <div className="w-full max-w-[340px] sm:max-w-[500px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-[rgba(11,35,64,0.08)] bg-white/60 backdrop-blur-sm group">
                 <img
                   src={heroGraphicUrl}
                   alt={section.title || 'Anti-Drug Movement Marathon Runners'}
-                  className="w-full h-auto max-h-[220px] sm:max-h-[340px] md:max-h-[390px] lg:max-h-[360px] xl:max-h-[420px] object-cover block transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-auto max-h-[220px] sm:max-h-[300px] object-cover block"
                   onError={(e) => {
-                    if (e.target.src !== window.location.origin + '/assets/images/hero-runners-graphic.png') {
-                      e.target.src = '/assets/images/hero-runners-graphic.png';
-                    }
+                    e.target.src = heroRunnersImage;
                   }}
                 />
               </div>

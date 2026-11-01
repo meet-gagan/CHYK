@@ -14,6 +14,8 @@ import {
   Sparkles,
   MessageSquare,
   Film,
+  HeartPulse,
+  Info,
 } from 'lucide-react';
 
 export const Navbar = () => {
@@ -46,14 +48,19 @@ export const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
+    { name: 'About', path: '/about' },
     { name: 'Your Thoughts', path: '/your-thoughts' },
-    { name: 'FAQs', path: '/faqs' },
-    { name: 'Videos', path: '/videos' },
+    { name: "FAQ's", path: '/faqs' },
+    { name: 'Udaan', path: '/udaan' },
+    { name: 'Wellness Centers', path: '/wellness-centers' },
   ];
 
   const isActive = (path) => {
     if (path.startsWith('/#')) {
       return location.hash === path.substring(1);
+    }
+    if (path === '/udaan') {
+      return location.pathname === '/udaan' || location.pathname === '/videos';
     }
     return location.pathname === path;
   };
@@ -66,33 +73,39 @@ export const Navbar = () => {
           {/* LEFT CORNER: Official Logo & Brand */}
           <div className="flex items-center gap-3 shrink-0 h-full py-2">
             <LeftLogo />
-            <div className="hidden sm:block border-l border-[var(--border-color)] pl-3">
-              <span className="text-[10px] uppercase tracking-widest font-black text-[var(--orange)] block">
+            <div className="hidden xl:block border-l border-[var(--border-color)] pl-3">
+              <span className="text-[10px] uppercase tracking-widest font-black text-[var(--orange)] block leading-tight">
                 MARATHON 2026
               </span>
-              <span className="text-xs font-bold text-[var(--text-primary)] block">
+              <span className="text-xs font-bold text-[var(--text-primary)] block leading-tight whitespace-nowrap">
                 Anti-Drug Movement Run
               </span>
             </div>
           </div>
 
           {/* CENTER: Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8">
+          <nav className="hidden lg:flex items-center gap-2.5 xl:gap-4 2xl:gap-6 shrink-0">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.path}
-                className={`text-xs xl:text-sm font-bold tracking-wide transition-colors hover:text-[var(--orange)] text-decoration-none flex items-center gap-1.5 ${
+                className={`text-xs xl:text-sm font-bold tracking-wide transition-colors hover:text-[var(--orange)] text-decoration-none flex items-center gap-1.5 whitespace-nowrap ${
                   isActive(link.path)
                     ? 'text-[var(--orange)] font-extrabold'
                     : 'text-[var(--text-primary)] opacity-85'
                 }`}
               >
-                {link.name === 'Videos' && (
-                  <Film className="w-3.5 h-3.5 text-red-500" />
+                {link.name === 'About' && (
+                  <Info className="w-3.5 h-3.5 text-blue-500 shrink-0 hidden xl:inline-block" />
+                )}
+                {(link.name === 'Udaan' || link.name === 'Videos') && (
+                  <Film className="w-3.5 h-3.5 text-red-500 shrink-0 hidden xl:inline-block" />
+                )}
+                {link.name === 'Wellness Centers' && (
+                  <HeartPulse className="w-3.5 h-3.5 text-rose-500 shrink-0 hidden xl:inline-block" />
                 )}
                 {link.name === 'Your Thoughts' && (
-                  <MessageSquare className="w-3.5 h-3.5 text-[var(--orange)]" />
+                  <MessageSquare className="w-3.5 h-3.5 text-[var(--orange)] shrink-0 hidden xl:inline-block" />
                 )}
                 <span>{link.name}</span>
                 {link.name === 'Your Thoughts' && (
@@ -105,18 +118,18 @@ export const Navbar = () => {
           </nav>
 
           {/* RIGHT CORNER: Actions & User Dropdown */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             
             {/* Desktop Actions */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
               {/* Registration CTA */}
               <button
                 type="button"
                 onClick={handleRegisterClick}
-                className="btn-primary py-2 px-4 text-xs font-extrabold shadow-md flex items-center gap-1.5 hover:scale-[1.02] transition-transform cursor-pointer"
+                className="btn-primary py-1.5 px-3 lg:px-3.5 text-[11px] xl:text-xs font-black shadow-md flex items-center gap-1.5 hover:scale-[1.02] transition-transform cursor-pointer whitespace-nowrap shrink-0"
               >
-                <Award className="w-4 h-4" />
-                <span>REGISTER NOW</span>
+                <Award className="w-3.5 h-3.5 shrink-0" />
+                <span className="whitespace-nowrap">REGISTER NOW</span>
               </button>
 
               {/* Logged in User Dropdown */}
@@ -201,10 +214,10 @@ export const Navbar = () => {
                 </div>
               ) : (
                 /* Unauthenticated state */
-                <div className="flex items-center gap-2 sm:gap-2.5">
+                <div className="flex items-center gap-1.5 xl:gap-2.5">
                   <Link
                     to="/login"
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] hover:border-[var(--orange)] text-[var(--text-primary)] text-xs font-bold transition-all text-decoration-none shadow-sm"
+                    className="flex items-center gap-1.5 px-3 py-1.5 xl:py-2 rounded-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] hover:border-[var(--orange)] text-[var(--text-primary)] text-xs font-bold transition-all text-decoration-none shadow-sm whitespace-nowrap"
                   >
                     <LogIn className="w-3.5 h-3.5 text-[var(--orange)]" />
                     <span>Sign In</span>
@@ -212,7 +225,7 @@ export const Navbar = () => {
 
                   <Link
                     to="/signup"
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[var(--orange)]/10 border border-[var(--orange)]/30 text-[var(--orange)] hover:bg-[var(--orange)] hover:text-white text-xs font-bold transition-all text-decoration-none"
+                    className="hidden xl:flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[var(--orange)]/10 border border-[var(--orange)]/30 text-[var(--orange)] hover:bg-[var(--orange)] hover:text-white text-xs font-bold transition-all text-decoration-none whitespace-nowrap"
                   >
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>Sign Up</span>
@@ -229,7 +242,7 @@ export const Navbar = () => {
                       <img
                         src="/assets/logos/chyk-logo.png"
                         alt="Chinmaya Yuva Kendra, Adoni"
-                        style={{ height: '32px', maxHeight: '32px', width: 'auto', objectFit: 'contain', display: 'block' }}
+                        style={{ height: '30px', maxHeight: '30px', width: 'auto', objectFit: 'contain', display: 'block' }}
                         className="hover:scale-105 transition-transform duration-200 shrink-0"
                       />
                     </Link>
@@ -239,7 +252,7 @@ export const Navbar = () => {
             </div>
 
             {/* Mobile Menu Toggle Button */}
-            <div className="flex md:hidden items-center gap-2">
+            <div className="flex lg:hidden items-center gap-2">
               <Link
                 to="/"
                 className="flex items-center text-decoration-none mr-1 shrink-0 cursor-pointer"
@@ -267,7 +280,7 @@ export const Navbar = () => {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[var(--bg-secondary)] border-b border-[var(--border-color)] px-4 pt-3 pb-6 space-y-4 max-h-[85vh] overflow-y-auto shadow-2xl animate-in slide-in-from-top-2">
+        <div className="lg:hidden bg-[var(--bg-secondary)] border-b border-[var(--border-color)] px-4 pt-3 pb-6 space-y-4 max-h-[85vh] overflow-y-auto shadow-2xl animate-in slide-in-from-top-2">
           
           {/* User Status in Mobile */}
           {isUserAuthenticated && normalUser ? (
@@ -324,8 +337,14 @@ export const Navbar = () => {
                 }`}
               >
                 <span className="flex items-center gap-2.5">
-                  {link.name === 'Videos' && (
+                  {link.name === 'About' && (
+                    <Info className="w-4 h-4 text-blue-500" />
+                  )}
+                  {(link.name === 'Udaan' || link.name === 'Videos') && (
                     <Film className="w-4 h-4 text-red-500" />
+                  )}
+                  {link.name === 'Wellness Centers' && (
+                    <HeartPulse className="w-4 h-4 text-rose-500" />
                   )}
                   {link.name === 'Your Thoughts' && (
                     <MessageSquare className="w-4 h-4 text-[var(--orange)]" />

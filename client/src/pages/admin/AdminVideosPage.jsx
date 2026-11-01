@@ -269,10 +269,10 @@ export const AdminVideosPage = () => {
               <span>YOUTUBE VIDEO CMS</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black font-heading text-[var(--text-primary)]">
-              Video Management
+              Udaan Video Management
             </h2>
             <p className="text-xs sm:text-sm text-[var(--text-muted)] font-semibold max-w-2xl">
-              Add and manage YouTube videos for the public Marathon website (/videos).
+              Add and manage YouTube videos for the public Marathon website Udaan page (/udaan).
               All additions, edits, and removals automatically update on the live website.
             </p>
           </div>
@@ -321,7 +321,7 @@ export const AdminVideosPage = () => {
               PUBLIC ROUTE
             </span>
             <p className="text-xs sm:text-sm font-black text-[var(--orange)] mt-1.5 flex items-center gap-1">
-              <span>/videos</span>
+              <span>/udaan</span>
             </p>
           </div>
         </div>

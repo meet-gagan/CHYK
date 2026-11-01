@@ -229,7 +229,7 @@ export const RegistrationPage = () => {
       }
     }
 
-    if (!indForm.agreeTerms) errs.agreeTerms = 'You must accept the physical fitness declaration and event rules';
+    if (!indForm.agreeTerms) errs.agreeTerms = 'Please click on the Terms And Conditions to accept before submitting.';
 
     setIndErrors(errs);
     return Object.keys(errs).length === 0;
@@ -350,7 +350,7 @@ export const RegistrationPage = () => {
         }
       }
 
-      if (!f.agreeTerms) errs.agreeTerms = `Declaration must be accepted on behalf of ${participantLabel}`;
+      if (!f.agreeTerms) errs.agreeTerms = `Please click on the Terms And Conditions on behalf of ${participantLabel} before submitting.`;
 
       if (Object.keys(errs).length > 0) {
         isValid = false;
@@ -485,6 +485,15 @@ export const RegistrationPage = () => {
     }
 
     if (!p1Valid || !pFriendsValid) {
+      if (!indForm.agreeTerms) {
+        showNotice('error', 'Please click on the Terms And Conditions before you can submit.');
+        const termsEl = document.getElementById('terms-checkbox-section');
+        if (termsEl) {
+          termsEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      } else {
+        showNotice('error', 'Please complete all required fields correctly before submitting.');
+      }
       return;
     }
 
@@ -1012,20 +1021,48 @@ export const RegistrationPage = () => {
               </div>
 
               {/* Participant 1 Terms Checkbox */}
-              <div className="pt-2">
+              <div
+                id="terms-checkbox-section"
+                className={`pt-2 p-3 rounded-2xl transition-all duration-300 ${
+                  indErrors.agreeTerms
+                    ? 'bg-red-500/10 border-2 border-red-500/50 shadow-sm'
+                    : 'bg-transparent border border-transparent'
+                }`}
+              >
                 <label className="flex items-start gap-3 cursor-pointer">
                   <input
                     type="checkbox"
                     disabled={!isRegistrationOpen}
                     checked={indForm.agreeTerms}
-                    onChange={(e) => setIndForm({ ...indForm, agreeTerms: e.target.checked })}
-                    className="w-5 h-5 mt-0.5 text-[var(--orange)] rounded accent-[var(--orange)]"
+                    onChange={(e) => {
+                      setIndForm({ ...indForm, agreeTerms: e.target.checked });
+                      if (e.target.checked && indErrors.agreeTerms) {
+                        setIndErrors((prev) => {
+                          const updated = { ...prev };
+                          delete updated.agreeTerms;
+                          return updated;
+                        });
+                      }
+                    }}
+                    className="w-5 h-5 mt-0.5 text-[var(--orange)] rounded accent-[var(--orange)] cursor-pointer"
                   />
                   <span className="text-xs text-[var(--text-muted)] font-semibold leading-relaxed">
-                    I hereby declare that I am physically fit to participate in the Anti-Drug Movement Marathon Run 2026. I agree to the event rules, terms and conditions.
+                    I hereby declare that I am physically fit to participate in the Anti-Drug Movement Marathon Run 2026. I agree to the event rules,{' '}
+                    <Link
+                      to="/terms"
+                      className="text-[var(--orange)] underline font-bold hover:text-[var(--orange)]/80"
+                      title="View Event Terms And Conditions"
+                    >
+                      Terms And Conditions
+                    </Link>.
                   </span>
                 </label>
-                {indErrors.agreeTerms && <p className="text-xs text-red-500 font-bold mt-1">{indErrors.agreeTerms}</p>}
+                {indErrors.agreeTerms && (
+                  <p className="text-xs text-red-500 font-bold mt-1.5 flex items-center gap-1.5">
+                    <span>⚠️</span>
+                    <span>{indErrors.agreeTerms}</span>
+                  </p>
+                )}
               </div>
             </div>
 
@@ -1348,21 +1385,37 @@ export const RegistrationPage = () => {
                     </div>
 
                     {/* Participant Terms Checkbox */}
-                    <div className="pt-2">
+                    <div
+                      className={`pt-2 p-3 rounded-2xl transition-all duration-300 ${
+                        friendsErrors[idx]?.agreeTerms
+                          ? 'bg-red-500/10 border-2 border-red-500/50 shadow-sm'
+                          : 'bg-transparent border border-transparent'
+                      }`}
+                    >
                       <label className="flex items-start gap-3 cursor-pointer">
                         <input
                           type="checkbox"
                           disabled={!isRegistrationOpen}
                           checked={friendItem.agreeTerms}
                           onChange={(e) => updateFriendField(idx, 'agreeTerms', e.target.checked)}
-                          className="w-5 h-5 mt-0.5 text-[var(--cyan)] rounded accent-[var(--cyan)]"
+                          className="w-5 h-5 mt-0.5 text-[var(--cyan)] rounded accent-[var(--cyan)] cursor-pointer"
                         />
                         <span className="text-xs text-[var(--text-muted)] font-semibold leading-relaxed">
-                          I declare on behalf of Participant {idx + 2} ({friendItem.fullName.trim() || `Participant ${idx + 2}`}) that they are physically fit to participate in the Anti-Drug Movement Marathon Run 2026 and agree to the event rules, terms and conditions.
+                          I declare on behalf of Participant {idx + 2} ({friendItem.fullName.trim() || `Participant ${idx + 2}`}) that they are physically fit to participate in the Anti-Drug Movement Marathon Run 2026 and agree to the event rules,{' '}
+                          <Link
+                            to="/terms"
+                            className="text-[var(--cyan)] underline font-bold hover:text-[var(--cyan)]/80"
+                            title="View Event Terms And Conditions"
+                          >
+                            Terms And Conditions
+                          </Link>.
                         </span>
                       </label>
                       {friendsErrors[idx]?.agreeTerms && (
-                        <p className="text-xs text-red-500 font-bold mt-1">{friendsErrors[idx].agreeTerms}</p>
+                        <p className="text-xs text-red-500 font-bold mt-1.5 flex items-center gap-1.5">
+                          <span>⚠️</span>
+                          <span>{friendsErrors[idx].agreeTerms}</span>
+                        </p>
                       )}
                     </div>
                   </div>
@@ -1374,12 +1427,7 @@ export const RegistrationPage = () => {
             <div className="pt-2">
               <button
                 type="submit"
-                disabled={
-                  !isRegistrationOpen ||
-                  !indForm.agreeTerms ||
-                  (hasFriends && friendsList.some((f) => !f.agreeTerms)) ||
-                  indSubmitting
-                }
+                disabled={!isRegistrationOpen || indSubmitting}
                 className="btn-primary w-full justify-center py-4 text-base shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 font-black"
               >
                 <Award className="w-5 h-5" />
