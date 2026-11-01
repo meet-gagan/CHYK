@@ -78,12 +78,9 @@ const allowedOriginsSet = new Set([
   ...envOrigins,
 ]);
 
-// Regex: allow ALL Vercel & Netlify preview/production URLs for this project
-const vercelPreviewPattern = /^https:\/\/chinmaya-mission-adoni(-[a-z0-9]+)*\.vercel\.app$/;
-const vercelAdminPattern = /^https:\/\/chinmaya-mission-adoni-admin(-[a-z0-9]+)*\.vercel\.app$/;
-const vercelMarathonPattern = /^https:\/\/(chinmaya-)?marathon(-[a-z0-9]+)*\.vercel\.app$/;
-const vercelChykPattern = /^https:\/\/chyk(-[a-z0-9]+)*\.vercel\.app$/;
-const netlifyPattern = /^https:\/\/.*(chinmaya|marathon|chyk).*\.netlify\.app$/;
+// Regex: allow ALL Vercel & Netlify preview/production URLs (e.g. client-*.vercel.app, chyk.vercel.app)
+const vercelPattern = /^https:\/\/([a-z0-9_-]+)\.vercel\.app$/i;
+const netlifyPattern = /^https:\/\/([a-z0-9_-]+)\.netlify\.app$/i;
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -92,19 +89,14 @@ const corsOptions = {
     const sanitized = origin.replace(/\/+$/, '');
     // Allow exact matches
     if (allowedOriginsSet.has(sanitized)) return callback(null, true);
-    // Allow all Vercel & Netlify deployments for this project
-    if (
-      vercelPreviewPattern.test(sanitized) ||
-      vercelAdminPattern.test(sanitized) ||
-      vercelMarathonPattern.test(sanitized) ||
-      vercelChykPattern.test(sanitized) ||
-      netlifyPattern.test(sanitized)
-    ) {
+    // Allow any Vercel & Netlify deployment domain
+    if (vercelPattern.test(sanitized) || netlifyPattern.test(sanitized)) {
       return callback(null, true);
     }
     // In development, allow everything
     if (process.env.NODE_ENV !== 'production') return callback(null, true);
-    callback(new Error(`CORS: Origin ${origin} not allowed`));
+    console.warn(`[CORS Blocked]: Origin "${origin}" is not authorized.`);
+    callback(null, false);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
