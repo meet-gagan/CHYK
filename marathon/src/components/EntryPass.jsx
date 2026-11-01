@@ -222,7 +222,7 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
                 value={
                   typeof window !== 'undefined'
                     ? `${window.location.origin}/verify-pass/${registration.entryPassId || registration.registrationId}`
-                    : `https://marathon.chinmayamissionadoni.org/verify-pass/${registration.entryPassId || registration.registrationId}`
+                    : `https://chyk.vercel.app/verify-pass/${registration.entryPassId || registration.registrationId}`
                 }
                 size={64}
                 level="M"

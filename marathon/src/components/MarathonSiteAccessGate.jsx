@@ -11,18 +11,32 @@ export function MarathonSiteAccessGate({ children }) {
   const location = useLocation();
   const pathname = location.pathname.toLowerCase().replace(/\/+$/, '') || '/';
 
-  // 1. Always allow Admin routes and Pass Verification unconditionally
+  const hostname = typeof window !== 'undefined' ? window.location.hostname.toLowerCase() : '';
+
+  // 1. If accessed via marathon.chinmayamissionadoni.org, always display Coming Soon!
+  const isComingSoonDomain =
+    hostname.includes('marathon.chinmayamissionadoni.org') ||
+    hostname.includes('marathon.chinmayamissionadoni.org');
+
+  if (isComingSoonDomain) {
+    return <MarathonComingSoonPage />;
+  }
+
+  // 2. If accessed via chyk.vercel.app, keep it unconditionally LIVE!
+  const isChykLiveDomain = hostname.includes('chyk.vercel.app');
+
+  // 3. Always allow Admin routes and Pass Verification unconditionally
   if (pathname.startsWith('/admin') || pathname.startsWith('/verify-pass') || pathname.startsWith('/pass/')) {
     return (
       <>
         {children}
-        <AdminStatusToggle isLive={isLive} onToggle={toggleLive} />
+        <AdminStatusToggle isLive={isChykLiveDomain ? true : isLive} onToggle={toggleLive} />
       </>
     );
   }
 
-  // 2. Loading state while checking marathon site settings from API
-  if (loading) {
+  // 4. Loading state while checking marathon site settings from API (bypass spinner if on chyk.vercel.app)
+  if (loading && !isChykLiveDomain) {
     return (
       <div className="min-h-screen bg-[#07162D] flex flex-col items-center justify-center text-orange-400">
         <div className="w-10 h-10 border-4 border-[#F0441D] border-t-transparent rounded-full animate-spin mb-4" />
@@ -33,16 +47,17 @@ export function MarathonSiteAccessGate({ children }) {
     );
   }
 
+  const effectiveIsLive = isChykLiveDomain ? true : isLive;
   const isComingSoonRoute = COMING_SOON_PATHS.includes(pathname);
 
-  // 3. When isLive === false (Coming Soon mode active):
+  // 5. When isLive === false (Coming Soon mode active):
   //    Block all public routes and display the Marathon Coming Soon page
-  if (!isLive) {
+  if (!effectiveIsLive) {
     if (isComingSoonRoute) {
       return (
         <>
           <MarathonComingSoonPage />
-          <AdminStatusToggle isLive={isLive} onToggle={toggleLive} />
+          <AdminStatusToggle isLive={effectiveIsLive} onToggle={toggleLive} />
         </>
       );
     }
@@ -50,9 +65,9 @@ export function MarathonSiteAccessGate({ children }) {
     return <Navigate to="/coming-soon" replace />;
   }
 
-  // 4. When isLive === true (Live mode active):
+  // 6. When isLive === true (Live mode active):
   //    Display everything EXCEPT the coming soon page (which redirects to /)
-  if (isLive && isComingSoonRoute) {
+  if (effectiveIsLive && isComingSoonRoute) {
     return <Navigate to="/" replace />;
   }
 
@@ -60,7 +75,7 @@ export function MarathonSiteAccessGate({ children }) {
   return (
     <>
       {children}
-      <AdminStatusToggle isLive={isLive} onToggle={toggleLive} />
+      <AdminStatusToggle isLive={effectiveIsLive} onToggle={toggleLive} />
     </>
   );
 }

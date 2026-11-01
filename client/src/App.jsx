@@ -36,7 +36,7 @@ import { AdminLoginPage } from './pages/AdminLoginPage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
 
 const MARATHON_PORTAL_URL =
-  import.meta.env.VITE_MARATHON_URL || 'https://marathon.chinmayamissionadoni.org';
+  import.meta.env.VITE_MARATHON_URL || 'https://chyk.vercel.app';
 
 function MarathonPortalRedirect({ path = '' }) {
   useEffect(() => {
