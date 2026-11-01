@@ -369,6 +369,35 @@ export const MythsVsFactsSection = ({ content }) => {
           </button>
         </div>
 
+        {/* Mobile Dedicated Thumb Navigation Bar (Zero overlap on card content) */}
+        <div className="mvf-mobile-controls">
+          <button
+            type="button"
+            className="mvf-mobile-btn"
+            onClick={handlePrev}
+            disabled={currentIndex === 0}
+            aria-label="Previous card"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span>Prev</span>
+          </button>
+
+          <span className="mvf-mobile-counter">
+            {formattedCounter}
+          </span>
+
+          <button
+            type="button"
+            className="mvf-mobile-btn mvf-mobile-btn-primary"
+            onClick={handleNext}
+            disabled={currentIndex === totalCards - 1}
+            aria-label="Next card"
+          >
+            <span>Next</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+
         {/* Progress Indicator Dots */}
         <div className="mvf-progress-container">
           <div className="mvf-progress-track" role="tablist" aria-label="Card selection pagination">

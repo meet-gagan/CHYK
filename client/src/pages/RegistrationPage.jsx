@@ -941,7 +941,7 @@ export const RegistrationPage = () => {
         </div>
       )}
 
-      {/* 7KM Marathon Interactive Route Map */}
+      {/* 3.5KM Marathon Interactive Route Map */}
       <div className="pt-10 border-t border-[var(--border-color)]">
         <MarathonRouteMap />
       </div>

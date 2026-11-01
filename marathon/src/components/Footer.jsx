@@ -81,7 +81,7 @@ const FALLBACK_FOOTER = {
     heading: 'QUICK NAVIGATION',
     links: [
       { label: 'Home', url: '/', openInNewTab: false, enabled: true, displayOrder: 1 },
-      { label: 'Route Map', url: 'https://maps.app.goo.gl/aBVcfaNbbFJTNvmX9?g_st=aw', openInNewTab: true, enabled: true, displayOrder: 2 },
+      { label: 'Route Map', url: '/route-map', openInNewTab: false, enabled: true, displayOrder: 2 },
       { label: 'FAQs', url: '/faqs', openInNewTab: false, enabled: true, displayOrder: 3 },
       { label: 'Your Thoughts & Stories', url: '/your-thoughts', openInNewTab: false, enabled: true, displayOrder: 4 },
       {

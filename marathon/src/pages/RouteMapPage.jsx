@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { MarathonRouteMap } from '../components/MarathonRouteMap';
 import {
   MapPin,
   Calendar,
-  Clock,
   Award,
   ShieldCheck,
   ArrowRight,
-  Share2,
   Navigation,
   HeartPulse,
   Droplet,
-  Compass,
-  CheckCircle2,
   Users,
   Flag,
   HelpCircle,
@@ -23,7 +19,6 @@ import {
 export const RouteMapPage = () => {
   const { isUserAuthenticated, openAuthModal } = useAuth();
   const navigate = useNavigate();
-  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     document.title = 'Official Marathon Route Map | Anti-Drug Run Adoni 2026';
@@ -38,49 +33,6 @@ export const RouteMapPage = () => {
     }
   };
 
-  const handleShare = async () => {
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: 'Anti-Drug Movement Marathon 2026 - Route Map',
-          text: 'Check out the official 7KM Route Map for the Anti-Drug Movement Marathon in Adoni on 20 December 2026!',
-          url: window.location.href,
-        });
-      } else {
-        await navigator.clipboard.writeText(window.location.href);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2500);
-      }
-    } catch (_) {}
-  };
-
-  const checkpointsList = [
-    {
-      num: '1',
-      title: 'Municipal High School (START)',
-      km: '0.0 KM',
-      type: 'Flag-off Point',
-      color: 'bg-emerald-500',
-      desc: 'Participant assembly, warm-up stretching, bib distribution check, and official flag-off ceremony at 6:00 AM.',
-    },
-    {
-      num: '2',
-      title: 'Gosha Hospital (Govt. Hospital Adoni)',
-      km: 'Course Waypoint',
-      type: 'Hydration & Aid Station',
-      color: 'bg-cyan-500',
-      desc: 'Dedicated hydration station with electrolytes, fresh water bottles, first-aid medical support, and volunteer cheer station.',
-    },
-    {
-      num: '3',
-      title: 'Chinmaya Mission, Adoni (FINISH ARCH)',
-      km: 'Finish Point',
-      type: 'Finish & Celebration',
-      color: 'bg-orange-500',
-      desc: 'Grand finish line arch, official finisher medal distribution, participant certificates, and nutritious breakfast.',
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-200">
       {/* Hero Banner */}
@@ -90,17 +42,8 @@ export const RouteMapPage = () => {
           <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--cyan)]/15 border border-[var(--cyan)]/30 text-[var(--cyan)] text-xs font-black tracking-wider uppercase">
               <span className="w-2 h-2 rounded-full bg-[var(--cyan)] animate-pulse" />
-              <span>Official 7KM Course Route • Adoni 2026</span>
+              <span>Official 3.5KM Course Route • Adoni 2026</span>
             </div>
-
-            <button
-              onClick={handleShare}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--bg-secondary)] border border-[var(--border-color)] hover:border-[var(--orange)] text-xs font-bold text-[var(--text-primary)] transition-all cursor-pointer shadow-sm"
-              title="Share Route Map"
-            >
-              <Share2 className="w-3.5 h-3.5 text-[var(--orange)]" />
-              <span>{copied ? 'Link Copied!' : 'Share Route'}</span>
-            </button>
           </div>
 
           <div className="max-w-3xl">
@@ -108,7 +51,7 @@ export const RouteMapPage = () => {
               Anti-Drug Movement <span className="text-[var(--orange)]">Marathon Route Map</span>
             </h1>
             <p className="mt-3 sm:mt-4 text-sm sm:text-base text-[var(--text-muted)] leading-relaxed font-medium">
-              Explore the certified 7 kilometer marathon route weaving through Adoni's prominent landmarks.
+              Explore the certified 3.5 kilometer marathon route weaving through Adoni's prominent landmarks.
               Beginning from <strong>Municipal High School Grounds</strong> and triumphantly finishing at{' '}
               <strong>Chinmaya Mission Complex</strong>. Publicly accessible to all participants and families!
             </p>
@@ -121,8 +64,8 @@ export const RouteMapPage = () => {
                 <Navigation className="w-4 h-4 shrink-0" />
                 <span>Distance</span>
               </div>
-              <p className="text-xl sm:text-2xl font-black text-[var(--text-primary)]">7.0 KM</p>
-              <p className="text-[11px] text-[var(--text-muted)] font-medium">Certified City Loop</p>
+              <p className="text-xl sm:text-2xl font-black text-[var(--text-primary)]">3.5 KM</p>
+              <p className="text-[11px] text-[var(--text-muted)] font-medium">Certified Route</p>
             </div>
 
             <div className="p-3.5 sm:p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-sm">
@@ -189,53 +132,6 @@ export const RouteMapPage = () => {
         <div className="space-y-4">
           <MarathonRouteMap className="w-full" />
         </div>
-
-        {/* Course Highlights & Checkpoints Breakdown */}
-        <section className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[var(--border-color)] pb-4">
-            <div>
-              <h2 className="text-xl sm:text-2xl font-black font-heading text-[var(--text-primary)]">
-                Route Checkpoints & Aid Stations
-              </h2>
-              <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-1">
-                Comprehensive guide to all official stations, hydration booths, and medical posts along the 7KM loop.
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-[var(--text-muted)]">7 Stations Active</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {checkpointsList.map((cp) => (
-              <div
-                key={cp.num}
-                className="p-5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-sm hover:border-[var(--orange)]/40 hover:shadow-md transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] text-[var(--text-muted)]">
-                      Station #{cp.num}
-                    </span>
-                    <span className="text-xs font-extrabold text-[var(--orange)] font-mono">
-                      {cp.km}
-                    </span>
-                  </div>
-
-                  <h3 className="text-base font-black text-[var(--text-primary)] leading-snug">
-                    {cp.title}
-                  </h3>
-                  <span className="inline-block mt-1 text-[11px] font-bold text-[var(--cyan)]">
-                    {cp.type}
-                  </span>
-                  <p className="mt-2 text-xs text-[var(--text-muted)] leading-relaxed">
-                    {cp.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
 
         {/* Medical & Participant Safety Guarantees */}
         <section className="p-6 sm:p-8 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-sm">

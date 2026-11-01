@@ -50,17 +50,29 @@ function MarathonLayout() {
   );
 }
 
-// Scroll to top helper on route change
+// Scroll to top helper on route change, preserving anchor hash links
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
+    if (hash) {
+      setTimeout(() => {
+        try {
+          const el = document.querySelector(hash);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+            return;
+          }
+        } catch (_) {}
+      }, 50);
+      return;
+    }
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: 'instant',
     });
-  }, [pathname]);
+  }, [pathname, hash]);
 
   return null;
 }

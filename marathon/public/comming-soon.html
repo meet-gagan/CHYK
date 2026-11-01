@@ -414,10 +414,6 @@
           <span class="brand-sub">ADONI, ANDHRA PRADESH</span>
         </div>
       </div>
-
-      <button class="share-btn" id="shareBtn" onclick="sharePage()">
-        <span>Share</span>
-      </button>
     </header>
   </div>
 
@@ -465,36 +461,6 @@
           <span>Starting from Municipal High School to Chinmaya Mission, Adoni</span>
         </div>
       </div>
-
-      <!-- 4 Pillars -->
-      <div class="pillars-grid">
-        <div class="pillar-box">
-          <div class="pillar-title">7KM City Loop</div>
-          <div class="pillar-desc">Certified course across Adoni</div>
-        </div>
-        <div class="pillar-box">
-          <div class="pillar-title">Finisher Medals</div>
-          <div class="pillar-desc">& official certificates for all</div>
-        </div>
-        <div class="pillar-box">
-          <div class="pillar-title">Youth Movement</div>
-          <div class="pillar-desc">Schools & colleges united</div>
-        </div>
-        <div class="pillar-box">
-          <div class="pillar-title">Full Safety</div>
-          <div class="pillar-desc">Hydration, ambulances & marshals</div>
-        </div>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="cta-row">
-        <a href="https://chat.whatsapp.com/Hd0DpUk36qSGIQ6UTULvke?mode=hq2tcli" target="_blank" rel="noopener noreferrer" class="btn-wa">
-          <span>Join WhatsApp Community</span>
-        </a>
-        <a href="https://www.instagram.com/chinmayamission_adoni?srtk=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="btn-outline">
-          <span>Follow on Instagram</span>
-        </a>
-      </div>
     </main>
   </div>
 
@@ -533,22 +499,6 @@
 
     updateCountdown();
     setInterval(updateCountdown, 1000);
-
-    function sharePage() {
-      if (navigator.share) {
-        navigator.share({
-          title: 'Anti-Drug Movement Marathon Run 2026',
-          text: 'Get ready for the biggest youth movement in Adoni! Coming Soon.',
-          url: window.location.href
-        });
-      } else {
-        navigator.clipboard.writeText(window.location.href).then(() => {
-          const btn = document.getElementById('shareBtn');
-          btn.innerText = 'Copied!';
-          setTimeout(() => { btn.innerText = 'Share'; }, 2000);
-        });
-      }
-    }
   </script>
 </body>
 </html>

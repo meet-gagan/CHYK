@@ -56,6 +56,28 @@ export const RegistrationAuthModal = ({
   const [error, setError] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
 
+  const handleClose = (e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (typeof onClose === 'function') {
+      onClose();
+    }
+  };
+
+  // Close on Escape key press
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        handleClose(e);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
   // Sync mode and prefilled data whenever modal opens
   useEffect(() => {
     if (isOpen) {
@@ -230,20 +252,31 @@ export const RegistrationAuthModal = ({
       error.toLowerCase().includes('already registered'));
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-sm animate-in fade-in overflow-y-auto">
-      <div className="relative w-full max-w-md my-8 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[28px] sm:rounded-[32px] p-5 sm:p-7 shadow-2xl overflow-hidden">
+    <div
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          handleClose(e);
+        }
+      }}
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-sm animate-in fade-in overflow-y-auto cursor-pointer"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-md my-8 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[28px] sm:rounded-[32px] p-5 sm:p-7 shadow-2xl overflow-hidden cursor-default"
+      >
         {/* Glow accent */}
         <div className="absolute -top-20 -right-20 w-40 h-40 bg-[var(--orange)]/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[var(--cyan)]/15 rounded-full blur-3xl pointer-events-none" />
 
         {/* Close Button */}
         <button
-          onClick={onClose}
+          type="button"
+          onClick={handleClose}
           disabled={submitting}
           aria-label="Close authentication modal"
-          className="absolute top-4 right-4 p-2 rounded-full bg-[var(--bg-tertiary)] text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--border-color)] transition-colors disabled:opacity-50"
+          className="absolute top-4 right-4 z-50 p-2.5 rounded-full bg-[var(--bg-tertiary)] hover:bg-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-all cursor-pointer disabled:opacity-50 active:scale-90 touch-manipulation flex items-center justify-center border border-[var(--border-color)]/50 shadow-sm"
         >
-          <X className="w-4 h-4" />
+          <X className="w-4 h-4 pointer-events-none" />
         </button>
 
         {/* Modal Header */}

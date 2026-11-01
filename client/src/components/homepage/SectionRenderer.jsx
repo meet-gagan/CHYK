@@ -1,22 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CountdownTimer } from '../CountdownTimer';
-import { TransformationSection } from '../TransformationSection';
 import {
-  Flame,
   Award,
   ArrowRight,
-  HeartPulse,
-  Users,
-  Smile,
-  Target,
-  Compass,
   MapPin,
   Calendar,
   HelpCircle,
   ChevronDown,
-  Sparkles,
-  ExternalLink,
 } from 'lucide-react';
 
 export const SectionRenderer = ({ section, eventConfig, banners, activities, faqs }) => {
@@ -81,17 +72,14 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                     <span>Sunday, 20 December 2026</span>
                   </div>
                   <div className="h-4 w-px bg-[var(--border-color)] hidden sm:block" />
-                  <a
-                    href="https://maps.app.goo.gl/aBVcfaNbbFJTNvmX9?g_st=aw"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    to="/route-map"
                     className="flex items-center gap-2 text-decoration-none text-[var(--text-primary)] hover:text-[var(--orange)] transition-colors cursor-pointer group"
-                    title="Click to view Marathon Route Map in Google Maps"
+                    title="Click to view Marathon Route Map"
                   >
                     <MapPin className="w-4 h-4 text-[var(--cyan)] group-hover:scale-110 transition-transform shrink-0" />
                     <span className="underline decoration-dotted underline-offset-4 font-extrabold">Route of Marathon</span>
-                    <ExternalLink className="w-3.5 h-3.5 text-[var(--orange)] shrink-0" />
-                  </a>
+                  </Link>
                 </div>
 
                 {/* Primary & Secondary Buttons */}
@@ -118,13 +106,13 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
               </div>
             </div>
 
-            {/* Right Column: Hero Runners Image (Nicely sized & decreased so left content leads) */}
-            <div className="w-full lg:w-auto shrink-0 flex justify-center lg:justify-end items-center">
-              <div className="w-full max-w-[340px] sm:max-w-[390px] lg:max-w-[420px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-[rgba(11,35,64,0.08)] bg-white/60 backdrop-blur-sm group">
+            {/* Right Column: Hero Runners Image (Large on Desktop and Tablet, kept exact same size on Mobile) */}
+            <div className="w-full lg:flex-1 shrink-0 flex justify-center lg:justify-end items-center">
+              <div className="w-full max-w-[340px] sm:max-w-[500px] md:max-w-[580px] lg:max-w-[540px] xl:max-w-[620px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-[rgba(11,35,64,0.08)] bg-white/60 backdrop-blur-sm group">
                 <img
                   src={heroGraphicUrl}
                   alt={section.title || 'Anti-Drug Movement Marathon Runners'}
-                  className="w-full h-auto max-h-[220px] sm:max-h-[250px] lg:max-h-[275px] object-cover block transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-auto max-h-[220px] sm:max-h-[340px] md:max-h-[390px] lg:max-h-[360px] xl:max-h-[420px] object-cover block transition-transform duration-500 group-hover:scale-105"
                   onError={(e) => {
                     if (e.target.src !== window.location.origin + '/assets/images/hero-runners-graphic.png') {
                       e.target.src = '/assets/images/hero-runners-graphic.png';
@@ -382,7 +370,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
 
 export const QuoteBanner = () => {
   return (
-    <section className="relative overflow-hidden min-h-[90px] sm:min-h-[110px] flex items-center justify-center px-4 sm:px-6 lg:px-12 py-5 sm:py-6 text-white bg-[#07162D] border-y border-slate-800/80 shadow-xl">
+    <section className="relative overflow-hidden min-h-[100px] sm:min-h-[125px] flex items-center justify-center px-4 sm:px-6 lg:px-12 py-5 sm:py-7 lg:py-8 text-white bg-[#07162D] border-y border-slate-800/80 shadow-xl">
       {/* Background Road Image with Dark Blue Tint */}
       <div
         className="absolute inset-0 bg-cover bg-center pointer-events-none opacity-25 mix-blend-luminosity"
@@ -393,13 +381,19 @@ export const QuoteBanner = () => {
       />
       <div className="absolute inset-0 bg-gradient-to-r from-[#07162D]/95 via-[#07162D]/90 to-[#07162D]/95 pointer-events-none" />
 
-      {/* Quote Content - Fully Responsive typography, natural line wrapping, zero overflow */}
-      <div className="relative z-10 w-full max-w-4xl mx-auto text-center px-2">
-        <p className="font-serif italic text-sm sm:text-base md:text-xl lg:text-2xl text-white font-medium leading-relaxed mb-2 sm:mb-2.5">
-          <span className="font-serif not-italic text-[#FFD12D] text-lg sm:text-2xl md:text-3xl mr-1 select-none">“</span>
-          The youth are not useless, they are used less. The youth are not careless, they are cared less.”
+      {/* Quote Content - 1 Line on Desktop/Tablet, 2 Lines on Mobile */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto text-center px-2">
+        <p className="font-serif italic text-xs min-[400px]:text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white font-medium leading-relaxed sm:whitespace-nowrap mb-2 sm:mb-3">
+          <span className="block sm:inline">
+            <span className="font-serif not-italic text-[#FFD12D] text-lg sm:text-xl md:text-2xl lg:text-3xl mr-1 select-none">“</span>
+            The youth are not useless, they are used less.{' '}
+          </span>
+          <span className="block sm:inline">
+            The youth are not careless, they are cared less.
+            <span className="font-serif not-italic text-[#FFD12D] text-lg sm:text-xl md:text-2xl lg:text-3xl ml-1 select-none">”</span>
+          </span>
         </p>
-        <small className="inline-block font-sans not-italic text-[11px] sm:text-xs md:text-sm text-[#F6D9BA] font-bold tracking-widest uppercase">
+        <small className="inline-block font-sans not-italic text-[11px] sm:text-xs md:text-sm lg:text-base text-[#F6D9BA] font-bold tracking-widest uppercase">
           - Swami Chinmayananda
         </small>
       </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, CheckCircle2, ChevronUp, Flag, Heart, MapPin, Sparkles } from 'lucide-react';
+import { ChevronUp, Flag, Sparkles } from 'lucide-react';
 
 /**
  * Final Destination Component

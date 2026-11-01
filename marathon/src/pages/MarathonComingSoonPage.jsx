@@ -4,12 +4,7 @@ import {
   Calendar,
   Clock,
   MapPin,
-  Award,
   Sparkles,
-  ShieldCheck,
-  Share2,
-  Users,
-  Compass,
 } from 'lucide-react';
 
 export const MarathonComingSoonPage = () => {
@@ -32,7 +27,6 @@ export const MarathonComingSoonPage = () => {
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     document.title = 'Coming Soon | Anti-Drug Movement Marathon Run 2026 - Adoni';
@@ -54,22 +48,6 @@ export const MarathonComingSoonPage = () => {
       size: Math.random() > 0.8 ? 4 : 2,
     }));
   }, []);
-
-  const handleShare = async () => {
-    try {
-      if (navigator.share) {
-        await navigator.share({
-          title: 'Anti-Drug Movement Marathon Run 2026 • Coming Soon',
-          text: 'Get ready for the biggest youth movement in Adoni! Anti-Drug Movement Marathon 2026 is coming soon.',
-          url: window.location.href,
-        });
-      } else {
-        await navigator.clipboard.writeText(window.location.href);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      }
-    } catch (_) {}
-  };
 
   return (
     <div className="min-h-screen w-full bg-[#07162D] text-white selection:bg-[#F0441D] selection:text-white relative overflow-hidden flex flex-col justify-between font-sans">
@@ -110,14 +88,6 @@ export const MarathonComingSoonPage = () => {
             </span>
           </div>
         </div>
-
-        <button
-          onClick={handleShare}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-bold text-white transition-all cursor-pointer shadow-md"
-        >
-          <Share2 className="w-3.5 h-3.5 text-[#F0441D]" />
-          <span>{copied ? 'Link Copied!' : 'Share'}</span>
-        </button>
       </header>
 
       {/* Main Coming Soon Hero Content */}
@@ -179,58 +149,6 @@ export const MarathonComingSoonPage = () => {
           <div className="pt-2 flex items-center justify-center gap-2 text-xs font-semibold text-slate-300">
             <MapPin className="w-4 h-4 text-[#F0441D]" />
             <span>Starting from Municipal High School to Chinmaya Mission, Adoni</span>
-          </div>
-        </div>
-
-        {/* 4 Feature Badges */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto pt-2">
-          <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-left">
-            <Compass className="w-4 h-4 text-[#06B6D4] mb-1.5" />
-            <h4 className="text-xs font-extrabold text-white">7KM Course</h4>
-            <p className="text-[11px] text-slate-400">Certified city loop</p>
-          </div>
-
-          <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-left">
-            <Award className="w-4 h-4 text-[#FFD12D] mb-1.5" />
-            <h4 className="text-xs font-extrabold text-white">Finisher Medals</h4>
-            <p className="text-[11px] text-slate-400">& official certificates</p>
-          </div>
-
-          <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-left">
-            <Users className="w-4 h-4 text-[#F0441D] mb-1.5" />
-            <h4 className="text-xs font-extrabold text-white">Youth Movement</h4>
-            <p className="text-[11px] text-slate-400">Schools & colleges united</p>
-          </div>
-
-          <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 text-left">
-            <ShieldCheck className="w-4 h-4 text-emerald-400 mb-1.5" />
-            <h4 className="text-xs font-extrabold text-white">Safe & Supported</h4>
-            <p className="text-[11px] text-slate-400">Hydration & ambulances</p>
-          </div>
-        </div>
-
-        {/* WhatsApp & Community Links */}
-        <div className="pt-2">
-          <p className="text-xs font-bold text-slate-400 mb-3">
-            Stay updated with official route announcements and early-bird pass notifications:
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="https://chat.whatsapp.com/Hd0DpUk36qSGIQ6UTULvke?mode=hq2tcli"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2.5 rounded-full bg-[#25D366] text-white text-xs font-extrabold shadow-lg hover:bg-[#20ba59] transition-all flex items-center gap-2 text-decoration-none"
-            >
-              <span>Join WhatsApp Community</span>
-            </a>
-            <a
-              href="https://www.instagram.com/chinmayamission_adoni?srtk=ZDNlZDc0MzIxNw=="
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-extrabold transition-all flex items-center gap-2 text-decoration-none"
-            >
-              <span>Follow on Instagram</span>
-            </a>
           </div>
         </div>
       </main>
