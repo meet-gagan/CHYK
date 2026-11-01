@@ -2,7 +2,17 @@ import axios from 'axios';
 
 const normalizeApiBaseUrl = (rawUrl) => {
   let url = (rawUrl || '').trim();
-  if (!url) return 'http://localhost:5000/api';
+  // If hosted on vercel.app or netlify, automatically target the active Render production API
+  if (typeof window !== 'undefined' && (window.location.hostname.includes('vercel.app') || window.location.hostname.includes('netlify.app'))) {
+    if (!url || url === '/api' || url.includes('localhost') || url.includes('127.0.0.1') || url === 'https://chinmaya-mission-adoni.onrender.com/api') {
+      return 'https://chinmaya-mission-adoni-1ofh.onrender.com/api';
+    }
+  }
+  if (!url) {
+    return import.meta.env.PROD
+      ? 'https://chinmaya-mission-adoni-1ofh.onrender.com/api'
+      : 'http://localhost:5000/api';
+  }
   url = url.replace(/\/+$/, '');
   if (!url.endsWith('/api')) {
     url = `${url}/api`;
