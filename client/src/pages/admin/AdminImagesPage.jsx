@@ -28,39 +28,34 @@ import {
 
 const CATEGORIES = [
   'ALL',
-  'Home',
-  'About',
-  'Activities',
-  "Let's Connect",
-  'Marathon',
-  'Registration',
-  'Banner',
-  'Footer',
-  'Gallery',
-  'Other',
+  'Temples & Sevas',
+  'Festivals & Gallery',
+  'Ashram & Activities',
+  'Leadership & Gurus',
+  'Logos & Maps',
 ];
 
 const PAGES = [
+  'Chinmaya Mission',
   'ALL',
-  'Home',
-  'About',
-  'Activities',
-  "Let's Connect",
+  'Temples',
+  'Festivals',
+  'Ashram',
+  'Leadership',
   'Marathon',
-  'Registration',
   'General',
 ];
 
 export const AdminImagesPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [pagination, setPagination] = useState({ page: 1, limit: 24, total: 0, pages: 1 });
+  const [pagination, setPagination] = useState({ page: 1, limit: 100, total: 0, pages: 1 });
   const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'table'
 
   // Filter States
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('ALL');
-  const [pageFilter, setPageFilter] = useState('ALL');
+  const [pageFilter, setPageFilter] = useState('Chinmaya Mission');
   const [statusFilter, setStatusFilter] = useState('ALL');
 
   // Modal States
@@ -78,13 +73,13 @@ export const AdminImagesPage = () => {
     title: '',
     description: '',
     caption: '',
-    altText: 'Anti-Drug Movement Marathon 2026 Asset',
-    category: 'Home',
-    page: 'Home',
-    section: 'Hero Banner',
+    altText: 'Chinmaya Mission Adoni Asset',
+    category: 'Temples & Sevas',
+    page: 'Chinmaya Mission',
+    section: 'Temples',
     tags: '',
     status: 'ACTIVE',
-    displayOrder: 0,
+    displayOrder: 1,
     file: null,
   });
 
@@ -505,6 +500,27 @@ export const AdminImagesPage = () => {
             </button>
           </div>
 
+        </div>
+
+        {/* Quick Category Pills */}
+        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[var(--border-color)]/50">
+          <span className="text-[11px] font-extrabold uppercase tracking-wider text-[var(--text-muted)] mr-1">
+            Section:
+          </span>
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setCategoryFilter(cat)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                categoryFilter === cat
+                  ? 'bg-[var(--cyan)] text-white shadow-sm'
+                  : 'bg-[var(--bg-primary)] text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)] border border-[var(--border-color)]'
+              }`}
+            >
+              {cat === 'ALL' ? 'All Chinmaya Mission Images' : cat}
+            </button>
+          ))}
         </div>
       </div>
 

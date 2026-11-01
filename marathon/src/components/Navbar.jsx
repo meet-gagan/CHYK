@@ -13,6 +13,7 @@ import {
   LogIn,
   Sparkles,
   MessageSquare,
+  Film,
 } from 'lucide-react';
 
 export const Navbar = () => {
@@ -35,6 +36,7 @@ export const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
+    { name: 'Videos', path: '/videos' },
     { name: 'FAQs', path: '/faqs' },
     { name: 'Your Thoughts', path: '/your-thoughts' },
   ];
@@ -76,6 +78,9 @@ export const Navbar = () => {
                     : 'text-[var(--text-primary)] opacity-85'
                 }`}
               >
+                {link.name === 'Videos' && (
+                  <Film className="w-3.5 h-3.5 text-red-500" />
+                )}
                 {link.name === 'Your Thoughts' && (
                   <MessageSquare className="w-3.5 h-3.5 text-[var(--orange)]" />
                 )}
@@ -308,6 +313,9 @@ export const Navbar = () => {
                 }`}
               >
                 <span className="flex items-center gap-2.5">
+                  {link.name === 'Videos' && (
+                    <Film className="w-4 h-4 text-red-500" />
+                  )}
                   {link.name === 'Your Thoughts' && (
                     <MessageSquare className="w-4 h-4 text-[var(--orange)]" />
                   )}

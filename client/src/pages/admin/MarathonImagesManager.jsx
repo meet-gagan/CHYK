@@ -88,17 +88,22 @@ export const MarathonImagesManager = () => {
         order: 'asc',
       });
 
-      if (res.data?.success && Array.isArray(res.data.data)) {
-        setImages(res.data.data);
+      const mediaItems =
+        res.data?.data?.items ||
+        (Array.isArray(res.data?.data) ? res.data.data : []);
+
+      if (mediaItems.length > 0) {
+        setImages(mediaItems);
       } else {
         // Fallback to fetch by pageName
         const fallbackRes = await mediaService.getMedia({
           pageName: 'Marathon',
           limit: 100,
         });
-        if (fallbackRes.data?.success && Array.isArray(fallbackRes.data.data)) {
-          setImages(fallbackRes.data.data);
-        }
+        const fallbackItems =
+          fallbackRes.data?.data?.items ||
+          (Array.isArray(fallbackRes.data?.data) ? fallbackRes.data.data : []);
+        setImages(fallbackItems);
       }
     } catch (err) {
       console.error('Failed to load marathon images:', err);

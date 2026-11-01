@@ -30,7 +30,9 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
   switch (section.type) {
     case 'hero': {
       const heroGraphicUrl =
-        section.imageUrl && !section.imageUrl.includes('unsplash.com')
+        section.imageUrl &&
+        !section.imageUrl.includes('unsplash.com') &&
+        !section.imageUrl.includes('hero_main_horiz')
           ? section.imageUrl
           : '/assets/images/hero-runners-graphic.png';
 
@@ -52,30 +54,30 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-[var(--orange)]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-10 w-80 h-80 bg-[var(--yellow)]/10 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="w-full flex flex-col lg:flex-row items-center py-6 sm:py-8 lg:py-12 relative z-10 pl-4 sm:pl-6 lg:pl-10 xl:pl-16 pr-0 lg:pr-0 xl:pr-0 overflow-hidden">
-            {/* Center Column: Content brought directly to the middle */}
-            <div className="w-full lg:flex-1 flex justify-center items-center py-4 px-2 sm:px-4 lg:px-6 z-10">
-              <div className="w-full max-w-xl xl:max-w-2xl flex flex-col items-center text-center space-y-5 sm:space-y-6">
-                <div className="space-y-2.5 sm:space-y-3">
-                  <h1 className="text-3xl sm:text-5xl lg:text-[3.25rem] font-black font-heading tracking-tight text-[var(--text-primary)] leading-[1.08] uppercase">
+          <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center justify-between py-6 sm:py-8 lg:py-10 relative z-10 px-4 sm:px-6 lg:px-8 gap-8 lg:gap-10">
+            {/* Left Column: Content */}
+            <div className="w-full lg:flex-1 flex justify-center lg:justify-start items-center py-2 z-10 text-center lg:text-left">
+              <div className="w-full max-w-xl flex flex-col items-center lg:items-start text-center lg:text-left space-y-4 sm:space-y-5">
+                <div className="space-y-2 sm:space-y-2.5">
+                  <h1 className="text-2xl sm:text-4xl lg:text-[2.65rem] font-black font-heading tracking-tight text-[var(--text-primary)] leading-[1.1] uppercase">
                     {section.title || 'ANTI-DRUG MOVEMENT MARATHON RUN 2026'}
                   </h1>
                   {displaySubtitle && (
-                    <p className="text-lg sm:text-2xl lg:text-3xl font-black font-heading text-[var(--orange)] tracking-wide">
+                    <p className="text-base sm:text-xl lg:text-2xl font-black font-heading text-[var(--orange)] tracking-wide">
                       {displaySubtitle}
                     </p>
                   )}
                   {displayDescription && (
-                    <p className="text-sm sm:text-base lg:text-lg font-extrabold text-[var(--text-primary)]/85 max-w-lg mx-auto leading-relaxed tracking-wider uppercase">
+                    <p className="text-xs sm:text-sm lg:text-base font-extrabold text-[var(--text-primary)]/85 max-w-lg mx-auto lg:mx-0 leading-relaxed tracking-wider uppercase">
                       {displayDescription}
                     </p>
                   )}
                 </div>
 
                 {/* Date & Route Pill */}
-                <div className="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-6 px-4 sm:px-5 py-3 rounded-2xl bg-white border border-[rgba(11,35,64,0.08)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)] text-xs sm:text-sm font-bold text-[var(--text-primary)] mx-auto">
+                <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-5 px-3.5 sm:px-4 py-2.5 rounded-2xl bg-white border border-[rgba(11,35,64,0.08)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)] text-xs font-bold text-[var(--text-primary)] mx-auto lg:mx-0">
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--orange)] shrink-0" />
+                    <Calendar className="w-4 h-4 text-[var(--orange)] shrink-0" />
                     <span>Sunday, 20 December 2026</span>
                   </div>
                   <div className="h-4 w-px bg-[var(--border-color)] hidden sm:block" />
@@ -84,42 +86,42 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                     className="flex items-center gap-2 text-decoration-none text-[var(--text-primary)] hover:text-[var(--orange)] transition-colors cursor-pointer group"
                     title="Click to view Marathon Route Map"
                   >
-                    <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--cyan)] group-hover:scale-110 transition-transform shrink-0" />
+                    <MapPin className="w-4 h-4 text-[var(--cyan)] group-hover:scale-110 transition-transform shrink-0" />
                     <span className="underline decoration-dotted underline-offset-4 font-extrabold">Route of Marathon</span>
                   </Link>
                 </div>
 
                 {/* Primary & Secondary Buttons */}
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-1 w-full sm:w-auto mx-auto">
+                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-1 w-full sm:w-auto mx-auto lg:mx-0">
                   {section.primaryButtonText && (
                     <Link
                       to={section.primaryButtonLink || '/register'}
-                      className="btn-primary text-sm sm:text-base py-3.5 sm:py-4 px-8 text-decoration-none shadow-xl hover:shadow-2xl transition-all duration-300 w-full sm:w-auto justify-center"
+                      className="btn-primary text-xs sm:text-sm py-3 sm:py-3.5 px-6 sm:px-7 text-decoration-none shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto justify-center"
                     >
-                      <Award className="w-5 h-5 shrink-0" />
+                      <Award className="w-4 h-4 shrink-0" />
                       <span>{section.primaryButtonText}</span>
                     </Link>
                   )}
                   {section.secondaryButtonText && (
                     <a
                       href={section.secondaryButtonLink || '#about'}
-                      className="btn-secondary text-sm sm:text-base py-3.5 sm:py-4 px-8 text-decoration-none bg-white/70 hover:bg-white transition-all duration-300 w-full sm:w-auto justify-center"
+                      className="btn-secondary text-xs sm:text-sm py-3 sm:py-3.5 px-6 sm:px-7 text-decoration-none bg-white/70 hover:bg-white transition-all duration-300 w-full sm:w-auto justify-center"
                     >
                       <span>{section.secondaryButtonText}</span>
-                      <ArrowRight className="w-5 h-5 shrink-0" />
+                      <ArrowRight className="w-4 h-4 shrink-0" />
                     </a>
                   )}
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Hero Runners Dynamic Graphic kept strictly flush to the far right edge */}
-            <div className="w-full lg:w-auto shrink-0 flex justify-end items-center pr-0 mr-0 relative self-center lg:self-stretch overflow-hidden">
-              <div className="w-full flex justify-end items-center pr-0 mr-0">
+            {/* Right Column: Hero Runners Image (Nicely sized & decreased so left content leads) */}
+            <div className="w-full lg:w-auto shrink-0 flex justify-center lg:justify-end items-center">
+              <div className="w-full max-w-[340px] sm:max-w-[390px] lg:max-w-[420px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg border border-[rgba(11,35,64,0.08)] bg-white/60 backdrop-blur-sm group">
                 <img
                   src={heroGraphicUrl}
                   alt={section.title || 'Anti-Drug Movement Marathon Runners'}
-                  className="w-full sm:w-auto max-w-[650px] lg:max-w-[760px] xl:max-w-[850px] h-auto max-h-[380px] sm:max-h-[440px] lg:max-h-[470px] object-contain object-right ml-auto block drop-shadow-2xl transform lg:scale-105 origin-right transition-transform duration-500 hover:scale-108 pr-0 mr-0"
+                  className="w-full h-auto max-h-[220px] sm:max-h-[250px] lg:max-h-[275px] object-cover block transition-transform duration-500 group-hover:scale-105"
                   onError={(e) => {
                     if (e.target.src !== window.location.origin + '/assets/images/hero-runners-graphic.png') {
                       e.target.src = '/assets/images/hero-runners-graphic.png';

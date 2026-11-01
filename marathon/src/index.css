@@ -58,10 +58,13 @@ section,
 
 /* Media responsiveness */
 img,
-video,
-iframe {
+video {
   max-width: 100%;
   height: auto;
+}
+
+iframe {
+  max-width: 100%;
 }
 
 /* Prevent long text from breaking layout while preserving readability */

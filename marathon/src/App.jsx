@@ -16,6 +16,7 @@ import { MyActivityPage } from './pages/MyActivityPage';
 import { VerifyPassPage } from './pages/VerifyPassPage';
 import { FaqPage } from './pages/FaqPage';
 import { YourThoughtsPage } from './pages/YourThoughtsPage';
+import { VideosPage } from './pages/VideosPage';
 
 // Marathon Layout containing Marathon Navbar and Footer
 function MarathonLayout() {
@@ -59,6 +60,9 @@ export function App() {
               {/* Dedicated FAQs Page with Ask Your FAQ doubt submission */}
               <Route path="/faqs" element={<FaqPage />} />
               <Route path="/faq" element={<FaqPage />} />
+
+              {/* Dedicated Public Videos Page */}
+              <Route path="/videos" element={<VideosPage />} />
 
               {/* Your Thoughts & Community Story Board */}
               <Route path="/your-thoughts" element={<YourThoughtsPage />} />

@@ -329,4 +329,8 @@ export const sevaBookingService = {
   verifyBooking: (refId) => api.get(`/seva-bookings/verify/${refId}`),
 };
 
+export const videoService = {
+  getVideos: () => api.get('/videos'),
+};
+
 export default api;

@@ -9,6 +9,8 @@ import HomePage from '../models/HomePage.js';
 import Footer from '../models/Footer.js';
 import Media from '../models/Media.js';
 import Thought from '../models/Thought.js';
+import Video from '../models/Video.js';
+import { extractYouTubeId, getYouTubeThumbnailUrl } from './youtube.js';
 import { defaultFooterConfig } from '../controllers/footerController.js';
 
 export const adoniInstitutionsList = [
@@ -1276,6 +1278,37 @@ export const seedInitialData = async () => {
         await Thought.insertMany(initialThoughts);
         console.log(`[Seed] Seeded ${initialThoughts.length} initial thoughts for Marathon Story Board.`);
       }
+    }
+
+    // 12. Seed Initial YouTube Videos for Videos Page if empty
+    const videoCount = await Video.countDocuments();
+    if (videoCount === 0) {
+      const initialVideos = [
+        {
+          youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+          youtubeId: 'dQw4w9WgXcQ',
+          title: 'Anti-Drug Movement Marathon 2026 — Official Awareness Anthem',
+          description: 'Adoni youth united for health, vitality, and a drug-free future.',
+          thumbnailUrl: 'https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg',
+        },
+        {
+          youtubeUrl: 'https://www.youtube.com/watch?v=ysz5S6PUM-U',
+          youtubeId: 'ysz5S6PUM-U',
+          title: 'Youth Power & Discipline • Say No to Drugs',
+          description: 'Students across 50+ schools and colleges take the oath against substance abuse.',
+          thumbnailUrl: 'https://img.youtube.com/vi/ysz5S6PUM-U/hqdefault.jpg',
+        },
+        {
+          youtubeUrl: 'https://www.youtube.com/watch?v=V1bFr2KGq1g',
+          youtubeId: 'V1bFr2KGq1g',
+          title: 'Swami Chinmayananda: Inspiring the Next Generation',
+          description: 'Words of wisdom from Pujya Gurudev on cultivating mental resilience and purpose.',
+          thumbnailUrl: 'https://img.youtube.com/vi/V1bFr2KGq1g/hqdefault.jpg',
+        },
+      ];
+
+      await Video.insertMany(initialVideos);
+      console.log(`[Seed] Seeded ${initialVideos.length} initial YouTube videos for Marathon Videos page.`);
     }
   } catch (err) {
     console.error('[Seed Error]:', err.message);

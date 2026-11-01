@@ -71,7 +71,8 @@ const isAdminTarget = (config) => {
     url.includes('/footer/admin') ||
     url.includes('/activities/admin') ||
     url.includes('/contact/admin') ||
-    url.includes('/faqs/admin')
+    url.includes('/faqs/admin') ||
+    (url.includes('/videos') && config.method?.toLowerCase() !== 'get')
   ) {
     return true;
   }
@@ -362,6 +363,13 @@ export const siteSettingsService = {
   getStatus: () => api.get('/site-settings'),
   updateStatus: (isLive) => api.put('/site-settings', { isLive }),
   toggleStatus: () => api.post('/site-settings/toggle'),
+};
+
+export const videoService = {
+  getVideos: () => api.get('/videos'),
+  createVideo: (data) => api.post('/videos', data, { headers: { 'X-Auth-Scope': 'admin' } }),
+  updateVideo: (id, data) => api.put(`/videos/${id}`, data, { headers: { 'X-Auth-Scope': 'admin' } }),
+  deleteVideo: (id) => api.delete(`/videos/${id}`, { headers: { 'X-Auth-Scope': 'admin' } }),
 };
 
 export default api;

@@ -21,6 +21,7 @@ import { StoryBoardManager } from './admin/StoryBoardManager';
 import { UpdateContentManager } from './admin/UpdateContentManager';
 import { SevaBookingsManager } from './admin/SevaBookingsManager';
 import { MarathonImagesManager } from './admin/MarathonImagesManager';
+import { AdminVideosPage } from './admin/AdminVideosPage';
 import { RegistrationSummaryCards } from '../components/admin/RegistrationSummaryCards';
 import { TshirtSummary } from '../components/admin/TshirtSummary';
 import { ClassSummary } from '../components/admin/ClassSummary';
@@ -42,6 +43,7 @@ import {
   Settings,
   Image as ImageIcon,
   Flame,
+  Video,
   HelpCircle,
   KeyRound,
   CheckCircle,
@@ -72,6 +74,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
     if (path.includes('/admin/event-config')) return 'EVENT_CONFIG';
     if (path.includes('/admin/banners')) return 'BANNERS';
     if (path.includes('/admin/marathon-images') || path.includes('/admin/marathon')) return 'MARATHON_IMAGES';
+    if (path.includes('/admin/videos') || path.includes('/admin/youtube')) return 'VIDEOS';
     if (path.includes('/admin/change-password')) return 'PASSWORD';
     if (path.includes('/admin/lets-connect')) return 'LETS_CONNECT';
     if (path.includes('/admin/volunteering')) return 'VOLUNTEERING';
@@ -468,6 +471,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
           { id: 'VOLUNTEERING', label: 'Volunteering', icon: HeartHandshake },
           { id: 'BOOKINGS', label: 'Bookings', icon: Landmark },
           { id: 'MARATHON_IMAGES', label: 'Marathon Images', icon: Flame },
+          { id: 'VIDEOS', label: 'Videos', icon: Video },
           { id: 'IMAGES', label: 'Images & Media', icon: ImageIcon },
           { id: 'HOME_PAGE', label: 'Home Page CMS', icon: Layout },
           { id: 'FOOTER_CMS', label: 'Footer CMS', icon: Settings },
@@ -517,6 +521,9 @@ export const AdminDashboardPage = ({ defaultTab }) => {
 
       {/* TAB: MARATHON WEBSITE IMAGES & ASSETS */}
       {activeTab === 'MARATHON_IMAGES' && <MarathonImagesManager />}
+
+      {/* TAB: YOUTUBE VIDEO MANAGEMENT */}
+      {activeTab === 'VIDEOS' && <AdminVideosPage />}
 
       {/* TAB: IMAGES & MEDIA LIBRARY */}
       {activeTab === 'IMAGES' && <AdminImagesPage />}

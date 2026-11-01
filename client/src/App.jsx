@@ -303,6 +303,14 @@ export function App() {
               }
             />
             <Route
+              path="/admin/videos"
+              element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminDashboardPage defaultTab="VIDEOS" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/admin/banners"
               element={
                 <ProtectedRoute requireAdmin={true}>

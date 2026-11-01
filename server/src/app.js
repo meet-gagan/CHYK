@@ -41,6 +41,7 @@ import webContentRoutes from './routes/webContentRoutes.js';
 import volunteerRoutes from './routes/volunteerRoutes.js';
 import sevaBookingRoutes from './routes/sevaBookingRoutes.js';
 import siteSettingsRoutes from './routes/siteSettingsRoutes.js';
+import videoRoutes from './routes/videoRoutes.js';
 
 const app = express();
 
@@ -160,6 +161,7 @@ const routes = [
   { path: 'admin/content', router: webContentRoutes },
   { path: 'volunteers', router: volunteerRoutes },
   { path: 'seva-bookings', router: sevaBookingRoutes },
+  { path: 'videos', router: videoRoutes },
   { path: 'site-settings', router: siteSettingsRoutes },
   { path: 'site-status', router: siteSettingsRoutes },
 ];
