@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🕉️ Chinmaya Mission, Adoni — Official Web Portal
 
 > **"To give maximum happiness to the maximum number of people for the maximum time."**  
@@ -184,3 +185,6 @@ chinmaya_mission_adoni/
 ## ⚖️ License & Credits
 
 © 2026 **Chinmaya Mission, Adoni**. All Rights Reserved.
+=======
+# CHYK
+>>>>>>> fabefd87013e1fe4ac53328ec302fc7bac8aefd1
