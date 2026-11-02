@@ -60,6 +60,7 @@ import {
   MessageSquare,
   UserCheck,
   HeartHandshake,
+  AlertTriangle,
 } from 'lucide-react';
 
 export const AdminDashboardPage = ({ defaultTab }) => {

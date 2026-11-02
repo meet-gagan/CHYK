@@ -20,8 +20,8 @@ export const SearchableSelect = ({
   const accentHover = isCyan ? 'hover:bg-[var(--cyan)]/10 hover:text-[var(--cyan)]' : 'hover:bg-[var(--orange)]/10 hover:text-[var(--orange)]';
   const accentActive = isCyan ? 'bg-[var(--cyan)]/15 text-[var(--cyan)] font-extrabold' : 'bg-[var(--orange)]/15 text-[var(--orange)] font-extrabold';
 
-  const filteredOptions = options.filter((opt) =>
-    opt.toLowerCase().includes(searchTerm.toLowerCase().trim())
+  const filteredOptions = (Array.isArray(options) ? options : []).filter((opt) =>
+    opt && typeof opt === 'string' && opt.toLowerCase().includes((searchTerm || '').toLowerCase().trim())
   );
 
   useEffect(() => {

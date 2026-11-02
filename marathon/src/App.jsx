@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Outlet } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
@@ -6,26 +6,37 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
-// Marathon Subdomain Pages
+// Eagerly loaded for instant first paint
 import { HomePage } from './pages/HomePage';
-import { RegistrationPage } from './pages/RegistrationPage';
-import { LoginPage } from './pages/LoginPage';
-import { SignupPage } from './pages/SignupPage';
-import { ProfilePage } from './pages/ProfilePage';
-import { MyActivityPage } from './pages/MyActivityPage';
-import { VerifyPassPage } from './pages/VerifyPassPage';
-import { FaqPage } from './pages/FaqPage';
-import { YourThoughtsPage } from './pages/YourThoughtsPage';
-import { VideosPage } from './pages/VideosPage';
-import { RouteMapPage } from './pages/RouteMapPage';
-import { TermsPage } from './pages/TermsPage';
-import { WellnessCentersPage } from './pages/WellnessCentersPage';
-import { AboutPage } from './pages/AboutPage';
-import { MarathonComingSoonPage } from './pages/MarathonComingSoonPage';
+
+// Code-split secondary routes for fast initial load & small bundle size
+const RegistrationPage = lazy(() => import('./pages/RegistrationPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const SignupPage = lazy(() => import('./pages/SignupPage'));
+const ProfilePage = lazy(() => import('./pages/ProfilePage'));
+const MyActivityPage = lazy(() => import('./pages/MyActivityPage'));
+const VerifyPassPage = lazy(() => import('./pages/VerifyPassPage'));
+const FaqPage = lazy(() => import('./pages/FaqPage'));
+const YourThoughtsPage = lazy(() => import('./pages/YourThoughtsPage'));
+const VideosPage = lazy(() => import('./pages/VideosPage'));
+const RouteMapPage = lazy(() => import('./pages/RouteMapPage'));
+const TermsPage = lazy(() => import('./pages/TermsPage'));
+const WellnessCentersPage = lazy(() => import('./pages/WellnessCentersPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const MarathonComingSoonPage = lazy(() => import('./pages/MarathonComingSoonPage'));
+
 import { MarathonSiteSettingsProvider } from './context/MarathonSiteSettingsContext';
 import { MarathonSiteAccessGate } from './components/MarathonSiteAccessGate';
 import { useAuth } from './context/AuthContext';
 import { RegistrationAuthModal } from './components/auth/RegistrationAuthModal';
+
+function PageLoader() {
+  return (
+    <div className="min-h-[50vh] flex items-center justify-center">
+      <div className="w-8 h-8 rounded-full border-3 border-[var(--orange)] border-t-transparent animate-spin" />
+    </div>
+  );
+}
 
 // Marathon Layout containing Marathon Navbar and Footer
 function MarathonLayout() {
@@ -35,7 +46,9 @@ function MarathonLayout() {
     <div className="min-h-screen flex flex-col justify-between selection:bg-[var(--orange)] selection:text-white w-full max-w-full overflow-x-hidden">
       <Navbar />
       <main className="flex-grow pt-16 md:pt-20 w-full max-w-full overflow-x-hidden">
-        <Outlet />
+        <Suspense fallback={<PageLoader />}>
+          <Outlet />
+        </Suspense>
       </main>
       <Footer />
 
@@ -90,10 +103,10 @@ export function App() {
             <MarathonSiteAccessGate>
               <Routes>
                 {/* Standalone Coming Soon / Launch Routes */}
-                <Route path="/coming-soon" element={<MarathonComingSoonPage />} />
-                <Route path="/comming-soon" element={<MarathonComingSoonPage />} />
-                <Route path="/launch" element={<MarathonComingSoonPage />} />
-                <Route path="/teaser" element={<MarathonComingSoonPage />} />
+                <Route path="/coming-soon" element={<Suspense fallback={<PageLoader />}><MarathonComingSoonPage /></Suspense>} />
+                <Route path="/comming-soon" element={<Suspense fallback={<PageLoader />}><MarathonComingSoonPage /></Suspense>} />
+                <Route path="/launch" element={<Suspense fallback={<PageLoader />}><MarathonComingSoonPage /></Suspense>} />
+                <Route path="/teaser" element={<Suspense fallback={<PageLoader />}><MarathonComingSoonPage /></Suspense>} />
 
                 <Route element={<MarathonLayout />}>
                   {/* Marathon Landing Page */}
@@ -107,6 +120,8 @@ export function App() {
               {/* Dedicated FAQs Page with Ask Your FAQ doubt submission */}
               <Route path="/faqs" element={<FaqPage />} />
               <Route path="/faq" element={<FaqPage />} />
+              <Route path="/lets-connect" element={<Navigate to="/faqs" replace />} />
+              <Route path="/contact" element={<Navigate to="/faqs" replace />} />
 
               {/* Dedicated Public Udaan (Videos) Page */}
               <Route path="/udaan" element={<VideosPage />} />

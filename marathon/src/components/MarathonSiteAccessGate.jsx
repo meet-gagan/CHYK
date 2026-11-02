@@ -35,18 +35,6 @@ export function MarathonSiteAccessGate({ children }) {
     );
   }
 
-  // 4. Loading state while checking marathon site settings from API (bypass spinner if on chyk.vercel.app)
-  if (loading && !isChykLiveDomain) {
-    return (
-      <div className="min-h-screen bg-[#07162D] flex flex-col items-center justify-center text-orange-400">
-        <div className="w-10 h-10 border-4 border-[#F0441D] border-t-transparent rounded-full animate-spin mb-4" />
-        <p className="text-xs font-bold tracking-widest text-[#F6D9BA] uppercase">
-          CHINMAYA YUVA KENDRA • MARATHON 2026
-        </p>
-      </div>
-    );
-  }
-
   const effectiveIsLive = isChykLiveDomain ? true : isLive;
   const isComingSoonRoute = COMING_SOON_PATHS.includes(pathname);
 

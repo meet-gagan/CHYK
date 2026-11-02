@@ -14,6 +14,7 @@ import {
   ShieldCheck,
   Stethoscope,
   X,
+  ExternalLink,
 } from 'lucide-react';
 import { WELLNESS_CENTERS, DISTRICT_OPTIONS } from '../data/wellnessCentersData';
 
@@ -110,7 +111,7 @@ export const WellnessCentersPage = () => {
           </h1>
 
           <p className="text-sm sm:text-base lg:text-lg text-[var(--text-muted,#64748B)] font-medium leading-relaxed">
-            Find government hospitals and NGO support centers.
+            Find government hospitals and NGO support centers Nearby.
           </p>
         </header>
 
@@ -433,6 +434,24 @@ export const WellnessCentersPage = () => {
             </button>
           </div>
         )}
+
+        {/* Source Attribution Note */}
+        <div className="pt-2 sm:pt-4 text-center">
+          <div className="inline-flex flex-wrap items-center justify-center gap-1.5 px-4 py-2.5 rounded-2xl bg-white/80 border border-[var(--border-color)] text-xs text-[var(--text-muted)] shadow-sm">
+            <Info className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+            <span className="font-bold text-[var(--text-primary)]">Note:</span>
+            <span>All information has been fetched from:</span>
+            <a
+              href="https://eagle.appolice.gov.in/de-addiction-centres"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--orange)] hover:underline font-semibold inline-flex items-center gap-1 break-all"
+            >
+              https://eagle.appolice.gov.in/de-addiction-centres
+              <ExternalLink className="w-3 h-3 shrink-0" />
+            </a>
+          </div>
+        </div>
 
       </div>
     </div>

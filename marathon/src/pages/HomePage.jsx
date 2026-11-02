@@ -129,7 +129,6 @@ const getCached = (key, fallback) => {
 export const HomePage = () => {
   const [homepageData, setHomepageData] = useState(() => getCached('cms_homepage_config', null));
   const [webContentData, setWebContentData] = useState(() => getCached('cached_cms_marathon_home', null));
-  const [loading, setLoading] = useState(() => !getCached('cms_homepage_config', null));
   const [eventConfig, setEventConfig] = useState(() => getCached('cms_event_config', null));
   const [banners, setBanners] = useState(() => getCached('cms_banners', { horizontal: null, vertical: [] }));
   const [faqs, setFaqs] = useState(() => getCached('cms_faqs', DEFAULT_FAQS));
@@ -154,8 +153,7 @@ export const HomePage = () => {
           }
         }
       })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+      .catch(() => {});
 
     // 2. Fetch Multi-Website CMS Content for Marathon Home
     webContentService
@@ -219,25 +217,12 @@ export const HomePage = () => {
 
     window.addEventListener('cms_updated', handleCmsUpdate);
     window.addEventListener('storage', handleCmsUpdate);
-    window.addEventListener('focus', handleCmsUpdate);
 
     return () => {
       window.removeEventListener('cms_updated', handleCmsUpdate);
       window.removeEventListener('storage', handleCmsUpdate);
-      window.removeEventListener('focus', handleCmsUpdate);
     };
   }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-4">
-        <div className="w-12 h-12 rounded-full border-4 border-[var(--orange)] border-t-transparent animate-spin" />
-        <p className="text-xs font-bold text-[var(--text-muted)] tracking-wider uppercase">
-          Loading Anti-Drug Movement 2026...
-        </p>
-      </div>
-    );
-  }
 
   // GLOBAL HOMEPAGE OFF / DISABLED MAINTENANCE STATE
   if (homepageData && homepageData.isEnabled === false) {

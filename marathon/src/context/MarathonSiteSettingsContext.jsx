@@ -17,13 +17,7 @@ const getInitialLiveStatus = () => {
 
 export const MarathonSiteSettingsProvider = ({ children }) => {
   const [isLive, setIsLive] = useState(getInitialLiveStatus);
-  const [loading, setLoading] = useState(() => {
-    try {
-      return localStorage.getItem(CACHE_KEY) === null;
-    } catch (_) {
-      return false;
-    }
-  });
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const fetchSiteStatus = useCallback(async () => {
