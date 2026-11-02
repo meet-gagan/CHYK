@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowLeft,
-  Award,
 } from 'lucide-react';
 
 export const TERMS_AND_CONDITIONS = [
@@ -101,19 +100,11 @@ export const TermsPage = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between gap-4">
             <Link
-              to="/register"
+              to="/"
               className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[var(--text-muted)] hover:text-[var(--orange)] transition-colors text-decoration-none group"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              <span>Back to Registration</span>
-            </Link>
-
-            <Link
-              to="/register"
-              className="btn-primary py-2 px-4 text-xs font-extrabold flex items-center gap-1.5 shadow-md hover:scale-[1.02] transition-transform text-decoration-none"
-            >
-              <Award className="w-3.5 h-3.5" />
-              <span>REGISTER NOW</span>
+              <span>Back to Home Page</span>
             </Link>
           </div>
 
