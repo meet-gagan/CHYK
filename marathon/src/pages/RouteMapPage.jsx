@@ -11,7 +11,6 @@ import {
   Navigation,
   HeartPulse,
   Droplet,
-  Users,
   Flag,
 } from 'lucide-react';
 
@@ -102,7 +101,7 @@ export const RouteMapPage = () => {
             <span>Runner Safety & Support Along The Route</span>
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs sm:text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
             <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-[var(--bg-tertiary)]/50 border border-[var(--border-color)]">
               <Droplet className="w-5 h-5 text-cyan-500 shrink-0 mt-0.5" />
               <div>
@@ -119,16 +118,6 @@ export const RouteMapPage = () => {
                 <strong className="block text-[var(--text-primary)] font-bold mb-0.5">Dedicated Ambulances</strong>
                 <p className="text-[var(--text-muted)] leading-relaxed">
                   Medical response ambulances with certified first-aid paramedics following the runner pack.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-[var(--bg-tertiary)]/50 border border-[var(--border-color)]">
-              <Users className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-              <div>
-                <strong className="block text-[var(--text-primary)] font-bold mb-0.5">Route Marshals</strong>
-                <p className="text-[var(--text-muted)] leading-relaxed">
-                  Dedicated CYK volunteers ensuring zero-traffic running lanes.
                 </p>
               </div>
             </div>

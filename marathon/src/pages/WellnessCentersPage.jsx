@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
-  HeartPulse,
   Building2,
   MapPin,
   Phone,
@@ -101,17 +100,12 @@ export const WellnessCentersPage = () => {
         {/* PAGE HEADER */}
         {/* ======================================================== */}
         <header className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/25 font-black text-xs uppercase tracking-widest shadow-xs">
-            <HeartPulse className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Healthcare & Rehabilitation Directory</span>
-          </div>
-
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading text-[var(--text-primary,#0B2340)] tracking-tight">
             Wellness Centers
           </h1>
 
           <p className="text-sm sm:text-base lg:text-lg text-[var(--text-muted,#64748B)] font-medium leading-relaxed">
-            Find government hospitals and NGO support centers Nearby.
+            Find government hospitals and NGO support centers nearby.
           </p>
         </header>
 

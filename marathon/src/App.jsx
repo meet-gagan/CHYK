@@ -21,6 +21,7 @@ const YourThoughtsPage = lazy(() => import('./pages/YourThoughtsPage'));
 const VideosPage = lazy(() => import('./pages/VideosPage'));
 const RouteMapPage = lazy(() => import('./pages/RouteMapPage'));
 const TermsPage = lazy(() => import('./pages/TermsPage'));
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 const WellnessCentersPage = lazy(() => import('./pages/WellnessCentersPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
 const MarathonComingSoonPage = lazy(() => import('./pages/MarathonComingSoonPage'));
@@ -145,6 +146,10 @@ export function App() {
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/terms-and-conditions" element={<TermsPage />} />
               <Route path="/terms-conditions" element={<TermsPage />} />
+
+              {/* Privacy Policy Page */}
+              <Route path="/privacy" element={<PrivacyPolicyPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
 
               {/* Marathon Registration Page */}
               <Route path="/register" element={<RegistrationPage />} />

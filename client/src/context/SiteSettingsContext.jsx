@@ -38,7 +38,8 @@ export const SiteSettingsProvider = ({ children }) => {
       }
       setError(null);
     } catch (err) {
-      console.warn('[SiteSettings] Failed to fetch site status, using default:', err);
+      console.warn('[SiteSettings] Failed to fetch site status, using default (true):', err);
+      setIsLive(true);
       setError(err.message);
     } finally {
       setLoading(false);

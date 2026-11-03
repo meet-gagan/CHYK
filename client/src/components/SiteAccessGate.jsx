@@ -11,18 +11,29 @@ export function SiteAccessGate({ children }) {
   const location = useLocation();
   const pathname = location.pathname.toLowerCase().replace(/\/+$/, '') || '/';
 
+  const hostname = typeof window !== 'undefined' ? window.location.hostname.toLowerCase() : '';
+
+  // Explicitly keep chinmayamissionadoni.org and local environments live
+  const isTargetLiveDomain =
+    hostname.includes('chinmayamissionadoni.org') ||
+    hostname.includes('chinmaya-mission-adoni') ||
+    hostname.includes('localhost') ||
+    hostname.includes('127.0.0.1');
+
+  const effectiveIsLive = isTargetLiveDomain ? true : isLive;
+
   // 1. Always allow Admin routes unconditionally so admins can manage and toggle the site
   if (pathname.startsWith('/admin')) {
     return (
       <>
         {children}
-        <AdminStatusToggle isLive={isLive} onToggle={toggleLive} />
+        <AdminStatusToggle isLive={effectiveIsLive} onToggle={toggleLive} />
       </>
     );
   }
 
-  // 2. Loading state while checking site settings from API
-  if (loading) {
+  // 2. Loading state while checking site settings from API (skip on target live domains for instant rendering)
+  if (loading && !isTargetLiveDomain) {
     return (
       <div className="min-h-screen bg-[#161a33] flex flex-col items-center justify-center text-amber-200">
         <div className="w-10 h-10 border-4 border-amber-400 border-t-transparent rounded-full animate-spin mb-4" />
@@ -35,12 +46,12 @@ export function SiteAccessGate({ children }) {
 
   // 3. When isLive === false (Coming Soon mode active):
   //    Block all public routes and display the Coming Soon page
-  if (!isLive) {
+  if (!effectiveIsLive) {
     if (isComingSoonRoute) {
       return (
         <>
           <ComingSoonPage />
-          <AdminStatusToggle isLive={isLive} onToggle={toggleLive} />
+          <AdminStatusToggle isLive={effectiveIsLive} onToggle={toggleLive} />
         </>
       );
     }
@@ -50,7 +61,7 @@ export function SiteAccessGate({ children }) {
 
   // 4. When isLive === true (Live mode active):
   //    Display everything EXCEPT the coming soon page (which redirects to /)
-  if (isLive && isComingSoonRoute) {
+  if (effectiveIsLive && isComingSoonRoute) {
     return <Navigate to="/" replace />;
   }
 
@@ -58,7 +69,7 @@ export function SiteAccessGate({ children }) {
   return (
     <>
       {children}
-      <AdminStatusToggle isLive={isLive} onToggle={toggleLive} />
+      <AdminStatusToggle isLive={effectiveIsLive} onToggle={toggleLive} />
     </>
   );
 }
