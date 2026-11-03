@@ -24,7 +24,7 @@ const TermsPage = lazy(() => import('./pages/TermsPage'));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
 const WellnessCentersPage = lazy(() => import('./pages/WellnessCentersPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
-const MarathonComingSoonPage = lazy(() => import('./pages/MarathonComingSoonPage'));
+import { MarathonComingSoonPage } from './pages/MarathonComingSoonPage';
 
 import { MarathonSiteSettingsProvider } from './context/MarathonSiteSettingsContext';
 import { MarathonSiteAccessGate } from './components/MarathonSiteAccessGate';
@@ -104,10 +104,10 @@ export function App() {
             <MarathonSiteAccessGate>
               <Routes>
                 {/* Standalone Coming Soon / Launch Routes */}
-                <Route path="/coming-soon" element={<Suspense fallback={<PageLoader />}><MarathonComingSoonPage /></Suspense>} />
-                <Route path="/comming-soon" element={<Suspense fallback={<PageLoader />}><MarathonComingSoonPage /></Suspense>} />
-                <Route path="/launch" element={<Suspense fallback={<PageLoader />}><MarathonComingSoonPage /></Suspense>} />
-                <Route path="/teaser" element={<Suspense fallback={<PageLoader />}><MarathonComingSoonPage /></Suspense>} />
+                <Route path="/coming-soon" element={<MarathonComingSoonPage />} />
+                <Route path="/comming-soon" element={<MarathonComingSoonPage />} />
+                <Route path="/launch" element={<MarathonComingSoonPage />} />
+                <Route path="/teaser" element={<MarathonComingSoonPage />} />
 
                 <Route element={<MarathonLayout />}>
                   {/* Marathon Landing Page */}

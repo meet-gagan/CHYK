@@ -8,7 +8,6 @@ import {
   Filter,
   Copy,
   Check,
-  Sparkles,
   Info,
   ShieldCheck,
   Stethoscope,
