@@ -118,7 +118,7 @@ export const RouteMapPage = () => {
               <div>
                 <strong className="block text-[var(--text-primary)] font-bold mb-0.5">Dedicated Ambulances</strong>
                 <p className="text-[var(--text-muted)] leading-relaxed">
-                  Two medical response ambulances with certified first-aid paramedics following the runner pack.
+                  Medical response ambulances with certified first-aid paramedics following the runner pack.
                 </p>
               </div>
             </div>

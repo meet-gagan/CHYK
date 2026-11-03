@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ExternalLink, Compass, Droplet, MapPin, Check, RotateCcw, Users } from 'lucide-react';
+import { ExternalLink, Compass, Droplet, MapPin, Check, RotateCcw } from 'lucide-react';
 
 export const GOOGLE_MAPS_ROUTE_URL = 'https://maps.app.goo.gl/aBVcfaNbbFJTNvmX9?g_st=aw';
 const FULL_ROUTE_EMBED_URL = 'https://maps.google.com/maps?saddr=Municipal%20High%20School%2C%20Adoni&daddr=Gosha%20Hospital%20Govt.Hospital%20Adoni%20to%3AChinmaya%20Mission%2C%20Adoni&t=&z=14&ie=UTF8&iwloc=&output=embed';
@@ -19,7 +19,7 @@ const WATER_POINTS = [
   {
     number: 2,
     name: 'VSB circle',
-    desc: 'Hydration & Energy Station',
+    desc: 'Hydration & First Aid Station',
     embedUrl: 'https://maps.google.com/maps?q=VSB+Circle+Adoni+Andhra+Pradesh&t=&z=16&ie=UTF8&iwloc=&output=embed',
     mapUrl: 'https://www.google.com/maps/search/?api=1&query=VSB+Circle+Adoni+Andhra+Pradesh',
     badgeGradient: 'from-amber-500 to-orange-500',
@@ -30,7 +30,7 @@ const WATER_POINTS = [
   {
     number: 3,
     name: 'Yemmiganur circle',
-    desc: 'Hydration & Refreshment Station',
+    desc: 'Hydration & First Aid Station',
     embedUrl: 'https://maps.google.com/maps?q=Yemmiganur+Circle+Adoni+Andhra+Pradesh&t=&z=16&ie=UTF8&iwloc=&output=embed',
     mapUrl: 'https://www.google.com/maps/search/?api=1&query=Yemmiganur+Circle+Adoni+Andhra+Pradesh',
     badgeGradient: 'from-emerald-500 to-teal-500',
@@ -41,7 +41,7 @@ const WATER_POINTS = [
   {
     number: 4,
     name: 'Chinmaya mission',
-    desc: 'Finish Line Hydration & Recovery',
+    desc: 'Hydration & First Aid Station',
     embedUrl: 'https://maps.google.com/maps?q=Chinmaya+Mission+Adoni+Andhra+Pradesh&t=&z=16&ie=UTF8&iwloc=&output=embed',
     mapUrl: 'https://www.google.com/maps/search/?api=1&query=Chinmaya+Mission+Adoni+Andhra+Pradesh',
     badgeGradient: 'from-purple-500 to-indigo-600',
@@ -135,10 +135,6 @@ export const MarathonRouteMap = ({ className = '' }) => {
                 <Droplet className="w-3.5 h-3.5 fill-cyan-500 text-cyan-500" />
                 <span>Hydration Along The Route</span>
               </div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-amber-500/15 text-amber-700 border border-amber-500/25">
-                <Users className="w-3.5 h-3.5 text-amber-600" />
-                <span>Route Marshals</span>
-              </div>
             </div>
             <div className="flex items-center justify-between gap-2">
               <h3 className="text-2xl sm:text-3xl font-black font-heading text-[var(--text-primary)]">
@@ -215,21 +211,6 @@ export const MarathonRouteMap = ({ className = '' }) => {
                 </button>
               );
             })}
-          </div>
-
-          {/* Route Marshals Security & Safety Card */}
-          <div className="p-3 sm:p-3.5 rounded-2xl bg-[var(--bg-secondary,#FFFBF5)] border border-[var(--border-color)] flex items-center gap-3 shadow-xs">
-            <div className="w-9 h-9 rounded-xl bg-amber-500/15 text-amber-600 flex items-center justify-center shrink-0">
-              <Users className="w-4 h-4" />
-            </div>
-            <div>
-              <strong className="block text-xs sm:text-sm font-black text-[var(--text-primary)]">
-                Route Marshals
-              </strong>
-              <p className="text-[10px] sm:text-[11px] text-[var(--text-muted)] font-medium leading-tight">
-                Dedicated CYK volunteers ensuring zero-traffic running lanes.
-              </p>
-            </div>
           </div>
         </div>
       </div>
