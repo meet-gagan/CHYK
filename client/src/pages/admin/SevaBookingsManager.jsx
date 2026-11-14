@@ -15,6 +15,7 @@ import {
   Sparkles,
   User,
   AlertCircle,
+  AlertTriangle,
   Eye,
   X,
   FileSpreadsheet,
@@ -47,6 +48,57 @@ export const SevaBookingsManager = () => {
   const [notification, setNotification] = useState(null);
   const [copiedId, setCopiedId] = useState(null);
   const [stats, setStats] = useState({ totalRecords: 0, totalAmount: 0 });
+
+  // Bulk Selection & Deletion State
+  const [selectedBookingIds, setSelectedBookingIds] = useState([]);
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
+  const [bulkDeleting, setBulkDeleting] = useState(false);
+
+  useEffect(() => {
+    setSelectedBookingIds([]);
+  }, [categoryFilter, statusFilter, searchTerm]);
+
+  const isAllSelected =
+    bookings.length > 0 &&
+    bookings.every((b) => selectedBookingIds.includes(b._id));
+  const isSomeSelected =
+    bookings.some((b) => selectedBookingIds.includes(b._id)) && !isAllSelected;
+
+  const handleToggleSelectAll = () => {
+    if (isAllSelected) {
+      setSelectedBookingIds([]);
+    } else {
+      setSelectedBookingIds(bookings.map((b) => b._id));
+    }
+  };
+
+  const handleToggleSelectBooking = (id) => {
+    setSelectedBookingIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleConfirmBulkDelete = async () => {
+    if (selectedBookingIds.length === 0) return;
+    setBulkDeleting(true);
+    try {
+      const res = await sevaBookingService.bulkDeleteBookings(selectedBookingIds);
+      if (res.data?.success) {
+        showNotification('success', res.data.message || `Successfully deleted ${selectedBookingIds.length} bookings.`);
+        setBookings((prev) => prev.filter((b) => !selectedBookingIds.includes(b._id)));
+        setStats((prev) => ({
+          ...prev,
+          totalRecords: Math.max(0, prev.totalRecords - selectedBookingIds.length),
+        }));
+        setSelectedBookingIds([]);
+        setShowBulkDeleteModal(false);
+      }
+    } catch (err) {
+      showNotification('error', err.response?.data?.message || 'Failed to bulk delete bookings.');
+    } finally {
+      setBulkDeleting(false);
+    }
+  };
 
   const fetchBookings = async (isManual = false) => {
     if (isManual) setRefreshing(true);
@@ -408,6 +460,33 @@ _Chinmaya Mission, Adoni_`;
         </div>
       </div>
 
+      {/* Bulk Action Bar */}
+      {selectedBookingIds.length > 0 && (
+        <div className="p-4 px-5 rounded-2xl bg-red-500/10 border border-red-500/30 flex flex-wrap items-center justify-between gap-3 animate-in fade-in">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-black text-[var(--text-primary)]">
+              <span className="text-red-500 font-extrabold text-sm">{selectedBookingIds.length}</span> booking{selectedBookingIds.length > 1 ? 's' : ''} selected
+            </span>
+            <span className="text-xs text-[var(--text-muted)]">•</span>
+            <button
+              type="button"
+              onClick={() => setSelectedBookingIds([])}
+              className="text-xs font-bold text-[var(--text-muted)] hover:text-[var(--text-primary)] underline transition-colors"
+            >
+              Deselect All
+            </button>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowBulkDeleteModal(true)}
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black flex items-center gap-2 shadow-lg shadow-red-600/20 transition-all cursor-pointer"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            <span>Delete Selected ({selectedBookingIds.length})</span>
+          </button>
+        </div>
+      )}
+
       {/* Bookings Table: Displays Pass, Name, Email, Phone, Seva Booked, WhatsApp Link */}
       <div className="glass-card rounded-3xl border border-[var(--border-color)] overflow-hidden shadow-xl">
         {loading ? (
@@ -428,6 +507,18 @@ _Chinmaya Mission, Adoni_`;
             <table className="w-full text-left text-xs text-[var(--text-primary)]">
               <thead className="bg-[var(--bg-tertiary)] border-b border-[var(--border-color)] uppercase tracking-wider text-[11px] font-black text-[var(--text-muted)]">
                 <tr>
+                  <th className="py-3.5 px-4 w-12 text-center">
+                    <input
+                      type="checkbox"
+                      ref={(el) => {
+                        if (el) el.indeterminate = isSomeSelected;
+                      }}
+                      checked={isAllSelected}
+                      onChange={handleToggleSelectAll}
+                      title={isAllSelected ? 'Deselect all bookings' : 'Select all bookings'}
+                      className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600"
+                    />
+                  </th>
                   <th className="py-3.5 px-4">Pass / Ref ID</th>
                   <th className="py-3.5 px-4">Devotee Name</th>
                   <th className="py-3.5 px-4">Contact Info (Email &amp; Phone)</th>
@@ -441,8 +532,23 @@ _Chinmaya Mission, Adoni_`;
               <tbody className="divide-y divide-[var(--border-color)]">
                 {bookings.map((booking) => {
                   const passId = booking.bookingId || booking.refId;
+                  const isSelected = selectedBookingIds.includes(booking._id);
                   return (
-                    <tr key={booking._id} className="hover:bg-[var(--bg-primary)]/50 transition-colors">
+                    <tr
+                      key={booking._id}
+                      className={`hover:bg-[var(--bg-primary)]/50 transition-colors ${
+                        isSelected ? 'bg-red-500/5' : ''
+                      }`}
+                    >
+                      <td className="py-3.5 px-4 text-center">
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => handleToggleSelectBooking(booking._id)}
+                          title="Select booking for bulk action"
+                          className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600"
+                        />
+                      </td>
                       {/* 1. Pass / Ref ID */}
                       <td className="py-3.5 px-4">
                         <div className="flex items-center gap-1.5">
@@ -784,6 +890,63 @@ _Chinmaya Mission, Adoni_`;
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Delete Confirmation Modal */}
+      {showBulkDeleteModal && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="glass-card max-w-md w-full p-6 sm:p-8 rounded-3xl border border-red-500/40 bg-[var(--bg-secondary)] space-y-6 animate-in zoom-in-95">
+            <div className="flex items-center gap-3 text-red-500">
+              <div className="p-3 rounded-2xl bg-red-500/15">
+                <AlertTriangle className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-lg font-black font-heading text-[var(--text-primary)]">
+                  Delete {selectedBookingIds.length} Selected Bookings
+                </h3>
+                <span className="text-xs text-red-500 font-bold uppercase">Irreversible Bulk Action</span>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-xs space-y-2">
+              <p className="text-[var(--text-primary)] font-medium">
+                Are you sure you want to permanently delete all <strong className="text-red-500">{selectedBookingIds.length}</strong> selected booking record{selectedBookingIds.length > 1 ? 's' : ''}?
+              </p>
+              <p className="text-[var(--text-muted)] text-[11px]">
+                This action will delete all selected booking records from the MongoDB database permanently. This action cannot be undone.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setShowBulkDeleteModal(false)}
+                disabled={bulkDeleting}
+                className="btn-secondary py-2.5 px-5 text-xs font-extrabold"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmBulkDelete}
+                disabled={bulkDeleting}
+                className="py-2.5 px-6 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-black transition-all flex items-center gap-2 shadow-lg shadow-red-600/30"
+              >
+                {bulkDeleting ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>DELETING...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-4 h-4" />
+                    <span>YES, DELETE ALL SELECTED</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>

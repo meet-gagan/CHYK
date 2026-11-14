@@ -24,7 +24,6 @@ import { MarathonImagesManager } from './admin/MarathonImagesManager';
 import { AdminVideosPage } from './admin/AdminVideosPage';
 import { GalleryManager } from './admin/GalleryManager';
 import { RegistrationSummaryCards } from '../components/admin/RegistrationSummaryCards';
-import { TshirtSummary } from '../components/admin/TshirtSummary';
 import { ClassSummary } from '../components/admin/ClassSummary';
 import { RegistrationDetailsModal } from '../components/admin/RegistrationDetailsModal';
 import { RegistrationEditModal } from '../components/admin/RegistrationEditModal';
@@ -55,6 +54,7 @@ import {
   Layout,
   Trash2,
   Eye,
+  EyeOff,
   Shirt,
   Pencil,
   GraduationCap,
@@ -75,7 +75,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
     if (path.includes('/admin/profile')) return 'ADMIN_PROFILE';
     if (path.includes('/admin/registrations')) return 'REGISTRATIONS';
     if (path.includes('/admin/event-config')) return 'EVENT_CONFIG';
-    if (path.includes('/admin/banners')) return 'BANNERS';
     if (path.includes('/admin/marathon-images') || path.includes('/admin/marathon')) return 'MARATHON_IMAGES';
     if (path.includes('/admin/videos') || path.includes('/admin/youtube') || path.includes('/admin/udaan')) return 'VIDEOS';
     if (path.includes('/admin/change-password')) return 'PASSWORD';
@@ -115,6 +114,56 @@ export const AdminDashboardPage = ({ defaultTab }) => {
   const [viewingRegistration, setViewingRegistration] = useState(null);
   const [editingRegistration, setEditingRegistration] = useState(null);
 
+  // Bulk Delete Registrations State
+  const [selectedRegIds, setSelectedRegIds] = useState([]);
+  const [showBulkDeleteRegModal, setShowBulkDeleteRegModal] = useState(false);
+  const [bulkDeletingReg, setBulkDeletingReg] = useState(false);
+
+  useEffect(() => {
+    setSelectedRegIds([]);
+  }, [regType, searchTerm, filterInstitution, filterSize, filterStandard, regPagination.page]);
+
+  const isAllRegSelected =
+    registrations.length > 0 &&
+    registrations.every((r) => selectedRegIds.includes(r.registrationId || r._id));
+  const isSomeRegSelected =
+    registrations.some((r) => selectedRegIds.includes(r.registrationId || r._id)) &&
+    !isAllRegSelected;
+
+  const handleToggleSelectAllReg = () => {
+    if (isAllRegSelected) {
+      setSelectedRegIds([]);
+    } else {
+      setSelectedRegIds(registrations.map((r) => r.registrationId || r._id));
+    }
+  };
+
+  const handleToggleSelectReg = (id) => {
+    setSelectedRegIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleConfirmBulkDeleteReg = async () => {
+    if (selectedRegIds.length === 0) return;
+    setBulkDeletingReg(true);
+    try {
+      const res = await adminService.bulkDeleteRegistrations(selectedRegIds);
+      if (res.data?.success) {
+        alert(res.data.message || `Successfully deleted ${selectedRegIds.length} registration(s).`);
+        setSelectedRegIds([]);
+        setShowBulkDeleteRegModal(false);
+        loadRegistrations();
+        loadRegistrationSummary();
+        loadDashboardStats();
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to bulk delete registrations.');
+    } finally {
+      setBulkDeletingReg(false);
+    }
+  };
+
   // Batches Tab State
   const [batches, setBatches] = useState([]);
   const [selectedBatchStudents, setSelectedBatchStudents] = useState(null);
@@ -130,18 +179,13 @@ export const AdminDashboardPage = ({ defaultTab }) => {
   });
   const [configSaving, setConfigSaving] = useState(false);
 
-  // Banner Upload State
-  const [banners, setBanners] = useState([]);
-  const [bannerUploadForm, setBannerUploadForm] = useState({
-    title: '',
-    bannerType: 'HORIZONTAL',
-    file: null,
-  });
-  const [bannerUploading, setBannerUploading] = useState(false);
-
   // Password State
   const [pwdForm, setPwdForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
-  const [pwdStatus, setPwdStatus] = useState({ success: false, error: null });
+  const [pwdStatus, setPwdStatus] = useState({ success: false, error: null, message: '' });
+  const [pwdSaving, setPwdSaving] = useState(false);
+  const [showCurrentPwd, setShowCurrentPwd] = useState(false);
+  const [showNewPwd, setShowNewPwd] = useState(false);
+  const [showConfirmPwd, setShowConfirmPwd] = useState(false);
 
   useEffect(() => {
     if (!isAdmin) {
@@ -157,13 +201,13 @@ export const AdminDashboardPage = ({ defaultTab }) => {
     setLoadingStats(true);
     adminService.getStats().then((res) => {
       if (res.data?.success) setStats(res.data.data);
-    }).catch(() => {}).finally(() => setLoadingStats(false));
+    }).catch(() => { }).finally(() => setLoadingStats(false));
   };
 
   const loadInstitutionsList = () => {
     registrationService.getInstitutions().then((res) => {
       if (res.data?.success) setInstitutions(res.data.data);
-    }).catch(() => {});
+    }).catch(() => { });
   };
 
   // Fetch Registrations or Bulk Batches
@@ -195,7 +239,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
           setRegPagination(res.data.data.pagination);
         }
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoadingRegistrations(false));
   };
 
@@ -208,7 +252,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
           setSummaryData(res.data.data);
         }
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoadingSummary(false));
   };
 
@@ -245,7 +289,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
       .then((res) => {
         if (res.data?.success) setBatches(res.data.data);
       })
-      .catch(() => {});
+      .catch(() => { });
   };
 
   // Fetch Event Config
@@ -265,16 +309,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
             registrationOpen: cfg.registrationOpen,
           });
         }
-      }).catch(() => {});
-    }
-  }, [activeTab]);
-
-  // Fetch Banners
-  useEffect(() => {
-    if (activeTab === 'BANNERS') {
-      bannerService.getAllAdmin().then((res) => {
-        if (res.data?.success) setBanners(res.data.data);
-      }).catch(() => {});
+      }).catch(() => { });
     }
   }, [activeTab]);
 
@@ -289,33 +324,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
       alert('Failed to update event configuration');
     } finally {
       setConfigSaving(false);
-    }
-  };
-
-  // Upload Banner
-  const handleBannerUploadSubmit = async (e) => {
-    e.preventDefault();
-    if (!bannerUploadForm.file) {
-      alert('Please select an image file to upload.');
-      return;
-    }
-    setBannerUploading(true);
-    try {
-      const formData = new FormData();
-      formData.append('image', bannerUploadForm.file);
-      formData.append('title', bannerUploadForm.title || `${bannerUploadForm.bannerType} Banner`);
-      formData.append('bannerType', bannerUploadForm.bannerType);
-
-      const res = await bannerService.uploadBanner(formData);
-      if (res.data?.success) {
-        alert('Banner uploaded successfully!');
-        setBannerUploadForm({ title: '', bannerType: 'HORIZONTAL', file: null });
-        bannerService.getAllAdmin().then((r) => r.data?.success && setBanners(r.data.data));
-      }
-    } catch (err) {
-      alert('Banner upload failed.');
-    } finally {
-      setBannerUploading(false);
     }
   };
 
@@ -414,7 +422,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
 
   return (
     <div className="min-h-screen py-10 px-4 max-w-7xl mx-auto space-y-8">
-      
+
       {/* Admin Navbar Header */}
       <div className="glass-card p-6 rounded-3xl border-2 border-[var(--cyan)]/30 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-4">
@@ -426,7 +434,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
               ADMIN CONTROL PANEL
             </span>
             <h1 className="text-2xl font-black font-heading text-[var(--text-primary)]">
-              MARATHON MANAGEMENT SYSTEM
+              Chinmaya Mission Management System
             </h1>
             <p className="text-xs text-[var(--text-muted)] font-semibold">
               Chinmaya Mission • Chinmaya Yuva Kendra
@@ -482,7 +490,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
           { id: 'FOOTER_CMS', label: 'Footer CMS', icon: Settings },
           { id: 'REGISTRATIONS', label: 'Registrations', icon: Award },
           { id: 'EVENT_CONFIG', label: 'Event Control', icon: Settings },
-          { id: 'BANNERS', label: 'Banner Uploads', icon: ImageIcon },
           { id: 'PASSWORD', label: 'Change Password', icon: KeyRound },
         ].map((tabItem) => {
           const IconComp = tabItem.icon;
@@ -490,11 +497,10 @@ export const AdminDashboardPage = ({ defaultTab }) => {
             <button
               key={tabItem.id}
               onClick={() => setActiveTab(tabItem.id)}
-              className={`px-4 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-2 ${
-                activeTab === tabItem.id
-                  ? 'bg-[var(--cyan)] text-white shadow-lg'
-                  : 'text-[var(--text-primary)] hover:bg-[var(--bg-primary)]'
-              }`}
+              className={`px-4 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-2 ${activeTab === tabItem.id
+                ? 'bg-[var(--cyan)] text-white shadow-lg'
+                : 'text-[var(--text-primary)] hover:bg-[var(--bg-primary)]'
+                }`}
             >
               <IconComp className="w-4 h-4" />
               <span>{tabItem.label}</span>
@@ -634,7 +640,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
       {/* TAB 2: REGISTRATIONS MANAGEMENT */}
       {activeTab === 'REGISTRATIONS' && (
         <div className="glass-card p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] space-y-8 animate-in fade-in">
-          
+
           {/* Header & Export Controls */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[var(--border-color)] pb-6">
             <div>
@@ -678,11 +684,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
           {/* DYNAMIC REGISTRATION SUMMARY SECTION */}
           <div className="space-y-4">
             <RegistrationSummaryCards summary={summaryData} loading={loadingSummary} />
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <TshirtSummary summary={summaryData} loading={loadingSummary} />
-              <ClassSummary summary={summaryData} loading={loadingSummary} />
-            </div>
+            <ClassSummary summary={summaryData} loading={loadingSummary} />
           </div>
 
           {/* REGISTRATION TYPE FILTER TABS */}
@@ -693,11 +695,10 @@ export const AdminDashboardPage = ({ defaultTab }) => {
                   setRegType('ALL');
                   setRegPagination((prev) => ({ ...prev, page: 1 }));
                 }}
-                className={`px-4 py-2 rounded-xl text-xs font-black tracking-wider transition-all ${
-                  regType === 'ALL'
-                    ? 'bg-[var(--orange)] text-white shadow-md'
-                    : 'text-[var(--text-primary)] hover:text-[var(--orange)]'
-                }`}
+                className={`px-4 py-2 rounded-xl text-xs font-black tracking-wider transition-all ${regType === 'ALL'
+                  ? 'bg-[var(--orange)] text-white shadow-md'
+                  : 'text-[var(--text-primary)] hover:text-[var(--orange)]'
+                  }`}
               >
                 ALL REGISTRATIONS
               </button>
@@ -707,11 +708,10 @@ export const AdminDashboardPage = ({ defaultTab }) => {
                   setRegType('INDIVIDUAL');
                   setRegPagination((prev) => ({ ...prev, page: 1 }));
                 }}
-                className={`px-4 py-2 rounded-xl text-xs font-black tracking-wider transition-all ${
-                  regType === 'INDIVIDUAL'
-                    ? 'bg-[var(--orange)] text-white shadow-md'
-                    : 'text-[var(--text-primary)] hover:text-[var(--orange)]'
-                }`}
+                className={`px-4 py-2 rounded-xl text-xs font-black tracking-wider transition-all ${regType === 'INDIVIDUAL'
+                  ? 'bg-[var(--orange)] text-white shadow-md'
+                  : 'text-[var(--text-primary)] hover:text-[var(--orange)]'
+                  }`}
               >
                 INDIVIDUAL (IN)
               </button>
@@ -721,22 +721,20 @@ export const AdminDashboardPage = ({ defaultTab }) => {
                   setRegType('SCHOOL_COLLEGE');
                   setRegPagination((prev) => ({ ...prev, page: 1 }));
                 }}
-                className={`px-4 py-2 rounded-xl text-xs font-black tracking-wider transition-all ${
-                  regType === 'SCHOOL_COLLEGE'
-                    ? 'bg-[var(--cyan)] text-white shadow-md'
-                    : 'text-[var(--text-primary)] hover:text-[var(--cyan)]'
-                }`}
+                className={`px-4 py-2 rounded-xl text-xs font-black tracking-wider transition-all ${regType === 'SCHOOL_COLLEGE'
+                  ? 'bg-[var(--cyan)] text-white shadow-md'
+                  : 'text-[var(--text-primary)] hover:text-[var(--cyan)]'
+                  }`}
               >
                 SCHOOL / COLLEGE (SC)
               </button>
 
               <button
                 onClick={() => setRegType('BATCHES')}
-                className={`px-4 py-2 rounded-xl text-xs font-black tracking-wider transition-all ${
-                  regType === 'BATCHES'
-                    ? 'bg-emerald-600 text-white shadow-md'
-                    : 'text-[var(--text-primary)] hover:text-emerald-500'
-                }`}
+                className={`px-4 py-2 rounded-xl text-xs font-black tracking-wider transition-all ${regType === 'BATCHES'
+                  ? 'bg-emerald-600 text-white shadow-md'
+                  : 'text-[var(--text-primary)] hover:text-emerald-500'
+                  }`}
               >
                 BATCH SPREADSHEETS
               </button>
@@ -754,7 +752,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
           {/* VIEW 1: REGISTRATIONS TABLE (ALL, INDIVIDUAL, SCHOOL_COLLEGE) */}
           {regType !== 'BATCHES' && (
             <div className="space-y-4">
-              
+
               {/* Search & Filter Controls */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 <div className="relative">
@@ -822,11 +820,50 @@ export const AdminDashboardPage = ({ defaultTab }) => {
                 </select>
               </div>
 
+              {/* Bulk Action Bar */}
+              {selectedRegIds.length > 0 && (
+                <div className="p-4 px-5 rounded-2xl bg-red-500/10 border border-red-500/30 flex flex-wrap items-center justify-between gap-3 animate-in fade-in">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-black text-[var(--text-primary)]">
+                      <span className="text-red-500 font-extrabold text-sm">{selectedRegIds.length}</span> registration{selectedRegIds.length > 1 ? 's' : ''} selected
+                    </span>
+                    <span className="text-xs text-[var(--text-muted)]">•</span>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedRegIds([])}
+                      className="text-xs font-bold text-[var(--text-muted)] hover:text-[var(--text-primary)] underline transition-colors"
+                    >
+                      Deselect All
+                    </button>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowBulkDeleteRegModal(true)}
+                    className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black flex items-center gap-2 shadow-lg shadow-red-600/20 transition-all cursor-pointer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Delete Selected ({selectedRegIds.length})</span>
+                  </button>
+                </div>
+              )}
+
               {/* Table */}
               <div className="overflow-x-auto rounded-2xl border border-[var(--border-color)]">
                 <table className="w-full text-left text-xs">
                   <thead className="bg-[var(--bg-tertiary)] text-[var(--text-primary)] font-extrabold uppercase tracking-wider">
                     <tr>
+                      <th className="p-3.5 w-12 text-center">
+                        <input
+                          type="checkbox"
+                          ref={(el) => {
+                            if (el) el.indeterminate = isSomeRegSelected;
+                          }}
+                          checked={isAllRegSelected}
+                          onChange={handleToggleSelectAllReg}
+                          title={isAllRegSelected ? 'Deselect all registrations' : 'Select all registrations on this page'}
+                          className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600"
+                        />
+                      </th>
                       <th className="p-3.5">Registration ID</th>
                       <th className="p-3.5">Student Name</th>
                       <th className="p-3.5 text-center">Age</th>
@@ -841,21 +878,34 @@ export const AdminDashboardPage = ({ defaultTab }) => {
                   <tbody className="divide-y divide-[var(--border-color)]/30 text-[var(--text-primary)]">
                     {loadingRegistrations ? (
                       <tr>
-                        <td colSpan={9} className="p-8 text-center text-[var(--text-muted)] font-bold animate-pulse">
+                        <td colSpan={10} className="p-8 text-center text-[var(--text-muted)] font-bold animate-pulse">
                           Loading registrations from database...
                         </td>
                       </tr>
                     ) : registrations.length > 0 ? (
                       registrations.map((item) => {
                         const isIN = item.registrationId?.includes('IN');
+                        const isSelected = selectedRegIds.includes(item.registrationId || item._id);
                         return (
-                          <tr key={item._id} className="hover:bg-[var(--bg-tertiary)]/50 transition-colors">
+                          <tr
+                            key={item._id}
+                            className={`hover:bg-[var(--bg-tertiary)]/50 transition-colors ${isSelected ? 'bg-red-500/5' : ''
+                              }`}
+                          >
+                            <td className="p-3.5 text-center">
+                              <input
+                                type="checkbox"
+                                checked={isSelected}
+                                onChange={() => handleToggleSelectReg(item.registrationId || item._id)}
+                                title="Select registration for bulk action"
+                                className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600"
+                              />
+                            </td>
                             <td className="p-3.5 font-mono font-black">
-                              <span className={`px-2.5 py-1 rounded-lg text-xs tracking-wider ${
-                                isIN
-                                  ? 'bg-[var(--orange)]/15 text-[var(--orange)] border border-[var(--orange)]/30'
-                                  : 'bg-[var(--cyan)]/15 text-[var(--cyan)] border border-[var(--cyan)]/30'
-                              }`}>
+                              <span className={`px-2.5 py-1 rounded-lg text-xs tracking-wider ${isIN
+                                ? 'bg-[var(--orange)]/15 text-[var(--orange)] border border-[var(--orange)]/30'
+                                : 'bg-[var(--cyan)]/15 text-[var(--cyan)] border border-[var(--cyan)]/30'
+                                }`}>
                                 {item.registrationId}
                               </span>
                             </td>
@@ -916,7 +966,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
                       })
                     ) : (
                       <tr>
-                        <td colSpan={9} className="p-8 text-center text-[var(--text-muted)] font-bold">
+                        <td colSpan={10} className="p-8 text-center text-[var(--text-muted)] font-bold">
                           No registrations found matching your criteria.
                         </td>
                       </tr>
@@ -956,7 +1006,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
           {/* VIEW 2: SCHOOL / COLLEGE BATCHES SPREADSHEETS */}
           {regType === 'BATCHES' && (
             <div className="space-y-4">
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="relative">
                   <Search className="w-4 h-4 text-[var(--text-muted)] absolute left-3.5 top-3.5" />
@@ -1141,6 +1191,59 @@ export const AdminDashboardPage = ({ defaultTab }) => {
             </div>
           )}
 
+          {/* BULK DELETE CONFIRMATION MODAL */}
+          {showBulkDeleteRegModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
+              <div className="bg-[var(--bg-secondary)] border border-red-500/40 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-2xl bg-red-500/15 text-red-500 flex items-center justify-center">
+                    <AlertTriangle className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black font-heading text-[var(--text-primary)]">
+                      DELETE {selectedRegIds.length} SELECTED REGISTRATIONS
+                    </h3>
+                    <p className="text-xs text-red-500 font-bold">Irreversible Bulk Action</p>
+                  </div>
+                </div>
+
+                <p className="text-xs text-[var(--text-primary)] leading-relaxed">
+                  Are you sure you want to permanently delete all <strong className="text-red-500 font-black">{selectedRegIds.length}</strong> selected registration records?
+                  These entries will be deleted permanently from the database.
+                </p>
+
+                <div className="flex items-center justify-end gap-3 pt-3 border-t border-[var(--border-color)]">
+                  <button
+                    type="button"
+                    onClick={() => setShowBulkDeleteRegModal(false)}
+                    disabled={bulkDeletingReg}
+                    className="btn-secondary text-xs py-2 px-4"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleConfirmBulkDeleteReg}
+                    disabled={bulkDeletingReg}
+                    className="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-black flex items-center gap-2 shadow-lg shadow-red-600/30 transition-all cursor-pointer"
+                  >
+                    {bulkDeletingReg ? (
+                      <>
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <span>Deleting...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>Yes, Delete All Selected</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>
       )}
 
@@ -1212,11 +1315,10 @@ export const AdminDashboardPage = ({ defaultTab }) => {
               <button
                 type="button"
                 onClick={() => setEventForm({ ...eventForm, registrationOpen: !eventForm.registrationOpen })}
-                className={`py-2 px-5 rounded-full font-extrabold text-xs transition-colors ${
-                  eventForm.registrationOpen
-                    ? 'bg-emerald-500 text-white'
-                    : 'bg-red-500 text-white'
-                }`}
+                className={`py-2 px-5 rounded-full font-extrabold text-xs transition-colors ${eventForm.registrationOpen
+                  ? 'bg-emerald-500 text-white'
+                  : 'bg-red-500 text-white'
+                  }`}
               >
                 {eventForm.registrationOpen ? 'REGISTRATION IS ON' : 'REGISTRATION IS OFF'}
               </button>
@@ -1230,106 +1332,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
               <span>{configSaving ? 'SAVING...' : 'SAVE EVENT CONFIGURATION'}</span>
             </button>
           </form>
-        </div>
-      )}
-
-      {/* TAB 5: BANNERS MANAGEMENT */}
-      {activeTab === 'BANNERS' && (
-        <div className="space-y-8 animate-in fade-in">
-          
-          {/* Upload Banner Form */}
-          <div className="glass-card p-8 rounded-3xl border border-[var(--border-color)] max-w-2xl mx-auto space-y-4">
-            <h3 className="text-xl font-extrabold font-heading text-[var(--text-primary)]">
-              UPLOAD NEW BANNER / POSTER
-            </h3>
-
-            <form onSubmit={handleBannerUploadSubmit} className="space-y-4 text-xs">
-              <div>
-                <label className="block font-bold mb-1 text-[var(--text-primary)]">Banner Title</label>
-                <input
-                  type="text"
-                  required
-                  value={bannerUploadForm.title}
-                  onChange={(e) => setBannerUploadForm({ ...bannerUploadForm, title: e.target.value })}
-                  placeholder="e.g. Hero Horizontal Banner or Vertical Poster"
-                  className="w-full py-3 px-4 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)]"
-                />
-              </div>
-
-              <div>
-                <label className="block font-bold mb-1 text-[var(--text-primary)]">Banner Type</label>
-                <select
-                  value={bannerUploadForm.bannerType}
-                  onChange={(e) => setBannerUploadForm({ ...bannerUploadForm, bannerType: e.target.value })}
-                  className="w-full py-3 px-4 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] font-bold text-[var(--text-primary)]"
-                >
-                  <option value="HORIZONTAL">HORIZONTAL HERO BANNER (1 Active)</option>
-                  <option value="VERTICAL">VERTICAL POSTER CAROUSEL (Up to 7)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block font-bold mb-1 text-[var(--text-primary)]">Select Image File</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => setBannerUploadForm({ ...bannerUploadForm, file: e.target.files[0] })}
-                  className="w-full py-2 px-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)]"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={bannerUploading}
-                className="btn-primary w-full justify-center py-3.5 text-xs"
-              >
-                <span>{bannerUploading ? 'UPLOADING TO CLOUD...' : 'UPLOAD BANNER NOW'}</span>
-              </button>
-            </form>
-          </div>
-
-          {/* Banners List */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {banners.map((b) => (
-              <div key={b._id} className="rounded-3xl overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-color)] p-4 space-y-3 shadow-lg">
-                <div className="h-44 overflow-hidden rounded-2xl bg-black">
-                  <img src={b.imageUrl} alt={b.title} className="w-full h-full object-cover" />
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-extrabold text-[var(--text-primary)] truncate">{b.title}</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-[var(--orange)]/15 text-[var(--orange)]">
-                    {b.bannerType}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between pt-2 border-t border-[var(--border-color)]">
-                  <button
-                    onClick={() => {
-                      bannerService.toggleStatus(b._id).then(() => {
-                        bannerService.getAllAdmin().then((r) => r.data?.success && setBanners(r.data.data));
-                      });
-                    }}
-                    className={`px-3 py-1 rounded-lg text-[10px] font-bold ${
-                      b.active ? 'bg-emerald-500 text-white' : 'bg-slate-500 text-white'
-                    }`}
-                  >
-                    {b.active ? 'ACTIVE' : 'INACTIVE'}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      bannerService.deleteBanner(b._id).then(() => {
-                        bannerService.getAllAdmin().then((r) => r.data?.success && setBanners(r.data.data));
-                      });
-                    }}
-                    className="text-red-500 text-[10px] font-bold hover:underline"
-                  >
-                    DELETE
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
         </div>
       )}
 
@@ -1396,45 +1398,82 @@ export const AdminDashboardPage = ({ defaultTab }) => {
           >
             <div>
               <label className="block font-bold mb-1 text-[var(--text-primary)]">Current Password *</label>
-              <input
-                type="password"
-                required
-                value={pwdForm.currentPassword}
-                onChange={(e) => setPwdForm({ ...pwdForm, currentPassword: e.target.value })}
-                className="w-full py-3 px-4 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)]"
-              />
+              <div className="relative">
+                <input
+                  type={showCurrentPwd ? 'text' : 'password'}
+                  required
+                  value={pwdForm.currentPassword}
+                  onChange={(e) => setPwdForm({ ...pwdForm, currentPassword: e.target.value })}
+                  placeholder="Enter your current password"
+                  className="w-full py-3 pl-4 pr-10 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--cyan)]"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowCurrentPwd(!showCurrentPwd)}
+                  className="absolute right-3.5 top-3.5 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                >
+                  {showCurrentPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
 
             <div>
               <label className="block font-bold mb-1 text-[var(--text-primary)]">New Password (min 6 chars) *</label>
-              <input
-                type="password"
-                required
-                minLength={6}
-                value={pwdForm.newPassword}
-                onChange={(e) => setPwdForm({ ...pwdForm, newPassword: e.target.value })}
-                className="w-full py-3 px-4 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)]"
-              />
+              <div className="relative">
+                <input
+                  type={showNewPwd ? 'text' : 'password'}
+                  required
+                  minLength={6}
+                  value={pwdForm.newPassword}
+                  onChange={(e) => setPwdForm({ ...pwdForm, newPassword: e.target.value })}
+                  placeholder="Enter new secure password"
+                  className="w-full py-3 pl-4 pr-10 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--cyan)]"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPwd(!showNewPwd)}
+                  className="absolute right-3.5 top-3.5 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                >
+                  {showNewPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
 
             <div>
               <label className="block font-bold mb-1 text-[var(--text-primary)]">Confirm New Password *</label>
-              <input
-                type="password"
-                required
-                minLength={6}
-                value={pwdForm.confirmPassword}
-                onChange={(e) => setPwdForm({ ...pwdForm, confirmPassword: e.target.value })}
-                className="w-full py-3 px-4 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)]"
-              />
+              <div className="relative">
+                <input
+                  type={showConfirmPwd ? 'text' : 'password'}
+                  required
+                  minLength={6}
+                  value={pwdForm.confirmPassword}
+                  onChange={(e) => setPwdForm({ ...pwdForm, confirmPassword: e.target.value })}
+                  placeholder="Re-enter new password"
+                  className="w-full py-3 pl-4 pr-10 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-[var(--text-primary)] focus:outline-none focus:border-[var(--cyan)]"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPwd(!showConfirmPwd)}
+                  className="absolute right-3.5 top-3.5 text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                >
+                  {showConfirmPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
 
             <button
               type="submit"
               disabled={pwdSaving}
-              className="btn-primary w-full justify-center py-3.5 text-xs font-bold disabled:opacity-50"
+              className="btn-primary w-full justify-center py-3.5 text-xs font-bold disabled:opacity-50 flex items-center gap-2 cursor-pointer"
             >
-              <span>{pwdSaving ? 'UPDATING PASSWORD...' : 'UPDATE ADMIN PASSWORD'}</span>
+              {pwdSaving ? (
+                <>
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                  <span>UPDATING PASSWORD...</span>
+                </>
+              ) : (
+                <span>UPDATE ADMIN PASSWORD</span>
+              )}
             </button>
           </form>
         </div>

@@ -124,6 +124,7 @@ export const adminUserService = {
   getUserById: (id) => adminApi.get(`/admin/users/${id}`),
   updateUserRole: (id, role) => adminApi.patch(`/admin/users/${id}/role`, { role }),
   deleteUser: (id) => adminApi.delete(`/admin/users/${id}`),
+  bulkDeleteUsers: (userIds) => adminApi.post('/admin/users/bulk-delete', { userIds }),
 };
 
 // --- 4. REGISTRATIONS & BULK BATCHES ---
@@ -132,6 +133,7 @@ export const adminRegistrationService = {
   getRegistrationById: (id) => adminApi.get(`/admin/registrations/${id}`),
   updateRegistration: (id, data) => adminApi.put(`/admin/registrations/${id}`, data),
   deleteRegistration: (id) => adminApi.delete(`/admin/registrations/${id}`),
+  bulkDeleteRegistrations: (registrationIds) => adminApi.post('/admin/registrations/bulk-delete', { registrationIds }),
   getSummary: (year) => adminApi.get('/admin/registrations/summary', { params: { year } }),
   getInstitutions: () => adminApi.get('/registrations/institutions'),
   getBatches: (params) => adminApi.get('/admin/batches', { params }),

@@ -15,8 +15,10 @@ import {
   getAdminUserById,
   updateUserRole,
   deleteAdminUser,
+  bulkDeleteAdminUsers,
   getAdminProfile,
   updateAdminProfile,
+  bulkDeleteAdminRegistrations,
 } from '../controllers/adminController.js';
 import {
   getAdminThoughts,
@@ -37,6 +39,7 @@ router.get('/dashboard-stats', getDashboardStats);
 
 // User Management (Full Registered Users Table, Details, Role Update, Permanent Delete)
 router.get('/users', getAdminUsers);
+router.post('/users/bulk-delete', bulkDeleteAdminUsers);
 router.get('/users/:id', getAdminUserById);
 router.patch('/users/:id/role', updateUserRole);
 router.delete('/users/:id', deleteAdminUser);
@@ -47,6 +50,7 @@ router.put('/profile', updateAdminProfile);
 
 // Marathon & Event Registrations
 router.get('/registrations', getAdminRegistrations);
+router.post('/registrations/bulk-delete', bulkDeleteAdminRegistrations);
 router.get('/registrations/summary', getIndividualRegistrationSummary);
 router.get('/registrations/individual/summary', getIndividualRegistrationSummary);
 router.get('/registrations/:id', getAdminRegistrationById);

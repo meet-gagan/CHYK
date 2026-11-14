@@ -4,7 +4,6 @@ import {
   adminStatsService,
 } from '../services/adminApi';
 import { RegistrationSummaryCards } from '../components/RegistrationSummaryCards';
-import { TshirtSummary } from '../components/TshirtSummary';
 import { ClassSummary } from '../components/ClassSummary';
 import { RegistrationDetailsModal } from '../components/RegistrationDetailsModal';
 import { RegistrationEditModal } from '../components/RegistrationEditModal';
@@ -50,6 +49,61 @@ export const RegistrationsPage = () => {
 
   // Action feedback
   const [feedback, setFeedback] = useState({ type: null, message: '' });
+
+  // Bulk Delete Registrations State
+  const [selectedRegIds, setSelectedRegIds] = useState([]);
+  const [showBulkDeleteRegModal, setShowBulkDeleteRegModal] = useState(false);
+  const [bulkDeletingReg, setBulkDeletingReg] = useState(false);
+
+  useEffect(() => {
+    setSelectedRegIds([]);
+  }, [regType, searchTerm, filterStandard, filterInstitution, filterSize, regPagination.page]);
+
+  const isAllRegSelected =
+    registrations.length > 0 &&
+    registrations.every((r) => selectedRegIds.includes(r.registrationId || r._id));
+  const isSomeRegSelected =
+    registrations.some((r) => selectedRegIds.includes(r.registrationId || r._id)) &&
+    !isAllRegSelected;
+
+  const handleToggleSelectAllReg = () => {
+    if (isAllRegSelected) {
+      setSelectedRegIds([]);
+    } else {
+      setSelectedRegIds(registrations.map((r) => r.registrationId || r._id));
+    }
+  };
+
+  const handleToggleSelectReg = (id) => {
+    setSelectedRegIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleConfirmBulkDeleteReg = async () => {
+    if (selectedRegIds.length === 0) return;
+    setBulkDeletingReg(true);
+    try {
+      const res = await adminRegistrationService.bulkDeleteRegistrations(selectedRegIds);
+      if (res.data?.success) {
+        setFeedback({
+          type: 'success',
+          message: res.data.message || `Successfully deleted ${selectedRegIds.length} registration(s).`,
+        });
+        setSelectedRegIds([]);
+        setShowBulkDeleteRegModal(false);
+        loadRegistrations();
+        loadRegistrationSummary();
+      }
+    } catch (err) {
+      setFeedback({
+        type: 'error',
+        message: err.response?.data?.message || 'Failed to bulk delete registrations.',
+      });
+    } finally {
+      setBulkDeletingReg(false);
+    }
+  };
 
   useEffect(() => {
     loadInstitutionsList();
@@ -322,11 +376,8 @@ export const RegistrationsPage = () => {
       {/* Summary Cards */}
       <RegistrationSummaryCards summary={summaryData} loading={loadingSummary} />
 
-      {/* T-Shirt & Class Summaries */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <TshirtSummary summary={summaryData} loading={loadingSummary} />
-        <ClassSummary summary={summaryData} loading={loadingSummary} />
-      </div>
+      {/* Class Summary */}
+      <ClassSummary summary={summaryData} loading={loadingSummary} />
 
       {/* Tabs Bar */}
       <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-[#1C2541] border border-white/10">
@@ -411,10 +462,49 @@ export const RegistrationsPage = () => {
       {/* Main Table: Registrations OR Bulk Batches */}
       {regType !== 'BATCHES' ? (
         <div className="p-6 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-4">
+          {/* Bulk Action Bar */}
+          {selectedRegIds.length > 0 && (
+            <div className="p-4 px-5 rounded-2xl bg-red-500/10 border border-red-500/30 flex flex-wrap items-center justify-between gap-3 animate-in fade-in">
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-black text-white">
+                  <span className="text-red-400 font-extrabold text-sm">{selectedRegIds.length}</span> registration{selectedRegIds.length > 1 ? 's' : ''} selected
+                </span>
+                <span className="text-xs text-[#94A3B8]">•</span>
+                <button
+                  type="button"
+                  onClick={() => setSelectedRegIds([])}
+                  className="text-xs font-bold text-[#94A3B8] hover:text-white underline transition-colors"
+                >
+                  Deselect All
+                </button>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowBulkDeleteRegModal(true)}
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black flex items-center gap-2 shadow-lg shadow-red-600/20 transition-all cursor-pointer"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Delete Selected ({selectedRegIds.length})</span>
+              </button>
+            </div>
+          )}
+
           <div className="overflow-x-auto rounded-2xl border border-white/10">
             <table className="w-full text-left text-xs">
               <thead className="bg-[#243054] text-white font-extrabold uppercase tracking-wider">
                 <tr>
+                  <th className="p-3.5 w-12 text-center">
+                    <input
+                      type="checkbox"
+                      ref={(el) => {
+                        if (el) el.indeterminate = isSomeRegSelected;
+                      }}
+                      checked={isAllRegSelected}
+                      onChange={handleToggleSelectAllReg}
+                      title={isAllRegSelected ? 'Deselect all registrations' : 'Select all registrations on this page'}
+                      className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600"
+                    />
+                  </th>
                   <th className="p-3.5">Registration ID</th>
                   <th className="p-3.5">Participant Name</th>
                   <th className="p-3.5">Institution / School</th>
@@ -428,43 +518,59 @@ export const RegistrationsPage = () => {
               <tbody className="divide-y divide-white/5 font-semibold text-[#F8FAFC]">
                 {loadingRegistrations ? (
                   <tr>
-                    <td colSpan="8" className="p-8 text-center text-[#94A3B8]">
+                    <td colSpan="9" className="p-8 text-center text-[#94A3B8]">
                       Loading registrations...
                     </td>
                   </tr>
                 ) : registrations.length > 0 ? (
-                  registrations.map((reg) => (
-                    <tr key={reg._id || reg.registrationId} className="hover:bg-[#243054]/40 transition-colors">
-                      <td className="p-3.5 font-mono font-bold text-[#00B4D8]">
-                        {reg.registrationId}
-                      </td>
-                      <td className="p-3.5 font-bold text-white">
-                        {reg.fullName}
-                      </td>
-                      <td className="p-3.5 text-[#94A3B8] truncate max-w-[160px]">
-                        {reg.institutionName || 'Individual'}
-                      </td>
-                      <td className="p-3.5 text-[#94A3B8]">
-                        {reg.standard || 'N/A'}
-                      </td>
-                      <td className="p-3.5 font-mono text-[#94A3B8]">
-                        {reg.contactNumber}
-                      </td>
-                      <td className="p-3.5">
-                        <span className="px-2 py-0.5 rounded-md bg-[#F59E0B]/15 text-[#F59E0B] font-bold">
-                          {reg.tShirtSize}
-                        </span>
-                      </td>
-                      <td className="p-3.5">
-                        <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
-                          reg.registrationId?.includes('IN')
-                            ? 'bg-[#FF7B00]/15 text-[#FF7B00]'
-                            : 'bg-[#00B4D8]/15 text-[#00B4D8]'
-                        }`}>
-                          {reg.registrationId?.includes('IN') ? 'INDIVIDUAL' : 'INSTITUTION'}
-                        </span>
-                      </td>
-                      <td className="p-3.5 text-right">
+                  registrations.map((reg) => {
+                    const isSelected = selectedRegIds.includes(reg.registrationId || reg._id);
+                    return (
+                      <tr
+                        key={reg._id || reg.registrationId}
+                        className={`hover:bg-[#243054]/40 transition-colors ${
+                          isSelected ? 'bg-red-500/10' : ''
+                        }`}
+                      >
+                        <td className="p-3.5 text-center">
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => handleToggleSelectReg(reg.registrationId || reg._id)}
+                            title="Select registration for bulk action"
+                            className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600"
+                          />
+                        </td>
+                        <td className="p-3.5 font-mono font-bold text-[#00B4D8]">
+                          {reg.registrationId}
+                        </td>
+                        <td className="p-3.5 font-bold text-white">
+                          {reg.fullName}
+                        </td>
+                        <td className="p-3.5 text-[#94A3B8] truncate max-w-[160px]">
+                          {reg.institutionName || 'Individual'}
+                        </td>
+                        <td className="p-3.5 text-[#94A3B8]">
+                          {reg.standard || 'N/A'}
+                        </td>
+                        <td className="p-3.5 font-mono text-[#94A3B8]">
+                          {reg.contactNumber}
+                        </td>
+                        <td className="p-3.5">
+                          <span className="px-2 py-0.5 rounded-md bg-[#F59E0B]/15 text-[#F59E0B] font-bold">
+                            {reg.tShirtSize}
+                          </span>
+                        </td>
+                        <td className="p-3.5">
+                          <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                            reg.registrationId?.includes('IN')
+                              ? 'bg-[#FF7B00]/15 text-[#FF7B00]'
+                              : 'bg-[#00B4D8]/15 text-[#00B4D8]'
+                          }`}>
+                            {reg.registrationId?.includes('IN') ? 'INDIVIDUAL' : 'INSTITUTION'}
+                          </span>
+                        </td>
+                        <td className="p-3.5 text-right">
                         <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => setViewingRegistration(reg)}
@@ -637,6 +743,59 @@ export const RegistrationsPage = () => {
           onClose={() => setEditingRegistration(null)}
           onUpdated={handleRegistrationUpdated}
         />
+      )}
+
+      {/* Bulk Delete Confirmation Modal */}
+      {showBulkDeleteRegModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-[#1C2541] border border-red-500/40 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-red-500/15 text-red-400 flex items-center justify-center">
+                <AlertTriangle className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-base font-black font-heading text-white">
+                  DELETE {selectedRegIds.length} SELECTED REGISTRATIONS
+                </h3>
+                <p className="text-xs text-red-400 font-bold">Irreversible Bulk Action</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-white leading-relaxed">
+              Are you sure you want to permanently delete all <strong className="text-red-400 font-black">{selectedRegIds.length}</strong> selected registration records?
+              These entries will be deleted permanently from the database.
+            </p>
+
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
+              <button
+                type="button"
+                onClick={() => setShowBulkDeleteRegModal(false)}
+                disabled={bulkDeletingReg}
+                className="btn-secondary text-xs py-2 px-4"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmBulkDeleteReg}
+                disabled={bulkDeletingReg}
+                className="btn-danger text-xs py-2 px-5 bg-red-500 text-white hover:bg-red-600 font-bold flex items-center gap-2 cursor-pointer"
+              >
+                {bulkDeletingReg ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Deleting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Yes, Delete All Selected</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

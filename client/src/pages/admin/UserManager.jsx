@@ -49,6 +49,62 @@ export const UserManager = () => {
   const [updatingRole, setUpdatingRole] = useState(null);
   const [actionFeedback, setActionFeedback] = useState({ type: null, message: '' });
 
+  // Bulk Selection & Deletion State
+  const [selectedUserIds, setSelectedUserIds] = useState([]);
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
+  const [bulkDeleting, setBulkDeleting] = useState(false);
+
+  useEffect(() => {
+    setSelectedUserIds([]);
+  }, [page, roleFilter, searchTerm]);
+
+  const selectableUsers = users.filter(
+    (u) => !(adminUser && (adminUser._id === u._id || adminUser.phone === u.phone))
+  );
+  const isAllSelected =
+    selectableUsers.length > 0 &&
+    selectableUsers.every((u) => selectedUserIds.includes(u._id));
+  const isSomeSelected =
+    selectableUsers.some((u) => selectedUserIds.includes(u._id)) && !isAllSelected;
+
+  const handleToggleSelectAll = () => {
+    if (isAllSelected) {
+      setSelectedUserIds([]);
+    } else {
+      setSelectedUserIds(selectableUsers.map((u) => u._id));
+    }
+  };
+
+  const handleToggleSelectUser = (id) => {
+    setSelectedUserIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleConfirmBulkDelete = async () => {
+    if (selectedUserIds.length === 0) return;
+    setBulkDeleting(true);
+    try {
+      const res = await adminService.bulkDeleteUsers(selectedUserIds);
+      if (res.data?.success) {
+        setActionFeedback({
+          type: 'success',
+          message: res.data.message || `Successfully deleted ${selectedUserIds.length} user(s).`,
+        });
+        setSelectedUserIds([]);
+        setShowBulkDeleteModal(false);
+        fetchUsers();
+      }
+    } catch (err) {
+      setActionFeedback({
+        type: 'error',
+        message: err.response?.data?.message || 'Failed to bulk delete user accounts.',
+      });
+    } finally {
+      setBulkDeleting(false);
+    }
+  };
+
   const fetchUsers = async () => {
     setLoading(true);
     setActionFeedback({ type: null, message: '' });
@@ -282,12 +338,51 @@ export const UserManager = () => {
         </div>
       </div>
 
+      {/* Bulk Action Bar */}
+      {selectedUserIds.length > 0 && (
+        <div className="p-4 px-5 rounded-2xl bg-red-500/10 border border-red-500/30 flex flex-wrap items-center justify-between gap-3 animate-in fade-in">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-black text-[var(--text-primary)]">
+              <span className="text-red-500 font-extrabold text-sm">{selectedUserIds.length}</span> user{selectedUserIds.length > 1 ? 's' : ''} selected
+            </span>
+            <span className="text-xs text-[var(--text-muted)]">•</span>
+            <button
+              type="button"
+              onClick={() => setSelectedUserIds([])}
+              className="text-xs font-bold text-[var(--text-muted)] hover:text-[var(--text-primary)] underline transition-colors"
+            >
+              Deselect All
+            </button>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowBulkDeleteModal(true)}
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black flex items-center gap-2 shadow-lg shadow-red-600/20 transition-all cursor-pointer"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            <span>Delete Selected ({selectedUserIds.length})</span>
+          </button>
+        </div>
+      )}
+
       {/* Users Table */}
       <div className="glass-card rounded-3xl border border-[var(--border-color)] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-[var(--bg-tertiary)] text-[var(--text-primary)] font-extrabold uppercase border-b border-[var(--border-color)]">
               <tr>
+                <th className="p-4 w-12 text-center">
+                  <input
+                    type="checkbox"
+                    ref={(el) => {
+                      if (el) el.indeterminate = isSomeSelected;
+                    }}
+                    checked={isAllSelected}
+                    onChange={handleToggleSelectAll}
+                    title={isAllSelected ? 'Deselect all users' : 'Select all users on this page'}
+                    className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600"
+                  />
+                </th>
                 <th className="p-4">User Details</th>
                 <th className="p-4">Contact Phone</th>
                 <th className="p-4">Email</th>
@@ -300,14 +395,14 @@ export const UserManager = () => {
             <tbody className="divide-y divide-[var(--border-color)]/40 text-[var(--text-primary)]">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-[var(--text-muted)] font-bold">
+                  <td colSpan={8} className="p-8 text-center text-[var(--text-muted)] font-bold">
                     <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-[var(--cyan)]" />
                     Fetching user accounts from database...
                   </td>
                 </tr>
               ) : users.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-8 text-center text-[var(--text-muted)] font-bold">
+                  <td colSpan={8} className="p-8 text-center text-[var(--text-muted)] font-bold">
                     No registered user accounts match your search or filter criteria.
                   </td>
                 </tr>
@@ -315,9 +410,25 @@ export const UserManager = () => {
                 users.map((u) => {
                   const isSelf = adminUser && (adminUser._id === u._id || adminUser.phone === u.phone);
                   const isAdminRole = u.role === 'admin';
+                  const isSelected = selectedUserIds.includes(u._id);
 
                   return (
-                    <tr key={u._id} className="hover:bg-[var(--bg-primary)]/40 transition-colors">
+                    <tr
+                      key={u._id}
+                      className={`hover:bg-[var(--bg-primary)]/40 transition-colors ${
+                        isSelected ? 'bg-red-500/5' : ''
+                      }`}
+                    >
+                      <td className="p-4 text-center">
+                        <input
+                          type="checkbox"
+                          disabled={isSelf}
+                          checked={isSelected}
+                          onChange={() => handleToggleSelectUser(u._id)}
+                          title={isSelf ? 'Cannot select your own admin account' : 'Select user for bulk action'}
+                          className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600 disabled:opacity-20 disabled:cursor-not-allowed"
+                        />
+                      </td>
                       <td className="p-4">
                         <div className="flex items-center gap-3">
                           <div
@@ -630,6 +741,63 @@ export const UserManager = () => {
               >
                 <Trash2 className="w-4 h-4" />
                 <span>{deleting ? 'DELETING...' : 'YES, PERMANENTLY DELETE'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL 3: CONFIRM BULK PERMANENT DELETE MODAL */}
+      {showBulkDeleteModal && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="glass-card max-w-md w-full p-6 sm:p-8 rounded-3xl border border-red-500/40 bg-[var(--bg-secondary)] space-y-6 animate-in zoom-in-95">
+            <div className="flex items-center gap-3 text-red-500">
+              <div className="p-3 rounded-2xl bg-red-500/15">
+                <AlertTriangle className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-lg font-black font-heading text-[var(--text-primary)]">
+                  Delete {selectedUserIds.length} Selected Users
+                </h3>
+                <span className="text-xs text-red-500 font-bold uppercase">Irreversible Bulk Action</span>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-xs space-y-2">
+              <p className="text-[var(--text-primary)] font-medium">
+                Are you sure you want to permanently delete all <strong className="text-red-500">{selectedUserIds.length}</strong> selected user accounts?
+              </p>
+              <p className="text-[var(--text-muted)] text-[11px]">
+                This will delete their records and marathon data permanently from the database. This action cannot be undone.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setShowBulkDeleteModal(false)}
+                disabled={bulkDeleting}
+                className="btn-secondary py-2.5 px-5 text-xs font-extrabold"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmBulkDelete}
+                disabled={bulkDeleting}
+                className="py-2.5 px-6 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-black transition-all flex items-center gap-2 shadow-lg shadow-red-600/30"
+              >
+                {bulkDeleting ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>DELETING...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-4 h-4" />
+                    <span>YES, DELETE ALL SELECTED</span>
+                  </>
+                )}
               </button>
             </div>
           </div>

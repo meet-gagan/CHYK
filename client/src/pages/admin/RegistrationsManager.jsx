@@ -4,7 +4,6 @@ import {
   registrationService,
 } from '../../services/api';
 import { RegistrationSummaryCards } from '../../components/admin/RegistrationSummaryCards';
-import { TshirtSummary } from '../../components/admin/TshirtSummary';
 import { ClassSummary } from '../../components/admin/ClassSummary';
 import { RegistrationDetailsModal } from '../../components/admin/RegistrationDetailsModal';
 import { RegistrationEditModal } from '../../components/admin/RegistrationEditModal';
@@ -23,6 +22,7 @@ import {
   ChevronLeft,
   ChevronRight,
   RotateCw,
+  AlertTriangle,
 } from 'lucide-react';
 
 export const RegistrationsManager = () => {
@@ -46,6 +46,61 @@ export const RegistrationsManager = () => {
 
   // Action feedback
   const [feedback, setFeedback] = useState({ type: null, message: '' });
+
+  // Bulk Delete Registrations State
+  const [selectedRegIds, setSelectedRegIds] = useState([]);
+  const [showBulkDeleteRegModal, setShowBulkDeleteRegModal] = useState(false);
+  const [bulkDeletingReg, setBulkDeletingReg] = useState(false);
+
+  useEffect(() => {
+    setSelectedRegIds([]);
+  }, [regType, searchTerm, filterStandard, filterInstitution, filterSize, regPagination.page]);
+
+  const isAllRegSelected =
+    registrations.length > 0 &&
+    registrations.every((r) => selectedRegIds.includes(r.registrationId || r._id));
+  const isSomeRegSelected =
+    registrations.some((r) => selectedRegIds.includes(r.registrationId || r._id)) &&
+    !isAllRegSelected;
+
+  const handleToggleSelectAllReg = () => {
+    if (isAllRegSelected) {
+      setSelectedRegIds([]);
+    } else {
+      setSelectedRegIds(registrations.map((r) => r.registrationId || r._id));
+    }
+  };
+
+  const handleToggleSelectReg = (id) => {
+    setSelectedRegIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleConfirmBulkDeleteReg = async () => {
+    if (selectedRegIds.length === 0) return;
+    setBulkDeletingReg(true);
+    try {
+      const res = await adminService.bulkDeleteRegistrations(selectedRegIds);
+      if (res.data?.success) {
+        setFeedback({
+          type: 'success',
+          message: res.data.message || `Successfully deleted ${selectedRegIds.length} registration(s).`,
+        });
+        setSelectedRegIds([]);
+        setShowBulkDeleteRegModal(false);
+        loadRegistrations();
+        loadRegistrationSummary();
+      }
+    } catch (err) {
+      setFeedback({
+        type: 'error',
+        message: err.response?.data?.message || 'Failed to bulk delete registrations.',
+      });
+    } finally {
+      setBulkDeletingReg(false);
+    }
+  };
 
   useEffect(() => {
     loadInstitutionsList();
@@ -318,11 +373,8 @@ export const RegistrationsManager = () => {
       {/* Summary Cards */}
       <RegistrationSummaryCards summary={summaryData} loading={loadingSummary} />
 
-      {/* T-Shirt & Class Summaries */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <TshirtSummary summary={summaryData} loading={loadingSummary} />
-        <ClassSummary summary={summaryData} loading={loadingSummary} />
-      </div>
+      {/* Class Summary */}
+      <ClassSummary summary={summaryData} loading={loadingSummary} />
 
       {/* Tabs Bar */}
       <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)]">
@@ -407,10 +459,49 @@ export const RegistrationsManager = () => {
       {/* Main Table: Registrations OR Bulk Batches */}
       {regType !== 'BATCHES' ? (
         <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-xl space-y-4">
+          {/* Bulk Action Bar */}
+          {selectedRegIds.length > 0 && (
+            <div className="p-4 px-5 rounded-2xl bg-red-500/10 border border-red-500/30 flex flex-wrap items-center justify-between gap-3 animate-in fade-in">
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-black text-[var(--text-primary)]">
+                  <span className="text-red-500 font-extrabold text-sm">{selectedRegIds.length}</span> registration{selectedRegIds.length > 1 ? 's' : ''} selected
+                </span>
+                <span className="text-xs text-[var(--text-muted)]">•</span>
+                <button
+                  type="button"
+                  onClick={() => setSelectedRegIds([])}
+                  className="text-xs font-bold text-[var(--text-muted)] hover:text-[var(--text-primary)] underline transition-colors"
+                >
+                  Deselect All
+                </button>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowBulkDeleteRegModal(true)}
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black flex items-center gap-2 shadow-lg shadow-red-600/20 transition-all cursor-pointer"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Delete Selected ({selectedRegIds.length})</span>
+              </button>
+            </div>
+          )}
+
           <div className="overflow-x-auto rounded-2xl border border-[var(--border-color)]">
             <table className="w-full text-left text-xs">
               <thead className="bg-[var(--bg-tertiary)] text-[var(--text-primary)] font-extrabold uppercase tracking-wider">
                 <tr>
+                  <th className="p-3.5 w-12 text-center">
+                    <input
+                      type="checkbox"
+                      ref={(el) => {
+                        if (el) el.indeterminate = isSomeRegSelected;
+                      }}
+                      checked={isAllRegSelected}
+                      onChange={handleToggleSelectAllReg}
+                      title={isAllRegSelected ? 'Deselect all registrations' : 'Select all registrations on this page'}
+                      className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600"
+                    />
+                  </th>
                   <th className="p-3.5">Registration ID</th>
                   <th className="p-3.5">Participant Name</th>
                   <th className="p-3.5">Institution / School</th>
@@ -424,43 +515,59 @@ export const RegistrationsManager = () => {
               <tbody className="divide-y divide-[var(--border-color)] font-semibold text-[var(--text-primary)]">
                 {loadingRegistrations ? (
                   <tr>
-                    <td colSpan="8" className="p-8 text-center text-[var(--text-muted)]">
+                    <td colSpan="9" className="p-8 text-center text-[var(--text-muted)]">
                       Loading registrations...
                     </td>
                   </tr>
                 ) : registrations.length > 0 ? (
-                  registrations.map((reg) => (
-                    <tr key={reg._id || reg.registrationId} className="hover:bg-[var(--bg-tertiary)]/40 transition-colors">
-                      <td className="p-3.5 font-mono font-bold text-[var(--cyan)]">
-                        {reg.registrationId}
-                      </td>
-                      <td className="p-3.5 font-bold text-[var(--text-primary)]">
-                        {reg.fullName}
-                      </td>
-                      <td className="p-3.5 text-[var(--text-muted)] truncate max-w-[160px]">
-                        {reg.institutionName || 'Individual'}
-                      </td>
-                      <td className="p-3.5 text-[var(--text-muted)]">
-                        {reg.standard || 'N/A'}
-                      </td>
-                      <td className="p-3.5 font-mono text-[var(--text-muted)]">
-                        {reg.contactNumber}
-                      </td>
-                      <td className="p-3.5">
-                        <span className="px-2 py-0.5 rounded-md bg-[var(--yellow)]/15 text-[var(--yellow)] font-bold">
-                          {reg.tShirtSize}
-                        </span>
-                      </td>
-                      <td className="p-3.5">
-                        <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
-                          reg.registrationId?.includes('IN')
-                            ? 'bg-[var(--orange)]/15 text-[var(--orange)]'
-                            : 'bg-[var(--cyan)]/15 text-[var(--cyan)]'
-                        }`}>
-                          {reg.registrationId?.includes('IN') ? 'INDIVIDUAL' : 'INSTITUTION'}
-                        </span>
-                      </td>
-                      <td className="p-3.5 text-right">
+                  registrations.map((reg) => {
+                    const isSelected = selectedRegIds.includes(reg.registrationId || reg._id);
+                    return (
+                      <tr
+                        key={reg._id || reg.registrationId}
+                        className={`hover:bg-[var(--bg-tertiary)]/40 transition-colors ${
+                          isSelected ? 'bg-red-500/5' : ''
+                        }`}
+                      >
+                        <td className="p-3.5 text-center">
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => handleToggleSelectReg(reg.registrationId || reg._id)}
+                            title="Select registration for bulk action"
+                            className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600"
+                          />
+                        </td>
+                        <td className="p-3.5 font-mono font-bold text-[var(--cyan)]">
+                          {reg.registrationId}
+                        </td>
+                        <td className="p-3.5 font-bold text-[var(--text-primary)]">
+                          {reg.fullName}
+                        </td>
+                        <td className="p-3.5 text-[var(--text-muted)] truncate max-w-[160px]">
+                          {reg.institutionName || 'Individual'}
+                        </td>
+                        <td className="p-3.5 text-[var(--text-muted)]">
+                          {reg.standard || 'N/A'}
+                        </td>
+                        <td className="p-3.5 font-mono text-[var(--text-muted)]">
+                          {reg.contactNumber}
+                        </td>
+                        <td className="p-3.5">
+                          <span className="px-2 py-0.5 rounded-md bg-[var(--yellow)]/15 text-[var(--yellow)] font-bold">
+                            {reg.tShirtSize}
+                          </span>
+                        </td>
+                        <td className="p-3.5">
+                          <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                            reg.registrationId?.includes('IN')
+                              ? 'bg-[var(--orange)]/15 text-[var(--orange)]'
+                              : 'bg-[var(--cyan)]/15 text-[var(--cyan)]'
+                          }`}>
+                            {reg.registrationId?.includes('IN') ? 'INDIVIDUAL' : 'INSTITUTION'}
+                          </span>
+                        </td>
+                        <td className="p-3.5 text-right">
                         <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => setViewingRegistration(reg)}
@@ -633,6 +740,59 @@ export const RegistrationsManager = () => {
           onClose={() => setEditingRegistration(null)}
           onUpdated={handleRegistrationUpdated}
         />
+      )}
+
+      {/* Bulk Delete Confirmation Modal */}
+      {showBulkDeleteRegModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-[var(--bg-secondary)] border border-red-500/40 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-red-500/15 text-red-500 flex items-center justify-center">
+                <AlertTriangle className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-base font-black font-heading text-[var(--text-primary)]">
+                  DELETE {selectedRegIds.length} SELECTED REGISTRATIONS
+                </h3>
+                <p className="text-xs text-red-500 font-bold">Irreversible Bulk Action</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-[var(--text-primary)] leading-relaxed">
+              Are you sure you want to permanently delete all <strong className="text-red-500 font-black">{selectedRegIds.length}</strong> selected registration records?
+              These entries will be deleted permanently from the database.
+            </p>
+
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-[var(--border-color)]">
+              <button
+                type="button"
+                onClick={() => setShowBulkDeleteRegModal(false)}
+                disabled={bulkDeletingReg}
+                className="btn-secondary text-xs py-2 px-4"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmBulkDeleteReg}
+                disabled={bulkDeletingReg}
+                className="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-black flex items-center gap-2 shadow-lg shadow-red-600/30 transition-all cursor-pointer"
+              >
+                {bulkDeletingReg ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Deleting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Yes, Delete All Selected</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

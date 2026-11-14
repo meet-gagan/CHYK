@@ -266,6 +266,7 @@ export const adminService = {
   getRegistrationById: (id) => api.get(`/admin/registrations/${id}`),
   updateRegistration: (id, data) => api.put(`/admin/registrations/${id}`, data),
   deleteRegistration: (id) => api.delete(`/admin/registrations/${id}`),
+  bulkDeleteRegistrations: (registrationIds) => api.post('/admin/registrations/bulk-delete', { registrationIds }),
   getBatches: (params) => api.get('/admin/batches', { params }),
   getBatchStudents: (batchId) => api.get(`/admin/batches/${batchId}/students`),
   downloadBatchSpreadsheet: (batchId) =>
@@ -278,6 +279,7 @@ export const adminService = {
   getUserById: (id) => api.get(`/admin/users/${id}`),
   updateUserRole: (id, role) => api.patch(`/admin/users/${id}/role`, { role }),
   deleteUser: (id) => api.delete(`/admin/users/${id}`),
+  bulkDeleteUsers: (userIds) => api.post('/admin/users/bulk-delete', { userIds }),
   getProfile: () => api.get('/admin/profile', { headers: { 'X-Auth-Scope': 'admin' } }),
   updateProfile: (data) => api.put('/admin/profile', data, { headers: { 'X-Auth-Scope': 'admin' } }),
   changePassword: (data) => api.put('/auth/change-password', data, { headers: { 'X-Auth-Scope': 'admin' } }),
@@ -378,6 +380,7 @@ export const sevaBookingService = {
   getAllAdmin: (params) => api.get('/seva-bookings/admin/all', { params }),
   updateStatus: (id, status) => api.patch(`/seva-bookings/admin/${id}/status`, { status }),
   deleteBooking: (id) => api.delete(`/seva-bookings/admin/${id}`),
+  bulkDeleteBookings: (bookingIds) => api.post('/seva-bookings/admin/bulk-delete', { bookingIds }),
 };
 
 export const siteSettingsService = {

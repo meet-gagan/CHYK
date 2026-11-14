@@ -15,7 +15,6 @@ import { ImagesMediaPage } from './pages/ImagesMediaPage';
 import { HomePageCmsPage } from './pages/HomePageCmsPage';
 import { AboutPageCmsPage } from './pages/AboutPageCmsPage';
 import { ActivitiesCmsPage } from './pages/ActivitiesCmsPage';
-import { BannersPage } from './pages/BannersPage';
 import { LetsConnectPage } from './pages/LetsConnectPage';
 import { FooterCmsPage } from './pages/FooterCmsPage';
 import { ChangePasswordPage } from './pages/ChangePasswordPage';
@@ -177,13 +176,7 @@ export function App() {
 
           <Route
             path="/banners"
-            element={
-              <ProtectedRoute>
-                <AdminLayout>
-                  <BannersPage />
-                </AdminLayout>
-              </ProtectedRoute>
-            }
+            element={<Navigate to="/dashboard" replace />}
           />
 
           <Route

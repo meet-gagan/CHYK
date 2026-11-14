@@ -54,7 +54,6 @@ export const AdminLayout = () => {
         { name: 'Home Page CMS', path: '/admin/home', icon: Layout },
         { name: 'About Page CMS', path: '/admin/about', icon: Settings },
         { name: 'Activities CMS', path: '/admin/activities', icon: Sparkles },
-        { name: 'Banner Uploads', path: '/admin/banners', icon: ImageIcon },
         { name: "Let's Connect", path: '/admin/lets-connect', icon: MessageSquare },
         { name: 'Footer CMS', path: '/admin/footer', icon: Settings },
       ],

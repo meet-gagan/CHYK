@@ -18,7 +18,7 @@ export const getEventConfig = async (req, res) => {
       });
     } else {
       let needsSave = false;
-      if (!config.registrationEndDate || new Date(config.registrationEndDate).getMonth() === 11) {
+      if (!config.registrationEndDate) {
         config.registrationEndDate = new Date('2026-11-30T23:59:59.000+05:30');
         needsSave = true;
       }

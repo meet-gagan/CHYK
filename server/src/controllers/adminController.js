@@ -111,6 +111,38 @@ export const deleteAdminRegistration = async (req, res) => {
   }
 };
 
+/**
+ * Bulk delete registration records
+ * POST /api/admin/registrations/bulk-delete
+ */
+export const bulkDeleteAdminRegistrations = async (req, res) => {
+  try {
+    const { registrationIds } = req.body;
+    if (!Array.isArray(registrationIds) || registrationIds.length === 0) {
+      return res.status(400).json({ success: false, message: 'Please provide an array of registration IDs to delete.' });
+    }
+
+    let deletedCount = 0;
+    for (const regId of registrationIds) {
+      try {
+        await registrationService.deleteRegistration(regId);
+        deletedCount++;
+      } catch (e) {
+        console.error(`Failed to delete registration ${regId}:`, e.message);
+      }
+    }
+
+    res.json({
+      success: true,
+      message: `Successfully deleted ${deletedCount} registration(s) from database.`,
+      deletedCount,
+    });
+  } catch (err) {
+    console.error('[Bulk Delete Registrations Error]:', err);
+    res.status(500).json({ success: false, message: err.message || 'Failed to bulk delete registrations' });
+  }
+};
+
 export const getBulkBatches = async (req, res) => {
   try {
     const batches = await BulkBatch.find().sort({ createdAt: -1 });
@@ -423,6 +455,34 @@ export const deleteAdminUser = async (req, res) => {
   } catch (err) {
     console.error('[Delete User Error]:', err);
     res.status(500).json({ success: false, message: err.message || 'Failed to delete user' });
+  }
+};
+
+/**
+ * Bulk delete user accounts
+ * POST /api/admin/users/bulk-delete
+ */
+export const bulkDeleteAdminUsers = async (req, res) => {
+  try {
+    const { userIds } = req.body;
+    if (!Array.isArray(userIds) || userIds.length === 0) {
+      return res.status(400).json({ success: false, message: 'Please provide an array of user IDs to delete.' });
+    }
+
+    // Filter out requesting administrator's own account to prevent self-deletion
+    const requestingAdminId = req.user?._id?.toString();
+    const targetIds = userIds.filter((id) => id.toString() !== requestingAdminId);
+
+    const result = await User.deleteMany({ _id: { $in: targetIds } });
+
+    res.json({
+      success: true,
+      message: `Successfully deleted ${result.deletedCount} user(s) permanently from database.`,
+      deletedCount: result.deletedCount,
+    });
+  } catch (err) {
+    console.error('[Bulk Delete Users Error]:', err);
+    res.status(500).json({ success: false, message: err.message || 'Failed to bulk delete users' });
   }
 };
 

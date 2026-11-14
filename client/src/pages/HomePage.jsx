@@ -318,8 +318,8 @@ export function HomePage() {
   const announcementFields = f.scrolling_announcement;
 
   const isAnnouncementEnabled = announcementSec
-    ? announcementSec.isEnabled === true
-    : announcementFields?._isEnabled === true;
+    ? (announcementSec.isEnabled === true || announcementSec.isEnabled === 'true')
+    : (announcementFields?._isEnabled === true || announcementFields?._isEnabled === 'true');
 
   const englishAnnouncement =
     announcementFields?.english_content ||

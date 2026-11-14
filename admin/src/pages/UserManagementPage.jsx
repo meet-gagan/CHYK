@@ -49,6 +49,60 @@ export const UserManagementPage = () => {
   const [updatingRole, setUpdatingRole] = useState(null);
   const [actionFeedback, setActionFeedback] = useState({ type: null, message: '' });
 
+  // Bulk Selection & Deletion State
+  const [selectedUserIds, setSelectedUserIds] = useState([]);
+  const [showBulkDeleteModal, setShowBulkDeleteModal] = useState(false);
+  const [bulkDeleting, setBulkDeleting] = useState(false);
+
+  useEffect(() => {
+    setSelectedUserIds([]);
+  }, [page, roleFilter, searchTerm]);
+
+  const selectableUsers = users.filter((u) => adminUser?._id !== u._id);
+  const isAllSelected =
+    selectableUsers.length > 0 &&
+    selectableUsers.every((u) => selectedUserIds.includes(u._id));
+  const isSomeSelected =
+    selectableUsers.some((u) => selectedUserIds.includes(u._id)) && !isAllSelected;
+
+  const handleToggleSelectAll = () => {
+    if (isAllSelected) {
+      setSelectedUserIds([]);
+    } else {
+      setSelectedUserIds(selectableUsers.map((u) => u._id));
+    }
+  };
+
+  const handleToggleSelectUser = (id) => {
+    setSelectedUserIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const handleConfirmBulkDelete = async () => {
+    if (selectedUserIds.length === 0) return;
+    setBulkDeleting(true);
+    try {
+      const res = await adminUserService.bulkDeleteUsers(selectedUserIds);
+      if (res.data?.success) {
+        setActionFeedback({
+          type: 'success',
+          message: res.data.message || `Successfully deleted ${selectedUserIds.length} user(s).`,
+        });
+        setSelectedUserIds([]);
+        setShowBulkDeleteModal(false);
+        fetchUsers();
+      }
+    } catch (err) {
+      setActionFeedback({
+        type: 'error',
+        message: err.response?.data?.message || 'Failed to bulk delete user accounts.',
+      });
+    } finally {
+      setBulkDeleting(false);
+    }
+  };
+
   const fetchUsers = async () => {
     setLoading(true);
     setActionFeedback({ type: null, message: '' });
@@ -290,12 +344,51 @@ export const UserManagementPage = () => {
         </div>
       </div>
 
+      {/* Bulk Action Bar */}
+      {selectedUserIds.length > 0 && (
+        <div className="p-4 px-5 rounded-2xl bg-red-500/10 border border-red-500/30 flex flex-wrap items-center justify-between gap-3 animate-in fade-in">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-black text-white">
+              <span className="text-red-400 font-extrabold text-sm">{selectedUserIds.length}</span> user{selectedUserIds.length > 1 ? 's' : ''} selected
+            </span>
+            <span className="text-xs text-[#94A3B8]">•</span>
+            <button
+              type="button"
+              onClick={() => setSelectedUserIds([])}
+              className="text-xs font-bold text-[#94A3B8] hover:text-white underline transition-colors"
+            >
+              Deselect All
+            </button>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowBulkDeleteModal(true)}
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-black flex items-center gap-2 shadow-lg shadow-red-600/20 transition-all cursor-pointer"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            <span>Delete Selected ({selectedUserIds.length})</span>
+          </button>
+        </div>
+      )}
+
       {/* User Table */}
       <div className="p-6 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-4">
         <div className="overflow-x-auto rounded-2xl border border-white/10">
           <table className="w-full text-left text-xs">
             <thead className="bg-[#243054] text-white font-extrabold uppercase tracking-wider">
               <tr>
+                <th className="p-3.5 w-12 text-center">
+                  <input
+                    type="checkbox"
+                    ref={(el) => {
+                      if (el) el.indeterminate = isSomeSelected;
+                    }}
+                    checked={isAllSelected}
+                    onChange={handleToggleSelectAll}
+                    title={isAllSelected ? 'Deselect all users' : 'Select all users on this page'}
+                    className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600"
+                  />
+                </th>
                 <th className="p-3.5">User Details</th>
                 <th className="p-3.5">Mobile Phone</th>
                 <th className="p-3.5">Age & Profession</th>
@@ -307,15 +400,31 @@ export const UserManagementPage = () => {
             <tbody className="divide-y divide-white/5 font-semibold text-[#F8FAFC]">
               {loading ? (
                 <tr>
-                  <td colSpan="6" className="p-8 text-center text-[#94A3B8]">
+                  <td colSpan="7" className="p-8 text-center text-[#94A3B8]">
                     Loading registered users...
                   </td>
                 </tr>
               ) : users.length > 0 ? (
                 users.map((u) => {
                   const isCurrentAdmin = adminUser?._id === u._id;
+                  const isSelected = selectedUserIds.includes(u._id);
                   return (
-                    <tr key={u._id} className="hover:bg-[#243054]/40 transition-colors">
+                    <tr
+                      key={u._id}
+                      className={`hover:bg-[#243054]/40 transition-colors ${
+                        isSelected ? 'bg-red-500/10' : ''
+                      }`}
+                    >
+                      <td className="p-3.5 text-center">
+                        <input
+                          type="checkbox"
+                          disabled={isCurrentAdmin}
+                          checked={isSelected}
+                          onChange={() => handleToggleSelectUser(u._id)}
+                          title={isCurrentAdmin ? 'Cannot select your own admin account' : 'Select user for bulk action'}
+                          className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600 disabled:opacity-20 disabled:cursor-not-allowed"
+                        />
+                      </td>
                       {/* Name & ID */}
                       <td className="p-3.5">
                         <div className="flex items-center gap-2.5">
@@ -606,6 +715,59 @@ export const UserManagementPage = () => {
                 className="btn-danger text-xs py-2 px-5 bg-red-500 text-white hover:bg-red-600 font-bold"
               >
                 {deleting ? 'Deleting...' : 'Yes, Delete Record'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Delete Confirmation Modal */}
+      {showBulkDeleteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-[#1C2541] border border-red-500/40 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-red-500/15 text-red-400 flex items-center justify-center">
+                <AlertTriangle className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-base font-black font-heading text-white">
+                  DELETE {selectedUserIds.length} SELECTED USERS
+                </h3>
+                <p className="text-xs text-red-400 font-bold">Irreversible Bulk Action</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-white leading-relaxed">
+              Are you sure you want to permanently delete all <strong className="text-red-400 font-black">{selectedUserIds.length}</strong> selected user accounts?
+              All account records and marathon entries will be removed from the database permanently.
+            </p>
+
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/10">
+              <button
+                type="button"
+                onClick={() => setShowBulkDeleteModal(false)}
+                disabled={bulkDeleting}
+                className="btn-secondary text-xs py-2 px-4"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmBulkDelete}
+                disabled={bulkDeleting}
+                className="btn-danger text-xs py-2 px-5 bg-red-500 text-white hover:bg-red-600 font-bold flex items-center gap-2"
+              >
+                {bulkDeleting ? (
+                  <>
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Deleting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Yes, Delete All Selected</span>
+                  </>
+                )}
               </button>
             </div>
           </div>

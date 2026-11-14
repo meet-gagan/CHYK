@@ -170,19 +170,21 @@ export const updateAdminHomepage = async (req, res) => {
       homePage = new HomePage();
     }
 
-    if (typeof isEnabled === 'boolean') homePage.isEnabled = isEnabled;
+    if (isEnabled !== undefined) homePage.isEnabled = String(isEnabled) === 'true';
     if (disabledTitle !== undefined) homePage.disabledTitle = disabledTitle;
     if (disabledMessage !== undefined) homePage.disabledMessage = disabledMessage;
     if (disabledImage !== undefined) homePage.disabledImage = disabledImage;
-    if (typeof disabledContactButton === 'boolean') homePage.disabledContactButton = disabledContactButton;
+    if (disabledContactButton !== undefined) homePage.disabledContactButton = String(disabledContactButton) === 'true';
     if (disabledContactUrl !== undefined) homePage.disabledContactUrl = disabledContactUrl;
 
     if (theme) {
-      homePage.theme = { ...homePage.theme.toObject(), ...theme };
+      homePage.theme = { ...(homePage.theme?.toObject ? homePage.theme.toObject() : homePage.theme), ...theme };
+      homePage.markModified('theme');
     }
 
     if (Array.isArray(sections)) {
       homePage.sections = sections;
+      homePage.markModified('sections');
     }
 
     await homePage.save();
@@ -261,6 +263,7 @@ export const updateSection = async (req, res) => {
       ...homePage.sections[sectionIndex].toObject(),
       ...updateData,
     };
+    homePage.markModified('sections');
 
     await homePage.save();
 
@@ -285,6 +288,7 @@ export const deleteSection = async (req, res) => {
     }
 
     homePage.sections = homePage.sections.filter((s) => s.sectionId !== sectionId && s._id?.toString() !== sectionId);
+    homePage.markModified('sections');
     await homePage.save();
 
     res.json({
@@ -320,6 +324,7 @@ export const reorderSections = async (req, res) => {
     });
 
     homePage.sections.sort((a, b) => a.order - b.order);
+    homePage.markModified('sections');
     await homePage.save();
 
     res.json({
@@ -342,7 +347,7 @@ export const toggleStatus = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Homepage not found' });
     }
 
-    homePage.isEnabled = typeof isEnabled === 'boolean' ? isEnabled : !homePage.isEnabled;
+    homePage.isEnabled = isEnabled !== undefined ? String(isEnabled) === 'true' : !homePage.isEnabled;
     await homePage.save();
 
     res.json({
@@ -369,6 +374,7 @@ export const updateTheme = async (req, res) => {
       ...homePage.theme.toObject(),
       ...themeData,
     };
+    homePage.markModified('theme');
 
     await homePage.save();
 

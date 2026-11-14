@@ -347,3 +347,26 @@ export const deleteSevaBooking = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
+/**
+ * Bulk delete seva booking records
+ * POST /api/seva-bookings/admin/bulk-delete
+ */
+export const bulkDeleteSevaBookings = async (req, res) => {
+  try {
+    const { bookingIds } = req.body;
+    if (!Array.isArray(bookingIds) || bookingIds.length === 0) {
+      return res.status(400).json({ success: false, message: 'Please provide an array of booking IDs to delete.' });
+    }
+
+    const result = await SevaBooking.deleteMany({ _id: { $in: bookingIds } });
+
+    res.json({
+      success: true,
+      message: `Successfully deleted ${result.deletedCount} booking record(s) from database.`,
+      deletedCount: result.deletedCount,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};

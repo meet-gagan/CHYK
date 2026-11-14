@@ -15,14 +15,11 @@ export const updatePageContent = async (req, res) => {
     const { sectionKey } = req.params;
     const { content } = req.body;
 
-    let item = await PageContent.findOne({ sectionKey });
-    if (!item) {
-      item = new PageContent({ sectionKey, content });
-    } else {
-      item.content = content;
-    }
-
-    await item.save();
+    const item = await PageContent.findOneAndUpdate(
+      { sectionKey },
+      { $set: { sectionKey, content } },
+      { upsert: true, new: true, runValidators: true }
+    );
 
     res.json({
       success: true,

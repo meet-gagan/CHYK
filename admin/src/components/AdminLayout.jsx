@@ -61,7 +61,6 @@ export const AdminLayout = ({ children }) => {
         { name: 'Home Page CMS', path: '/home-cms', icon: Layout },
         { name: 'About Page CMS', path: '/about-cms', icon: Settings },
         { name: 'Activities CMS', path: '/activities-cms', icon: Sparkles },
-        { name: 'Banner Uploads', path: '/banners', icon: ImageIcon },
         { name: "Let's Connect", path: '/lets-connect', icon: MessageSquare },
         { name: 'Footer CMS', path: '/footer-cms', icon: Settings },
       ],

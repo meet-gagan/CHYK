@@ -373,11 +373,7 @@ export function App() {
             />
             <Route
               path="/admin/banners"
-              element={
-                <ProtectedRoute requireAdmin={true}>
-                  <AdminDashboardPage defaultTab="BANNERS" />
-                </ProtectedRoute>
-              }
+              element={<Navigate to="/admin" replace />}
             />
             <Route
               path="/admin/lets-connect"

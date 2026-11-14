@@ -264,19 +264,26 @@ export const updatePage = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Page content not found' });
     }
 
-    if (pageTitle && pageTitle.trim()) page.pageTitle = pageTitle.trim();
-    if (route && route.trim()) page.route = route.trim();
-    if (status && ['PUBLISHED', 'DRAFT'].includes(status)) page.status = status;
-    if (Array.isArray(sections)) page.sections = sections;
-    if (seo && typeof seo === 'object') page.seo = seo;
-    page.lastUpdatedBy = req.user?._id;
+    const updateFields = {
+      lastUpdatedBy: req.user?._id,
+    };
 
-    await page.save();
+    if (pageTitle && pageTitle.trim()) updateFields.pageTitle = pageTitle.trim();
+    if (route && route.trim()) updateFields.route = route.trim();
+    if (status && ['PUBLISHED', 'DRAFT'].includes(status)) updateFields.status = status;
+    if (Array.isArray(sections)) updateFields.sections = sections;
+    if (seo && typeof seo === 'object') updateFields.seo = seo;
+
+    const updated = await WebContent.findByIdAndUpdate(
+      req.params.id,
+      { $set: updateFields },
+      { new: true, runValidators: true }
+    );
 
     res.json({
       success: true,
-      message: `Content for '${page.pageTitle}' saved and published successfully`,
-      data: page,
+      message: `Content for '${updated.pageTitle}' saved and published successfully`,
+      data: updated,
     });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
