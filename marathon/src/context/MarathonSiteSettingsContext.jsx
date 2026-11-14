@@ -32,7 +32,8 @@ export const MarathonSiteSettingsProvider = ({ children }) => {
       }
       setError(null);
     } catch (err) {
-      console.warn('[MarathonSiteSettings] Failed to fetch marathon site status, using default:', err);
+      console.warn('[MarathonSiteSettings] Failed to fetch marathon site status, using default (true):', err);
+      setIsLive(true);
       setError(err.message);
     } finally {
       setLoading(false);

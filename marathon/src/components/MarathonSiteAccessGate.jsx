@@ -13,8 +13,20 @@ export function MarathonSiteAccessGate({ children }) {
 
   const hostname = typeof window !== 'undefined' ? window.location.hostname.toLowerCase() : '';
 
-  // Controlled dynamically by DB marathonsitesettings (true = Live website, false = Coming Soon)
-  const effectiveIsLive = Boolean(isLive);
+  // 1. Domains that must ALWAYS be LIVE unconditionally:
+  //    - chyk.vercel.app (and vercel preview deployments)
+  //    - localhost / 127.0.0.1
+  const isVercelLiveDomain =
+    hostname.includes('chyk.vercel.app') ||
+    hostname.includes('vercel.app') ||
+    hostname.includes('localhost') ||
+    hostname.includes('127.0.0.1');
+
+  // 2. For marathon.chinmayamissionadoni.org (custom domain):
+  //    Directly controlled by DB marathonsitesettings:
+  //    true in DB = LIVE website
+  //    false in DB = COMING SOON mode
+  const effectiveIsLive = isVercelLiveDomain ? true : Boolean(isLive);
 
   // 3. Always allow Admin routes and Pass Verification unconditionally
   if (pathname.startsWith('/admin') || pathname.startsWith('/verify-pass') || pathname.startsWith('/pass/')) {
