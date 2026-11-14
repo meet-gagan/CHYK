@@ -65,6 +65,8 @@ const allowedOriginsSet = new Set([
   'https://chyk.vercel.app',
   'https://chinmayamissionadoni.org',
   'https://www.chinmayamissionadoni.org',
+  'https://marathon.chinmayamissionadoni.org',
+  'https://www.marathon.chinmayamissionadoni.org',
   'https://chinmaya-mission-adoni.vercel.app',
   'https://chinmaya-mission-adoni-nine.vercel.app',
   'https://chinmaya-mission-adoni-admin.vercel.app',
@@ -88,17 +90,9 @@ const corsOptions = {
     if (!origin) return callback(null, true);
     const sanitized = origin.replace(/\/+$/, '');
 
-    // Explicitly block deprecated marathon domain
-    if (
-      sanitized.includes('marathon.chinmayamissionadoni.org') ||
-      sanitized.includes('marathon.chinmaymissionadoni.org')
-    ) {
-      console.warn(`[Blocked Deprecated Origin]: ${sanitized} is decommissioned.`);
-      return callback(null, false);
-    }
-
     // Allow exact matches
     if (allowedOriginsSet.has(sanitized)) return callback(null, true);
+    if (sanitized.includes('chinmayamissionadoni.org')) return callback(null, true);
     // Allow any Vercel & Netlify deployment domain
     if (vercelPattern.test(sanitized) || netlifyPattern.test(sanitized)) {
       return callback(null, true);
