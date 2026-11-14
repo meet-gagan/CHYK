@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
-  HeartPulse,
   Building2,
   MapPin,
   Phone,
@@ -9,11 +8,11 @@ import {
   Filter,
   Copy,
   Check,
-  Sparkles,
   Info,
   ShieldCheck,
   Stethoscope,
   X,
+  ExternalLink,
 } from 'lucide-react';
 import { WELLNESS_CENTERS, DISTRICT_OPTIONS } from '../data/wellnessCentersData';
 
@@ -100,17 +99,12 @@ export const WellnessCentersPage = () => {
         {/* PAGE HEADER */}
         {/* ======================================================== */}
         <header className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/25 font-black text-xs uppercase tracking-widest shadow-xs">
-            <HeartPulse className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Healthcare & Rehabilitation Directory</span>
-          </div>
-
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading text-[var(--text-primary,#0B2340)] tracking-tight">
             Wellness Centers
           </h1>
 
           <p className="text-sm sm:text-base lg:text-lg text-[var(--text-muted,#64748B)] font-medium leading-relaxed">
-            Find government hospitals and NGO support centers.
+            Find government hospitals and NGO support centers nearby.
           </p>
         </header>
 
@@ -433,6 +427,24 @@ export const WellnessCentersPage = () => {
             </button>
           </div>
         )}
+
+        {/* Source Attribution Note */}
+        <div className="pt-2 sm:pt-4 text-center">
+          <div className="inline-flex flex-wrap items-center justify-center gap-1.5 px-4 py-2.5 rounded-2xl bg-white/80 border border-[var(--border-color)] text-xs text-[var(--text-muted)] shadow-sm">
+            <Info className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+            <span className="font-bold text-[var(--text-primary)]">Note:</span>
+            <span>All information has been fetched from:</span>
+            <a
+              href="https://eagle.appolice.gov.in/de-addiction-centres"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--orange)] hover:underline font-semibold inline-flex items-center gap-1 break-all"
+            >
+              https://eagle.appolice.gov.in/de-addiction-centres
+              <ExternalLink className="w-3 h-3 shrink-0" />
+            </a>
+          </div>
+        </div>
 
       </div>
     </div>

@@ -8,7 +8,7 @@ const getOrCreateSettings = async () => {
   if (!settings) {
     settings = await SiteSettings.create({
       key: 'global',
-      isLive: false, // Default is false (Coming Soon mode)
+      isLive: true, // Default is true (Live mode)
     });
   }
   return settings;

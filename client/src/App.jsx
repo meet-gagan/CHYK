@@ -22,6 +22,7 @@ import { GalleryPage } from './pages/GalleryPage';
 import { SupportOurMissionPage } from './pages/SupportOurMissionPage';
 import { ComingSoonPage } from './pages/ComingSoonPage';
 import { TermsPage } from './pages/TermsPage';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage';
 
 // Public Authentication Pages
 import { LoginPage } from './pages/LoginPage';
@@ -36,7 +37,7 @@ import { AdminLoginPage } from './pages/AdminLoginPage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
 
 const MARATHON_PORTAL_URL =
-  import.meta.env.VITE_MARATHON_URL || 'https://marathon.chinmayamissionadoni.org';
+  import.meta.env.VITE_MARATHON_URL || 'https://chyk.vercel.app';
 
 function MarathonPortalRedirect({ path = '' }) {
   useEffect(() => {
@@ -229,6 +230,10 @@ export function App() {
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/terms-and-conditions" element={<TermsPage />} />
               <Route path="/terms-conditions" element={<TermsPage />} />
+
+              {/* Privacy Policy */}
+              <Route path="/privacy" element={<PrivacyPolicyPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             </Route>
 
             {/* Standalone Teaser / Coming Soon Page */}

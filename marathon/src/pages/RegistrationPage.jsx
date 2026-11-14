@@ -31,6 +31,7 @@ import {
   UserPlus,
   Trash2,
   HelpCircle,
+  MapPin,
 } from 'lucide-react';
 
 export const RegistrationPage = () => {
@@ -174,19 +175,37 @@ export const RegistrationPage = () => {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed.tab) setTab(parsed.tab);
-        if (parsed.indForm) setIndForm((prev) => ({ ...prev, ...parsed.indForm }));
-        if (parsed.hasFriends !== undefined) setHasFriends(parsed.hasFriends);
-        if (parsed.friendsCount) setFriendsCount(parsed.friendsCount);
-        if (parsed.friendsList) setFriendsList(parsed.friendsList);
-        if (parsed.bulkForm) setBulkForm((prev) => ({ ...prev, ...parsed.bulkForm }));
+        if (parsed.indForm && typeof parsed.indForm === 'object') {
+          setIndForm((prev) => ({ ...prev, ...parsed.indForm }));
+        }
+        if (parsed.hasFriends !== undefined) setHasFriends(Boolean(parsed.hasFriends));
+        if (parsed.friendsCount) setFriendsCount(Number(parsed.friendsCount) || 1);
+        if (Array.isArray(parsed.friendsList) && parsed.friendsList.length > 0) {
+          setFriendsList(parsed.friendsList);
+          setFriendsErrors(parsed.friendsList.map(() => ({})));
+        }
+        if (parsed.bulkForm && typeof parsed.bulkForm === 'object') {
+          setBulkForm((prev) => ({ ...prev, ...parsed.bulkForm }));
+        }
       }
     } catch (_) {}
   }, []);
 
   // Pre-fill Participant 1 fields from authenticated user session
   useEffect(() => {
-    if (user) {
-      const userDob = user.dob || (user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split('T')[0] : '');
+    if (user && typeof user === 'object') {
+      let userDob = '';
+      if (user.dob && typeof user.dob === 'string') {
+        userDob = user.dob.split('T')[0];
+      } else if (user.dateOfBirth) {
+        try {
+          const d = new Date(user.dateOfBirth);
+          if (!isNaN(d.getTime())) {
+            userDob = d.toISOString().split('T')[0];
+          }
+        } catch (_) {}
+      }
+
       const userAge = userDob ? calculateAgeFromDob(userDob) : (user.age ? String(user.age) : '');
       setIndForm((prev) => ({
         ...prev,

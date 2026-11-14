@@ -7,42 +7,45 @@ import { getAdminToken } from '../services/api';
 const COMING_SOON_PATHS = ['/coming-soon', '/comming-soon', '/launch', '/teaser'];
 
 export function MarathonSiteAccessGate({ children }) {
-  const { isLive, loading, toggleLive } = useMarathonSiteSettings();
+  const { isLive, toggleLive } = useMarathonSiteSettings();
   const location = useLocation();
   const pathname = location.pathname.toLowerCase().replace(/\/+$/, '') || '/';
 
-  // 1. Always allow Admin routes and Pass Verification unconditionally
+  const hostname = typeof window !== 'undefined' ? window.location.hostname.toLowerCase() : '';
+
+  // 1. Domains that must ALWAYS be LIVE unconditionally:
+  //    - localhost / 127.0.0.1 (including port 5175)
+  //    - chyk.vercel.app (and any vercel preview deployment)
+  const isAlwaysLiveDomain =
+    hostname.includes('localhost') ||
+    hostname.includes('127.0.0.1') ||
+    hostname.includes('chyk.vercel.app') ||
+    hostname.includes('vercel.app');
+
+  // 2. For marathon.chinmayamissionadoni.org (and custom domains):
+  //    Controlled dynamically by DB marathonsitesettings (true = Live website, false = Coming Soon)
+  const effectiveIsLive = isAlwaysLiveDomain ? true : Boolean(isLive);
+
+  // 3. Always allow Admin routes and Pass Verification unconditionally
   if (pathname.startsWith('/admin') || pathname.startsWith('/verify-pass') || pathname.startsWith('/pass/')) {
     return (
       <>
         {children}
-        <AdminStatusToggle isLive={isLive} onToggle={toggleLive} />
+        <AdminStatusToggle isLive={effectiveIsLive} onToggle={toggleLive} />
       </>
-    );
-  }
-
-  // 2. Loading state while checking marathon site settings from API
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#07162D] flex flex-col items-center justify-center text-orange-400">
-        <div className="w-10 h-10 border-4 border-[#F0441D] border-t-transparent rounded-full animate-spin mb-4" />
-        <p className="text-xs font-bold tracking-widest text-[#F6D9BA] uppercase">
-          CHINMAYA YUVA KENDRA • MARATHON 2026
-        </p>
-      </div>
     );
   }
 
   const isComingSoonRoute = COMING_SOON_PATHS.includes(pathname);
 
-  // 3. When isLive === false (Coming Soon mode active):
+  // 4. When effectiveIsLive === false (Coming Soon mode active):
   //    Block all public routes and display the Marathon Coming Soon page
-  if (!isLive) {
+  if (!effectiveIsLive) {
     if (isComingSoonRoute) {
       return (
         <>
           <MarathonComingSoonPage />
-          <AdminStatusToggle isLive={isLive} onToggle={toggleLive} />
+          <AdminStatusToggle isLive={effectiveIsLive} onToggle={toggleLive} />
         </>
       );
     }
@@ -50,9 +53,9 @@ export function MarathonSiteAccessGate({ children }) {
     return <Navigate to="/coming-soon" replace />;
   }
 
-  // 4. When isLive === true (Live mode active):
+  // 5. When effectiveIsLive === true (Live mode active):
   //    Display everything EXCEPT the coming soon page (which redirects to /)
-  if (isLive && isComingSoonRoute) {
+  if (effectiveIsLive && isComingSoonRoute) {
     return <Navigate to="/" replace />;
   }
 
@@ -60,7 +63,7 @@ export function MarathonSiteAccessGate({ children }) {
   return (
     <>
       {children}
-      <AdminStatusToggle isLive={isLive} onToggle={toggleLive} />
+      <AdminStatusToggle isLive={effectiveIsLive} onToggle={toggleLive} />
     </>
   );
 }
