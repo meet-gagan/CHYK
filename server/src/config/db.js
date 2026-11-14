@@ -55,6 +55,26 @@ export const connectDB = async () => {
       // Ignore if collection error
     }
 
+    // Ensure sitesettings (Chinmaya Mission website) document exists and is live in DB
+    try {
+      const siteCol = conn.connection.collection('sitesettings');
+      const existingSite = await siteCol.findOne({ key: 'global' });
+      if (!existingSite) {
+        await siteCol.insertOne({
+          key: 'global',
+          isLive: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+        console.log('[MongoDB] Initialized sitesettings collection (isLive: true).');
+      } else if (!existingSite.isLive) {
+        await siteCol.updateOne({ key: 'global' }, { $set: { isLive: true } });
+        console.log('[MongoDB] Updated sitesettings collection to (isLive: true).');
+      }
+    } catch (sErr) {
+      // Ignore if collection error
+    }
+
     return true;
   } catch (error) {
     console.error(`[MongoDB Connection Error]: ${error.message}`);

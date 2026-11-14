@@ -11,7 +11,7 @@ const siteSettingsSchema = new mongoose.Schema(
     // Only property: true = Live site | false = Coming Soon mode
     isLive: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   { timestamps: true }

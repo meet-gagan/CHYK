@@ -15,7 +15,6 @@ import {
   MessageSquare,
   Film,
   HeartPulse,
-  Info,
 } from 'lucide-react';
 
 export const Navbar = () => {
@@ -95,9 +94,6 @@ export const Navbar = () => {
                     : 'text-[var(--text-primary)] opacity-85'
                 }`}
               >
-                {link.name === 'About' && (
-                  <Info className="w-3.5 h-3.5 text-blue-500 shrink-0 hidden xl:inline-block" />
-                )}
                 {(link.name === 'Udaan' || link.name === 'Videos') && (
                   <Film className="w-3.5 h-3.5 text-red-500 shrink-0 hidden xl:inline-block" />
                 )}
@@ -337,9 +333,6 @@ export const Navbar = () => {
                 }`}
               >
                 <span className="flex items-center gap-2.5">
-                  {link.name === 'About' && (
-                    <Info className="w-4 h-4 text-blue-500" />
-                  )}
                   {(link.name === 'Udaan' || link.name === 'Videos') && (
                     <Film className="w-4 h-4 text-red-500" />
                   )}

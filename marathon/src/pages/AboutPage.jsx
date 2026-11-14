@@ -22,7 +22,7 @@ export const AboutPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'About The Marathon | Run For Life. Stand Against Drugs.';
+    document.title = 'About The Marathon | WE RISE. WE RUN. WE RESIST';
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, []);
 
@@ -75,6 +75,14 @@ export const AboutPage = () => {
       accent: 'border-purple-500/20 bg-purple-500/5 text-purple-600',
       badgeBg: 'bg-purple-600 text-white',
     },
+    {
+      number: '06',
+      title: 'To Encourage Prevention & Recovery',
+      description:
+        'To promote early intervention, encourage people to seek help without hesitation and create a supportive environment for individuals on their journey towards recovery.',
+      accent: 'border-teal-500/20 bg-teal-500/5 text-teal-600',
+      badgeBg: 'bg-teal-600 text-white',
+    },
   ];
 
   const visionPoints = [
@@ -92,13 +100,6 @@ export const AboutPage = () => {
       {/* ======================================================== */}
       <section className="relative pt-10 pb-14 sm:pt-16 sm:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-[var(--orange,#FF6600)]/10 via-[var(--bg-primary)] to-[var(--bg-primary)] border-b border-[var(--border-color,#E5E7EB)]">
         <div className="max-w-5xl mx-auto text-center space-y-4 sm:space-y-6">
-          
-          {/* Pill Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--orange)]/15 border border-[var(--orange)]/30 text-[var(--orange)] text-xs font-black uppercase tracking-wider">
-            <Flame className="w-3.5 h-3.5 animate-pulse" />
-            <span>RUN FOR LIFE. STAND AGAINST DRUGS.</span>
-          </div>
-
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading tracking-tight text-[var(--text-primary)]">
             ABOUT THE MARATHON
           </h1>
@@ -122,7 +123,7 @@ export const AboutPage = () => {
         <section className="p-6 sm:p-10 rounded-3xl bg-white border border-[var(--border-color,#E5E7EB)] shadow-sm space-y-6">
           <div className="space-y-4 text-sm sm:text-base leading-relaxed text-[var(--text-muted,#64748B)]">
             <p>
-              <strong className="text-[var(--text-primary)] font-bold">Run for Life. Stand Against Drugs.</strong> is
+              <strong className="text-[var(--text-primary)] font-bold">WE RISE. WE RUN. WE RESIST.</strong> is
               an anti-drug awareness marathon organised by{' '}
               <strong className="text-[var(--text-primary)] font-bold">Chinmaya Yuva Kendra (CHYK), Adoni</strong>,
               with the vision of creating awareness about the harmful effects of substance abuse and inspiring individuals,
@@ -298,7 +299,7 @@ export const AboutPage = () => {
             </p>
           </div>
 
-          {/* WE RUN FOR A REASON: 5 CARDS */}
+          {/* WE RUN FOR A REASON: 6 CARDS */}
           <div className="space-y-4 pt-2">
             <div className="flex items-center gap-2">
               <Flag className="w-4 h-4 text-orange-400" />
@@ -364,11 +365,6 @@ export const AboutPage = () => {
         {/* ======================================================== */}
         <section className="relative p-6 sm:p-10 rounded-3xl bg-gradient-to-r from-[var(--orange)]/15 via-[var(--bg-secondary,#FFFBF5)] to-cyan-500/15 border border-[var(--border-color,#E5E7EB)] shadow-xl overflow-hidden text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="max-w-xl space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[var(--orange)]/20 text-[var(--orange)]">
-              <Award className="w-3.5 h-3.5" />
-              <span>Official Awareness Initiative</span>
-            </div>
-
             <h2 className="text-xl sm:text-3xl font-black font-heading text-[var(--text-primary)]">
               TAKE THE PLEDGE. TAKE THE STEP.
             </h2>
@@ -381,9 +377,6 @@ export const AboutPage = () => {
             <div className="pt-2 flex flex-wrap items-center gap-2">
               <span className="px-3 py-1 rounded-lg bg-slate-900 text-white text-[11px] font-black uppercase tracking-wider">
                 WE RISE. WE RUN. WE RESIST.
-              </span>
-              <span className="px-3 py-1 rounded-lg bg-[var(--orange)] text-white text-[11px] font-black uppercase tracking-wider">
-                RUN FOR LIFE. STAND AGAINST DRUGS.
               </span>
             </div>
           </div>

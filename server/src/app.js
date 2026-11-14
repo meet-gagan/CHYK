@@ -53,14 +53,17 @@ app.set('trust proxy', 1);
 app.use(helmet({ crossOriginResourcePolicy: false }));
 
 // Merge env origins with hardcoded ones (sanitizing trailing slashes)
-const envOrigins = process.env.ALLOWED_ORIGINS
-  ? process.env.ALLOWED_ORIGINS.split(',').map((o) => o.trim().replace(/\/+$/, '')).filter(Boolean)
-  : [];
+const envOrigins = [
+  ...(process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(',').map((o) => o.trim().replace(/\/+$/, '')).filter(Boolean)
+    : []),
+  ...(process.env.CLIENT_URL ? [process.env.CLIENT_URL.trim().replace(/\/+$/, '')] : []),
+];
 
 const allowedOriginsSet = new Set([
+  'https://chyk.vercel.app',
   'https://chinmayamissionadoni.org',
   'https://www.chinmayamissionadoni.org',
-  'https://marathon.chinmayamissionadoni.org',
   'https://chinmaya-mission-adoni.vercel.app',
   'https://chinmaya-mission-adoni-nine.vercel.app',
   'https://chinmaya-mission-adoni-admin.vercel.app',
@@ -74,31 +77,35 @@ const allowedOriginsSet = new Set([
   ...envOrigins,
 ]);
 
-// Regex: allow ALL Vercel & Netlify preview/production URLs for this project
-const vercelPreviewPattern = /^https:\/\/chinmaya-mission-adoni(-[a-z0-9]+)*\.vercel\.app$/;
-const vercelAdminPattern = /^https:\/\/chinmaya-mission-adoni-admin(-[a-z0-9]+)*\.vercel\.app$/;
-const vercelMarathonPattern = /^https:\/\/(chinmaya-)?marathon(-[a-z0-9]+)*\.vercel\.app$/;
-const netlifyPattern = /^https:\/\/.*(chinmaya|marathon).*\.netlify\.app$/;
+// Regex: allow ALL Vercel & Netlify preview/production URLs (e.g. client-*.vercel.app, chyk.vercel.app)
+const vercelPattern = /^https:\/\/([a-z0-9_-]+)\.vercel\.app$/i;
+const netlifyPattern = /^https:\/\/([a-z0-9_-]+)\.netlify\.app$/i;
 
 const corsOptions = {
   origin: (origin, callback) => {
     // Allow requests with no origin (curl, mobile apps, Render health checks)
     if (!origin) return callback(null, true);
     const sanitized = origin.replace(/\/+$/, '');
+
+    // Explicitly block deprecated marathon domain
+    if (
+      sanitized.includes('marathon.chinmayamissionadoni.org') ||
+      sanitized.includes('marathon.chinmaymissionadoni.org')
+    ) {
+      console.warn(`[Blocked Deprecated Origin]: ${sanitized} is decommissioned.`);
+      return callback(null, false);
+    }
+
     // Allow exact matches
     if (allowedOriginsSet.has(sanitized)) return callback(null, true);
-    // Allow all Vercel & Netlify deployments for this project
-    if (
-      vercelPreviewPattern.test(sanitized) ||
-      vercelAdminPattern.test(sanitized) ||
-      vercelMarathonPattern.test(sanitized) ||
-      netlifyPattern.test(sanitized)
-    ) {
+    // Allow any Vercel & Netlify deployment domain
+    if (vercelPattern.test(sanitized) || netlifyPattern.test(sanitized)) {
       return callback(null, true);
     }
     // In development, allow everything
     if (process.env.NODE_ENV !== 'production') return callback(null, true);
-    callback(new Error(`CORS: Origin ${origin} not allowed`));
+    console.warn(`[CORS Blocked]: Origin "${origin}" is not authorized.`);
+    callback(null, false);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],

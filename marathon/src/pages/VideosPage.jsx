@@ -118,7 +118,7 @@ export const VideosPage = () => {
             Udaan
           </h1>
           <p className="text-base sm:text-lg lg:text-xl font-bold text-[var(--orange,#FF6600)] tracking-wide">
-            "Fly high; choose a meaningful life"
+            "Fly high, Choose a meaningful Life"
           </p>
           <p className="text-xs sm:text-sm lg:text-base text-[var(--text-primary,#0B2340)]/75 font-medium leading-relaxed">
             Watch event highlights, inspirational messages, youth movements, and marathon stories
@@ -128,8 +128,8 @@ export const VideosPage = () => {
 
         {/* Loading State: Skeleton Cards */}
         {loading && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5">
-            {[...Array(10)].map((_, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+            {[...Array(8)].map((_, i) => (
               <div
                 key={i}
                 className="bg-white/80 rounded-2xl overflow-hidden border border-[var(--border-color,#E5E7EB)] shadow-sm animate-pulse space-y-3 p-3"
@@ -176,9 +176,9 @@ export const VideosPage = () => {
           </div>
         )}
 
-        {/* Responsive Grid: 5 on large desktop, 4 on laptop, 2-3 on tablet, 1-2 on mobile */}
+        {/* Responsive Grid: 4 videos per row on desktop */}
         {!loading && !error && videos.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
             {videos.map((video) => {
               const thumbUrl =
                 video.thumbnailUrl ||
