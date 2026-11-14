@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { adminWebContentService } from '../services/adminApi';
+import { ScrollingAnnouncementEditor } from '../components/ScrollingAnnouncementEditor';
 import {
   Globe,
   Layers,
@@ -14,14 +15,10 @@ import {
   ArrowUp,
   ArrowDown,
   Upload,
-  Image as ImageIcon,
   CheckCircle,
   AlertCircle,
-  Sparkles,
-  Link as LinkIcon,
   Eye,
   X,
-  FileText,
 } from 'lucide-react';
 
 export const UpdateContentPage = () => {
@@ -113,6 +110,46 @@ export const UpdateContentPage = () => {
       const res = await adminWebContentService.getPageById(pageId);
       if (res.data?.success && res.data.data) {
         const page = res.data.data;
+
+        // Ensure Chinmaya Home Page has the scrolling_announcement section
+        if (page.website === 'chinmaya' && (page.pageSlug === 'home' || page.route === '/')) {
+          const hasAnnouncement = (page.sections || []).some(
+            (s) => s.sectionId === 'scrolling_announcement'
+          );
+          if (!hasAnnouncement) {
+            page.sections = [
+              {
+                sectionId: 'scrolling_announcement',
+                name: 'Scrolling Announcement Management',
+                description:
+                  'Manage the English and Telugu announcements displayed as a continuously scrolling notification on the Chinmaya Mission homepage.',
+                order: 1,
+                isEnabled: false,
+                fields: [
+                  {
+                    key: 'english_content',
+                    label: 'English Announcement',
+                    type: 'textarea',
+                    value:
+                      '🕉️ Celebrate Magamasam with Devotion | 7 Feb – 8 Mar 2027 | Registrations Open!',
+                    placeholder: 'Enter English announcement text...',
+                  },
+                  {
+                    key: 'telugu_content',
+                    label: 'Telugu Announcement',
+                    type: 'textarea',
+                    value:
+                      '🕉️ భక్తిశ్రద్ధలతో మాఘమాస వేడుకల్లో పాల్గొనండి | ఫిబ్రవరి 7 – మార్చి 8, 2027 | రిజిస్ట్రేషన్లు ప్రారంభం!',
+                    placeholder: 'తెలుగు ప్రకటన నమోదు చేయండి...',
+                  },
+                ],
+                items: [],
+              },
+              ...(page.sections || []),
+            ];
+          }
+        }
+
         setActivePage(page);
         setInitialPageData(JSON.stringify(page));
 
@@ -127,6 +164,44 @@ export const UpdateContentPage = () => {
       showMessage('error', 'Failed to retrieve page details.');
     } finally {
       setLoadingPageDetail(false);
+    }
+  };
+
+  // Toggle section isEnabled status (used by announcement toggle)
+  const handleToggleSectionEnabled = (sectionIndex) => {
+    setActivePage((prev) => {
+      if (!prev) return prev;
+      const updated = { ...prev };
+      const sections = [...updated.sections];
+      const sec = { ...sections[sectionIndex] };
+      sec.isEnabled = !sec.isEnabled;
+      sections[sectionIndex] = sec;
+      updated.sections = sections;
+      return updated;
+    });
+  };
+
+  // Reset announcement section to initial state
+  const handleResetAnnouncementSection = (sectionIndex) => {
+    if (!initialPageData) return;
+    try {
+      const initial = JSON.parse(initialPageData);
+      const initialSec = (initial.sections || []).find(
+        (s) => s.sectionId === 'scrolling_announcement'
+      );
+      if (initialSec) {
+        setActivePage((prev) => {
+          if (!prev) return prev;
+          const updated = { ...prev };
+          const sections = [...updated.sections];
+          sections[sectionIndex] = JSON.parse(JSON.stringify(initialSec));
+          updated.sections = sections;
+          return updated;
+        });
+        showMessage('info', 'Announcement reverted to saved configuration.');
+      }
+    } catch (err) {
+      console.error('Failed to reset announcement section:', err);
     }
   };
 
@@ -296,6 +371,9 @@ export const UpdateContentPage = () => {
         setActivePage(saved);
         setInitialPageData(JSON.stringify(saved));
         try {
+          for (let i = 1; i <= 20; i++) {
+            localStorage.removeItem(`cached_cms_${saved.website}_${saved.pageSlug}_v${i}`);
+          }
           localStorage.removeItem(`cached_cms_${saved.website}_${saved.pageSlug}`);
           localStorage.setItem('cms_last_updated', Date.now().toString());
           window.dispatchEvent(new Event('cms_updated'));
@@ -689,6 +767,22 @@ export const UpdateContentPage = () => {
                   {/* Sections */}
                   <div className="space-y-4">
                     {(activePage.sections || []).map((section, sIdx) => {
+                      if (section.sectionId === 'scrolling_announcement') {
+                        return (
+                          <ScrollingAnnouncementEditor
+                            key={section.sectionId || sIdx}
+                            section={section}
+                            sectionIndex={sIdx}
+                            onToggleEnabled={handleToggleSectionEnabled}
+                            onContentChange={handleFieldChange}
+                            onSave={handleSavePage}
+                            onReset={handleResetAnnouncementSection}
+                            saving={saving}
+                            hasUnsavedChanges={hasUnsavedChanges}
+                          />
+                        );
+                      }
+
                       const isExpanded = expandedSections[section.sectionId] !== false;
 
                       return (

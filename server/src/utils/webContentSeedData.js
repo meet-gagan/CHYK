@@ -14,10 +14,37 @@ export const DEFAULT_WEBSITE_PAGES = {
       },
       sections: [
         {
+          sectionId: 'scrolling_announcement',
+          name: 'Scrolling Announcement Management',
+          description:
+            'Manage the English and Telugu announcements displayed as a continuously scrolling notification on the Chinmaya Mission homepage.',
+          order: 1,
+          isEnabled: false,
+          fields: [
+            {
+              key: 'english_content',
+              label: 'English Announcement',
+              type: 'textarea',
+              value:
+                '🕉️ Celebrate Magamasam with Devotion | 7 Feb – 8 Mar 2027 | Registrations Open!',
+              placeholder: 'Enter English announcement text...',
+            },
+            {
+              key: 'telugu_content',
+              label: 'Telugu Announcement',
+              type: 'textarea',
+              value:
+                '🕉️ భక్తిశ్రద్ధలతో మాఘమాస వేడుకల్లో పాల్గొనండి | ఫిబ్రవరి 7 – మార్చి 8, 2027 | రిజిస్ట్రేషన్లు ప్రారంభం!',
+              placeholder: 'తెలుగు ప్రకటన నమోదు చేయండి...',
+            },
+          ],
+          items: [],
+        },
+        {
           sectionId: 'hero',
           name: 'Hero Section',
           description: 'Top introductory section with video background, primary tagline, and Gurudev portrait.',
-          order: 1,
+          order: 2,
           isEnabled: true,
           fields: [
             { key: 'eyebrow', label: 'Eyebrow Tag', type: 'text', value: 'Inner Transformation for a Better World' },

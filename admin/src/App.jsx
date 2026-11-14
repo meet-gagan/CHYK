@@ -21,6 +21,7 @@ import { FooterCmsPage } from './pages/FooterCmsPage';
 import { ChangePasswordPage } from './pages/ChangePasswordPage';
 import { StoryBoardPage } from './pages/StoryBoardPage';
 import { UpdateContentPage } from './pages/UpdateContentPage';
+import { GalleryManagementPage } from './pages/GalleryManagementPage';
 
 export function App() {
   return (
@@ -114,6 +115,17 @@ export function App() {
               <ProtectedRoute>
                 <AdminLayout>
                   <UpdateContentPage />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/gallery"
+            element={
+              <ProtectedRoute>
+                <AdminLayout>
+                  <GalleryManagementPage />
                 </AdminLayout>
               </ProtectedRoute>
             }

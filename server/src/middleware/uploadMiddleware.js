@@ -66,6 +66,19 @@ export const uploadSingleMedia = multer({
   fileFilter: imageOrVideoFilter,
 }).single('file');
 
+/** Multiple images or videos upload (up to 100 MB per file, max 50 files) — used by Gallery */
+export const uploadMultipleMedia = multer({
+  storage,
+  limits: { fileSize: 100 * 1024 * 1024 },
+  fileFilter: imageOrVideoFilter,
+}).fields([
+  { name: 'files', maxCount: 50 },
+  { name: 'file', maxCount: 1 },
+  { name: 'image', maxCount: 1 },
+  { name: 'cover', maxCount: 1 },
+  { name: 'thumbnail', maxCount: 1 },
+]);
+
 /** Spreadsheet / PDF upload (up to 15 MB) — used by bulk registration import */
 export const uploadSpreadsheet = multer({
   storage,

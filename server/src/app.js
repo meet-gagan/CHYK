@@ -43,6 +43,7 @@ import sevaBookingRoutes from './routes/sevaBookingRoutes.js';
 import siteSettingsRoutes from './routes/siteSettingsRoutes.js';
 import marathonSiteSettingsRoutes from './routes/marathonSiteSettingsRoutes.js';
 import videoRoutes from './routes/videoRoutes.js';
+import galleryRoutes from './routes/galleryRoutes.js';
 
 const app = express();
 
@@ -170,6 +171,7 @@ const routes = [
   { path: 'volunteers', router: volunteerRoutes },
   { path: 'seva-bookings', router: sevaBookingRoutes },
   { path: 'videos', router: videoRoutes },
+  { path: 'gallery', router: galleryRoutes },
   { path: 'site-settings', router: siteSettingsRoutes },
   { path: 'site-status', router: siteSettingsRoutes },
   { path: 'marathon-site-settings', router: marathonSiteSettingsRoutes },

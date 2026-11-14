@@ -21,6 +21,7 @@ import {
   ExternalLink,
   Sparkles,
   Globe,
+  Folder,
 } from 'lucide-react';
 
 export const AdminLayout = ({ children }) => {
@@ -54,6 +55,7 @@ export const AdminLayout = ({ children }) => {
     {
       title: 'CONTENT MANAGEMENT (CMS)',
       items: [
+        { name: 'Gallery Management', path: '/gallery', icon: Folder },
         { name: 'Update Content', path: '/update-content', icon: Globe },
         { name: 'Images & Media', path: '/images', icon: ImageIcon },
         { name: 'Home Page CMS', path: '/home-cms', icon: Layout },

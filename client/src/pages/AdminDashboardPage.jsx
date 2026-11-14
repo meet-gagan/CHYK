@@ -22,6 +22,7 @@ import { UpdateContentManager } from './admin/UpdateContentManager';
 import { SevaBookingsManager } from './admin/SevaBookingsManager';
 import { MarathonImagesManager } from './admin/MarathonImagesManager';
 import { AdminVideosPage } from './admin/AdminVideosPage';
+import { GalleryManager } from './admin/GalleryManager';
 import { RegistrationSummaryCards } from '../components/admin/RegistrationSummaryCards';
 import { TshirtSummary } from '../components/admin/TshirtSummary';
 import { ClassSummary } from '../components/admin/ClassSummary';
@@ -61,6 +62,7 @@ import {
   UserCheck,
   HeartHandshake,
   AlertTriangle,
+  Folder,
 } from 'lucide-react';
 
 export const AdminDashboardPage = ({ defaultTab }) => {
@@ -79,6 +81,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
     if (path.includes('/admin/change-password')) return 'PASSWORD';
     if (path.includes('/admin/lets-connect')) return 'LETS_CONNECT';
     if (path.includes('/admin/volunteering')) return 'VOLUNTEERING';
+    if (path.includes('/admin/gallery')) return 'GALLERY';
     if (path.includes('/admin/images')) return 'IMAGES';
     if (path.includes('/admin/update-content') || path.includes('/admin/content')) return 'UPDATE_CONTENT';
     if (path.includes('/admin/footer')) return 'FOOTER_CMS';
@@ -473,6 +476,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
           { id: 'BOOKINGS', label: 'Bookings', icon: Landmark },
           { id: 'MARATHON_IMAGES', label: 'Marathon Images', icon: Flame },
           { id: 'VIDEOS', label: 'Udaan (Videos)', icon: Video },
+          { id: 'GALLERY', label: 'Gallery Management', icon: Folder },
           { id: 'IMAGES', label: 'Images & Media', icon: ImageIcon },
           { id: 'HOME_PAGE', label: 'Home Page CMS', icon: Layout },
           { id: 'FOOTER_CMS', label: 'Footer CMS', icon: Settings },
@@ -525,6 +529,9 @@ export const AdminDashboardPage = ({ defaultTab }) => {
 
       {/* TAB: YOUTUBE VIDEO MANAGEMENT */}
       {activeTab === 'VIDEOS' && <AdminVideosPage />}
+
+      {/* TAB: SACRED GALLERY MANAGEMENT */}
+      {activeTab === 'GALLERY' && <GalleryManager />}
 
       {/* TAB: IMAGES & MEDIA LIBRARY */}
       {activeTab === 'IMAGES' && <AdminImagesPage />}

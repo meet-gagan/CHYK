@@ -261,37 +261,6 @@ export const POOJA_SERVICES = [
   },
 ];
 
-const NAKSHATRAS = [
-  'Ashwini (అశ్విని)',
-  'Bharani (భరణి)',
-  'Krittika (కృత్తిక)',
-  'Rohini (రోహిణి)',
-  'Mrigashira (మృగశిర)',
-  'Ardra (ఆర్ద్ర)',
-  'Punarvasu (పునర్వసు)',
-  'Pushya (పుష్య)',
-  'Ashlesha (ఆశ్లేష)',
-  'Magha (మఖ)',
-  'Purva Phalguni / Pubba (పూర్వ ఫల్గుని)',
-  'Uttara Phalguni / Uttara (ఉత్తర ఫల్గుని)',
-  'Hasta (హస్త)',
-  'Chitra (చిత్ర)',
-  'Swati (స్వాతి)',
-  'Vishakha (విశాఖ)',
-  'Anuradha (అనూరాధ)',
-  'Jyeshtha (జ్యేష్ఠ)',
-  'Mula (మూల)',
-  'Purva Ashadha (పూర్వాషాఢ)',
-  'Uttara Ashadha (ఉత్తరాషాఢ)',
-  'Shravana (శ్రవణ)',
-  'Dhanishta (ధనిష్ట)',
-  'Shatabhisha (శతభిష)',
-  'Purva Bhadrapada (పూర్వాభాద్ర)',
-  'Uttara Bhadrapada (ఉత్తరాభాద్ర)',
-  'Revati (రేవతి)',
-  'Not Sure / Other',
-];
-
 // ==========================================
 // Unified Seva Booking Modal (Exact Image 1 Theme)
 // ==========================================
@@ -884,24 +853,18 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                         {formData.phoneNumber || '—'}
                       </td>
                       <td style={{ padding: '3.5px 6px', color: '#64748b', fontWeight: '600' }}>
-                        Nakshatra:
+                        Sankalpa Date:
                       </td>
-                      <td style={{ padding: '3.5px 6px', fontWeight: '700', color: '#0f172a' }}>
-                        {formData.nakshatra || 'Not Specified'}
+                      <td style={{ padding: '3.5px 6px', fontWeight: '600', color: '#0f172a' }}>
+                        {printDobStr}
                       </td>
                     </tr>
                     <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
                       <td style={{ padding: '3.5px 6px', color: '#64748b', fontWeight: '600' }}>
                         Email Address:
                       </td>
-                      <td style={{ padding: '3.5px 6px', fontWeight: '600', color: '#0f172a' }}>
+                      <td colSpan="3" style={{ padding: '3.5px 6px', fontWeight: '600', color: '#0f172a' }}>
                         {formData.email || '—'}
-                      </td>
-                      <td style={{ padding: '3.5px 6px', color: '#64748b', fontWeight: '600' }}>
-                        Sankalpa Date:
-                      </td>
-                      <td style={{ padding: '3.5px 6px', fontWeight: '600', color: '#0f172a' }}>
-                        {printDobStr}
                       </td>
                     </tr>
                     <tr>
@@ -930,7 +893,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 }}
               >
                 <strong style={{ color: '#0f172a' }}>Hari Om! </strong>
-                Your sacred Gotram, Nakshatra, and family sankalpa have been recorded in the temple
+                Your sacred Gotram and family sankalpa have been recorded in the temple
                 records. The Archana and Vedic rituals will be performed by the temple purohits
                 according to Agamic traditions. May divine grace illuminate your life with health,
                 happiness, and peace.
@@ -1295,7 +1258,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </div>
 
                 {/* 5. Gotram */}
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 sm:col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
                     Gotram (గోత్రం)
                   </label>
@@ -1312,30 +1275,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                   </div>
                 </div>
 
-                {/* 6. Nakshatra */}
-                <div className="space-y-1.5 sm:col-span-2">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
-                    Nakshatra (నక్షత్రం)
-                  </label>
-                  <div className="relative">
-                    <Sparkles className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                    <select
-                      name="nakshatra"
-                      value={formData.nakshatra}
-                      onChange={handleChange}
-                      className="w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border border-[#D9CEBA] text-sm text-[#0C1A30] focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all cursor-pointer appearance-none"
-                    >
-                      <option value="">-- Select Birth Star / Nakshatra --</option>
-                      {NAKSHATRAS.map((nak) => (
-                        <option key={nak} value={nak}>
-                          {nak}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                {/* 7. Address */}
+                {/* 6. Address */}
                 <div className="space-y-1.5 sm:col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
                     Address (నివాసం)
@@ -1460,21 +1400,12 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                     </span>
                   </div>
 
-                  <div>
+                  <div className="sm:col-span-2">
                     <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
                       Gotram
                     </span>
                     <span className="font-semibold text-[#0C1A30]">
                       {formData.gotram || 'Not Specified'}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
-                      Nakshatra (Birth Star)
-                    </span>
-                    <span className="font-semibold text-[#0C1A30]">
-                      {formData.nakshatra || 'Not Specified'}
                     </span>
                   </div>
 

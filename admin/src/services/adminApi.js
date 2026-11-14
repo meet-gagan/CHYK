@@ -250,4 +250,41 @@ export const adminWebContentService = {
   getPublicPage: (website, pageSlug) => adminApi.get(`/content/website/${website}/page/${pageSlug}`),
 };
 
+// --- 15. GALLERY MANAGEMENT ---
+export const adminGalleryService = {
+  getAdminFolders: (params) => adminApi.get('/gallery/folders', { params }),
+  getAdminFolderById: (id) => adminApi.get(`/gallery/folders/${id}`),
+  createFolder: (data) => {
+    if (data instanceof FormData) {
+      return adminApi.post('/gallery/folders', data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+    }
+    return adminApi.post('/gallery/folders', data);
+  },
+  updateFolder: (id, data) => {
+    if (data instanceof FormData) {
+      return adminApi.put(`/gallery/folders/${id}`, data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+    }
+    return adminApi.put(`/gallery/folders/${id}`, data);
+  },
+  toggleFolderStatus: (id) => adminApi.patch(`/gallery/folders/${id}/publish`),
+  deleteFolder: (id) => adminApi.delete(`/gallery/folders/${id}`),
+
+  getFolderMedia: (folderId, params) => adminApi.get(`/gallery/folders/${folderId}/media`, { params }),
+  uploadFolderMedia: (folderId, data) => {
+    if (data instanceof FormData) {
+      return adminApi.post(`/gallery/folders/${folderId}/media`, data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+    }
+    return adminApi.post(`/gallery/folders/${folderId}/media`, data);
+  },
+  updateMediaItem: (id, data) => adminApi.put(`/gallery/media/${id}`, data),
+  deleteMediaItem: (id) => adminApi.delete(`/gallery/media/${id}`),
+  reorderFolderMedia: (folderId, orderData) => adminApi.put(`/gallery/folders/${folderId}/reorder`, orderData),
+};
+
 export default adminApi;

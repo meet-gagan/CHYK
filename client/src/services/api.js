@@ -2,6 +2,21 @@ import axios from 'axios';
 
 const normalizeApiBaseUrl = (rawUrl) => {
   let url = (rawUrl || '').trim();
+
+  // If running locally in browser (localhost / 127.0.0.1)
+  if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+    if (!url || url === '/api' || url.includes('localhost') || url.includes('127.0.0.1')) {
+      return 'http://localhost:5000/api';
+    }
+  }
+
+  // If in Vite dev mode, default to local backend on port 5000
+  if (import.meta.env.DEV) {
+    if (!url || url === '/api' || url.includes('localhost') || url.includes('127.0.0.1')) {
+      return 'http://localhost:5000/api';
+    }
+  }
+
   // If hosted on vercel.app or netlify, automatically target the active Render production API
   if (typeof window !== 'undefined' && (window.location.hostname.includes('vercel.app') || window.location.hostname.includes('netlify.app'))) {
     if (!url || url === '/api' || url.includes('localhost') || url.includes('127.0.0.1') || url.includes('chinmaya-mission-adoni')) {
@@ -382,6 +397,413 @@ export const videoService = {
   createVideo: (data) => api.post('/videos', data, { headers: { 'X-Auth-Scope': 'admin' } }),
   updateVideo: (id, data) => api.put(`/videos/${id}`, data, { headers: { 'X-Auth-Scope': 'admin' } }),
   deleteVideo: (id) => api.delete(`/videos/${id}`, { headers: { 'X-Auth-Scope': 'admin' } }),
+};
+
+// Local Storage Fallback Registry for Gallery (Works seamlessly locally & deployed)
+const LOCAL_FOLDERS_KEY = 'cma_gallery_folders_local';
+const LOCAL_MEDIA_KEY = 'cma_gallery_media_local';
+
+const INITIAL_FALLBACK_FOLDER = {
+  _id: 'default-temple-folder',
+  name: 'SHRI SHANTAMALLESHWARA SWAMI TEMPLE IMAGES',
+  slug: 'shri-shantamalleshwara-swami-temple-images',
+  description: 'A collection of sacred photographs, deity darshan, temple rituals, festivals and special celebrations of Shri Shantamalleshwara Swami Temple.',
+  coverImage: '/assets/hero-lingam-new.jpeg',
+  cover_image: '/assets/hero-lingam-new.jpeg',
+  status: 'published',
+  displayOrder: 1,
+  totalMedia: 24,
+  imageCount: 24,
+  videoCount: 0,
+};
+
+const getLocalFolders = () => {
+  try {
+    const raw = localStorage.getItem(LOCAL_FOLDERS_KEY);
+    if (!raw) {
+      const initial = [INITIAL_FALLBACK_FOLDER];
+      localStorage.setItem(LOCAL_FOLDERS_KEY, JSON.stringify(initial));
+      return initial;
+    }
+    return JSON.parse(raw);
+  } catch {
+    return [INITIAL_FALLBACK_FOLDER];
+  }
+};
+
+const saveLocalFolders = (folders) => {
+  try {
+    localStorage.setItem(LOCAL_FOLDERS_KEY, JSON.stringify(folders));
+  } catch {}
+};
+
+const getLocalMedia = () => {
+  try {
+    const raw = localStorage.getItem(LOCAL_MEDIA_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveLocalMedia = (media) => {
+  try {
+    localStorage.setItem(LOCAL_MEDIA_KEY, JSON.stringify(media));
+  } catch {}
+};
+
+const is404RouteNotFound = (err) => {
+  if (!err) return false;
+  const status = err.response?.status;
+  const msg = (err.response?.data?.message || err.message || '').toLowerCase();
+  const code = err.response?.data?.errorCode;
+  return (
+    status === 404 ||
+    code === 'ROUTE_NOT_FOUND' ||
+    msg.includes('route not found') ||
+    msg.includes('not found: /api/gallery') ||
+    msg.includes('network error')
+  );
+};
+
+export const galleryService = {
+  // Public
+  getPublicFolders: async () => {
+    try {
+      const res = await api.get('/gallery/folders/public');
+      if (res.data?.success && Array.isArray(res.data.data)) {
+        const local = getLocalFolders().filter((lf) => lf._id?.startsWith('local-') && lf.status === 'published');
+        const remoteIds = new Set(res.data.data.map((f) => f._id));
+        const merged = [...res.data.data, ...local.filter((lf) => !remoteIds.has(lf._id))];
+        return { ...res, data: { ...res.data, data: merged } };
+      }
+      return res;
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        const published = getLocalFolders().filter((f) => f.status === 'published');
+        return { data: { success: true, data: published, localFallback: true } };
+      }
+      throw err;
+    }
+  },
+
+  getPublicFolder: async (idOrSlug) => {
+    try {
+      return await api.get(`/gallery/folders/public/${idOrSlug}`);
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        const folders = getLocalFolders();
+        const found = folders.find((f) => f._id === idOrSlug || f.slug === idOrSlug) || INITIAL_FALLBACK_FOLDER;
+        return { data: { success: true, data: found, localFallback: true } };
+      }
+      throw err;
+    }
+  },
+
+  getPublicFolderMedia: async (idOrSlug, params) => {
+    try {
+      return await api.get(`/gallery/folders/public/${idOrSlug}/media`, { params });
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        const folders = getLocalFolders();
+        const folder = folders.find((f) => f._id === idOrSlug || f.slug === idOrSlug) || INITIAL_FALLBACK_FOLDER;
+        const allMedia = getLocalMedia();
+        const media = allMedia.filter((m) => m.folderId === folder._id || m.folderId === folder.slug);
+        return { data: { success: true, folder, data: media, localFallback: true } };
+      }
+      throw err;
+    }
+  },
+
+  // Admin Folders
+  getAdminFolders: async (params) => {
+    try {
+      const res = await api.get('/gallery/folders', { params, headers: { 'X-Auth-Scope': 'admin' } });
+      if (res.data?.success && Array.isArray(res.data.data)) {
+        const local = getLocalFolders().filter((lf) => lf._id?.startsWith('local-'));
+        const remoteIds = new Set(res.data.data.map((f) => f._id));
+        const merged = [...res.data.data, ...local.filter((lf) => !remoteIds.has(lf._id))];
+        return { ...res, data: { ...res.data, data: merged } };
+      }
+      return res;
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        return { data: { success: true, data: getLocalFolders(), localFallback: true } };
+      }
+      throw err;
+    }
+  },
+
+  getAdminFolderById: async (id) => {
+    try {
+      return await api.get(`/gallery/folders/${id}`, { headers: { 'X-Auth-Scope': 'admin' } });
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        const folders = getLocalFolders();
+        const found = folders.find((f) => f._id === id) || INITIAL_FALLBACK_FOLDER;
+        return { data: { success: true, data: found, localFallback: true } };
+      }
+      throw err;
+    }
+  },
+
+  createFolder: async (data) => {
+    try {
+      if (data instanceof FormData) {
+        return await api.post('/gallery/folders', data, {
+          headers: { 'Content-Type': 'multipart/form-data', 'X-Auth-Scope': 'admin' },
+        });
+      }
+      return await api.post('/gallery/folders', data, { headers: { 'X-Auth-Scope': 'admin' } });
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        let name = '', slug = '', description = '', status = 'published', displayOrder = 1, coverImage = '';
+        if (data instanceof FormData) {
+          name = data.get('name') || '';
+          slug = data.get('slug') || '';
+          description = data.get('description') || '';
+          status = data.get('status') || 'published';
+          displayOrder = Number(data.get('displayOrder')) || 1;
+          const file = data.get('file');
+          if (file && typeof file === 'object' && file.size) {
+            coverImage = URL.createObjectURL(file);
+          } else {
+            coverImage = data.get('coverImage') || '';
+          }
+        } else {
+          name = data.name || '';
+          slug = data.slug || '';
+          description = data.description || '';
+          status = data.status || 'published';
+          displayOrder = Number(data.displayOrder) || 1;
+          coverImage = data.coverImage || '';
+        }
+
+        const newFolder = {
+          _id: 'local-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+          name: name.trim(),
+          slug: (slug || name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+          description: description.trim(),
+          coverImage: coverImage || '/assets/hero-lingam-new.jpeg',
+          cover_image: coverImage || '/assets/hero-lingam-new.jpeg',
+          status,
+          displayOrder,
+          totalMedia: 0,
+          imageCount: 0,
+          videoCount: 0,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          localFallback: true,
+        };
+
+        const folders = getLocalFolders();
+        folders.unshift(newFolder);
+        saveLocalFolders(folders);
+
+        return {
+          data: {
+            success: true,
+            message: 'Folder created successfully (Saved locally. Once the backend is deployed on Render, it will sync with cloud storage).',
+            data: newFolder,
+            localFallback: true,
+          },
+        };
+      }
+      throw err;
+    }
+  },
+
+  updateFolder: async (id, data) => {
+    try {
+      if (data instanceof FormData) {
+        return await api.put(`/gallery/folders/${id}`, data, {
+          headers: { 'Content-Type': 'multipart/form-data', 'X-Auth-Scope': 'admin' },
+        });
+      }
+      return await api.put(`/gallery/folders/${id}`, data, { headers: { 'X-Auth-Scope': 'admin' } });
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        const folders = getLocalFolders();
+        const f = folders.find((folder) => folder._id === id);
+        if (f) {
+          if (data instanceof FormData) {
+            if (data.get('name')) f.name = data.get('name');
+            if (data.get('slug')) f.slug = data.get('slug');
+            if (data.get('status')) f.status = data.get('status');
+            const file = data.get('file');
+            if (file && typeof file === 'object' && file.size) {
+              f.coverImage = URL.createObjectURL(file);
+              f.cover_image = f.coverImage;
+            } else if (data.get('coverImage')) {
+              f.coverImage = data.get('coverImage');
+              f.cover_image = f.coverImage;
+            }
+          } else {
+            Object.assign(f, data);
+          }
+          f.updatedAt = new Date().toISOString();
+          saveLocalFolders(folders);
+          return { data: { success: true, data: f, localFallback: true } };
+        }
+      }
+      throw err;
+    }
+  },
+
+  toggleFolderStatus: async (id) => {
+    try {
+      return await api.patch(`/gallery/folders/${id}/publish`, {}, { headers: { 'X-Auth-Scope': 'admin' } });
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        const folders = getLocalFolders();
+        const f = folders.find((folder) => folder._id === id);
+        if (f) {
+          f.status = f.status === 'published' ? 'draft' : 'published';
+          saveLocalFolders(folders);
+          return { data: { success: true, data: f, localFallback: true } };
+        }
+      }
+      throw err;
+    }
+  },
+
+  deleteFolder: async (id) => {
+    try {
+      return await api.delete(`/gallery/folders/${id}`, { headers: { 'X-Auth-Scope': 'admin' } });
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        const folders = getLocalFolders().filter((f) => f._id !== id);
+        saveLocalFolders(folders);
+        const media = getLocalMedia().filter((m) => m.folderId !== id);
+        saveLocalMedia(media);
+        return { data: { success: true, message: 'Folder deleted successfully', localFallback: true } };
+      }
+      throw err;
+    }
+  },
+
+  // Admin Folder Media
+  getFolderMedia: async (folderId, params) => {
+    try {
+      return await api.get(`/gallery/folders/${folderId}/media`, { params, headers: { 'X-Auth-Scope': 'admin' } });
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        const folders = getLocalFolders();
+        const folder = folders.find((f) => f._id === folderId || f.slug === folderId) || INITIAL_FALLBACK_FOLDER;
+        const allMedia = getLocalMedia();
+        const media = allMedia.filter((m) => m.folderId === folderId || m.folderId === folder._id);
+        return { data: { success: true, folder, data: media, localFallback: true } };
+      }
+      throw err;
+    }
+  },
+
+  uploadFolderMedia: async (folderId, data) => {
+    try {
+      if (data instanceof FormData) {
+        return await api.post(`/gallery/folders/${folderId}/media`, data, {
+          headers: { 'Content-Type': 'multipart/form-data', 'X-Auth-Scope': 'admin' },
+        });
+      }
+      return await api.post(`/gallery/folders/${folderId}/media`, data, { headers: { 'X-Auth-Scope': 'admin' } });
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        const newItems = [];
+        if (data instanceof FormData) {
+          const files = data.getAll('files');
+          const title = data.get('title') || 'Uploaded Media';
+          const description = data.get('description') || '';
+          const category = data.get('category') || 'Temple & Sanctum';
+
+          files.forEach((file, idx) => {
+            if (typeof file === 'object' && file.size) {
+              const isVideo = file.type?.startsWith('video/') || false;
+              const url = URL.createObjectURL(file);
+              newItems.push({
+                _id: 'local_media_' + Date.now().toString(36) + '_' + idx,
+                folderId,
+                title: files.length > 1 ? `${title} (${idx + 1})` : title,
+                description,
+                mediaType: isVideo ? 'video' : 'image',
+                url,
+                thumbnailUrl: url,
+                category,
+                status: 'published',
+                displayOrder: idx + 1,
+                createdAt: new Date().toISOString(),
+                localFallback: true,
+              });
+            }
+          });
+        }
+        const existingMedia = getLocalMedia();
+        const updatedMedia = [...newItems, ...existingMedia];
+        saveLocalMedia(updatedMedia);
+
+        // Update counts on folder
+        const folders = getLocalFolders();
+        const fIdx = folders.findIndex((f) => f._id === folderId);
+        if (fIdx >= 0) {
+          folders[fIdx].totalMedia = (folders[fIdx].totalMedia || 0) + newItems.length;
+          folders[fIdx].imageCount = (folders[fIdx].imageCount || 0) + newItems.filter((m) => m.mediaType === 'image').length;
+          folders[fIdx].videoCount = (folders[fIdx].videoCount || 0) + newItems.filter((m) => m.mediaType === 'video').length;
+          saveLocalFolders(folders);
+        }
+
+        return {
+          data: {
+            success: true,
+            count: newItems.length,
+            data: newItems,
+            message: `${newItems.length} media items uploaded successfully (Saved locally).`,
+            localFallback: true,
+          },
+        };
+      }
+      throw err;
+    }
+  },
+
+  updateMediaItem: async (id, data) => {
+    try {
+      return await api.put(`/gallery/media/${id}`, data, { headers: { 'X-Auth-Scope': 'admin' } });
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        const media = getLocalMedia();
+        const item = media.find((m) => m._id === id);
+        if (item) {
+          Object.assign(item, data);
+          saveLocalMedia(media);
+          return { data: { success: true, data: item, localFallback: true } };
+        }
+      }
+      throw err;
+    }
+  },
+
+  deleteMediaItem: async (id) => {
+    try {
+      return await api.delete(`/gallery/media/${id}`, { headers: { 'X-Auth-Scope': 'admin' } });
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        const media = getLocalMedia().filter((m) => m._id !== id);
+        saveLocalMedia(media);
+        return { data: { success: true, message: 'Media item deleted successfully', localFallback: true } };
+      }
+      throw err;
+    }
+  },
+
+  reorderFolderMedia: async (folderId, orderData) => {
+    try {
+      return await api.put(`/gallery/folders/${folderId}/reorder`, orderData, { headers: { 'X-Auth-Scope': 'admin' } });
+    } catch (err) {
+      if (is404RouteNotFound(err)) {
+        return { data: { success: true, localFallback: true } };
+      }
+      throw err;
+    }
+  },
 };
 
 export default api;

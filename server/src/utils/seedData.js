@@ -12,6 +12,7 @@ import Thought from '../models/Thought.js';
 import Video from '../models/Video.js';
 import { extractYouTubeId, getYouTubeThumbnailUrl } from './youtube.js';
 import { defaultFooterConfig } from '../controllers/footerController.js';
+import { seedGalleryInitialData } from './gallerySeed.js';
 
 export const adoniInstitutionsList = [
   'Stonehill International School',
@@ -1310,6 +1311,9 @@ export const seedInitialData = async () => {
       await Video.insertMany(initialVideos);
       console.log(`[Seed] Seeded ${initialVideos.length} initial YouTube videos for Marathon Videos page.`);
     }
+
+    // 13. Seed Initial Gallery Folder & Sacred Images if empty
+    await seedGalleryInitialData();
   } catch (err) {
     console.error('[Seed Error]:', err.message);
   }

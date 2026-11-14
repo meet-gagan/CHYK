@@ -19,6 +19,7 @@ import { RegistrationPage } from './pages/RegistrationPage';
 import { ChinmayaSanjeevarayaTemplePage } from './pages/ChinmayaSanjeevarayaTemplePage';
 import { SriShanthaMamleshwaraSwamiTemplePage } from './pages/SriShanthaMamleshwaraSwamiTemplePage';
 import { GalleryPage } from './pages/GalleryPage';
+import { FolderDetailsPage } from './pages/FolderDetailsPage';
 import { SupportOurMissionPage } from './pages/SupportOurMissionPage';
 import { ComingSoonPage } from './pages/ComingSoonPage';
 import { TermsPage } from './pages/TermsPage';
@@ -137,11 +138,15 @@ export function App() {
               <Route path="/shantamalleshwara-temple" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
               <Route path="/shanta-malleshwara-temple" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
               
-              {/* Sacred Image Gallery Page */}
+              {/* Sacred Image Gallery Pages */}
               <Route path="/gallery" element={<GalleryPage />} />
+              <Route path="/gallery/:slug" element={<FolderDetailsPage />} />
               <Route path="/images" element={<GalleryPage />} />
+              <Route path="/images/:slug" element={<FolderDetailsPage />} />
               <Route path="/image" element={<GalleryPage />} />
+              <Route path="/image/:slug" element={<FolderDetailsPage />} />
               <Route path="/sacred-gallery" element={<GalleryPage />} />
+              <Route path="/sacred-gallery/:slug" element={<FolderDetailsPage />} />
               
               {/* Authentication & User Account Routes */}
               <Route path="/login" element={<LoginPage />} />
@@ -307,6 +312,22 @@ export function App() {
               element={
                 <ProtectedRoute requireAdmin={true}>
                   <AdminDashboardPage defaultTab="EVENT_CONFIG" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/gallery"
+              element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminDashboardPage defaultTab="GALLERY" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/gallery-management"
+              element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminDashboardPage defaultTab="GALLERY" />
                 </ProtectedRoute>
               }
             />

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { webContentService } from '../services/api';
+import { ScrollingAnnouncementBanner } from '../components/ScrollingAnnouncementBanner';
 import {
   Heart,
   CalendarDays,
   ArrowRight,
   Sparkles,
-  ExternalLink,
   Users,
   Sun,
   Compass,
@@ -89,6 +89,27 @@ export function HomePage() {
   const navigate = useNavigate();
   const mobileVideoRef = useRef(null);
 
+  // 5-Second Clickable "General enquiry" Pop-up state & timer
+  const [showGeneralEnquiry, setShowGeneralEnquiry] = useState(true);
+  const [isEnquiryExiting, setIsEnquiryExiting] = useState(false);
+
+  useEffect(() => {
+    // Start graceful fade-out transition at 4.6s so it finishes smoothly at 5.0s
+    const exitTimer = setTimeout(() => {
+      setIsEnquiryExiting(true);
+    }, 4600);
+
+    // Completely dismiss after exactly 5 seconds
+    const dismissTimer = setTimeout(() => {
+      setShowGeneralEnquiry(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(exitTimer);
+      clearTimeout(dismissTimer);
+    };
+  }, []);
+
   useEffect(() => {
     if (mobileVideoRef.current) {
       mobileVideoRef.current.defaultMuted = true;
@@ -102,32 +123,38 @@ export function HomePage() {
 
   const [pageData, setPageData] = useState(() => {
     try {
+      for (let i = 1; i <= 20; i++) {
+        localStorage.removeItem(`cached_cms_chinmaya_home_v${i}`);
+      }
       localStorage.removeItem('cached_cms_chinmaya_home');
-      localStorage.removeItem('cached_cms_chinmaya_home_v2');
-      localStorage.removeItem('cached_cms_chinmaya_home_v3');
-      localStorage.removeItem('cached_cms_chinmaya_home_v4');
-      localStorage.removeItem('cached_cms_chinmaya_home_v5');
-      localStorage.removeItem('cached_cms_chinmaya_home_v6');
-      localStorage.removeItem('cached_cms_chinmaya_home_v7');
-      const cached = localStorage.getItem('cached_cms_chinmaya_home_v8');
-      return cached ? JSON.parse(cached) : null;
-    } catch {
-      return null;
-    }
+    } catch {}
+    return null;
   });
 
-  useEffect(() => {
+  const fetchPublicPageData = () => {
     webContentService
       .getPublicPage('chinmaya', 'home')
       .then((res) => {
         if (res.data?.success && res.data?.data) {
           setPageData(res.data.data);
-          try {
-            localStorage.setItem('cached_cms_chinmaya_home_v8', JSON.stringify(res.data.data));
-          } catch {}
         }
       })
       .catch(() => {});
+  };
+
+  useEffect(() => {
+    fetchPublicPageData();
+
+    const handleCmsUpdate = () => {
+      fetchPublicPageData();
+    };
+
+    window.addEventListener('cms_updated', handleCmsUpdate);
+    window.addEventListener('storage', handleCmsUpdate);
+    return () => {
+      window.removeEventListener('cms_updated', handleCmsUpdate);
+      window.removeEventListener('storage', handleCmsUpdate);
+    };
   }, []);
 
   const f = pageData?.fieldsMap || {};
@@ -284,8 +311,35 @@ export function HomePage() {
 
   const dynamicEvents = [magamasamCardFinal, ...otherEvents];
 
+  // Scrolling Announcement CMS configuration
+  const announcementSec = (pageData?.sections || []).find(
+    (s) => s.sectionId === 'scrolling_announcement'
+  );
+  const announcementFields = f.scrolling_announcement;
+
+  const isAnnouncementEnabled = announcementSec
+    ? announcementSec.isEnabled === true
+    : announcementFields?._isEnabled === true;
+
+  const englishAnnouncement =
+    announcementFields?.english_content ||
+    announcementSec?.fields?.find((field) => field.key === 'english_content')?.value;
+
+  const teluguAnnouncement =
+    announcementFields?.telugu_content ||
+    announcementSec?.fields?.find((field) => field.key === 'telugu_content')?.value;
+
   return (
     <div className="site-shell">
+      {/* ── Continuous Scrolling Announcement Banner (Homepage Only - Controlled by Admin Panel) ── */}
+      {isAnnouncementEnabled && (
+        <ScrollingAnnouncementBanner
+          isEnabled={isAnnouncementEnabled}
+          englishContent={englishAnnouncement}
+          teluguContent={teluguAnnouncement}
+        />
+      )}
+
       <main>
         {/* HERO SECTION */}
         <section className="hero" id="home">
@@ -363,6 +417,16 @@ export function HomePage() {
             <span className="hero-signature-name">{portraitSig}</span>
             <span className="hero-signature-sub">{portraitSub}</span>
           </div>
+
+          {/* 5-Second Clickable General enquiry Pop-up */}
+          {showGeneralEnquiry && (
+            <Link
+              to="/lets-connect"
+              className={`hero-general-enquiry-pill ${isEnquiryExiting ? 'hero-general-enquiry-pill-exit' : ''}`}
+            >
+              General enquiry
+            </Link>
+          )}
 
           <div className="sun-disc" />
         </section>

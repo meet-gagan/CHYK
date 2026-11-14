@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { galleryService } from '../services/api';
 import './GalleryPage.css';
 
-// Comprehensive Registry of Temple & Mission Sacred Images
+// Comprehensive Registry of Temple & Mission Sacred Images (Preserved for backward compatibility)
 export const GALLERY_IMAGES = [
   // 1. Temple Lingams & Shrines
   {
@@ -201,74 +202,58 @@ export const GALLERY_IMAGES = [
     desc: 'Celebrating 25 years of temple revival and cultural heritage preservation.',
     tag: 'Silver Jubilee',
   },
-
 ];
 
+const INITIAL_FALLBACK_FOLDER = {
+  _id: 'default-temple-folder',
+  name: 'SHRI SHANTAMALLESHWARA SWAMI TEMPLE IMAGES',
+  slug: 'shri-shantamalleshwara-swami-temple-images',
+  description:
+    'A collection of sacred photographs, deity darshan, temple rituals, festivals and special celebrations of Shri Shantamalleshwara Swami Temple.',
+  coverImage: '/assets/hero-lingam-new.jpeg',
+  cover_image: '/assets/hero-lingam-new.jpeg',
+  totalMedia: 24,
+  imageCount: 24,
+  videoCount: 0,
+};
+
 export const GalleryPage = () => {
+  const [folders, setFolders] = useState([INITIAL_FALLBACK_FOLDER]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('All');
-  const [activeLightboxIndex, setActiveLightboxIndex] = useState(null);
 
-  const categories = [
-    'All',
-    'Temple & Sanctum',
-    'Sacred Deities',
-    'Festivals & Homams',
-  ];
-
-  // Filtered Images
-  const filteredImages = useMemo(() => {
-    return GALLERY_IMAGES.filter((img) => {
-      const matchCat = category === 'All' || img.category === category;
-      const q = search.trim().toLowerCase();
-      const matchSearch =
-        !q ||
-        img.title.toLowerCase().includes(q) ||
-        img.desc.toLowerCase().includes(q) ||
-        img.tag.toLowerCase().includes(q) ||
-        img.src.toLowerCase().includes(q);
-      return matchCat && matchSearch;
-    });
-  }, [category, search]);
-
-  // Category counts
-  const counts = useMemo(() => {
-    const c = { All: GALLERY_IMAGES.length };
-    GALLERY_IMAGES.forEach((img) => {
-      c[img.category] = (c[img.category] || 0) + 1;
-    });
-    return c;
-  }, []);
-
-  // Keyboard navigation for Lightbox
+  // Fetch Public Folders
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (activeLightboxIndex === null) return;
-      if (e.key === 'Escape') {
-        setActiveLightboxIndex(null);
-      } else if (e.key === 'ArrowRight') {
-        setActiveLightboxIndex((prev) => (prev + 1) % filteredImages.length);
-      } else if (e.key === 'ArrowLeft') {
-        setActiveLightboxIndex((prev) => (prev - 1 + filteredImages.length) % filteredImages.length);
+    let isMounted = true;
+    const loadFolders = async () => {
+      try {
+        const res = await galleryService.getPublicFolders();
+        if (isMounted && res.data?.success && Array.isArray(res.data.data) && res.data.data.length > 0) {
+          setFolders(res.data.data);
+        }
+      } catch (err) {
+        console.warn('[GalleryPage] Failed to fetch public folders from API, using fallback:', err.message);
+      } finally {
+        if (isMounted) setLoading(false);
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeLightboxIndex, filteredImages]);
 
-  // Lock background scroll when lightbox is open
-  useEffect(() => {
-    if (activeLightboxIndex !== null) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    loadFolders();
     return () => {
-      document.body.style.overflow = '';
+      isMounted = false;
     };
-  }, [activeLightboxIndex]);
+  }, []);
 
-  const currentLightboxImg = activeLightboxIndex !== null ? filteredImages[activeLightboxIndex] : null;
+  // Filtered Folders based on Search
+  const filteredFolders = useMemo(() => {
+    return folders.filter((folder) => {
+      const q = search.trim().toLowerCase();
+      if (!q) return true;
+      const matchName = folder.name && folder.name.toLowerCase().includes(q);
+      const matchDesc = folder.description && folder.description.toLowerCase().includes(q);
+      return matchName || matchDesc;
+    });
+  }, [folders, search]);
 
   return (
     <div className="gallery-page-container">
@@ -277,27 +262,20 @@ export const GalleryPage = () => {
         <div className="gallery-subnav">
           <div className="gallery-subnav-left">
             <span className="gallery-subnav-om">ॐ</span>
-            <span className="gallery-subnav-title">Shri Shantamalleshwara Swami Temple Visual Archive</span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Link to="/shri-shantamalleshwara-swami-temple" className="gallery-subnav-back">
-              ← Temple Sanctuary & Sevas
-            </Link>
+            <span className="gallery-subnav-title">Chinmaya Mission & Temple Visual Archive</span>
           </div>
         </div>
 
         {/* Hero Section */}
         <section className="gallery-hero">
-          <span className="gallery-eyebrow">Visual Heritage</span>
-          <h1 className="gallery-hero-title">The Sacred Image Archive</h1>
+          <h1 className="gallery-hero-title">Sacred Image & Video Collections</h1>
           <p className="gallery-hero-subtitle">
-            Every sacred sanctum photograph, deity darshan, Vedic havan, festival celebration, and ceremonial seal of Shri Shantamalleshwara Swami Temple and Chinmaya Mission.
+            Explore dedicated photographic archives, deity darshans, Vedic havans, hilltop vistas, and grand festival celebrations preserved across Chinmaya Mission Adoni.
           </p>
         </section>
       </div>
 
-      {/* Controls Bar: Search & Category Pills (Sticky) */}
+      {/* Controls Bar: Search */}
       <div className="gallery-controls-bar">
         <div className="gallery-content-wrap">
           <div className="gallery-controls-flex">
@@ -306,7 +284,7 @@ export const GalleryPage = () => {
               <span className="gallery-search-icon">🔍</span>
               <input
                 type="text"
-                placeholder="Search images by deity, ritual, festival..."
+                placeholder="Search sacred collections by title or festival..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -322,151 +300,82 @@ export const GalleryPage = () => {
               )}
             </div>
 
-            {/* Category Filter Pills */}
-            <div className="gallery-pills">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  className={`gallery-pill-btn ${category === cat ? 'active' : ''}`}
-                  onClick={() => setCategory(cat)}
-                >
-                  <span>{cat}</span>
-                  <span className="gallery-pill-count">({counts[cat] || 0})</span>
-                </button>
-              ))}
+            <div className="text-xs font-serif text-[var(--ivory-dim)] font-bold">
+              {filteredFolders.length} {filteredFolders.length === 1 ? 'Collection' : 'Collections'} Available
             </div>
           </div>
         </div>
       </div>
 
-      {/* Grid of Images */}
+      {/* Grid of Folder Collection Cards */}
       <div className="gallery-content-wrap">
-        {filteredImages.length === 0 ? (
+        {loading ? (
+          <div className="text-center py-24 text-[var(--ivory-dim)] font-serif text-lg">
+            <div className="gallery-subnav-om text-4xl animate-pulse mb-3">ॐ</div>
+            Loading sacred collections...
+          </div>
+        ) : filteredFolders.length === 0 ? (
           <div className="gallery-empty-state">
             <div className="gallery-empty-om">ॐ</div>
-            <h3 className="gallery-empty-title">No Images Found</h3>
-            <p>No sacred images matched your query "{search}". Try searching for "Lingam", "Shivaratri", or "Kalasha".</p>
+            <h3 className="gallery-empty-title">No Collections Found</h3>
+            <p>No sacred collection matched your query "{search}". Try searching for "Temple" or "Images".</p>
             <button
-              onClick={() => {
-                setSearch('');
-                setCategory('All');
-              }}
+              onClick={() => setSearch('')}
               className="gallery-subnav-back"
               style={{ marginTop: 20 }}
             >
-              Reset Filters
+              Reset Search
             </button>
           </div>
         ) : (
-          <div className="gallery-images-grid">
-            {filteredImages.map((img, idx) => (
-              <article key={img.id} className="gallery-image-card">
-                {/* Thumbnail Wrap */}
-                <div
-                  className="gallery-thumb-wrap"
-                  onClick={() => setActiveLightboxIndex(idx)}
-                  title="Click to view high-resolution image"
-                >
-                  <img
-                    src={img.src}
-                    alt={img.title}
-                    loading="lazy"
-                    onError={(e) => {
-                      if (!e.target.dataset.tried) {
-                        e.target.dataset.tried = '1';
-                        // Fallback to relative assets if needed
-                        e.target.src = '/assets/images/temple-seva-shiva-kalyanam.jpg';
-                      }
-                    }}
-                  />
-                  <div className="gallery-thumb-overlay">
-                    <span className="gallery-zoom-badge">Full View 🔍</span>
-                  </div>
-                </div>
+          <div className="gallery-collections-grid">
+            {filteredFolders.map((folder) => {
+              const coverImg =
+                folder.coverImage ||
+                folder.cover_image ||
+                '/assets/hero-lingam-new.jpeg';
+              const totalItems =
+                folder.totalMedia !== undefined
+                  ? folder.totalMedia
+                  : (folder.imageCount || 0) + (folder.videoCount || 0);
 
-                {/* Card Body */}
-                <div className="gallery-card-body">
-                  <div>
-                    <span className="gallery-category-badge">
-                      {img.tag} · {img.category}
-                    </span>
-                    <h2 className="gallery-card-title">{img.title}</h2>
-                    <p className="gallery-card-desc">{img.desc}</p>
+              return (
+                <Link
+                  key={folder._id || folder.slug}
+                  to={`/gallery/${folder.slug}`}
+                  className="gallery-collection-card group"
+                >
+                  {/* Cover Image & Count Badge */}
+                  <div className="gallery-collection-cover-wrap">
+                    <img
+                      src={coverImg}
+                      alt={folder.name}
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.src = '/assets/hero-lingam-new.jpeg';
+                      }}
+                    />
+                    <div className="gallery-collection-overlay">
+                      <span className="gallery-collection-count-badge">
+                        📁 {totalItems} {totalItems === 1 ? 'Media Item' : 'Items'}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </article>
-            ))}
+
+                  {/* Body Info */}
+                  <div className="gallery-collection-body">
+                    <h2 className="gallery-collection-title group-hover:text-[var(--gold)] transition-colors">
+                      {folder.name}
+                    </h2>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         )}
       </div>
-
-      {/* Lightbox Modal */}
-      {currentLightboxImg && (
-        <div
-          className="gallery-lightbox-backdrop"
-          onClick={() => setActiveLightboxIndex(null)}
-          role="dialog"
-          aria-modal="true"
-        >
-          <div className="gallery-lightbox-dialog" onClick={(e) => e.stopPropagation()}>
-            {/* Close Button */}
-            <button
-              className="gallery-lightbox-close"
-              onClick={() => setActiveLightboxIndex(null)}
-              aria-label="Close image lightbox"
-            >
-              ×
-            </button>
-
-            {/* Left Navigation Arrow */}
-            <button
-              className="gallery-nav-arrow left"
-              onClick={() =>
-                setActiveLightboxIndex((prev) => (prev - 1 + filteredImages.length) % filteredImages.length)
-              }
-              aria-label="Previous image"
-            >
-              ‹
-            </button>
-
-            {/* Right Navigation Arrow */}
-            <button
-              className="gallery-nav-arrow right"
-              onClick={() =>
-                setActiveLightboxIndex((prev) => (prev + 1) % filteredImages.length)
-              }
-              aria-label="Next image"
-            >
-              ›
-            </button>
-
-            {/* Main Lightbox Image View */}
-            <div className="gallery-lightbox-image-area">
-              <img
-                src={currentLightboxImg.src}
-                alt={currentLightboxImg.title}
-              />
-            </div>
-
-            {/* Details Bar */}
-            <div className="gallery-lightbox-info">
-              <div>
-                <span className="gallery-category-badge">
-                  {currentLightboxImg.tag} · {currentLightboxImg.category}
-                </span>
-                <h2 className="gallery-lightbox-title">{currentLightboxImg.title}</h2>
-                <p className="gallery-lightbox-desc">{currentLightboxImg.desc}</p>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                <span style={{ fontFamily: 'var(--f-mono)', fontSize: 13, color: 'var(--ivory-faint)' }}>
-                  {activeLightboxIndex + 1} / {filteredImages.length}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
+
+export default GalleryPage;

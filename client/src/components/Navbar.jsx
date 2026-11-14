@@ -188,10 +188,10 @@ export const Navbar = () => {
     }
     if (path === '/gallery') {
       return (
-        location.pathname === '/gallery' ||
-        location.pathname === '/images' ||
+        location.pathname.startsWith('/gallery') ||
+        location.pathname.startsWith('/images') ||
         location.pathname === '/image' ||
-        location.pathname === '/sacred-gallery'
+        location.pathname.startsWith('/sacred-gallery')
       );
     }
     return location.pathname === path;

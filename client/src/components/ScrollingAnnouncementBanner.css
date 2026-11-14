@@ -1,0 +1,128 @@
+/* ==========================================================================
+   Continuous Scrolling Announcement Banner
+   Chinmaya Mission Homepage — Magamasam Celebrations
+   ========================================================================== */
+
+.announcement-banner-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  background: #FFF7ED;
+  border-top: 1px solid #FED7AA;
+  border-bottom: 1px solid #FDBA74;
+  height: 38px;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 20;
+  user-select: none;
+}
+
+.announcement-banner-link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.announcement-marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: continuousScrollLeft 42s linear infinite;
+}
+
+.announcement-banner-wrapper:hover .announcement-marquee-track {
+  animation-play-state: paused;
+}
+
+.announcement-track-content {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.announcement-unit {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-size: 13.5px;
+  line-height: 38px;
+  color: #7C2D12;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.announcement-text-en {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #7C2D12;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+}
+
+.announcement-bullet {
+  color: #F0441D;
+  font-weight: 900;
+  font-size: 15px;
+  margin: 0 18px;
+  opacity: 0.95;
+  display: inline-block;
+  user-select: none;
+}
+
+.announcement-text-te {
+  font-family: 'Tiro Telugu', 'Hind Guntur', 'Noto Sans Telugu', 'Gautami', 'Plus Jakarta Sans', system-ui, sans-serif;
+  color: #7C2D12;
+  font-weight: 500;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+}
+
+@keyframes continuousScrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Accessibility: Respect Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  .announcement-marquee-track {
+    animation: none;
+    transform: none;
+    overflow-x: auto;
+    width: 100%;
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 640px) {
+  .announcement-banner-wrapper {
+    height: 35px;
+    min-height: 35px;
+  }
+
+  .announcement-unit {
+    font-size: 12.5px;
+    line-height: 35px;
+  }
+
+  .announcement-bullet {
+    margin: 0 12px;
+    font-size: 13px;
+  }
+
+  .announcement-marquee-track {
+    animation-duration: 34s;
+  }
+}
