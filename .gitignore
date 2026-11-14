@@ -33,6 +33,12 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Archives & Large Compressed Files
+*.zip
+*.tar.gz
+*.tgz
+*.rar
+
 # IDE & Editor
 .vscode/
 .idea/

@@ -21,6 +21,7 @@ const getOrCreateSettings = async () => {
 export const getSiteSettings = async (req, res) => {
   try {
     const settings = await getOrCreateSettings();
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     return res.status(200).json({
       success: true,
       isLive: Boolean(settings.isLive),

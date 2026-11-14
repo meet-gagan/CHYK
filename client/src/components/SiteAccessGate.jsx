@@ -13,14 +13,8 @@ export function SiteAccessGate({ children }) {
 
   const hostname = typeof window !== 'undefined' ? window.location.hostname.toLowerCase() : '';
 
-  // Explicitly keep chinmayamissionadoni.org and local environments live
-  const isTargetLiveDomain =
-    hostname.includes('chinmayamissionadoni.org') ||
-    hostname.includes('chinmaya-mission-adoni') ||
-    hostname.includes('localhost') ||
-    hostname.includes('127.0.0.1');
-
-  const effectiveIsLive = isTargetLiveDomain ? true : isLive;
+  // Controlled dynamically by DB sitesettings (true = Live website, false = Coming Soon)
+  const effectiveIsLive = Boolean(isLive);
 
   // 1. Always allow Admin routes unconditionally so admins can manage and toggle the site
   if (pathname.startsWith('/admin')) {
@@ -32,8 +26,8 @@ export function SiteAccessGate({ children }) {
     );
   }
 
-  // 2. Loading state while checking site settings from API (skip on target live domains for instant rendering)
-  if (loading && !isTargetLiveDomain) {
+  // 2. Loading state while checking site settings from API
+  if (loading) {
     return (
       <div className="min-h-screen bg-[#161a33] flex flex-col items-center justify-center text-amber-200">
         <div className="w-10 h-10 border-4 border-amber-400 border-t-transparent rounded-full animate-spin mb-4" />

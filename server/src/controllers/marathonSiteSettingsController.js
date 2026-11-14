@@ -21,6 +21,7 @@ const getOrCreateMarathonSettings = async () => {
 export const getMarathonSiteSettings = async (req, res) => {
   try {
     const settings = await getOrCreateMarathonSettings();
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     return res.status(200).json({
       success: true,
       isLive: Boolean(settings.isLive),
