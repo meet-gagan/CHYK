@@ -289,4 +289,10 @@ export const adminGalleryService = {
   reorderFolderMedia: (folderId, orderData) => adminApi.put(`/gallery/folders/${folderId}/reorder`, orderData),
 };
 
+export const adminGeneralEnquiryService = {
+  getEnquiries: (params) => adminApi.get('/general-enquiry', { params }),
+  updateStatus: (id, status, notes) => adminApi.patch(`/general-enquiry/${id}/status`, { status, notes }),
+  deleteEnquiry: (id) => adminApi.delete(`/general-enquiry/${id}`),
+};
+
 export default adminApi;

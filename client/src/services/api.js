@@ -293,6 +293,13 @@ export const contactService = {
   deleteMessage: (id) => api.delete(`/contact/admin/${id}`),
 };
 
+export const generalEnquiryService = {
+  submitEnquiry: (data) => api.post('/general-enquiry', data),
+  getEnquiriesAdmin: (params) => api.get('/general-enquiry', { params }),
+  updateStatus: (id, status, notes) => api.patch(`/general-enquiry/${id}/status`, { status, notes }),
+  deleteEnquiry: (id) => api.delete(`/general-enquiry/${id}`),
+};
+
 export const volunteerService = {
   submitVolunteer: (data) => api.post('/volunteers', data),
   getVolunteersAdmin: (params) => api.get('/volunteers/admin/all', { params }),
@@ -587,8 +594,8 @@ export const galleryService = {
           name: name.trim(),
           slug: (slug || name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
           description: description.trim(),
-          coverImage: coverImage || '/assets/hero-lingam-new.jpeg',
-          cover_image: coverImage || '/assets/hero-lingam-new.jpeg',
+          coverImage: coverImage || '',
+          cover_image: coverImage || '',
           status,
           displayOrder,
           totalMedia: 0,

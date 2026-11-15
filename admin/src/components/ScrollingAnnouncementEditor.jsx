@@ -31,9 +31,11 @@ export const ScrollingAnnouncementEditor = ({
   const isEnabled = Boolean(section?.isEnabled);
   const englishField = (section?.fields || []).find((f) => f.key === 'english_content');
   const teluguField = (section?.fields || []).find((f) => f.key === 'telugu_content');
+  const linkField = (section?.fields || []).find((f) => f.key === 'link_url');
 
   const englishContent = englishField?.value ?? DEFAULT_ENGLISH;
   const teluguContent = teluguField?.value ?? DEFAULT_TELUGU;
+  const linkUrl = linkField?.value ?? '/shri-shantamalleshwara-swami-temple';
 
   return (
     <div className="rounded-3xl bg-[var(--bg-secondary)] border-2 border-orange-500/30 overflow-hidden shadow-2xl transition-all">
@@ -244,6 +246,31 @@ export const ScrollingAnnouncementEditor = ({
               <span>Telugu Unicode script is preserved exactly as entered without automatic translation.</span>
             </p>
           </div>
+        </div>
+
+        {/* Redirect Target Link Input */}
+        <div className="space-y-2 p-4 sm:p-5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)]">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-extrabold uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-1.5">
+              <span>Redirect Link URL</span>
+              <span className="text-[10px] font-mono font-normal text-[var(--text-muted)]">
+                (Click Destination)
+              </span>
+            </label>
+          </div>
+          <input
+            type="text"
+            value={linkUrl}
+            onChange={(e) =>
+              onContentChange(sectionIndex, 'link_url', e.target.value)
+            }
+            placeholder="/shri-shantamalleshwara-swami-temple"
+            className="w-full p-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] focus:outline-hidden focus:border-orange-500 transition-colors font-mono"
+          />
+          <p className="text-[11px] text-[var(--text-muted)] flex items-center gap-1.5">
+            <Info className="w-3.5 h-3.5 text-orange-400 shrink-0" />
+            <span>When devotees click anywhere on the scrolling banner, they are navigated to this page. Defaults to Shri Shantamalleshwara Swami Temple page.</span>
+          </p>
         </div>
 
         {/* 3. PHASE 3 – ANNOUNCEMENT PREVIEW */}

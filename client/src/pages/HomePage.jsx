@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { webContentService } from '../services/api';
 import { ScrollingAnnouncementBanner } from '../components/ScrollingAnnouncementBanner';
+import { GeneralEnquiryPopup } from '../components/GeneralEnquiryPopup';
 import {
   Heart,
   CalendarDays,
@@ -83,32 +84,32 @@ const events = [
   },
 ];
 
+// In-memory session tracker: prevents pop-up from re-appearing repeatedly when clicking Home in navbar.
+// Resets on full browser refresh.
+let hasShownGeneralEnquiryThisSession = false;
+
+const isEnquiryAlreadySubmitted = () => {
+  try {
+    return localStorage.getItem('cm_general_enquiry_submitted') === 'true';
+  } catch {
+    return false;
+  }
+};
+
 export function HomePage() {
   const [active, setActive] = useState('Home');
   const [previewEvent, setPreviewEvent] = useState(null);
   const navigate = useNavigate();
   const mobileVideoRef = useRef(null);
 
-  // 5-Second Clickable "General enquiry" Pop-up state & timer
-  const [showGeneralEnquiry, setShowGeneralEnquiry] = useState(true);
-  const [isEnquiryExiting, setIsEnquiryExiting] = useState(false);
-
-  useEffect(() => {
-    // Start graceful fade-out transition at 4.6s so it finishes smoothly at 5.0s
-    const exitTimer = setTimeout(() => {
-      setIsEnquiryExiting(true);
-    }, 4600);
-
-    // Completely dismiss after exactly 5 seconds
-    const dismissTimer = setTimeout(() => {
-      setShowGeneralEnquiry(false);
-    }, 5000);
-
-    return () => {
-      clearTimeout(exitTimer);
-      clearTimeout(dismissTimer);
-    };
-  }, []);
+  // 10-Second Upper-Middle General Enquiry Pop-up Form state:
+  // Shows once when entering website, re-shows on browser refresh, never re-shows once submitted.
+  const [showGeneralEnquiry, setShowGeneralEnquiry] = useState(() => {
+    if (isEnquiryAlreadySubmitted()) return false;
+    if (hasShownGeneralEnquiryThisSession) return false;
+    hasShownGeneralEnquiryThisSession = true;
+    return true;
+  });
 
   useEffect(() => {
     if (mobileVideoRef.current) {
@@ -329,6 +330,11 @@ export function HomePage() {
     announcementFields?.telugu_content ||
     announcementSec?.fields?.find((field) => field.key === 'telugu_content')?.value;
 
+  const announcementLink =
+    announcementFields?.link_url ||
+    announcementSec?.fields?.find((field) => field.key === 'link_url')?.value ||
+    '/shri-shantamalleshwara-swami-temple';
+
   return (
     <div className="site-shell">
       {/* ── Continuous Scrolling Announcement Banner (Homepage Only - Controlled by Admin Panel) ── */}
@@ -337,6 +343,7 @@ export function HomePage() {
           isEnabled={isAnnouncementEnabled}
           englishContent={englishAnnouncement}
           teluguContent={teluguAnnouncement}
+          linkUrl={announcementLink}
         />
       )}
 
@@ -418,18 +425,13 @@ export function HomePage() {
             <span className="hero-signature-sub">{portraitSub}</span>
           </div>
 
-          {/* 5-Second Clickable General enquiry Pop-up */}
-          {showGeneralEnquiry && (
-            <Link
-              to="/lets-connect"
-              className={`hero-general-enquiry-pill ${isEnquiryExiting ? 'hero-general-enquiry-pill-exit' : ''}`}
-            >
-              General enquiry
-            </Link>
-          )}
-
           <div className="sun-disc" />
         </section>
+
+        {/* Upper-Middle 10-Second General Enquiry Pop-up Modal Form */}
+        {showGeneralEnquiry && (
+          <GeneralEnquiryPopup onClose={() => setShowGeneralEnquiry(false)} />
+        )}
 
         {/* ABOUT SECTION */}
         <section className="about-section section-wrap" id="about">

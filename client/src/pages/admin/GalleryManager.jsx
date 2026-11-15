@@ -730,7 +730,7 @@ export const GalleryManager = () => {
                             alt={folder.name}
                             className="relative z-10 max-h-full max-w-full object-contain transition-transform duration-500 hover:scale-105"
                             onError={(e) => {
-                              e.target.src = '/assets/hero-lingam-new.jpeg';
+                              e.target.style.display = 'none';
                             }}
                           />
                         </>
@@ -895,11 +895,17 @@ export const GalleryManager = () => {
           {/* Folder Details Summary Banner */}
           <div className="p-5 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <img
-                src={selectedFolder.coverImage || selectedFolder.cover_image || '/assets/hero-lingam-new.jpeg'}
-                alt=""
-                className="w-16 h-16 rounded-2xl object-cover border border-[var(--border-color)] shrink-0"
-              />
+              {selectedFolder.coverImage || selectedFolder.cover_image ? (
+                <img
+                  src={selectedFolder.coverImage || selectedFolder.cover_image}
+                  alt={selectedFolder.name}
+                  className="w-16 h-16 rounded-2xl object-cover border border-[var(--border-color)] shrink-0"
+                />
+              ) : (
+                <div className="w-16 h-16 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex flex-col items-center justify-center shrink-0 text-[var(--text-muted)]">
+                  <ImageIcon className="w-6 h-6 opacity-40" />
+                </div>
+              )}
               <div>
                 <div className="flex items-center gap-2">
                   <span

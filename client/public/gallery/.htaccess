@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # If the request matches an existing static image file in gallery, serve it directly
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # Otherwise (such as requesting the directory itself or a non-file subpath), rewrite to root index.html
+  RewriteRule ^$ /index.html [L]
+  RewriteRule ^index\.html$ /index.html [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule . /index.html [L]
+</IfModule>
+
+# If Apache ever attempts to deny directory access, serve the React SPA instead of 403 Forbidden
+ErrorDocument 403 /index.html

@@ -277,7 +277,7 @@ export const SupportOurMissionPage = () => {
             {/* Left Column: Relevant photograph of volunteers / Sevaks */}
             <div className="md:col-span-5 relative min-h-[260px] md:min-h-[420px] bg-[#0C1A30] overflow-hidden group">
               <img
-                src="/gallery/Sevak_Team.jpeg"
+                src="/assets/gallery/Sevak_Team.jpeg"
                 alt="Volunteers and Sevaks dedicated to community service and Mission activities"
                 className="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                 onError={(e) => {

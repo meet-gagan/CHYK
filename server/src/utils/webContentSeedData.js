@@ -37,6 +37,13 @@ export const DEFAULT_WEBSITE_PAGES = {
                 '🕉️ భక్తిశ్రద్ధలతో మాఘమాస వేడుకల్లో పాల్గొనండి | ఫిబ్రవరి 7 – మార్చి 8, 2027 | రిజిస్ట్రేషన్లు ప్రారంభం!',
               placeholder: 'తెలుగు ప్రకటన నమోదు చేయండి...',
             },
+            {
+              key: 'link_url',
+              label: 'Redirect Link URL',
+              type: 'text',
+              value: '/shri-shantamalleshwara-swami-temple',
+              placeholder: 'Enter redirect URL (e.g. /shri-shantamalleshwara-swami-temple)',
+            },
           ],
           items: [],
         },

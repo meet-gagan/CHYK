@@ -1,8 +1,80 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { galleryService } from '../services/api';
 import { GALLERY_IMAGES } from './GalleryPage';
 import './GalleryPage.css';
+
+const GalleryMediaCardThumbnail = ({ item, isVideo }) => {
+  const [thumbError, setThumbError] = useState(false);
+  const videoRef = useRef(null);
+
+  const videoUrl = item.url || item.media_url || item.mediaUrl || '';
+  const customThumb = (item.thumbnailUrl || '').trim();
+  const isVideoFileThumb = Boolean(customThumb && customThumb.match(/\.(mp4|webm|mov|mkv|avi|m4v)(\?.*)?$/i));
+  const hasCustomImage = customThumb && !isVideoFileThumb && customThumb !== videoUrl && !thumbError;
+
+  const handleLoadedMetadata = (e) => {
+    try {
+      if (e.target.currentTime === 0) {
+        e.target.currentTime = 0.001;
+      }
+    } catch (_) {}
+  };
+
+  if (isVideo) {
+    if (hasCustomImage) {
+      return (
+        <img
+          src={customThumb}
+          alt={item.title}
+          loading="lazy"
+          onError={() => setThumbError(true)}
+        />
+      );
+    }
+
+    const ytMatch = videoUrl.match(
+      /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/
+    );
+    if (ytMatch?.[1]) {
+      return (
+        <img
+          src={`https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`}
+          alt={item.title}
+          loading="lazy"
+          onError={() => setThumbError(true)}
+        />
+      );
+    }
+
+    return (
+      <video
+        ref={videoRef}
+        src={videoUrl}
+        className="gallery-video-poster-element"
+        preload="metadata"
+        muted
+        playsInline
+        onLoadedMetadata={handleLoadedMetadata}
+      />
+    );
+  }
+
+  const imageUrl = item.thumbnailUrl || item.thumbnail_url || item.url || item.media_url;
+  return (
+    <img
+      src={imageUrl}
+      alt={item.title}
+      loading="lazy"
+      onError={(e) => {
+        if (!e.target.dataset.tried) {
+          e.target.dataset.tried = '1';
+          e.target.src = '/assets/images/temple-seva-shiva-kalyanam.jpg';
+        }
+      }}
+    />
+  );
+};
 
 export const FolderDetailsPage = () => {
   const { slug } = useParams();
@@ -79,7 +151,13 @@ export const FolderDetailsPage = () => {
   // Dynamic Categories from media
   // Image items only for the Lightbox carousel
   const imageItems = useMemo(() => {
-    return mediaItems.filter((m) => m.mediaType !== 'video');
+    return mediaItems.filter((m) => {
+      const isVid =
+        m.mediaType === 'video' ||
+        m.media_type === 'video' ||
+        Boolean((m.url || m.media_url || '').match(/\.(mp4|webm|mov|mkv|avi|m4v)(\?.*)?$/i));
+      return !isVid;
+    });
   }, [mediaItems]);
 
   // Keyboard navigation for Lightbox
@@ -175,7 +253,10 @@ export const FolderDetailsPage = () => {
         ) : (
           <div className="gallery-images-grid">
             {mediaItems.map((item) => {
-              const isVideo = item.mediaType === 'video';
+              const isVideo =
+                item.mediaType === 'video' ||
+                item.media_type === 'video' ||
+                Boolean((item.url || item.media_url || '').match(/\.(mp4|webm|mov|mkv|avi|m4v)(\?.*)?$/i));
               const imgIndex = imageItems.findIndex((m) => m._id === item._id);
 
               return (
@@ -192,17 +273,7 @@ export const FolderDetailsPage = () => {
                     }}
                     title={isVideo ? 'Click to play video' : 'Click to view high-resolution image'}
                   >
-                    <img
-                      src={item.thumbnailUrl || item.thumbnail_url || item.url || item.media_url}
-                      alt={item.title}
-                      loading="lazy"
-                      onError={(e) => {
-                        if (!e.target.dataset.tried) {
-                          e.target.dataset.tried = '1';
-                          e.target.src = '/assets/images/temple-seva-shiva-kalyanam.jpg';
-                        }
-                      }}
-                    />
+                    <GalleryMediaCardThumbnail item={item} isVideo={isVideo} />
 
                     {isVideo ? (
                       <div className="gallery-video-play-indicator">
@@ -346,23 +417,25 @@ export const FolderDetailsPage = () => {
             </button>
 
             <div className="bg-black flex items-center justify-center aspect-video w-full">
-              {activeVideoItem.url.includes('youtube.com') ||
-              activeVideoItem.url.includes('youtu.be') ? (
-                <iframe
-                  src={activeVideoItem.url.replace('watch?v=', 'embed/')}
-                  title={activeVideoItem.title}
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              ) : (
-                <video
-                  src={activeVideoItem.url}
-                  controls
-                  autoPlay
-                  className="w-full h-full object-contain"
-                />
-              )}
+              {(() => {
+                const vidUrl = activeVideoItem.url || activeVideoItem.media_url || '';
+                return vidUrl.includes('youtube.com') || vidUrl.includes('youtu.be') ? (
+                  <iframe
+                    src={vidUrl.replace('watch?v=', 'embed/')}
+                    title={activeVideoItem.title}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <video
+                    src={vidUrl}
+                    controls
+                    autoPlay
+                    className="w-full h-full object-contain"
+                  />
+                );
+              })()}
             </div>
 
             <div className="gallery-lightbox-info">

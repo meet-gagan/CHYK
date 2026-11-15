@@ -1,10 +1,35 @@
+# ── Chinmaya Mission Adoni Apache SPA Configuration ──
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  # Disable directory indexing (prevents 403 Forbidden directory listing error)
+  Options -Indexes +FollowSymLinks
+
+  # When a directory is requested without index file, fallback to root SPA index.html
+  DirectoryIndex index.html /index.html
+
+  # Disable automatic trailing-slash redirection on directories that collide with SPA routes
+  DirectorySlash Off
+
+  # 1. If an actual static file exists on disk (JS, CSS, images, etc.), serve directly
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # 2. Specific SPA routes: /gallery, /gallery/, /gallery/:slug
+  # Always rewrite directly to SPA index.html
+  RewriteRule ^gallery(/.*)?$ /index.html [L,QSA]
+  RewriteRule ^sacred-gallery(/.*)?$ /index.html [L,QSA]
+  RewriteRule ^images(/.*)?$ /index.html [L,QSA]
+
+  # 3. Don't rewrite the root index.html itself
   RewriteRule ^index\.html$ - [L]
+
+  # 4. Standard SPA fallback: rewrite all non-file requests to /index.html
   RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteCond %{REQUEST_FILENAME} !-l
   RewriteRule . /index.html [L]
 </IfModule>
 
+# Custom error documents: route 403 (Forbidden) and 404 (Not Found) directly to SPA index.html
+ErrorDocument 403 /index.html
+ErrorDocument 404 /index.html

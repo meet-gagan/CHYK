@@ -66,7 +66,7 @@ export const INITIAL_24_IMAGES = [
 
   // 2. Sacred Deities (Pancha Lingas & Goddess)
   {
-    url: '/gallery/Bhogalingeswara_Shiva.jpeg',
+    url: '/assets/gallery/Bhogalingeswara_Shiva.jpeg',
     title: 'Sadyojata Linga — Bhogalingeswara Shiva',
     category: 'Sacred Deities',
     description: 'West-facing lingam representing the Prithvi (Earth) element behind the principal shrine.',
@@ -76,7 +76,7 @@ export const INITIAL_24_IMAGES = [
     status: 'published',
   },
   {
-    url: '/gallery/Tyagarajeswara_Shiva.jpeg',
+    url: '/assets/gallery/Tyagarajeswara_Shiva.jpeg',
     title: 'Vamadeva Linga — Tyagarajeswara Shiva',
     category: 'Sacred Deities',
     description: 'North-facing lingam beside the holy spring pond, representing the Jala (Water) element.',
@@ -86,7 +86,7 @@ export const INITIAL_24_IMAGES = [
     status: 'published',
   },
   {
-    url: '/gallery/Parvati_Ammavaru.jpeg',
+    url: '/assets/gallery/Parvati_Ammavaru.jpeg',
     title: 'Goddess Parvati Ammavaru',
     category: 'Sacred Deities',
     description: 'The eternal Divine Mother Parvati, consort of Lord Shiva, worshipped with Sri Chakra Kumkumarchana.',
@@ -96,7 +96,7 @@ export const INITIAL_24_IMAGES = [
     status: 'published',
   },
   {
-    url: '/gallery/Shivaya.jpeg',
+    url: '/assets/gallery/Shivaya.jpeg',
     title: 'Sanctum Darshan & Devotion',
     category: 'Sacred Deities',
     description: 'Sacred offering in the inner sanctum surrounded by brass lamps and camphor glow.',
@@ -106,7 +106,7 @@ export const INITIAL_24_IMAGES = [
     status: 'published',
   },
   {
-    url: '/gallery/Kalasha.jpeg',
+    url: '/assets/gallery/Kalasha.jpeg',
     title: 'Sacred Kalasha Sthapana',
     category: 'Sacred Deities',
     description: 'Sacred Kalash filled with holy waters and mango leaves, embodying the divine supreme presence.',
@@ -116,7 +116,7 @@ export const INITIAL_24_IMAGES = [
     status: 'published',
   },
   {
-    url: '/gallery/Havan.jpeg',
+    url: '/assets/gallery/Havan.jpeg',
     title: 'Vedic Agni Havan Ritual',
     category: 'Sacred Deities',
     description: 'Priests performing Vedic Agni homam with ghee offerings, chanting ancient mantras for cosmic peace.',
@@ -126,7 +126,7 @@ export const INITIAL_24_IMAGES = [
     status: 'published',
   },
   {
-    url: '/gallery/Sevak_Team.jpeg',
+    url: '/assets/gallery/Sevak_Team.jpeg',
     title: 'Temple Sevak Team & Priests',
     category: 'Sacred Deities',
     description: 'Chinmaya Mission sevaks and priests dedicated to preserving the heritage of Shri Shantamalleshwara Swami.',

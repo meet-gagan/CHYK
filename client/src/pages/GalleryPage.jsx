@@ -50,7 +50,7 @@ export const GALLERY_IMAGES = [
   // 2. Sacred Deities (Pancha Lingas & Goddess)
   {
     id: 'bhogalingeswara',
-    src: '/gallery/Bhogalingeswara_Shiva.jpeg',
+    src: '/assets/gallery/Bhogalingeswara_Shiva.jpeg',
     title: 'Sadyojata Linga — Bhogalingeswara Shiva',
     category: 'Sacred Deities',
     desc: 'West-facing lingam representing the Prithvi (Earth) element behind the principal shrine.',
@@ -58,7 +58,7 @@ export const GALLERY_IMAGES = [
   },
   {
     id: 'tyagarajeswara',
-    src: '/gallery/Tyagarajeswara_Shiva.jpeg',
+    src: '/assets/gallery/Tyagarajeswara_Shiva.jpeg',
     title: 'Vamadeva Linga — Tyagarajeswara Shiva',
     category: 'Sacred Deities',
     desc: 'North-facing lingam beside the holy spring pond, representing the Jala (Water) element.',
@@ -66,7 +66,7 @@ export const GALLERY_IMAGES = [
   },
   {
     id: 'parvati-ammavaru',
-    src: '/gallery/Parvati_Ammavaru.jpeg',
+    src: '/assets/gallery/Parvati_Ammavaru.jpeg',
     title: 'Goddess Parvati Ammavaru',
     category: 'Sacred Deities',
     desc: 'The eternal Divine Mother Parvati, consort of Lord Shiva, worshipped with Sri Chakra Kumkumarchana.',
@@ -74,7 +74,7 @@ export const GALLERY_IMAGES = [
   },
   {
     id: 'shivaya-darshan',
-    src: '/gallery/Shivaya.jpeg',
+    src: '/assets/gallery/Shivaya.jpeg',
     title: 'Sanctum Darshan & Devotion',
     category: 'Sacred Deities',
     desc: 'Sacred offering in the inner sanctum surrounded by brass lamps and camphor glow.',
@@ -82,7 +82,7 @@ export const GALLERY_IMAGES = [
   },
   {
     id: 'kalasha-sthapana',
-    src: '/gallery/Kalasha.jpeg',
+    src: '/assets/gallery/Kalasha.jpeg',
     title: 'Sacred Kalasha Sthapana',
     category: 'Sacred Deities',
     desc: 'Sacred Kalash filled with holy waters and mango leaves, embodying the divine supreme presence.',
@@ -90,7 +90,7 @@ export const GALLERY_IMAGES = [
   },
   {
     id: 'havan-sacred-fire',
-    src: '/gallery/Havan.jpeg',
+    src: '/assets/gallery/Havan.jpeg',
     title: 'Vedic Agni Havan Ritual',
     category: 'Sacred Deities',
     desc: 'Priests performing Vedic Agni homam with ghee offerings, chanting ancient mantras for cosmic peace.',
@@ -98,7 +98,7 @@ export const GALLERY_IMAGES = [
   },
   {
     id: 'sevak-team',
-    src: '/gallery/Sevak_Team.jpeg',
+    src: '/assets/gallery/Sevak_Team.jpeg',
     title: 'Temple Sevak Team & Priests',
     category: 'Sacred Deities',
     desc: 'Chinmaya Mission sevaks and priests dedicated to preserving the heritage of Shri Shantamalleshwara Swami.',
@@ -330,10 +330,7 @@ export const GalleryPage = () => {
         ) : (
           <div className="gallery-collections-grid">
             {filteredFolders.map((folder) => {
-              const coverImg =
-                folder.coverImage ||
-                folder.cover_image ||
-                '/assets/hero-lingam-new.jpeg';
+              const coverImg = folder.coverImage || folder.cover_image || '';
               const totalItems =
                 folder.totalMedia !== undefined
                   ? folder.totalMedia
@@ -347,14 +344,21 @@ export const GalleryPage = () => {
                 >
                   {/* Cover Image & Count Badge */}
                   <div className="gallery-collection-cover-wrap">
-                    <img
-                      src={coverImg}
-                      alt={folder.name}
-                      loading="lazy"
-                      onError={(e) => {
-                        e.target.src = '/assets/hero-lingam-new.jpeg';
-                      }}
-                    />
+                    {coverImg ? (
+                      <img
+                        src={coverImg}
+                        alt={folder.name}
+                        loading="lazy"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <div className="gallery-collection-blank-cover">
+                        <span className="gallery-blank-folder-icon">📁</span>
+                        <span className="gallery-blank-folder-text">No Cover Image</span>
+                      </div>
+                    )}
                     <div className="gallery-collection-overlay">
                       <span className="gallery-collection-count-badge">
                         📁 {totalItems} {totalItems === 1 ? 'Media Item' : 'Items'}

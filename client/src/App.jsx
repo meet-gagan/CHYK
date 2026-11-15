@@ -140,7 +140,9 @@ export function App() {
               
               {/* Sacred Image Gallery Pages */}
               <Route path="/gallery" element={<GalleryPage />} />
+              <Route path="/gallery/" element={<GalleryPage />} />
               <Route path="/gallery/:slug" element={<FolderDetailsPage />} />
+              <Route path="/gallery/:slug/" element={<FolderDetailsPage />} />
               <Route path="/images" element={<GalleryPage />} />
               <Route path="/images/:slug" element={<FolderDetailsPage />} />
               <Route path="/image" element={<GalleryPage />} />
@@ -374,6 +376,30 @@ export function App() {
             <Route
               path="/admin/banners"
               element={<Navigate to="/admin" replace />}
+            />
+            <Route
+              path="/admin/general-enquiry"
+              element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminDashboardPage defaultTab="GENERAL_ENQUIRY" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/general-enquiries"
+              element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminDashboardPage defaultTab="GENERAL_ENQUIRY" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/enquiries"
+              element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminDashboardPage defaultTab="GENERAL_ENQUIRY" />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="/admin/lets-connect"

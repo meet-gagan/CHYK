@@ -17,6 +17,7 @@ export const ScrollingAnnouncementBanner = ({
   isEnabled = true,
   englishContent,
   teluguContent,
+  linkUrl = '/shri-shantamalleshwara-swami-temple',
 }) => {
   // If disabled by administrator, do not render
   if (!isEnabled) {
@@ -49,12 +50,12 @@ export const ScrollingAnnouncementBanner = ({
     <div
       className="announcement-banner-wrapper"
       role="region"
-      aria-label="Magamasam Devotion Announcement"
+      aria-label="Shri Shantamalleshwara Swami Temple Announcement"
     >
       <Link
-        to="/activities"
+        to={linkUrl || '/shri-shantamalleshwara-swami-temple'}
         className="announcement-banner-link"
-        title="Celebrate Magamasam with Devotion — View Details & Register"
+        title="Shri Shantamalleshwara Swami Temple — View Details"
       >
         <div className="announcement-marquee-track">
           {/* Primary Track Content (Read by Screen Readers) */}

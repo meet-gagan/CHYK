@@ -44,6 +44,7 @@ import siteSettingsRoutes from './routes/siteSettingsRoutes.js';
 import marathonSiteSettingsRoutes from './routes/marathonSiteSettingsRoutes.js';
 import videoRoutes from './routes/videoRoutes.js';
 import galleryRoutes from './routes/galleryRoutes.js';
+import generalEnquiryRoutes from './routes/generalEnquiryRoutes.js';
 
 const app = express();
 
@@ -166,6 +167,8 @@ const routes = [
   { path: 'seva-bookings', router: sevaBookingRoutes },
   { path: 'videos', router: videoRoutes },
   { path: 'gallery', router: galleryRoutes },
+  { path: 'general-enquiry', router: generalEnquiryRoutes },
+  { path: 'general-enquiries', router: generalEnquiryRoutes },
   { path: 'site-settings', router: siteSettingsRoutes },
   { path: 'site-status', router: siteSettingsRoutes },
   { path: 'marathon-site-settings', router: marathonSiteSettingsRoutes },

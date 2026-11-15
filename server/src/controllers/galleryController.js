@@ -223,7 +223,7 @@ export const getPublicFolderMedia = async (req, res) => {
       ...item,
       media_url: item.url,
       media_type: item.mediaType,
-      thumbnail_url: item.thumbnailUrl || item.url,
+      thumbnail_url: item.thumbnailUrl || (item.mediaType === 'video' ? '' : item.url),
       display_order: item.displayOrder,
     }));
 
@@ -714,7 +714,7 @@ export const getAdminFolderMedia = async (req, res) => {
       ...item,
       media_url: item.url,
       media_type: item.mediaType,
-      thumbnail_url: item.thumbnailUrl || item.url,
+      thumbnail_url: item.thumbnailUrl || (item.mediaType === 'video' ? '' : item.url),
       display_order: item.displayOrder,
     }));
 

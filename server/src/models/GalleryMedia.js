@@ -86,7 +86,7 @@ const galleryMediaSchema = new mongoose.Schema(
       virtuals: true,
       transform: (doc, ret) => {
         ret.media_url = ret.url;
-        ret.thumbnail_url = ret.thumbnailUrl || ret.url;
+        ret.thumbnail_url = ret.thumbnailUrl || (ret.mediaType === 'video' ? '' : ret.url);
         ret.media_type = ret.mediaType;
         ret.folder_id = ret.folderId;
         ret.display_order = ret.displayOrder;

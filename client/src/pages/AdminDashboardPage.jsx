@@ -14,6 +14,7 @@ import { HomePageManager } from './admin/HomePageManager';
 import { FooterManager } from './admin/FooterManager';
 import { AdminImagesPage } from './admin/AdminImagesPage';
 import { LetsConnectManager } from './admin/LetsConnectManager';
+import { GeneralEnquiryManager } from './admin/GeneralEnquiryManager';
 import { VolunteeringManager } from './admin/VolunteeringManager';
 import { UserManager } from './admin/UserManager';
 import { AdminProfileManager } from './admin/AdminProfileManager';
@@ -78,6 +79,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
     if (path.includes('/admin/marathon-images') || path.includes('/admin/marathon')) return 'MARATHON_IMAGES';
     if (path.includes('/admin/videos') || path.includes('/admin/youtube') || path.includes('/admin/udaan')) return 'VIDEOS';
     if (path.includes('/admin/change-password')) return 'PASSWORD';
+    if (path.includes('/admin/general-enquiry') || path.includes('/admin/general-enquiries') || path.includes('/admin/enquiries')) return 'GENERAL_ENQUIRY';
     if (path.includes('/admin/lets-connect')) return 'LETS_CONNECT';
     if (path.includes('/admin/volunteering')) return 'VOLUNTEERING';
     if (path.includes('/admin/gallery')) return 'GALLERY';
@@ -479,6 +481,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
           { id: 'USERS', label: 'User Directory', icon: UserCheck },
           { id: 'ADMIN_PROFILE', label: 'Admin Profile', icon: Shield },
           { id: 'UPDATE_CONTENT', label: 'Update Content', icon: Globe },
+          { id: 'GENERAL_ENQUIRY', label: 'General Enquiry', icon: HelpCircle },
           { id: 'LETS_CONNECT', label: "Let's Connect", icon: MessageSquare },
           { id: 'VOLUNTEERING', label: 'Volunteering', icon: HeartHandshake },
           { id: 'BOOKINGS', label: 'Bookings', icon: Landmark },
@@ -523,6 +526,9 @@ export const AdminDashboardPage = ({ defaultTab }) => {
 
       {/* TAB: DEDICATED ADMIN PROFILE */}
       {activeTab === 'ADMIN_PROFILE' && <AdminProfileManager />}
+
+      {/* TAB: GENERAL ENQUIRY INBOX */}
+      {activeTab === 'GENERAL_ENQUIRY' && <GeneralEnquiryManager />}
 
       {/* TAB: LET'S CONNECT INBOX */}
       {activeTab === 'LETS_CONNECT' && <LetsConnectManager />}
