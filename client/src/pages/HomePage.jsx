@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { webContentService } from '../services/api';
 import { ScrollingAnnouncementBanner } from '../components/ScrollingAnnouncementBanner';
-import { GeneralEnquiryPopup } from '../components/GeneralEnquiryPopup';
 import {
   Heart,
   CalendarDays,
@@ -84,32 +83,11 @@ const events = [
   },
 ];
 
-// In-memory session tracker: prevents pop-up from re-appearing repeatedly when clicking Home in navbar.
-// Resets on full browser refresh.
-let hasShownGeneralEnquiryThisSession = false;
-
-const isEnquiryAlreadySubmitted = () => {
-  try {
-    return localStorage.getItem('cm_general_enquiry_submitted') === 'true';
-  } catch {
-    return false;
-  }
-};
-
 export function HomePage() {
   const [active, setActive] = useState('Home');
   const [previewEvent, setPreviewEvent] = useState(null);
   const navigate = useNavigate();
   const mobileVideoRef = useRef(null);
-
-  // 10-Second Upper-Middle General Enquiry Pop-up Form state:
-  // Shows once when entering website, re-shows on browser refresh, never re-shows once submitted.
-  const [showGeneralEnquiry, setShowGeneralEnquiry] = useState(() => {
-    if (isEnquiryAlreadySubmitted()) return false;
-    if (hasShownGeneralEnquiryThisSession) return false;
-    hasShownGeneralEnquiryThisSession = true;
-    return true;
-  });
 
   useEffect(() => {
     if (mobileVideoRef.current) {
@@ -477,11 +455,6 @@ export function HomePage() {
 
           <div className="sun-disc" />
         </section>
-
-        {/* Upper-Middle 10-Second General Enquiry Pop-up Modal Form */}
-        {showGeneralEnquiry && (
-          <GeneralEnquiryPopup onClose={() => setShowGeneralEnquiry(false)} />
-        )}
 
         {/* ABOUT SECTION */}
         <section className="about-section section-wrap" id="about">

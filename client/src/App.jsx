@@ -6,6 +6,7 @@ import { SiteSettingsProvider } from './context/SiteSettingsContext';
 import { SiteAccessGate } from './components/SiteAccessGate';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { FloatingGeneralEnquiry } from './components/FloatingGeneralEnquiry';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 
 // Public Website Pages
@@ -61,7 +62,7 @@ function MarathonPortalRedirect({ path = '' }) {
   );
 }
 
-// Public Layout containing Public Navbar and Footer
+// Public Layout containing Public Navbar, Footer and Persistent General Enquiry Floating Widget
 function PublicLayout() {
   return (
     <div className="min-h-screen flex flex-col justify-between selection:bg-[var(--orange)] selection:text-white w-full max-w-full overflow-x-hidden bg-white">
@@ -70,6 +71,7 @@ function PublicLayout() {
         <Outlet />
       </main>
       <Footer />
+      <FloatingGeneralEnquiry />
     </div>
   );
 }

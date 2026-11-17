@@ -1,0 +1,92 @@
+/* Floating Persistent General Enquiries Button */
+.floating-general-enquiry-btn {
+  --min-top: 122px;
+  position: fixed;
+  right: 22px;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: #FF6600;
+  background: radial-gradient(circle at 35% 35%, #FF7F1A, #FF6200 68%, #E55300 100%);
+  color: #FFFFFF;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 6px 18px rgba(255, 98, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  z-index: 45;
+  user-select: none;
+  padding: 0;
+  line-height: 1.1;
+  transition: top 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+              transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease;
+  will-change: top, transform;
+}
+
+@keyframes floatBob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.floating-general-enquiry-btn.is-idle {
+  animation: floatBob 3s ease-in-out infinite;
+}
+
+.floating-general-enquiry-btn.is-scrolling {
+  transform: scale(1.05);
+  box-shadow: 0 10px 24px rgba(255, 98, 0, 0.55), 0 4px 10px rgba(0, 0, 0, 0.22);
+}
+
+.floating-general-enquiry-btn:hover {
+  transform: scale(1.1) translateY(-2px) !important;
+  box-shadow: 0 12px 28px rgba(255, 98, 0, 0.6), 0 5px 12px rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.95);
+  animation: none !important;
+}
+
+.floating-general-enquiry-btn:active {
+  transform: scale(0.95) translateY(0) !important;
+}
+
+.floating-enquiry-text-top {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+  display: block;
+}
+
+.floating-enquiry-text-bottom {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+  display: block;
+  margin-top: 0.5px;
+}
+
+@media (max-width: 640px) {
+  .floating-general-enquiry-btn {
+    --min-top: 104px;
+    right: 16px;
+    width: 54px;
+    height: 54px;
+  }
+  .floating-enquiry-text-top {
+    font-size: 10px;
+  }
+  .floating-enquiry-text-bottom {
+    font-size: 8.8px;
+  }
+}
