@@ -110,7 +110,7 @@ export const GeneralEnquiryManager = () => {
       return;
     }
 
-    let csv = 'Enquiry ID,Date & Time,Name,Email ID,Mobile Number,What Do you want to learn from this ?,Status,Notes\n';
+    let csv = 'Enquiry ID,Date & Time,Name,Email ID,Mobile Number,What do you want to learn from this ?,Status,Notes\n';
     filteredEnquiries.forEach((item) => {
       const cleanGoal = (item.learningGoal || '').replace(/"/g, '""').replace(/\n/g, ' ');
       const cleanNotes = (item.notes || '').replace(/"/g, '""').replace(/\n/g, ' ');
@@ -467,7 +467,7 @@ export const GeneralEnquiryManager = () => {
                       </div>
                     </td>
 
-                    {/* What Do you want to learn from this ? */}
+                    {/* What do you want to learn from this ? */}
                     <td className="py-3.5 px-4 max-w-xs">
                       <p
                         className="line-clamp-2 text-[var(--text-secondary)] leading-relaxed cursor-pointer hover:text-orange-600 transition-colors"
@@ -648,11 +648,11 @@ export const GeneralEnquiryManager = () => {
                 </div>
               </div>
 
-              {/* What Do you want to learn from this ? (Message content) */}
+              {/* What do you want to learn from this ? (Message content) */}
               <div className="p-4 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] space-y-2">
                 <span className="text-[11px] font-black uppercase tracking-wider text-orange-500 flex items-center gap-1.5">
                   <HelpCircle className="w-4 h-4" />
-                  <span>What Do you want to learn from this ?</span>
+                  <span>What do you want to learn from this ?</span>
                 </span>
                 <p className="text-xs text-[var(--text-primary)] leading-relaxed whitespace-pre-wrap bg-[var(--bg-secondary)] p-3.5 rounded-xl border border-[var(--border-color)] font-medium">
                   {selectedEnquiry.learningGoal}

@@ -314,6 +314,101 @@
   box-shadow: 0 24px 56px rgba(0, 0, 0, 0.45), 0 0 32px rgba(255, 122, 46, 0.14);
 }
 
+/* Card Highlighted (When clicked from home page announcement scroller) */
+.seva-card-highlighted {
+  border-color: #FF7A2E !important;
+  transform: translateY(-8px) scale(1.02);
+  box-shadow:
+    0 0 0 3px rgba(255, 122, 46, 0.45),
+    0 24px 60px rgba(0, 0, 0, 0.65),
+    0 0 45px rgba(255, 122, 46, 0.35) !important;
+  background:
+    radial-gradient(circle at 50% 22%, rgba(255, 122, 46, 0.28), transparent 40%),
+    linear-gradient(180deg, rgba(32, 40, 68, 0.98), rgba(9, 13, 24, 0.99)) !important;
+  animation: sevaCardPulse 2.4s ease-in-out infinite;
+  z-index: 10;
+}
+
+.seva-card-highlighted::before,
+.seva-card-highlighted::after {
+  opacity: 1 !important;
+  border-color: #FF7A2E !important;
+  width: 22px !important;
+  height: 22px !important;
+  border-width: 2px !important;
+}
+
+.seva-card-highlighted .seva-pooja-card-icon {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 10px rgba(255, 122, 46, 0.12), 0 0 40px rgba(255, 122, 46, 0.4) !important;
+  border-color: #FF7A2E !important;
+}
+
+.seva-card-highlighted .seva-btn-highlighted {
+  background: rgba(255, 122, 46, 0.2) !important;
+  border-color: #FF7A2E !important;
+  color: #FFA05C !important;
+  box-shadow: 0 0 18px rgba(255, 122, 46, 0.4) !important;
+  font-weight: 700;
+}
+
+.seva-highlight-banner {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(255, 122, 46, 0.95), rgba(230, 81, 0, 0.95));
+  color: #FFFFFF;
+  font-family: var(--seva-f-sans);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 12px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px rgba(255, 122, 46, 0.45);
+  pointer-events: none;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.seva-highlight-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  animation: sevaDotPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes sevaCardPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 3px rgba(255, 122, 46, 0.45),
+      0 24px 60px rgba(0, 0, 0, 0.65),
+      0 0 40px rgba(255, 122, 46, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 0 5px rgba(255, 122, 46, 0.8),
+      0 28px 70px rgba(0, 0, 0, 0.75),
+      0 0 60px rgba(255, 122, 46, 0.55);
+  }
+}
+
+@keyframes sevaDotPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.65);
+  }
+}
+
 .seva-pooja-card-icon {
   width: 70px;
   height: 70px;
@@ -363,39 +458,34 @@
   padding: 0 6px;
 }
 
-/* Maha Shivaratri Royal Card */
+/* Maha Shivaratri Card (Aligned to Seva Orange Theme) */
 .seva-maha-shivaratri-card {
-  background: linear-gradient(160deg, rgba(232,196,74,0.09) 0%, rgba(20,26,44,0.6) 40%, rgba(11,17,32,0.35) 100%) !important;
-  border: 1px solid rgba(232,196,74,0.3) !important;
-  box-shadow: 0 0 32px rgba(232,196,74,0.09), inset 0 0 40px rgba(232,196,74,0.035);
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 122, 46, 0.11), transparent 28%),
+    linear-gradient(180deg, rgba(20, 26, 44, 0.78), rgba(7, 10, 20, 0.94)) !important;
+  border: 1px solid var(--seva-line-soft) !important;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.25), inset 0 1px rgba(255, 255, 255, 0.025);
   position: relative;
   overflow: hidden;
 }
 
 .seva-maha-shivaratri-card:hover {
-  border-color: rgba(232,196,74,0.55) !important;
-  box-shadow: 0 0 55px rgba(232,196,74,0.18), inset 0 0 55px rgba(232,196,74,0.06);
+  border-color: var(--seva-gold) !important;
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.45), 0 0 32px rgba(255, 122, 46, 0.14) !important;
 }
 
 .seva-maha-shivaratri-card .seva-pooja-card-icon {
-  color: #E8C44A;
-  border-color: rgba(232,196,74,0.4);
-  box-shadow: 0 0 0 8px rgba(232,196,74,0.04), 0 0 28px rgba(232,196,74,0.16);
+  color: var(--seva-gold);
+  border-color: rgba(255, 122, 46, 0.32);
+  box-shadow: 0 0 0 8px rgba(255, 122, 46, 0.035), 0 0 28px rgba(255, 122, 46, 0.12);
 }
 
 .seva-maha-shivaratri-card .seva-pooja-card-desc {
-  color: var(--seva-ivory-dim);
+  color: var(--seva-ivory-faint);
 }
 
 .seva-shivaratri-glow {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 50% 40%, rgba(232,196,74,0.07) 0%, transparent 50%);
-  animation: seva-shivaratri-pulse 4s ease-in-out infinite alternate;
-  pointer-events: none;
+  display: none;
 }
 
 @keyframes seva-shivaratri-pulse {

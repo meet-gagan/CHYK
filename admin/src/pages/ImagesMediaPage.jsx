@@ -230,13 +230,43 @@ export const ImagesMediaPage = () => {
               className="py-1.5 px-3 rounded-xl bg-[#1C2541] border border-white/10 text-xs font-semibold text-white focus:outline-none focus:border-[#00B4D8]"
             >
               <option value="ALL" className="bg-[#0B132B]">All Categories</option>
-              {categories.map((c) => (
+              {['Temples & Sevas', 'Festivals & Gallery', 'Ashram & Activities', 'Leadership & Gurus', 'Logos & Maps', 'Upcoming events', 'On going events'].map((c) => (
                 <option key={c} value={c} className="bg-[#0B132B]">
                   {c}
                 </option>
               ))}
             </select>
           </div>
+        </div>
+
+        {/* Section Pills */}
+        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-white/10">
+          <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#94A3B8] mr-1">
+            Section:
+          </span>
+          {[
+            'ALL',
+            'Temples & Sevas',
+            'Festivals & Gallery',
+            'Ashram & Activities',
+            'Leadership & Gurus',
+            'Logos & Maps',
+            'Upcoming events',
+            'On going events',
+          ].map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                selectedCategory === cat
+                  ? 'bg-[#00B4D8] text-white shadow-sm'
+                  : 'bg-[#1C2541] text-[#CBD5E1] hover:bg-[#253256] border border-white/10'
+              }`}
+            >
+              {cat === 'ALL' ? 'All Chinmaya Mission Images' : cat}
+            </button>
+          ))}
         </div>
 
         {loading ? (

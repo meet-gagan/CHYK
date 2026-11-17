@@ -603,8 +603,9 @@ export const RegistrationsPage = () => {
                         </div>
                       </td>
                     </tr>
-                  ))
-                ) : (
+                  );
+                })
+              ) : (
                   <tr>
                     <td colSpan="8" className="p-8 text-center text-[#94A3B8]">
                       No matching registration records found.

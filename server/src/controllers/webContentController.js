@@ -186,9 +186,22 @@ export const getPagesByWebsite = async (req, res) => {
 // @access  Private/Admin
 export const getPageById = async (req, res) => {
   try {
-    const page = await WebContent.findById(req.params.id);
+    let page = await WebContent.findById(req.params.id);
     if (!page) {
       return res.status(404).json({ success: false, message: 'Page content not found' });
+    }
+    if (page.pageSlug === 'lets-connect') {
+      const existingSectionIds = new Set((page.sections || []).map((s) => s.sectionId));
+      if (!existingSectionIds.has('contact_card_2') || !existingSectionIds.has('contact_card_3')) {
+        await ensureSeedPagesForWebsite(page.website);
+        page = await WebContent.findById(req.params.id);
+      }
+    } else if (page.pageSlug === 'home') {
+      const existingSectionIds = new Set((page.sections || []).map((s) => s.sectionId));
+      if (!existingSectionIds.has('ongoing_events')) {
+        await ensureSeedPagesForWebsite(page.website);
+        page = await WebContent.findById(req.params.id);
+      }
     }
     res.json({ success: true, data: page });
   } catch (err) {
@@ -360,6 +373,18 @@ export const getPublicWebContent = async (req, res) => {
     if (!page) {
       await ensureSeedPagesForWebsite(website);
       page = await WebContent.findOne({ website, pageSlug }).lean();
+    } else if (pageSlug === 'lets-connect') {
+      const existingSectionIds = new Set((page.sections || []).map((s) => s.sectionId));
+      if (!existingSectionIds.has('contact_card_2') || !existingSectionIds.has('contact_card_3')) {
+        await ensureSeedPagesForWebsite(website);
+        page = await WebContent.findOne({ website, pageSlug }).lean();
+      }
+    } else if (pageSlug === 'home') {
+      const existingSectionIds = new Set((page.sections || []).map((s) => s.sectionId));
+      if (!existingSectionIds.has('ongoing_events')) {
+        await ensureSeedPagesForWebsite(website);
+        page = await WebContent.findOne({ website, pageSlug }).lean();
+      }
     }
 
     if (!page) {

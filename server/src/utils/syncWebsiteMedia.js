@@ -268,6 +268,42 @@ export const CHINMAYA_MISSION_MEDIA = [
     usedIn: [{ page: 'Sevas', section: 'Seva Booking Cards', component: 'SevaCards' }],
   },
 
+  // --- On Going Events ---
+  {
+    fileName: 'karthika-masam.jpg',
+    title: 'Karthika Masam',
+    description: 'Sacred Deepotsavam and daily special Shiva Archana during holy Karthika Masam. Devotees gather for divine blessings, lighting ghee lamps and sacred chanting.',
+    caption: 'Karthika Masam Deepotsavam & Daily Shiva Archana',
+    altText: 'Karthika Masam Celebrations',
+    url: '/assets/karthika-masam.jpg',
+    publicId: 'karthika-masam',
+    mimeType: 'image/jpeg',
+    category: 'On Going Events',
+    page: 'Chinmaya Mission',
+    section: 'On Going Events',
+    tags: ['ongoing', 'events', 'karthika', 'masam', 'deepam', 'shiva'],
+    status: 'ACTIVE',
+    displayOrder: 1,
+    usedIn: [{ page: 'Home', section: 'On Going Events', component: 'OngoingEventsSection' }],
+  },
+  {
+    fileName: 'rudra-abhishekam.jpg',
+    title: 'Rudra Abhishekam',
+    description: 'Sacred Vedic Abhishekam to Lord Shiva with sanctified dravyas and Rudra Japam. Performed for universal peace, spiritual growth, and the prosperity of all devotees.',
+    caption: 'Sacred Rudra Abhishekam to Lord Shiva',
+    altText: 'Rudra Abhishekam Pooja',
+    url: '/assets/rudra-abhishekam.jpg',
+    publicId: 'rudra-abhishekam',
+    mimeType: 'image/jpeg',
+    category: 'On Going Events',
+    page: 'Chinmaya Mission',
+    section: 'On Going Events',
+    tags: ['ongoing', 'events', 'rudra', 'abhishekam', 'shiva', 'pooja'],
+    status: 'ACTIVE',
+    displayOrder: 2,
+    usedIn: [{ page: 'Home', section: 'On Going Events', component: 'OngoingEventsSection' }],
+  },
+
   // --- Festivals & Gallery ---
   {
     fileName: 'Maha_Shivaratri_upcome_2027.jpeg',

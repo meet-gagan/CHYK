@@ -22,25 +22,32 @@ export const LetsConnectPage = () => {
   const [pageData, setPageData] = useState(() => {
     try {
       localStorage.removeItem('cached_cms_chinmaya_lets_connect');
-      const cached = localStorage.getItem('cached_cms_chinmaya_lets_connect_v2');
+      localStorage.removeItem('cached_cms_chinmaya_lets_connect_v2');
+      const cached = localStorage.getItem('cached_cms_chinmaya_lets_connect_v3');
       return cached ? JSON.parse(cached) : null;
     } catch {
       return null;
     }
   });
 
-  useEffect(() => {
+  const fetchContent = () => {
     webContentService
       .getPublicPage('chinmaya', 'lets-connect')
       .then((res) => {
         if (res.data?.success && res.data?.data) {
           setPageData(res.data.data);
           try {
-            localStorage.setItem('cached_cms_chinmaya_lets_connect_v2', JSON.stringify(res.data.data));
-          } catch {}
+            localStorage.setItem('cached_cms_chinmaya_lets_connect_v3', JSON.stringify(res.data.data));
+          } catch { }
         }
       })
-      .catch(() => {});
+      .catch(() => { });
+  };
+
+  useEffect(() => {
+    fetchContent();
+    window.addEventListener('cms_updated', fetchContent);
+    return () => window.removeEventListener('cms_updated', fetchContent);
   }, []);
 
   const f = pageData?.fieldsMap || {};
@@ -100,16 +107,16 @@ export const LetsConnectPage = () => {
       <div className="text-center max-w-3xl mx-auto space-y-2.5">
         <h1 className="text-4xl sm:text-5xl font-black font-heading text-[var(--text-primary)] leading-tight">
           <span>{f.contact_info?.heading && !f.contact_info.heading.toLowerCase().includes('us') ? f.contact_info.heading : "Let's Connect With"}</span>
-          <span className="block text-[var(--orange)] mt-1 sm:mt-2">CHINMAYA MISSION</span>
+          <span className="block text-[var(--orange)] mt-1 sm:mt-2">CHINMAYA MISSION, Adoni</span>
         </h1>
         <p className="text-base text-[var(--text-muted)] font-medium">
           {f.contact_info?.subtitle ? f.contact_info.subtitle.replace(/,\s*Adoni/gi, '') : 'Have questions regarding marathon registration, volunteering opportunities, youth programs, or community activities? Reach out to our Chinmaya Mission team.'}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
         {/* Contact Form */}
-        <div className="glass-card p-8 sm:p-10 rounded-3xl border border-[var(--border-color)] shadow-2xl space-y-6">
+        <div className="lg:col-span-5 glass-card p-7 sm:p-9 rounded-3xl border border-[var(--border-color)] shadow-2xl space-y-6">
           <div className="space-y-2">
             <h3 className="text-2xl font-extrabold font-heading text-[var(--text-primary)]">
               JOIN THE MOVEMENT
@@ -232,52 +239,95 @@ export const LetsConnectPage = () => {
           </form>
         </div>
 
-        {/* Location & Details Side */}
-        <div className="space-y-8">
-          <div className="glass-card p-8 rounded-3xl border border-[var(--border-color)] shadow-xl space-y-6">
-            <h3 className="text-xl font-extrabold font-heading text-[var(--text-primary)]">
-              ORGANIZATION DETAILS
-            </h3>
+        {/* Location & Details Side - 3 Organization Cards in 2-Top, 1-Bottom Centered Structure */}
+        <div className="lg:col-span-7">
+          {(() => {
+            const activeCards = [
+              { data: f.contact_info, key: 'contact_info', defaultTitle: 'ORGANIZATION DETAILS' },
+              { data: f.contact_card_2, key: 'contact_card_2', defaultTitle: 'Sri Chinmaya Sanjeevaraya Swamy Temple' },
+              { data: f.contact_card_3, key: 'contact_card_3', defaultTitle: 'SHRI SHANTAMALLESHWARA SWAMI TEMPLE' },
+            ].filter(({ data }) => data?._isEnabled !== false);
 
-            <div className="space-y-4 text-xs sm:text-sm text-[var(--text-muted)] font-medium">
-              <div className="flex items-start gap-3.5">
-                <div className="w-10 h-10 rounded-2xl bg-[var(--orange)]/15 text-[var(--orange)] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div className="space-y-0.5">
-                  {f.contact_info?.address && !f.contact_info.address.includes('Chinmaya Mission Cultural Complex') ? (
-                    f.contact_info.address.split('\n').filter(Boolean).map((line, idx) => (
-                      <p key={idx} className="m-0 leading-normal">{line}</p>
-                    ))
-                  ) : (
-                    <>
-                      <p className="m-0 leading-normal">Chinmaya Cultural Complex,</p>
-                      <p className="m-0 leading-normal">Near Arts College Road,</p>
-                      <p className="m-0 leading-normal">Adoni - 518301.</p>
-                    </>
-                  )}
-                </div>
-              </div>
+            return (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 items-start">
+                {activeCards.map(({ data, key, defaultTitle }, idx) => {
+                  const isCenteredBottom = idx === 2 && activeCards.length === 3;
+                  const title = data?.cardTitle || data?.title || defaultTitle;
+                  const address = data?.address || 'Chinmaya Cultural Complex,\nNear Arts College Road,\nAdoni - 518301.';
+                  const phone = data?.phone || '+91 7337351555';
+                  const email = data?.email || 'contact@chinmayamissionadoni.org';
+                  const addressLines = address.split('\n').map((l) => l.trim()).filter(Boolean);
 
-              <div className="flex items-start gap-3.5">
-                <div className="w-10 h-10 rounded-2xl bg-[var(--cyan)]/15 text-[var(--cyan)] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <div>
-                  <p>{f.contact_info?.phone || '+91 94402 85934 / +91 98490 12345'}</p>
-                </div>
-              </div>
+                  return (
+                    <div
+                      key={key || idx}
+                      className={`glass-card p-6 sm:p-7 rounded-3xl border border-[var(--border-color)] shadow-xl space-y-4 sm:space-y-5 w-full ${
+                        isCenteredBottom
+                          ? 'sm:col-span-2 sm:w-[calc(50%-12px)] sm:justify-self-center'
+                          : ''
+                      }`}
+                    >
+                      <h3 className="text-lg sm:text-xl font-black font-heading text-[var(--text-primary)] leading-tight tracking-wide">
+                        {title}
+                      </h3>
 
-              <div className="flex items-start gap-3.5">
-                <div className="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <p>{f.contact_info?.email || 'chinmayamissionadoni@gmail.com'}</p>
-                </div>
+                      <div className="space-y-4 text-xs sm:text-sm text-[var(--text-muted)] font-medium">
+                        {/* Address */}
+                        <div className="flex items-start gap-3.5">
+                          <div className="w-10 h-10 rounded-2xl bg-[var(--orange)]/15 text-[var(--orange)] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                            <MapPin className="w-5 h-5" />
+                          </div>
+                          <div className="space-y-0.5 pt-0.5">
+                            {addressLines.length > 0 ? (
+                              addressLines.map((line, lIdx) => (
+                                <p key={lIdx} className="m-0 text-xs sm:text-sm font-medium leading-snug">{line}</p>
+                              ))
+                            ) : (
+                              <>
+                                <p className="m-0 text-xs sm:text-sm font-medium leading-snug">Chinmaya Cultural Complex,</p>
+                                <p className="m-0 text-xs sm:text-sm font-medium leading-snug">Near Arts College Road,</p>
+                                <p className="m-0 text-xs sm:text-sm font-medium leading-snug">Adoni - 518301.</p>
+                              </>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Phone */}
+                        <div className="flex items-center gap-3.5">
+                          <div className="w-10 h-10 rounded-2xl bg-[var(--cyan)]/15 text-[var(--cyan)] flex items-center justify-center flex-shrink-0 shadow-xs">
+                            <Phone className="w-5 h-5" />
+                          </div>
+                          <div className="min-w-0">
+                            <a
+                              href={`tel:${phone.replace(/[^\d+]/g, '')}`}
+                              className="hover:text-[var(--orange)] transition-colors text-xs sm:text-sm font-bold text-[var(--text-primary)] tracking-wide truncate block"
+                            >
+                              {phone}
+                            </a>
+                          </div>
+                        </div>
+
+                        {/* Email */}
+                        <div className="flex items-center gap-3.5">
+                          <div className="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center flex-shrink-0 shadow-xs">
+                            <Mail className="w-5 h-5" />
+                          </div>
+                          <div className="min-w-0">
+                            <a
+                              href={`mailto:${email}`}
+                              className="hover:text-[var(--orange)] transition-colors text-xs sm:text-sm font-semibold text-[var(--text-primary)] break-all block"
+                            >
+                              {email}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            </div>
-          </div>
+            );
+          })()}
         </div>
       </div>
     </div>

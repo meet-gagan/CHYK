@@ -96,7 +96,7 @@ export const GeneralEnquiryPage = () => {
 
   const handleExportCSV = () => {
     if (filteredEnquiries.length === 0) return;
-    let csv = 'ID,Date,Name,Email,Mobile,What Do you want to learn from this ?,Status\n';
+    let csv = 'ID,Date,Name,Email,Mobile,What do you want to learn from this ?,Status\n';
     filteredEnquiries.forEach((item) => {
       const cleanGoal = (item.learningGoal || '').replace(/"/g, '""').replace(/\n/g, ' ');
       csv += `"${item._id}","${new Date(item.createdAt).toLocaleString()}","${item.name || ''}","${item.email || ''}","${item.mobileNumber || ''}","${cleanGoal}","${item.status || 'NEW'}"\n`;
@@ -305,10 +305,10 @@ export const GeneralEnquiryPage = () => {
                 </div>
               </div>
 
-              {/* What Do you want to learn from this ? */}
+              {/* What do you want to learn from this ? */}
               <div className="p-3 rounded-xl bg-[#070F1E] border border-white/5 space-y-1">
                 <span className="text-[10px] font-black uppercase tracking-wider text-[#FF5722]">
-                  What Do you want to learn from this ?
+                  What do you want to learn from this ?
                 </span>
                 <p className="text-xs text-gray-200 leading-relaxed whitespace-pre-wrap">
                   {item.learningGoal}

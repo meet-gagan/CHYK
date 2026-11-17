@@ -158,14 +158,71 @@ export const UpdateContentManager = () => {
                     key: 'link_url',
                     label: 'Redirect Link URL',
                     type: 'text',
-                    value: '/shri-shantamalleshwara-swami-temple',
-                    placeholder: 'Enter redirect URL (e.g. /shri-shantamalleshwara-swami-temple)',
+                    value: '/shri-shantamalleshwara-swami-temple#maha-shivaratri',
+                    placeholder: 'Enter redirect URL (e.g. /shri-shantamalleshwara-swami-temple#maha-shivaratri)',
                   },
                 ],
                 items: [],
               },
               ...(page.sections || []),
             ];
+          }
+        }
+
+        // Ensure Chinmaya Let's Connect Page has Card 2 and Card 3 sections
+        if (page.website === 'chinmaya' && page.pageSlug === 'lets-connect') {
+          const existingSectionIds = new Set((page.sections || []).map((s) => s.sectionId));
+          const newSections = [];
+          if (!existingSectionIds.has('contact_card_2')) {
+            newSections.push({
+              sectionId: 'contact_card_2',
+              name: 'Organization Details (Card 2)',
+              description: "Second contact card displayed on the Let's Connect page.",
+              order: 2,
+              isEnabled: true,
+              fields: [
+                { key: 'cardTitle', label: 'Card Title', type: 'text', value: 'ORGANIZATION DETAILS', placeholder: 'Enter card title...' },
+                { key: 'address', label: 'Address', type: 'textarea', value: 'Chinmaya Cultural Complex,\nNear Arts College Road,\nAdoni - 518301.', placeholder: 'Enter address...' },
+                { key: 'phone', label: 'Phone Number', type: 'text', value: '+91 7337351555', placeholder: 'Enter phone number...' },
+                { key: 'email', label: 'Email Address', type: 'text', value: 'contact@chinmayamissionadoni.org', placeholder: 'Enter email address...' },
+              ],
+              items: [],
+            });
+          }
+          if (!existingSectionIds.has('contact_card_3')) {
+            newSections.push({
+              sectionId: 'contact_card_3',
+              name: 'Organization Details (Card 3)',
+              description: "Third contact card displayed on the Let's Connect page.",
+              order: 3,
+              isEnabled: true,
+              fields: [
+                { key: 'cardTitle', label: 'Card Title', type: 'text', value: 'ORGANIZATION DETAILS', placeholder: 'Enter card title...' },
+                { key: 'address', label: 'Address', type: 'textarea', value: 'Chinmaya Cultural Complex,\nNear Arts College Road,\nAdoni - 518301.', placeholder: 'Enter address...' },
+                { key: 'phone', label: 'Phone Number', type: 'text', value: '+91 7337351555', placeholder: 'Enter phone number...' },
+                { key: 'email', label: 'Email Address', type: 'text', value: 'contact@chinmayamissionadoni.org', placeholder: 'Enter email address...' },
+              ],
+              items: [],
+            });
+          }
+          if (newSections.length > 0) {
+            page.sections = [...(page.sections || []), ...newSections];
+          }
+
+          // Ensure Card 1 has editable cardTitle
+          const contactInfoSec = (page.sections || []).find((s) => s.sectionId === 'contact_info');
+          if (contactInfoSec) {
+            contactInfoSec.name = 'Organization Details (Card 1) & Location';
+            const hasCardTitle = (contactInfoSec.fields || []).some((f) => f.key === 'cardTitle');
+            if (!hasCardTitle) {
+              contactInfoSec.fields.unshift({
+                key: 'cardTitle',
+                label: 'Card 1 Title',
+                type: 'text',
+                value: 'ORGANIZATION DETAILS',
+                placeholder: 'Enter card title...',
+              });
+            }
           }
         }
 

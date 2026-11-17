@@ -806,17 +806,6 @@ export const DonationModal = ({
           {/* ========================================================= */}
           {step === 'form' && (
             <form onSubmit={handleReviewClick} className="space-y-5">
-              {/* Sacred Information Callout Banner */}
-              <div className="bg-white p-4 rounded-xl border border-[#EAE0CE] text-xs sm:text-sm text-[#4A5568] leading-relaxed shadow-sm">
-                <p className="flex items-start gap-2">
-                  <Sparkles className="w-4 h-4 text-[#C89B59] shrink-0 mt-0.5" />
-                  <span>
-                    Please provide your sacred details for the <strong>Pooja Sankalpa</strong>,
-                    temple blessings, and formal donation acknowledgement.
-                  </span>
-                </p>
-              </div>
-
               {/* 1st Field: Enter the amount how much you will donate */}
               <div className="bg-white p-4 rounded-xl border border-[#EAE0CE] shadow-sm space-y-2.5">
                 <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">

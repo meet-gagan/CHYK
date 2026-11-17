@@ -303,7 +303,7 @@ export const GeneralEnquiryPopup = ({ onClose }) => {
                 <label className="text-xs font-bold text-[var(--text-primary,#07162D)] block mb-1 flex items-center gap-1.5">
                   <HelpCircle className="w-3.5 h-3.5 text-orange-600" />
                   <span>
-                    What Do you want to learn from this ? <strong className="text-red-500">*</strong>
+                    What do you want to learn from this ? <strong className="text-red-500">*</strong>
                   </span>
                 </label>
                 <textarea

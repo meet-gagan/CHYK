@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import {
   X,
@@ -1991,9 +1992,11 @@ export function MyBookingsModal({ open, onClose }) {
 // Main Exported Component: The Hours of Devotion & Seva
 // ==========================================
 export const TempleSevaSection = () => {
+  const location = useLocation();
   const [activeService, setActiveService] = useState(null);
   const [bookingsCount, setBookingsCount] = useState(0);
   const [myBookingsOpen, setMyBookingsOpen] = useState(false);
+  const [highlightedId, setHighlightedId] = useState(null);
 
   const refreshCount = () => {
     setBookingsCount(getStoredBookings().length);
@@ -2002,6 +2005,51 @@ export const TempleSevaSection = () => {
   useEffect(() => {
     refreshCount();
   }, []);
+
+  useEffect(() => {
+    const checkHighlight = () => {
+      const hash = (window.location.hash || location.hash || '').replace('#', '').toLowerCase();
+      const searchParams = new URLSearchParams(window.location.search || location.search || '');
+      const highlightParam = (searchParams.get('highlight') || '').toLowerCase();
+
+      if (
+        hash === 'maha-shivaratri' ||
+        hash === 'maha_shivaratri' ||
+        hash === 'mahashivaratri' ||
+        highlightParam === 'maha-shivaratri' ||
+        highlightParam === 'maha_shivaratri'
+      ) {
+        setHighlightedId('maha-shivaratri');
+
+        const scrollTimer1 = setTimeout(() => {
+          const card =
+            document.getElementById('maha-shivaratri') ||
+            document.querySelector('[data-service-id="maha-shivaratri"]');
+          if (card) {
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 150);
+
+        const scrollTimer2 = setTimeout(() => {
+          const card =
+            document.getElementById('maha-shivaratri') ||
+            document.querySelector('[data-service-id="maha-shivaratri"]');
+          if (card) {
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 450);
+
+        return () => {
+          clearTimeout(scrollTimer1);
+          clearTimeout(scrollTimer2);
+        };
+      }
+    };
+
+    checkHighlight();
+    window.addEventListener('hashchange', checkHighlight);
+    return () => window.removeEventListener('hashchange', checkHighlight);
+  }, [location.hash, location.search]);
 
   const handleBookClick = (p) => {
     setActiveService(p);
@@ -2045,14 +2093,26 @@ export const TempleSevaSection = () => {
           <div className="seva-grid">
             {POOJA_SERVICES.map((p) => {
               const isShivaratri = p.id === 'maha-shivaratri';
+              const isHighlighted =
+                isShivaratri &&
+                (highlightedId === 'maha-shivaratri' ||
+                  (location.hash && location.hash.toLowerCase().includes('maha-shivaratri')));
+
               return (
                 <div
                   key={p.id}
+                  id={p.id}
+                  data-service-id={p.id}
                   className={`seva-card seva-pooja-card ${
-                    isShivaratri ? 'seva-maha-shivaratri-card' : ''
+                    isHighlighted ? 'seva-card-highlighted' : ''
                   }`}
                 >
-                  {isShivaratri && <div className="seva-shivaratri-glow"></div>}
+                  {isHighlighted && (
+                    <div className="seva-highlight-banner" aria-label="Maha Shivaratri Special">
+                      <span className="seva-highlight-dot" />
+                      <span>Maha Shivaratri Special</span>
+                    </div>
+                  )}
 
                   {/* Icon */}
                   <div className="seva-pooja-card-icon">{p.icon}</div>
@@ -2076,7 +2136,7 @@ export const TempleSevaSection = () => {
 
                   {/* Book Now Action */}
                   <button
-                    className="seva-btn"
+                    className={`seva-btn ${isHighlighted ? 'seva-btn-highlighted' : ''}`}
                     onClick={() => handleBookClick(p)}
                     aria-label={`Book ${p.name.replace('|', ' ')}`}
                   >

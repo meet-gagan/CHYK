@@ -17,7 +17,7 @@ export const ScrollingAnnouncementBanner = ({
   isEnabled = true,
   englishContent,
   teluguContent,
-  linkUrl = '/shri-shantamalleshwara-swami-temple',
+  linkUrl = '/shri-shantamalleshwara-swami-temple#maha-shivaratri',
 }) => {
   // If disabled by administrator, do not render
   if (!isEnabled) {
@@ -26,6 +26,12 @@ export const ScrollingAnnouncementBanner = ({
 
   const enText = englishContent || DEFAULT_EN;
   const teText = teluguContent || DEFAULT_TE;
+  const targetLink =
+    linkUrl && linkUrl !== '#'
+      ? linkUrl.includes('maha-shivaratri')
+        ? linkUrl
+        : `${linkUrl}#maha-shivaratri`
+      : '/shri-shantamalleshwara-swami-temple#maha-shivaratri';
 
   const renderUnits = (prefix = 'seq') => {
     return Array.from({ length: 3 }).map((_, idx) => (
@@ -53,9 +59,9 @@ export const ScrollingAnnouncementBanner = ({
       aria-label="Shri Shantamalleshwara Swami Temple Announcement"
     >
       <Link
-        to={linkUrl || '/shri-shantamalleshwara-swami-temple'}
+        to={targetLink}
         className="announcement-banner-link"
-        title="Shri Shantamalleshwara Swami Temple — View Details"
+        title="Shri Shantamalleshwara Swami Temple — Maha Shivaratri Special"
       >
         <div className="announcement-marquee-track">
           {/* Primary Track Content (Read by Screen Readers) */}

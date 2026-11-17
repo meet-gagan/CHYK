@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { webContentService } from '../services/api';
 import { TempleSevaSection } from '../components/TempleSevaSection';
 import {
@@ -20,9 +21,19 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
     }
   });
 
+  const location = useLocation();
+
   useEffect(() => {
     document.title = 'Shri Shantamalleshwara Swami Temple | Chinmaya Mission';
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+    const isTargeted =
+      window.location.hash?.includes('maha-shivaratri') ||
+      window.location.search?.includes('maha-shivaratri') ||
+      window.location.hash?.includes('services');
+
+    if (!isTargeted) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
 
     webContentService
       .getPublicPage('chinmaya', 'shantamalleshwara_temple')

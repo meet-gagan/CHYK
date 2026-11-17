@@ -33,6 +33,8 @@ const CATEGORIES = [
   'Ashram & Activities',
   'Leadership & Gurus',
   'Logos & Maps',
+  'Upcoming events',
+  'On going events',
 ];
 
 const PAGES = [

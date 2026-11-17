@@ -27,32 +27,67 @@ export const getMediaList = async (req, res) => {
       order = 'desc',
     } = req.query;
 
-    const query = {};
+    const andClauses = [];
 
     if (status && ['ACTIVE', 'INACTIVE'].includes(status.toUpperCase())) {
-      query.status = status.toUpperCase();
+      andClauses.push({ status: status.toUpperCase() });
     }
 
     if (category && category !== 'ALL') {
-      query.category = category;
+      const catNorm = category.trim().toLowerCase();
+      if (catNorm.includes('upcoming')) {
+        andClauses.push({
+          $or: [
+            { category: { $regex: /upcoming/i } },
+            { section: { $regex: /upcoming/i } },
+            { tags: { $in: ['upcoming', 'upcoming-events', 'upcome'] } },
+            { 'usedIn.section': { $regex: /upcoming/i } },
+            { fileName: { $regex: /upcome|magamasam|rama-navami|hanuman-jayanthi|krishna-janmashtami/i } },
+            { title: { $regex: /upcoming|magamasam|rama navami|hanuman jayanthi|krishna janmashtami/i } },
+          ],
+        });
+      } else if (catNorm.includes('going')) {
+        andClauses.push({
+          $or: [
+            { category: { $regex: /on\s*going/i } },
+            { section: { $regex: /on\s*going/i } },
+            { tags: { $in: ['ongoing', 'on-going', 'ongoing-events', 'karthika', 'rudra-abhishekam'] } },
+            { 'usedIn.section': { $regex: /ongoing/i } },
+            { fileName: { $regex: /karthika-masam|rudra-abhishekam/i } },
+            { title: { $regex: /karthika masam|rudra abhishekam/i } },
+          ],
+        });
+      } else {
+        andClauses.push({ category });
+      }
     }
 
     if (pageName && pageName !== 'ALL') {
-      query.page = pageName;
+      if (pageName === 'Chinmaya Mission') {
+        andClauses.push({
+          page: { $in: ['Chinmaya Mission', 'Home', 'Festivals', 'Temples', 'Ashram', 'Leadership', 'General'] },
+        });
+      } else {
+        andClauses.push({ page: pageName });
+      }
     }
 
     if (search && search.trim()) {
       const searchRegex = new RegExp(search.trim(), 'i');
-      query.$or = [
-        { fileName: searchRegex },
-        { title: searchRegex },
-        { description: searchRegex },
-        { altText: searchRegex },
-        { tags: searchRegex },
-        { page: searchRegex },
-        { section: searchRegex },
-      ];
+      andClauses.push({
+        $or: [
+          { fileName: searchRegex },
+          { title: searchRegex },
+          { description: searchRegex },
+          { altText: searchRegex },
+          { tags: searchRegex },
+          { page: searchRegex },
+          { section: searchRegex },
+        ],
+      });
     }
+
+    const query = andClauses.length > 0 ? { $and: andClauses } : {};
 
     const sortOrder = order === 'asc' ? 1 : -1;
     const sortObj = { [sortBy]: sortOrder };
@@ -640,8 +675,26 @@ export const getPublicMedia = async (req, res) => {
 // @access  Private/Admin
 export const getMediaCategories = async (req, res) => {
   try {
-    const categories = ['Home', 'About', 'Activities', 'Let\'s Connect', 'Marathon', 'Registration', 'Banner', 'Footer', 'Gallery', 'Other'];
-    const pages = ['Home', 'About', 'Activities', 'Let\'s Connect', 'Marathon', 'Registration', 'General'];
+    const categories = [
+      'Temples & Sevas',
+      'Festivals & Gallery',
+      'Ashram & Activities',
+      'Leadership & Gurus',
+      'Logos & Maps',
+      'Upcoming events',
+      'On going events',
+      'Home',
+      'About',
+      'Activities',
+      'Let\'s Connect',
+      'Marathon',
+      'Registration',
+      'Banner',
+      'Footer',
+      'Gallery',
+      'Other',
+    ];
+    const pages = ['Chinmaya Mission', 'Home', 'About', 'Activities', 'Let\'s Connect', 'Marathon', 'Registration', 'General'];
     
     res.json({
       success: true,

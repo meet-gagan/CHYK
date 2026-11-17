@@ -340,7 +340,6 @@ export const VolunteerModal = ({ isOpen, onClose }) => {
                   rows={3}
                   value={formData.interest}
                   onChange={handleChange}
-                  placeholder="Share details on how you would like to participate, your skills, availability, or areas of seva..."
                   required
                   className="w-full p-3 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--orange)] focus:border-transparent transition-all leading-relaxed resize-none"
                 />
@@ -366,10 +365,6 @@ export const VolunteerModal = ({ isOpen, onClose }) => {
                   )}
                 </button>
               </div>
-
-              <p className="text-[11px] text-center text-slate-500 leading-normal">
-                By submitting, you agree to offer your seva in alignment with the values of Chinmaya Mission.
-              </p>
             </form>
           )}
         </div>

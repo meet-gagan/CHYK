@@ -1204,6 +1204,138 @@ export const seedInitialData = async () => {
     }
     console.log('[Seed] Marathon page media assets checked and synchronized.');
 
+    // 10c. Ensure Ongoing & Upcoming Events Media Assets Are Seeded & Synchronized
+    const eventsMediaAssets = [
+      {
+        fileName: 'karthika-masam.jpg',
+        originalFileName: 'karthika-masam.jpg',
+        title: 'Karthika Masam',
+        description: 'Sacred Deepotsavam and daily special Shiva Archana during holy Karthika Masam. Devotees gather for divine blessings, lighting ghee lamps and sacred chanting.',
+        caption: 'Karthika Masam Deepotsavam & Daily Shiva Archana',
+        altText: 'Karthika Masam Celebrations',
+        url: '/assets/karthika-masam.jpg',
+        publicId: 'karthika_masam',
+        mimeType: 'image/jpeg',
+        category: 'On Going Events',
+        page: 'Chinmaya Mission',
+        section: 'On Going Events',
+        tags: ['ongoing', 'events', 'karthika', 'masam', 'deepam', 'shiva'],
+        status: 'ACTIVE',
+        displayOrder: 1,
+        usedIn: [{ page: 'Home', section: 'On Going Events', component: 'OngoingEventsSection' }],
+      },
+      {
+        fileName: 'rudra-abhishekam.jpg',
+        originalFileName: 'rudra-abhishekam.jpg',
+        title: 'Rudra Abhishekam',
+        description: 'Sacred Vedic Abhishekam to Lord Shiva with sanctified dravyas and Rudra Japam. Performed for universal peace, spiritual growth, and the prosperity of all devotees.',
+        caption: 'Sacred Rudra Abhishekam to Lord Shiva',
+        altText: 'Rudra Abhishekam Pooja',
+        url: '/assets/rudra-abhishekam.jpg',
+        publicId: 'rudra_abhishekam',
+        mimeType: 'image/jpeg',
+        category: 'On Going Events',
+        page: 'Chinmaya Mission',
+        section: 'On Going Events',
+        tags: ['ongoing', 'events', 'rudra', 'abhishekam', 'shiva', 'pooja'],
+        status: 'ACTIVE',
+        displayOrder: 2,
+        usedIn: [{ page: 'Home', section: 'On Going Events', component: 'OngoingEventsSection' }],
+      },
+      {
+        fileName: 'magamasam-poojallu.jpg',
+        originalFileName: 'magamasam-poojallu.jpg',
+        title: 'Magamasam Poojallu',
+        description: 'Holy month of Maga Masam special dawn poojas, abhishekam and devotional satsang programs.',
+        caption: 'Maga Masam Special Poojas & Satsang',
+        altText: 'Maga Masam Sacred Poojas',
+        url: '/assets/magamasam-poojallu.jpg',
+        publicId: 'magamasam_poojallu_event',
+        mimeType: 'image/jpeg',
+        category: 'Upcoming Events',
+        page: 'Chinmaya Mission',
+        section: 'Upcoming Events',
+        tags: ['upcoming', 'events', 'magamasam', 'pooja', 'satsang'],
+        status: 'ACTIVE',
+        displayOrder: 1,
+        usedIn: [{ page: 'Home', section: 'Upcoming Events', component: 'EventsSection' }],
+      },
+      {
+        fileName: 'rama-navami.jpg',
+        originalFileName: 'rama-navami.jpg',
+        title: 'Rama Navami',
+        description: 'Divine Sri Rama Navami kalyanotsavam and chariot procession through the holy town of Adoni.',
+        caption: 'Sri Rama Navami Kalyanotsavam Celebrations',
+        altText: 'Sri Rama Navami Utsav',
+        url: '/assets/rama-navami.jpg',
+        publicId: 'rama_navami_event',
+        mimeType: 'image/jpeg',
+        category: 'Upcoming Events',
+        page: 'Chinmaya Mission',
+        section: 'Upcoming Events',
+        tags: ['upcoming', 'events', 'rama', 'navami', 'kalyanam'],
+        status: 'ACTIVE',
+        displayOrder: 2,
+        usedIn: [{ page: 'Home', section: 'Upcoming Events', component: 'EventsSection' }],
+      },
+      {
+        fileName: 'hanuman-jayanthi.png',
+        originalFileName: 'hanuman-jayanthi.png',
+        title: 'Hanuman Jayanthi',
+        description: 'Grand Hanuman Jayanthi celebrations with special Sindhoora pooja and vadas maala offering.',
+        caption: 'Sri Hanuman Jayanthi Celebrations in Adoni',
+        altText: 'Sri Hanuman Jayanthi Mahotsavam',
+        url: '/assets/hanuman-jayanthi.png',
+        publicId: 'hanuman_jayanthi_event',
+        mimeType: 'image/png',
+        category: 'Upcoming Events',
+        page: 'Chinmaya Mission',
+        section: 'Upcoming Events',
+        tags: ['upcoming', 'events', 'hanuman', 'jayanthi', 'festival'],
+        status: 'ACTIVE',
+        displayOrder: 3,
+        usedIn: [{ page: 'Home', section: 'Upcoming Events', component: 'EventsSection' }],
+      },
+      {
+        fileName: 'krishna-janmashtami.jpg',
+        originalFileName: 'krishna-janmashtami.jpg',
+        title: 'Krishna Janmashtami',
+        description: 'Joyful celebration of Sri Krishna Janmashtami with Bala Vihar children dressed as little Krishnas.',
+        caption: 'Sri Krishna Janmashtami at Chinmaya Mission Adoni',
+        altText: 'Sri Krishna Janmashtami Celebrations',
+        url: '/assets/krishna-janmashtami.jpg',
+        publicId: 'krishna_janmashtami_event',
+        mimeType: 'image/jpeg',
+        category: 'Upcoming Events',
+        page: 'Chinmaya Mission',
+        section: 'Upcoming Events',
+        tags: ['upcoming', 'events', 'krishna', 'janmashtami', 'balavihar'],
+        status: 'ACTIVE',
+        displayOrder: 4,
+        usedIn: [{ page: 'Home', section: 'Upcoming Events', component: 'EventsSection' }],
+      },
+    ];
+
+    for (const asset of eventsMediaAssets) {
+      const exists = await Media.findOne({
+        $or: [
+          { publicId: asset.publicId },
+          { url: asset.url, page: 'Chinmaya Mission' },
+          { fileName: asset.fileName, page: 'Chinmaya Mission' },
+        ],
+      });
+      if (!exists) {
+        await Media.create(asset);
+      } else {
+        if (asset.category && (!exists.category || exists.category === 'Festivals & Gallery' || exists.category === 'Other')) {
+          exists.category = asset.category;
+          exists.section = asset.section;
+          await exists.save();
+        }
+      }
+    }
+    console.log('[Seed] Ongoing and Upcoming events media assets checked and synchronized.');
+
     // Seed Initial Community Thoughts for Story Board if empty
     const thoughtCount = await Thought.countDocuments();
     if (thoughtCount === 0) {

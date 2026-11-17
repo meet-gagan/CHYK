@@ -240,6 +240,56 @@ export function HomePage() {
     ? '/assets/chyk-group.jpg'
     : rawChykImg;
 
+  // On Going Events CMS configuration
+  const ongoingEyebrow = f.ongoing_events?.eyebrow || 'COME BE A PART';
+  const ongoingHeading = f.ongoing_events?.heading || 'On Going Events';
+
+  const defaultOngoingEvents = [
+    {
+      title: 'Karthika Masam',
+      subtitle:
+        'Sacred Deepotsavam and daily special Shiva Archana during holy Karthika Masam.\nDevotees gather for divine blessings, lighting ghee lamps and sacred chanting.',
+      date: 'Daily Special Poojas',
+      kind: 'devotion',
+      image: '/assets/karthika-masam.jpg',
+      icon: '🪔',
+      url: '/activities',
+      isExternal: false,
+    },
+    {
+      title: 'Rudra Abhishekam',
+      subtitle:
+        'Sacred Vedic Abhishekam to Lord Shiva with sanctified dravyas and Rudra Japam.\nPerformed for universal peace, spiritual growth, and the prosperity of all devotees.',
+      date: 'Daily Sacred Rituals',
+      kind: 'wisdom',
+      image: '/assets/rudra-abhishekam.jpg',
+      icon: '🔱',
+      url: '/activities',
+      isExternal: false,
+    },
+  ];
+
+  const rawOngoingItems = (f.ongoing_events?.items || []).filter(
+    (it) => it && !it.title?.toLowerCase().includes('marathon')
+  );
+
+  const dynamicOngoingEvents =
+    rawOngoingItems.length > 0
+      ? rawOngoingItems.map((it, idx) => {
+          const isKarthika = (it.title || '').toLowerCase().includes('karthika');
+          const defaultImg = isKarthika ? '/assets/karthika-masam.jpg' : '/assets/rudra-abhishekam.jpg';
+          return {
+            title: it.title,
+            subtitle: it.subtitle || '',
+            date: it.dateOrYear || 'Daily Sacred Poojas',
+            kind: idx === 0 ? 'devotion' : 'wisdom',
+            image: it.imageUrl || defaultImg,
+            url: it.linkUrl || '/activities',
+            isExternal: Boolean(it.linkUrl && it.linkUrl.startsWith('http')),
+          };
+        })
+      : defaultOngoingEvents;
+
   const eventsEyebrow = f.upcoming_events?.eyebrow || 'COME BE A PART';
   const eventsHeading = f.upcoming_events?.heading || 'Upcoming Events';
   const eventsLinkText = f.upcoming_events?.linkText || 'View All';
@@ -333,7 +383,7 @@ export function HomePage() {
   const announcementLink =
     announcementFields?.link_url ||
     announcementSec?.fields?.find((field) => field.key === 'link_url')?.value ||
-    '/shri-shantamalleshwara-swami-temple';
+    '/shri-shantamalleshwara-swami-temple#maha-shivaratri';
 
   return (
     <div className="site-shell">
@@ -469,6 +519,71 @@ export function HomePage() {
                 </article>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* ONGOING EVENTS SECTION */}
+        <section className="events-section ongoing-events-section section-wrap" id="ongoing-events">
+          <div className="events-heading">
+            <div>
+              <p className="eyebrow">{ongoingEyebrow}</p>
+              <h2>{ongoingHeading}</h2>
+              <span className="title-underline" />
+            </div>
+          </div>
+          <div className="ongoing-events-grid">
+            {dynamicOngoingEvents.map((event) => (
+              <article
+                className="event-card group cursor-pointer"
+                key={event.title}
+                onClick={() => setPreviewEvent(event)}
+              >
+                <div
+                  className={'event-art ' + (event.kind || 'journey')}
+                  title="Click to view details"
+                >
+                  {event.image ? (
+                    <>
+                      <img
+                        src={event.image}
+                        alt=""
+                        className="event-art-blur-bg"
+                        aria-hidden="true"
+                      />
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="event-art-img"
+                      />
+                      <button
+                        type="button"
+                        className="event-art-enlarge-btn"
+                        title="Enlarge image"
+                        aria-label={`Enlarge image for ${event.title}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPreviewEvent(event);
+                        }}
+                      >
+                        <Maximize2 size={13} />
+                      </button>
+                    </>
+                  ) : (
+                    <div className="road-sun" />
+                  )}
+                </div>
+                <div className="event-info">
+                  <div className="flex items-start justify-between gap-1">
+                    <h3>{event.title}</h3>
+                  </div>
+                  <p className="whitespace-pre-line leading-relaxed">{event.subtitle}</p>
+                  <div className="event-date">
+                    <CalendarDays size={14} />
+                    {event.date}
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
 
