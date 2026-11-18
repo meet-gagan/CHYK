@@ -336,10 +336,22 @@ export function HomePage() {
   const eventsLinkUrl = f.upcoming_events?.linkUrl || '/activities';
 
   const rawEventItems = (f.upcoming_events?.items || []).filter(
-    (it) =>
-      it &&
-      it.itemId !== 'event-marathon' &&
-      !it.title?.toLowerCase().includes('marathon')
+    (it) => {
+      if (!it || it.itemId === 'event-marathon') return false;
+      const titleLower = (it.title || '').toLowerCase();
+      const idLower = (it.itemId || '').toLowerCase();
+      if (
+        titleLower.includes('marathon') ||
+        titleLower.includes('daily hanuman chalisa') ||
+        titleLower.includes('11-times hanuman chalisa') ||
+        titleLower.includes('hanuman chalisa pooja pass') ||
+        idLower.includes('daily-hanuman-chalisa') ||
+        idLower.includes('11-times-hanuman-chalisa')
+      ) {
+        return false;
+      }
+      return true;
+    }
   );
 
   const magamasamCard = {

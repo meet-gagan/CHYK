@@ -433,14 +433,18 @@ export const syncMediaImageToCollections = async (mediaItem, oldUrl) => {
       let updatedCms = false;
       const mediaTitleLower = (mediaItem.title || '').toLowerCase();
       const mediaCatLower = (mediaItem.category || '').toLowerCase();
+      const mediaSecLower = (mediaItem.section || '').toLowerCase();
+
       const isUpcoming =
-        mediaCatLower.includes('upcoming') ||
-        mediaTitleLower.includes('rama') ||
-        mediaTitleLower.includes('magamasam') ||
-        mediaTitleLower.includes('hanuman') ||
-        mediaTitleLower.includes('krishna');
+        (mediaCatLower.includes('upcoming') || mediaSecLower.includes('upcoming')) &&
+        !mediaTitleLower.includes('daily hanuman chalisa') &&
+        !mediaTitleLower.includes('11-times') &&
+        !mediaTitleLower.includes('chalisa pooja') &&
+        !mediaTitleLower.includes('pooja pass');
+
       const isOngoing =
         mediaCatLower.includes('going') ||
+        mediaSecLower.includes('going') ||
         mediaTitleLower.includes('karthika') ||
         mediaTitleLower.includes('rudra');
 
@@ -480,8 +484,15 @@ export const syncMediaImageToCollections = async (mediaItem, oldUrl) => {
 
             // If it's explicitly an Upcoming or Ongoing image and wasn't in the items list yet, add it
             if (!matched && (isUpcoming || isOngoing) && mediaItem.title) {
+              const isDisallowedUpcoming =
+                mediaTitleLower.includes('daily hanuman chalisa') ||
+                mediaTitleLower.includes('11-times') ||
+                mediaTitleLower.includes('chalisa pooja') ||
+                mediaTitleLower.includes('pooja pass') ||
+                mediaTitleLower.includes('palaki seva');
+
               const targetSectionId = isOngoing ? 'ongoing_events' : 'upcoming_events';
-              if (sec.sectionId === targetSectionId) {
+              if (sec.sectionId === targetSectionId && !isDisallowedUpcoming) {
                 sec.items.push({
                   itemId: `event-${(mediaItem.title || 'event').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
                   title: mediaItem.title,
