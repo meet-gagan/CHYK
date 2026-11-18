@@ -44,35 +44,73 @@ export const buildFieldsMap = (sections = []) => {
   sections.forEach((sec) => {
     if (!sec || !sec.sectionId) return;
 
-    // Automatically exclude marathon items from upcoming_events and ensure festival images
+    // Automatically exclude marathon items from upcoming_events and ensure festival images & descriptions
     const rawItems = sec.items || [];
-    const filteredItems = sec.sectionId === 'upcoming_events'
-      ? rawItems
-          .filter(
-            (item) =>
-              item &&
-              item.itemId !== 'event-marathon' &&
-              !item.title?.toLowerCase().includes('marathon')
-          )
-          .map((item) => {
-            const copy = typeof item?.toObject === 'function' ? item.toObject() : { ...(item || {}) };
-            const titleLower = (copy.title || '').toLowerCase();
-            if (titleLower.includes('rama navami')) {
-              if (!copy.imageUrl || copy.imageUrl.includes('rama-navami-procession')) {
-                copy.imageUrl = '/assets/rama-navami.jpg';
-              }
-            } else if (titleLower.includes('hanuman')) {
-              if (!copy.imageUrl) {
-                copy.imageUrl = '/assets/hanuman-jayanthi.png';
-              }
-            } else if (titleLower.includes('krishna')) {
-              if (!copy.imageUrl) {
-                copy.imageUrl = '/assets/krishna-janmashtami.jpg';
-              }
+    let filteredItems = rawItems;
+
+    if (sec.sectionId === 'upcoming_events') {
+      const mapped = rawItems
+        .filter(
+          (item) =>
+            item &&
+            item.itemId !== 'event-marathon' &&
+            !item.title?.toLowerCase().includes('marathon')
+        )
+        .map((item) => {
+          const copy = typeof item?.toObject === 'function' ? item.toObject() : { ...(item || {}) };
+          const titleLower = (copy.title || '').toLowerCase();
+          const cleanTitle = titleLower.replace(/\s+/g, '');
+
+          if (cleanTitle.includes('sacredpooja')) {
+            copy.title = (copy.title && !copy.title.toLowerCase().includes('sacred')) ? copy.title : 'Magamasam Poojallu';
+          }
+          if (cleanTitle.includes('magamasa') || cleanTitle.includes('magamasam')) {
+            copy.title = copy.title || 'Magamasam Poojallu';
+            copy.subtitle = copy.subtitle || 'Rudra Abhishekam, Rudra Homam, Siva Parvathi Kalyanam & Amavasya Poojalu';
+            copy.dateOrYear = copy.dateOrYear || 'FEB 07 To March 08';
+            copy.imageUrl = copy.imageUrl || '/assets/magamasam-poojallu.jpg';
+          } else if (titleLower.includes('rama navami')) {
+            if (!copy.imageUrl || copy.imageUrl.includes('rama-navami-procession')) {
+              copy.imageUrl = '/assets/rama-navami.jpg';
             }
-            return copy;
-          })
-      : rawItems;
+            if (!copy.description) {
+              copy.description = `Sri Rama Navami Celebrations\n\nDate: 15 April 2027\n\nLet us celebrate Sri Rama Navami with devotion and joy!\n\nJoin us for the following special events:\n\n•  Sri Sita Rama Kalyanam: Enjoy the beautiful wedding ceremony of Lord Sri Rama and Goddess Sita.\n•  Annadanam: All devotees are invited to take part in the Annadanam.\n•  Sri Sita Rama Pallaki Seva (Evening): Join us for the evening procession of Lord Sri Rama and Goddess Sita in a beautifully decorated palanquin(Pallaki Seva).\n\nLet us come together and celebrate this special day with love and devotion.\n\nMay Lord Sri Rama and Goddess Sita bless everyone with happiness and peace.\n\nAll devotees are welcome!`;
+            }
+          } else if (titleLower.includes('hanuman')) {
+            if (!copy.imageUrl) {
+              copy.imageUrl = '/assets/hanuman-jayanthi.png';
+            }
+          } else if (titleLower.includes('krishna')) {
+            if (!copy.imageUrl) {
+              copy.imageUrl = '/assets/krishna-janmashtami.jpg';
+            }
+          }
+          return copy;
+        });
+
+      // Deduplicate to ensure strictly 1 Magamasam Poojallu exists
+      const seenTitles = new Set();
+      filteredItems = [];
+      mapped.forEach((item) => {
+        const clean = (item.title || '').toLowerCase().replace(/\s+/g, '');
+        const key = clean.includes('magamasam') ? 'magamasam' : item.itemId || clean;
+        if (!seenTitles.has(key)) {
+          seenTitles.add(key);
+          filteredItems.push(item);
+        }
+      });
+    }
+
+    // Normalize Masa -> Masam in items
+    if (Array.isArray(filteredItems)) {
+      filteredItems.forEach((item) => {
+        ['title', 'subtitle', 'period', 'description'].forEach((k) => {
+          if (typeof item[k] === 'string') {
+            item[k] = item[k].replace(/\bMagha Masa\b/g, 'Magha Masam').replace(/\b([A-Za-z]+) Masa\b/g, '$1 Masam');
+          }
+        });
+      });
+    }
 
     map[sec.sectionId] = {
       _name: sec.name,
@@ -84,6 +122,10 @@ export const buildFieldsMap = (sections = []) => {
       sec.fields.forEach((f) => {
         if (f && f.key) {
           let val = f.value;
+          // Normalize Masa -> Masam in text fields
+          if (typeof val === 'string') {
+            val = val.replace(/\bMagha Masa\b/g, 'Magha Masam').replace(/\b([A-Za-z]+) Masa\b/g, '$1 Masam');
+          }
           // Cleanse hero portrait so obsolete cutouts or huge base64 strings don't override the canonical image
           if (sec.sectionId === 'hero' && f.key === 'portraitImage') {
             if (
@@ -91,18 +133,20 @@ export const buildFieldsMap = (sections = []) => {
               typeof val !== 'string' ||
               val.startsWith('data:') ||
               val.includes('cutout') ||
-              val.includes('natural') ||
-              val.includes('suitable-bg') ||
-              !val.startsWith('http')
+              val.includes('suitable-bg')
             ) {
-              val = '/assets/swami-chinmayananda-himalaya-sunrise.jpg';
+              val = '/assets/swami-chinmayananda-golden-tree.jpg';
             }
           }
-          // Ensure contact_info heading is always Let's Connect With
+          // Ensure contact_info heading defaults to Let's Connect With if not set
           if (sec.sectionId === 'contact_info' && f.key === 'heading') {
-            if (typeof val === 'string' && val.toLowerCase().includes('us')) {
+            if (!val) {
               val = "Let's Connect With";
             }
+          }
+          // Remove obsolete DEVOTIONAL CELEBRATIONS eyebrow from ongoing_events
+          if (sec.sectionId === 'ongoing_events' && f.key === 'eyebrow' && val === 'DEVOTIONAL CELEBRATIONS') {
+            val = '';
           }
           map[sec.sectionId][f.key] = val;
         }
@@ -195,6 +239,38 @@ export const getPageById = async (req, res) => {
       if (!existingSectionIds.has('contact_card_2') || !existingSectionIds.has('contact_card_3')) {
         await ensureSeedPagesForWebsite(page.website);
         page = await WebContent.findById(req.params.id);
+      }
+      // Ensure all 3 cards have contactPerson field
+      const cardConfigs = [
+        { id: 'contact_info', defaultName: 'Chinmaya Mission Incharge' },
+        { id: 'contact_card_2', defaultName: 'Temple Incharge' },
+        { id: 'contact_card_3', defaultName: 'Temple Incharge' },
+      ];
+      let needsSave = false;
+      cardConfigs.forEach(({ id, defaultName }) => {
+        const sec = (page.sections || []).find((s) => s.sectionId === id);
+        if (sec && Array.isArray(sec.fields)) {
+          const hasPerson = sec.fields.some((f) => f.key === 'contactPerson' || f.key === 'name');
+          if (!hasPerson) {
+            const phoneIdx = sec.fields.findIndex((f) => f.key === 'phone');
+            const newField = {
+              key: 'contactPerson',
+              label: 'Name',
+              type: 'text',
+              value: defaultName,
+              placeholder: 'Enter name...',
+            };
+            if (phoneIdx !== -1) {
+              sec.fields.splice(phoneIdx, 0, newField);
+            } else {
+              sec.fields.push(newField);
+            }
+            needsSave = true;
+          }
+        }
+      });
+      if (needsSave && typeof page.save === 'function') {
+        await page.save();
       }
     } else if (page.pageSlug === 'home') {
       const existingSectionIds = new Set((page.sections || []).map((s) => s.sectionId));
@@ -378,6 +454,38 @@ export const getPublicWebContent = async (req, res) => {
       if (!existingSectionIds.has('contact_card_2') || !existingSectionIds.has('contact_card_3')) {
         await ensureSeedPagesForWebsite(website);
         page = await WebContent.findOne({ website, pageSlug }).lean();
+      }
+      // Ensure all 3 cards have contactPerson field in returned page
+      const cardConfigs = [
+        { id: 'contact_info', defaultName: 'Chinmaya Mission Incharge' },
+        { id: 'contact_card_2', defaultName: 'Temple Incharge' },
+        { id: 'contact_card_3', defaultName: 'Temple Incharge' },
+      ];
+      let docNeedsSave = false;
+      cardConfigs.forEach(({ id, defaultName }) => {
+        const sec = (page.sections || []).find((s) => s.sectionId === id);
+        if (sec && Array.isArray(sec.fields)) {
+          const hasPerson = sec.fields.some((f) => f.key === 'contactPerson' || f.key === 'name');
+          if (!hasPerson) {
+            const phoneIdx = sec.fields.findIndex((f) => f.key === 'phone');
+            const newField = {
+              key: 'contactPerson',
+              label: 'Name',
+              type: 'text',
+              value: defaultName,
+              placeholder: 'Enter name...',
+            };
+            if (phoneIdx !== -1) {
+              sec.fields.splice(phoneIdx, 0, newField);
+            } else {
+              sec.fields.push(newField);
+            }
+            docNeedsSave = true;
+          }
+        }
+      });
+      if (docNeedsSave) {
+        WebContent.updateOne({ website, pageSlug }, { $set: { sections: page.sections } }).catch(() => {});
       }
     } else if (pageSlug === 'home') {
       const existingSectionIds = new Set((page.sections || []).map((s) => s.sectionId));

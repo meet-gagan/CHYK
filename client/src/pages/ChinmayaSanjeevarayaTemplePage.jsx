@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { webContentService } from '../services/api';
+import { webContentService, mediaService } from '../services/api';
 import { UnifiedBookingModal, MyBookingsModal } from '../components/TempleSevaSection';
 import {
   Flame,
@@ -81,9 +81,63 @@ export const ChinmayaSanjeevarayaTemplePage = () => {
     }
   });
 
+  const defaultDevotionalRituals = [
+    {
+      title: 'Daily Hanuman Chalisa',
+      badge: 'Every Day',
+      desc: 'Hanuman Chalisa is recited every day with devotion and prayer.',
+      image: '/assets/images/temple-seva-hanuman-chalisa.png',
+    },
+    {
+      title: 'Saturday Palaki Seva',
+      badge: 'Every Saturday',
+      desc: 'Palaki Seva is performed every Saturday with devotion to Lord Hanuman.',
+      image: '/assets/images/temple-seva-palaki.png',
+    },
+    {
+      title: 'Special Hanuman Chalisa – 11 Times',
+      badge: 'Last Saturday of Every Month',
+      desc: 'On the last Saturday of every month, Hanuman Chalisa is recited 11 times with devotion, seeking the blessings of Lord Hanuman.',
+      image: '/assets/images/temple-seva-11-chalisa.png',
+    },
+  ];
+
+  const [ritualsList, setRitualsList] = useState(defaultDevotionalRituals);
+
   useEffect(() => {
     document.title = 'Chinmaya Sanjeevaraya Temple | Chinmaya Mission';
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+    // Fetch dynamic Hanuman Images media assets if configured or edited by Admin
+    mediaService
+      .getPublicMedia({ category: 'Hanuman Images' })
+      .then((res) => {
+        if (res.data?.success && Array.isArray(res.data.data) && res.data.data.length > 0) {
+          const items = res.data.data;
+          setRitualsList(
+            defaultDevotionalRituals.map((r, idx) => {
+              const matched =
+                items.find(
+                  (it) =>
+                    (it.url && it.url === r.image) ||
+                    (it.fileName && r.image.includes(it.fileName.replace(/\.[^/.]+$/, ''))) ||
+                    (it.title && it.title.toLowerCase().includes(r.title.toLowerCase().replace(/[^a-z0-9]/g, '')))
+                ) || items[idx];
+
+              if (matched) {
+                return {
+                  title: matched.title || r.title,
+                  badge: matched.caption || r.badge,
+                  desc: matched.description || r.desc,
+                  image: matched.url || r.image,
+                };
+              }
+              return r;
+            })
+          );
+        }
+      })
+      .catch(() => {});
 
     webContentService
       .getPublicPage('chinmaya', 'temple')
@@ -109,13 +163,13 @@ export const ChinmayaSanjeevarayaTemplePage = () => {
     },
     {
       name: 'Karthika Deepotsavam',
-      period: 'Karthika Masa',
+      period: 'Karthika Masam',
       desc: 'The entire temple precinct is illuminated with hundreds of sacred clay oil lamps (Deepams), invoking divine grace, wisdom, and inner peace.',
       icon: <Sun className="w-5 h-5 text-amber-500" />,
     },
     {
-      name: 'Shravana Masa Poojas',
-      period: 'Shravana Masa',
+      name: 'Shravana Masam Poojas',
+      period: 'Shravana Masam',
       desc: 'Month-long devotional observances with collective chanting, special devotional offerings, and spiritual talks drawing families from all communities.',
       icon: <Sparkles className="w-5 h-5 text-[var(--orange)]" />,
     },
@@ -124,27 +178,6 @@ export const ChinmayaSanjeevarayaTemplePage = () => {
       period: 'Every Saturday',
       desc: 'Devotees gather weekly for collective chanting of Sri Vishnu Sahasranamam, Sri Hanuman Chalisa, and bhajans accompanied by prasadam distribution.',
       icon: <Heart className="w-5 h-5 text-rose-500" />,
-    },
-  ];
-
-  const devotionalRituals = [
-    {
-      title: '1. Daily Hanuman Chalisa',
-      badge: 'Every Day',
-      desc: 'Hanuman Chalisa is recited every day with devotion and prayer.',
-      image: '/assets/images/temple-seva-hanuman-chalisa.png',
-    },
-    {
-      title: '2. Saturday Palaki Seva',
-      badge: 'Every Saturday',
-      desc: 'Palaki Seva is performed every Saturday with devotion to Lord Hanuman.',
-      image: '/assets/images/temple-seva-palaki.png',
-    },
-    {
-      title: '3. Special Hanuman Chalisa – 11 Times',
-      badge: 'Last Saturday of Every Month',
-      desc: 'On the last Saturday of every month, Hanuman Chalisa is recited 11 times with devotion, seeking the blessings of Lord Hanuman.',
-      image: '/assets/images/temple-seva-11-chalisa.png',
     },
   ];
 
@@ -210,9 +243,6 @@ export const ChinmayaSanjeevarayaTemplePage = () => {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-black font-heading text-slate-900 tracking-tight">
             {f.temple_history?.heading || 'Sri Chinnaya Sanjeevarya Swamy Devasthanam'}
           </h2>
-          <p className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[var(--orange)]">
-            {f.temple_history?.location ? f.temple_history.location.replace(/,\s*Adoni/gi, '').replace(/\bAdoni\b/gi, '').trim() || 'Sacred Heritage Shrine' : 'Sacred Heritage Shrine'}
-          </p>
           <div className="w-16 h-1 bg-[var(--orange)] rounded-full mx-auto mt-2" />
         </div>
 
@@ -257,7 +287,7 @@ export const ChinmayaSanjeevarayaTemplePage = () => {
             </p>
 
             <p className="text-sm sm:text-base text-slate-700">
-              {f.temple_history?.worshipP2 || 'The temple celebrates Shravana Masa, Hanuman Jayanti, and Karthika Deepotsavam with great devotion and spiritual fervour. These sacred observances bring devotees together in prayer, worship, and the celebration of their spiritual traditions.'}
+              {f.temple_history?.worshipP2 || 'The temple celebrates Shravana Masam, Hanuman Jayanti, and Karthika Deepotsavam with great devotion and spiritual fervour. These sacred observances bring devotees together in prayer, worship, and the celebration of their spiritual traditions.'}
             </p>
 
             <p className="text-sm sm:text-base text-slate-700">
@@ -271,7 +301,7 @@ export const ChinmayaSanjeevarayaTemplePage = () => {
       <section className="bg-[#090909] text-white py-12 sm:py-16 border-y border-[#2d2723]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {devotionalRituals.map((ritual, idx) => (
+            {ritualsList.map((ritual, idx) => (
               <div
                 key={idx}
                 className="bg-[#141414] border border-[#2d2723] rounded-2xl overflow-hidden flex flex-col shadow-lg shadow-black/40 hover:border-[#f5c46a]/60 hover:-translate-y-1 transition-all duration-300 text-left group"
@@ -297,16 +327,6 @@ export const ChinmayaSanjeevarayaTemplePage = () => {
               </div>
             ))}
           </div>
-
-          {/* Sacred Footer Closing */}
-          <div className="pt-6 border-t border-[#2d2723] text-center space-y-1.5">
-            <div className="text-lg sm:text-2xl font-bold text-[#f5c46a] tracking-widest font-serif">
-              ॥ जय श्री राम ॥
-            </div>
-            <p className="text-xs sm:text-sm text-[#b8afa2]">
-              With devotion, prayer and the blessings of Lord Hanuman
-            </p>
-          </div>
         </div>
       </section>
 
@@ -315,9 +335,6 @@ export const ChinmayaSanjeevarayaTemplePage = () => {
         <div className="max-w-6xl mx-auto space-y-10">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div className="text-left space-y-2">
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--orange)]">
-                SACRED SEVAS &amp; PUJAS
-              </span>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-black font-heading text-[#f2c16b] tracking-tight">
                 Puja Services &amp; Their Significance
               </h2>
@@ -371,7 +388,10 @@ export const ChinmayaSanjeevarayaTemplePage = () => {
                 <div className="pt-4 border-t border-[#393027] mt-auto space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-[#bdbdbd] font-medium">Seva Price</span>
-                    <strong className="text-2xl font-black font-heading text-[#f2c16b] tracking-tight">
+                    <strong
+                      className="text-2xl font-black text-[#f2c16b] tracking-tight"
+                      style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
+                    >
                       {puja.price}
                     </strong>
                   </div>
@@ -379,7 +399,8 @@ export const ChinmayaSanjeevarayaTemplePage = () => {
                   <button
                     type="button"
                     onClick={() => handleBookPuja(puja)}
-                    className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-[var(--orange)] to-amber-600 hover:from-amber-600 hover:to-[var(--orange)] text-white text-xs sm:text-sm font-bold uppercase tracking-wider shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-[var(--orange)] to-amber-600 hover:from-amber-600 hover:to-[var(--orange)] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
+                    style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
                   >
                     <span>Book Seva</span>
                     <ArrowRight className="w-4 h-4" />

@@ -5,6 +5,7 @@ import { AuthProvider } from './context/AuthContext';
 import { SiteSettingsProvider } from './context/SiteSettingsContext';
 import { SiteAccessGate } from './components/SiteAccessGate';
 import { Navbar } from './components/Navbar';
+import { ScrollingAnnouncementBanner } from './components/ScrollingAnnouncementBanner';
 import { Footer } from './components/Footer';
 import { FloatingGeneralEnquiry } from './components/FloatingGeneralEnquiry';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
@@ -19,6 +20,7 @@ import { LetsConnectPage } from './pages/LetsConnectPage';
 import { RegistrationPage } from './pages/RegistrationPage';
 import { ChinmayaSanjeevarayaTemplePage } from './pages/ChinmayaSanjeevarayaTemplePage';
 import { SriShanthaMamleshwaraSwamiTemplePage } from './pages/SriShanthaMamleshwaraSwamiTemplePage';
+import { MagaMasamPoojaluPage } from './pages/MagaMasamPoojaluPage';
 import { GalleryPage } from './pages/GalleryPage';
 import { FolderDetailsPage } from './pages/FolderDetailsPage';
 import { SupportOurMissionPage } from './pages/SupportOurMissionPage';
@@ -68,6 +70,7 @@ function PublicLayout() {
     <div className="min-h-screen flex flex-col justify-between selection:bg-[var(--orange)] selection:text-white w-full max-w-full overflow-x-hidden bg-white">
       <Navbar />
       <main className="flex-grow pt-16 md:pt-20 w-full max-w-full overflow-x-hidden">
+        <ScrollingAnnouncementBanner />
         <Outlet />
       </main>
       <Footer />
@@ -139,6 +142,8 @@ export function App() {
               <Route path="/shri-shantamalleshwara-swami-temple" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
               <Route path="/shantamalleshwara-temple" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
               <Route path="/shanta-malleshwara-temple" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
+              <Route path="/maga-masam-poojalu" element={<MagaMasamPoojaluPage />} />
+              <Route path="/magha-masam-poojalu" element={<MagaMasamPoojaluPage />} />
               
               {/* Sacred Image Gallery Pages */}
               <Route path="/gallery" element={<GalleryPage />} />

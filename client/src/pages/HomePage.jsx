@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { webContentService } from '../services/api';
-import { ScrollingAnnouncementBanner } from '../components/ScrollingAnnouncementBanner';
 import {
   Heart,
   CalendarDays,
@@ -40,10 +39,75 @@ const corePillars = [
   },
 ];
 
+export const RAMA_NAVAMI_DESCRIPTION = `Sri Rama Navami Celebrations
+
+Date: 15 April 2027
+
+Let us celebrate Sri Rama Navami with devotion and joy!
+
+Join us for the following special events:
+
+•  Sri Sita Rama Kalyanam: Enjoy the beautiful wedding ceremony of Lord Sri Rama and Goddess Sita.
+•  Annadanam: All devotees are invited to take part in the Annadanam.
+•  Sri Sita Rama Pallaki Seva (Evening): Join us for the evening procession of Lord Sri Rama and Goddess Sita in a beautifully decorated palanquin(Pallaki Seva).
+
+Let us come together and celebrate this special day with love and devotion.
+
+May Lord Sri Rama and Goddess Sita bless everyone with happiness and peace.
+
+All devotees are welcome!`;
+
+export const MAGAMASAM_DESCRIPTION = `Magamasam Sacred Poojallu & Celebrations
+
+Date: FEB 07 To March 08
+
+Special Auspicious Poojas and Abhishekam to Lord Shiva throughout holy Magamasam:
+• Rudra Abhishekam: Sacred bathing of Lord Shiva with Vedic chants.
+• Rudra Homam: Holy fire ritual for world peace and universal prosperity.
+• Siva Parvathi Kalyanam: Divine celestial wedding ceremony.
+• Amavasya Poojalu: Special new moon archana and deepa aradhana.
+
+All devotees are cordially invited to participate with family and receive divine blessings.`;
+
+export const HANUMAN_DESCRIPTION = `Sri Hanuman Jayanthi Mahotsavam
+
+Date: April 20th, 2027
+
+Join us in celebrating the auspicious birth of Sri Hanumanji:
+• Special Sindhoora Pooja and Abhishekam.
+• Sampoorna Hanuman Chalisa Parayanam.
+• Vada Maala offering and Maha Mangala Harathi.
+• Distribution of sanctified Prasadam to all devotees.`;
+
+export const KRISHNA_DESCRIPTION = `Sri Krishna Janmashtami Celebrations
+
+Date: August 25th, 2027
+
+Joyous celebration of Lord Sri Krishna's divine appearance:
+• Midnight Sri Krishna Janma Pooja and Abhishekam.
+• Bala Vihar cultural performances, bhajans and Radha-Krishna costume events.
+• Dahi Handi utsavam and devotional chanting.
+• Maha Prasadam distribution.`;
+
+export const KARTHIKA_DESCRIPTION = `Holy Karthika Masam Deepotsavam
+
+Date: Daily Special Poojas
+
+Sacred Deepotsavam and daily special Shiva Archana during holy Karthika Masam.
+Devotees gather for divine blessings, lighting ghee lamps, Bilva archana, and sacred chanting throughout the holy month.`;
+
+export const RUDRA_DESCRIPTION = `Sacred Sri Rudra Abhishekam
+
+Date: Daily Sacred Rituals
+
+Sacred Vedic Abhishekam to Lord Shiva with sanctified dravyas and Sri Rudram Namakam Chamakam chanting.
+Performed for universal peace, spiritual growth, and the prosperity and well-being of all devotees.`;
+
 const events = [
   {
     title: 'Magamasam Poojallu',
     subtitle: 'Rudra Abhishekam, Rudra Homam, Siva Parvathi Kalyanam & Amavasya Poojalu',
+    description: MAGAMASAM_DESCRIPTION,
     date: 'FEB 07 To March 08',
     kind: 'devotion',
     image: '/assets/magamasam-poojallu.jpg',
@@ -54,6 +118,7 @@ const events = [
   {
     title: 'Rama Navami',
     subtitle: 'Sri Sita Rama Kalyanam & Divine Celebrations',
+    description: RAMA_NAVAMI_DESCRIPTION,
     date: 'April 15th, 2027',
     kind: 'journey',
     image: '/assets/rama-navami.jpg',
@@ -64,6 +129,7 @@ const events = [
   {
     title: 'Hanuman Jayanthi',
     subtitle: 'Special Pooja & Hanuman Chalisa Parayanam',
+    description: HANUMAN_DESCRIPTION,
     date: 'April 20th, 2027',
     kind: 'wisdom',
     image: '/assets/hanuman-jayanthi.png',
@@ -74,6 +140,7 @@ const events = [
   {
     title: 'Krishna Janmashtami',
     subtitle: 'Lord Krishna Birth Celebrations & Utsavam',
+    description: KRISHNA_DESCRIPTION,
     date: 'August 25th, 2027',
     kind: 'meditation',
     image: '/assets/krishna-janmashtami.jpg',
@@ -165,16 +232,13 @@ export function HomePage() {
   const primaryBtnText = f.hero?.primaryBtnText || 'Explore Our Mission';
   const primaryBtnLink = f.hero?.primaryBtnLink || '#about';
   const rawPortrait = f.hero?.portraitImage;
-  const isCustomCloudinary =
+  const portraitImg =
     rawPortrait &&
     typeof rawPortrait === 'string' &&
-    rawPortrait.startsWith('http') &&
-    (rawPortrait.includes('cloudinary') || rawPortrait.includes('res.cloudinary.com')) &&
-    !rawPortrait.includes('cutout');
-
-  const portraitImg = isCustomCloudinary
-    ? rawPortrait
-    : '/assets/swami-chinmayananda-golden-tree.jpg';
+    !rawPortrait.includes('cutout') &&
+    !rawPortrait.includes('suitable-bg')
+      ? rawPortrait
+      : '/assets/swami-chinmayananda-golden-tree.jpg';
   const portraitQuote = f.hero?.portraitQuote || 'Arise, Awake and Guide Others';
   const portraitSig = f.hero?.portraitSignature || 'Swami Chinmayananda';
   const portraitSub = f.hero?.portraitSubtitle || 'Founder Of Chinmaya Mission';
@@ -219,7 +283,10 @@ export function HomePage() {
     : rawChykImg;
 
   // On Going Events CMS configuration
-  const ongoingEyebrow = f.ongoing_events?.eyebrow || 'COME BE A PART';
+  const ongoingEyebrow =
+    f.ongoing_events?.eyebrow && f.ongoing_events?.eyebrow !== 'DEVOTIONAL CELEBRATIONS'
+      ? f.ongoing_events.eyebrow
+      : '';
   const ongoingHeading = f.ongoing_events?.heading || 'On Going Events';
 
   const defaultOngoingEvents = [
@@ -227,6 +294,7 @@ export function HomePage() {
       title: 'Karthika Masam',
       subtitle:
         'Sacred Deepotsavam and daily special Shiva Archana during holy Karthika Masam.\nDevotees gather for divine blessings, lighting ghee lamps and sacred chanting.',
+      description: KARTHIKA_DESCRIPTION,
       date: 'Daily Special Poojas',
       kind: 'devotion',
       image: '/assets/karthika-masam.jpg',
@@ -234,32 +302,26 @@ export function HomePage() {
       url: '/activities',
       isExternal: false,
     },
-    {
-      title: 'Rudra Abhishekam',
-      subtitle:
-        'Sacred Vedic Abhishekam to Lord Shiva with sanctified dravyas and Rudra Japam.\nPerformed for universal peace, spiritual growth, and the prosperity of all devotees.',
-      date: 'Daily Sacred Rituals',
-      kind: 'wisdom',
-      image: '/assets/rudra-abhishekam.jpg',
-      icon: '🔱',
-      url: '/activities',
-      isExternal: false,
-    },
   ];
 
   const rawOngoingItems = (f.ongoing_events?.items || []).filter(
-    (it) => it && !it.title?.toLowerCase().includes('marathon')
+    (it) =>
+      it &&
+      !it.title?.toLowerCase().includes('marathon') &&
+      !it.title?.toLowerCase().includes('rudra')
   );
 
   const dynamicOngoingEvents =
     rawOngoingItems.length > 0
       ? rawOngoingItems.map((it, idx) => {
           const isKarthika = (it.title || '').toLowerCase().includes('karthika');
-          const defaultImg = isKarthika ? '/assets/karthika-masam.jpg' : '/assets/rudra-abhishekam.jpg';
+          const defaultImg = isKarthika ? '/assets/karthika-masam.jpg' : (it.imageUrl || '/assets/karthika-masam.jpg');
+          const defaultDesc = isKarthika ? KARTHIKA_DESCRIPTION : (it.description || '');
           return {
             title: it.title,
             subtitle: it.subtitle || '',
-            date: it.dateOrYear || 'Daily Sacred Poojas',
+            description: it.description || defaultDesc,
+            date: it.dateOrYear || 'Daily Special Poojas',
             kind: idx === 0 ? 'devotion' : 'wisdom',
             image: it.imageUrl || defaultImg,
             url: it.linkUrl || '/activities',
@@ -283,6 +345,7 @@ export function HomePage() {
   const magamasamCard = {
     title: 'Magamasam Poojallu',
     subtitle: 'Rudra Abhishekam, Rudra Homam, Siva Parvathi Kalyanam & Amavasya Poojalu',
+    description: MAGAMASAM_DESCRIPTION,
     date: 'FEB 07 To March 08',
     kind: 'devotion',
     image: '/assets/magamasam-poojallu.jpg',
@@ -307,9 +370,17 @@ export function HomePage() {
           const isKrishna = titleLower.includes('krishna');
 
           let defaultImg = '';
-          if (isRamaNavami) defaultImg = '/assets/rama-navami.jpg';
-          else if (isHanuman) defaultImg = '/assets/hanuman-jayanthi.png';
-          else if (isKrishna) defaultImg = '/assets/krishna-janmashtami.jpg';
+          let defaultDesc = '';
+          if (isRamaNavami) {
+            defaultImg = '/assets/rama-navami.jpg';
+            defaultDesc = RAMA_NAVAMI_DESCRIPTION;
+          } else if (isHanuman) {
+            defaultImg = '/assets/hanuman-jayanthi.png';
+            defaultDesc = HANUMAN_DESCRIPTION;
+          } else if (isKrishna) {
+            defaultImg = '/assets/krishna-janmashtami.jpg';
+            defaultDesc = KRISHNA_DESCRIPTION;
+          }
 
           const eventImage =
             it.imageUrl && !it.imageUrl.includes('rama-navami-procession')
@@ -319,6 +390,7 @@ export function HomePage() {
           return {
             title: it.title,
             subtitle: it.subtitle || '',
+            description: it.description || defaultDesc,
             date: it.dateOrYear || 'Upcoming',
             kind: idx === 0 ? 'journey' : idx === 1 ? 'wisdom' : idx === 2 ? 'meditation' : 'journey',
             image: eventImage,
@@ -328,14 +400,28 @@ export function HomePage() {
         })
       : events;
 
-  // Always bring Magamasam Poojallu to 1st place
-  const otherEvents = baseEvents.filter((e) => !e.title?.toLowerCase().includes('magamasam'));
-  const foundMagamasam = baseEvents.find((e) => e.title?.toLowerCase().includes('magamasam'));
+  // Always bring Magamasam Poojallu to 1st place and strictly prevent duplicate/legacy cards
+  const isMagaMasamMatch = (title = '') => {
+    const clean = title.toLowerCase().replace(/\s+/g, '');
+    return (
+      clean.includes('magamasam') ||
+      clean.includes('magamasa') ||
+      clean.includes('sacredpooja')
+    );
+  };
+
+  const otherEvents = baseEvents.filter((e) => !isMagaMasamMatch(e.title));
+  const foundMagamasam = baseEvents.find((e) => isMagaMasamMatch(e.title));
   const magamasamCardFinal = {
-    ...(foundMagamasam || magamasamCard),
     title: 'Magamasam Poojallu',
+    subtitle: 'Rudra Abhishekam, Rudra Homam, Siva Parvathi Kalyanam & Amavasya Poojalu',
+    description: foundMagamasam?.description || MAGAMASAM_DESCRIPTION,
     date: 'FEB 07 To March 08',
+    kind: 'devotion',
     image: foundMagamasam?.image || '/assets/magamasam-poojallu.jpg',
+    icon: '🔥',
+    url: '/activities',
+    isExternal: false,
   };
 
   const dynamicEvents = [magamasamCardFinal, ...otherEvents];
@@ -365,16 +451,6 @@ export function HomePage() {
 
   return (
     <div className="site-shell">
-      {/* ── Continuous Scrolling Announcement Banner (Homepage Only - Controlled by Admin Panel) ── */}
-      {isAnnouncementEnabled && (
-        <ScrollingAnnouncementBanner
-          isEnabled={isAnnouncementEnabled}
-          englishContent={englishAnnouncement}
-          teluguContent={teluguAnnouncement}
-          linkUrl={announcementLink}
-        />
-      )}
-
       <main>
         {/* HERO SECTION */}
         <section className="hero" id="home">
@@ -499,7 +575,7 @@ export function HomePage() {
         <section className="events-section ongoing-events-section section-wrap" id="ongoing-events">
           <div className="events-heading">
             <div>
-              <p className="eyebrow">{ongoingEyebrow}</p>
+              {ongoingEyebrow && <p className="eyebrow">{ongoingEyebrow}</p>}
               <h2>{ongoingHeading}</h2>
               <span className="title-underline" />
             </div>
@@ -672,7 +748,7 @@ export function HomePage() {
         </section>
       </main>
 
-      {/* Full-view Festival Image Modal */}
+      {/* Full-view Festival Image Modal with Image & Full Event Description */}
       {previewEvent && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-md animate-fade-in"
@@ -681,34 +757,65 @@ export function HomePage() {
           aria-modal="true"
         >
           <div
-            className="relative max-w-4xl w-full max-h-[92vh] bg-slate-950 border border-white/15 rounded-2xl p-3 sm:p-4 shadow-2xl flex flex-col items-center overflow-hidden"
+            className="relative max-w-3xl w-full max-h-[92vh] bg-slate-950 border border-white/15 rounded-3xl p-4 sm:p-6 shadow-2xl flex flex-col overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Top Close Button */}
             <button
               onClick={() => setPreviewEvent(null)}
-              className="absolute top-3 right-3 p-2 rounded-full bg-white/20 hover:bg-[var(--orange)] text-white transition-all cursor-pointer z-30"
+              className="sticky top-0 self-end -mr-1 -mt-1 p-2 rounded-full bg-slate-800/90 hover:bg-[var(--orange)] text-white transition-all cursor-pointer z-30 shadow-md border border-white/10"
               aria-label="Close image modal"
             >
               <X size={18} />
             </button>
-            <div className="w-full flex-1 flex items-center justify-center overflow-auto max-h-[76vh] py-1">
+
+            {/* Event Image */}
+            <div className="w-full flex items-center justify-center py-2">
               <img
                 src={previewEvent.image}
                 alt={previewEvent.title}
-                className="max-w-full max-h-[75vh] w-auto h-auto object-contain rounded-xl shadow-2xl border border-white/10"
+                className="max-w-full max-h-[50vh] sm:max-h-[55vh] w-auto h-auto object-contain rounded-2xl shadow-2xl border border-white/10"
               />
             </div>
-            <div className="w-full pt-3 px-2 flex flex-col sm:flex-row items-start sm:items-center justify-between text-white border-t border-white/10 mt-2 gap-1.5">
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-white tracking-wide">
-                  {previewEvent.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-slate-300">
-                  {previewEvent.subtitle}
-                </p>
+
+            {/* Event Details & Full Description */}
+            <div className="w-full pt-4 text-white border-t border-white/10 mt-3 space-y-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-black text-white tracking-wide font-heading">
+                    {previewEvent.title}
+                  </h3>
+                  {previewEvent.subtitle && (
+                    <p className="text-xs sm:text-sm text-amber-300 font-medium">
+                      {previewEvent.subtitle}
+                    </p>
+                  )}
+                </div>
+                {previewEvent.date && (
+                  <div className="text-xs font-bold px-3 py-1.5 rounded-full bg-[var(--orange)]/20 text-[var(--orange)] border border-[var(--orange)]/30 shrink-0 flex items-center gap-1.5">
+                    <CalendarDays size={13} />
+                    <span>{previewEvent.date}</span>
+                  </div>
+                )}
               </div>
-              <div className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--orange)]/20 text-[var(--orange)] border border-[var(--orange)]/30 shrink-0">
-                {previewEvent.date}
+
+              {previewEvent.description && (
+                <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.04] border border-white/10 text-slate-200 text-xs sm:text-sm leading-relaxed whitespace-pre-line font-normal space-y-2">
+                  {previewEvent.description}
+                </div>
+              )}
+
+              <div className="pt-1 flex items-center justify-between text-xs text-slate-400">
+                <span className="text-[11px] uppercase tracking-wider text-amber-400 font-bold">
+                  🕉️ Chinmaya Mission, Adoni
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setPreviewEvent(null)}
+                  className="px-4 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs transition-colors cursor-pointer"
+                >
+                  Close
+                </button>
               </div>
             </div>
           </div>

@@ -4,6 +4,7 @@ import Activity from '../models/Activity.js';
 import HomePage from '../models/HomePage.js';
 import PageContent from '../models/PageContent.js';
 import Footer from '../models/Footer.js';
+import WebContent from '../models/WebContent.js';
 import { uploadToR2, deleteFromR2 } from '../config/r2.js';
 import { seedInitialData } from '../utils/seedData.js';
 
@@ -20,6 +21,7 @@ export const getMediaList = async (req, res) => {
       search,
       category,
       pageName,
+      website,
       status,
       page = 1,
       limit = 24,
@@ -28,6 +30,10 @@ export const getMediaList = async (req, res) => {
     } = req.query;
 
     const andClauses = [];
+
+    if (website && ['chinmaya', 'marathon'].includes(website.toLowerCase())) {
+      andClauses.push({ website: website.toLowerCase() });
+    }
 
     if (status && ['ACTIVE', 'INACTIVE'].includes(status.toUpperCase())) {
       andClauses.push({ status: status.toUpperCase() });
@@ -51,10 +57,32 @@ export const getMediaList = async (req, res) => {
           $or: [
             { category: { $regex: /on\s*going/i } },
             { section: { $regex: /on\s*going/i } },
-            { tags: { $in: ['ongoing', 'on-going', 'ongoing-events', 'karthika', 'rudra-abhishekam'] } },
+            { tags: { $in: ['ongoing', 'on-going', 'ongoing-events', 'karthika'] } },
             { 'usedIn.section': { $regex: /ongoing/i } },
-            { fileName: { $regex: /karthika-masam|rudra-abhishekam/i } },
-            { title: { $regex: /karthika masam|rudra abhishekam/i } },
+            { fileName: { $regex: /karthika-masam/i } },
+            { title: { $regex: /karthika masam/i } },
+          ],
+        });
+      } else if (catNorm.includes('nitya')) {
+        andClauses.push({
+          $or: [
+            { category: { $regex: /nitya/i } },
+            { section: { $regex: /nitya/i } },
+            { tags: { $in: ['nitya', 'nitya-poojalu', 'daily-pooja'] } },
+            { 'usedIn.section': { $regex: /nitya/i } },
+            { fileName: { $regex: /temple-seva-nitya-poojalu/i } },
+            { title: { $regex: /nitya/i } },
+          ],
+        });
+      } else if (catNorm.includes('hanuman')) {
+        andClauses.push({
+          $or: [
+            { category: { $regex: /hanuman/i } },
+            { section: { $regex: /hanuman/i } },
+            { tags: { $in: ['hanuman', 'hanuman-images', 'chalisa', 'palaki'] } },
+            { 'usedIn.section': { $regex: /hanuman/i } },
+            { fileName: { $regex: /hanuman|palaki|chalisa/i } },
+            { title: { $regex: /hanuman|palaki|chalisa/i } },
           ],
         });
       } else {
@@ -151,8 +179,9 @@ export const uploadMedia = async (req, res) => {
       title = '',
       description = '',
       caption = '',
-      altText = 'Anti-Drug Movement Marathon 2026 Asset',
+      altText = 'Media Asset',
       category = 'Other',
+      website = 'chinmaya',
       page = 'General',
       section = 'General',
       tags = '',
@@ -214,6 +243,7 @@ export const uploadMedia = async (req, res) => {
       width: Number(width) || 0,
       height: Number(height) || 0,
       category,
+      website: website || (category.toLowerCase().includes('marathon') ? 'marathon' : 'chinmaya'),
       page,
       section,
       tags: parsedTags,
@@ -396,6 +426,84 @@ export const syncMediaImageToCollections = async (mediaItem, oldUrl) => {
       footerConfig.logoUrl = newUrl;
       await footerConfig.save();
     }
+
+    // 6. Sync to WebContent (Upcoming Events & On Going Events on Homepage)
+    const chinmayaHome = await WebContent.findOne({ website: 'chinmaya', pageSlug: 'home' });
+    if (chinmayaHome && Array.isArray(chinmayaHome.sections)) {
+      let updatedCms = false;
+      const mediaTitleLower = (mediaItem.title || '').toLowerCase();
+      const mediaCatLower = (mediaItem.category || '').toLowerCase();
+      const isUpcoming =
+        mediaCatLower.includes('upcoming') ||
+        mediaTitleLower.includes('rama') ||
+        mediaTitleLower.includes('magamasam') ||
+        mediaTitleLower.includes('hanuman') ||
+        mediaTitleLower.includes('krishna');
+      const isOngoing =
+        mediaCatLower.includes('going') ||
+        mediaTitleLower.includes('karthika') ||
+        mediaTitleLower.includes('rudra');
+
+      chinmayaHome.sections.forEach((sec) => {
+        if (
+          (isUpcoming && sec.sectionId === 'upcoming_events') ||
+          (isOngoing && sec.sectionId === 'ongoing_events') ||
+          sec.sectionId === 'upcoming_events' ||
+          sec.sectionId === 'ongoing_events'
+        ) {
+          if (Array.isArray(sec.items)) {
+            let matched = false;
+            sec.items.forEach((item) => {
+              const itemTitleLower = (item.title || '').toLowerCase();
+              const isMatch =
+                (item.imageUrl && (item.imageUrl === newUrl || (oldUrl && item.imageUrl === oldUrl))) ||
+                (mediaTitleLower && (itemTitleLower.includes(mediaTitleLower) || mediaTitleLower.includes(itemTitleLower))) ||
+                (mediaItem.fileName && item.itemId && item.itemId.includes(mediaItem.fileName.replace(/\.[^/.]+$/, '')));
+
+              if (isMatch) {
+                matched = true;
+                if (mediaItem.description !== undefined) {
+                  item.description = mediaItem.description;
+                }
+                if (newUrl) {
+                  item.imageUrl = newUrl;
+                }
+                if (mediaItem.title) {
+                  item.title = mediaItem.title;
+                }
+                if (mediaItem.caption) {
+                  item.subtitle = mediaItem.caption;
+                }
+                updatedCms = true;
+              }
+            });
+
+            // If it's explicitly an Upcoming or Ongoing image and wasn't in the items list yet, add it
+            if (!matched && (isUpcoming || isOngoing) && mediaItem.title) {
+              const targetSectionId = isOngoing ? 'ongoing_events' : 'upcoming_events';
+              if (sec.sectionId === targetSectionId) {
+                sec.items.push({
+                  itemId: `event-${(mediaItem.title || 'event').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+                  title: mediaItem.title,
+                  subtitle: mediaItem.caption || mediaItem.title,
+                  description: mediaItem.description || '',
+                  imageUrl: newUrl,
+                  dateOrYear: mediaItem.caption || 'Upcoming',
+                  linkUrl: '/activities',
+                  order: sec.items.length + 1,
+                });
+                updatedCms = true;
+              }
+            }
+          }
+        }
+      });
+
+      if (updatedCms) {
+        await chinmayaHome.save();
+        console.log(`[MediaSync] Synced media item '${mediaItem.title}' into WebContent chinmaya/home successfully`);
+      }
+    }
   } catch (err) {
     console.error('[Sync Media Image Error]:', err.message);
   }
@@ -423,6 +531,7 @@ export const updateMedia = async (req, res) => {
       caption,
       altText,
       category,
+      website,
       page,
       section,
       tags,
@@ -455,6 +564,9 @@ export const updateMedia = async (req, res) => {
     if (caption !== undefined) media.caption = caption.trim();
     if (altText !== undefined) media.altText = altText.trim();
     if (category !== undefined) media.category = category;
+    if (website && ['chinmaya', 'marathon'].includes(website.toLowerCase())) {
+      media.website = website.toLowerCase();
+    }
     if (page !== undefined) media.page = page;
     if (section !== undefined) media.section = section;
     if (displayOrder !== undefined) media.displayOrder = Number(displayOrder) || 0;
@@ -654,7 +766,28 @@ export const getPublicMedia = async (req, res) => {
   try {
     const { category, pageName, section } = req.query;
     const query = { status: 'ACTIVE' };
-    if (category && category !== 'ALL') query.category = category;
+    if (category && category !== 'ALL') {
+      const catNorm = category.trim().toLowerCase();
+      if (catNorm.includes('nitya')) {
+        query.$or = [
+          { category: { $regex: /nitya/i } },
+          { section: { $regex: /nitya/i } },
+          { tags: { $in: ['nitya', 'nitya-poojalu', 'daily-pooja'] } },
+          { title: { $regex: /nitya/i } },
+          { fileName: { $regex: /temple-seva-nitya-poojalu/i } },
+        ];
+      } else if (catNorm.includes('hanuman')) {
+        query.$or = [
+          { category: { $regex: /hanuman/i } },
+          { section: { $regex: /hanuman/i } },
+          { tags: { $in: ['hanuman', 'hanuman-images', 'chalisa', 'palaki'] } },
+          { title: { $regex: /hanuman|palaki|chalisa/i } },
+          { fileName: { $regex: /hanuman|palaki|chalisa/i } },
+        ];
+      } else {
+        query.category = category;
+      }
+    }
     if (pageName && pageName !== 'ALL') query.page = pageName;
     if (section && section !== 'ALL') query.section = section;
 
@@ -675,26 +808,37 @@ export const getPublicMedia = async (req, res) => {
 // @access  Private/Admin
 export const getMediaCategories = async (req, res) => {
   try {
+    const { website } = req.query;
+    if (website === 'marathon') {
+      return res.json({
+        success: true,
+        data: {
+          categories: [
+            'Marathon Posters',
+            'Hero & Graphics',
+            'Inspiration & Gurus',
+            'Logos & Branding',
+            'General',
+          ],
+          pages: ['Marathon', 'Registration', 'Home', 'General'],
+        },
+      });
+    }
+
     const categories = [
+      'Upcoming events',
+      'On going events',
+      'Nitya Poojalu',
+      'Hanuman Images',
       'Temples & Sevas',
       'Festivals & Gallery',
       'Ashram & Activities',
       'Leadership & Gurus',
       'Logos & Maps',
-      'Upcoming events',
-      'On going events',
-      'Home',
       'About',
-      'Activities',
-      'Let\'s Connect',
-      'Marathon',
-      'Registration',
-      'Banner',
-      'Footer',
-      'Gallery',
-      'Other',
+      'General',
     ];
-    const pages = ['Chinmaya Mission', 'Home', 'About', 'Activities', 'Let\'s Connect', 'Marathon', 'Registration', 'General'];
+    const pages = ['Chinmaya Mission', 'Home', 'About', 'Activities', 'Let\'s Connect', 'General'];
     
     res.json({
       success: true,

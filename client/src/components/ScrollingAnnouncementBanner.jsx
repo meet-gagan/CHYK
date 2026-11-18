@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { webContentService } from '../services/api';
 import './ScrollingAnnouncementBanner.css';
 
 const DEFAULT_EN =
@@ -9,29 +10,87 @@ const DEFAULT_TE =
 
 /**
  * Continuous Scrolling Announcement Banner
- * Displays English and Telugu Magamasam announcements in a seamless, single horizontal line.
- * Appears exclusively on the Chinmaya Mission homepage directly below the header.
- * Strictly respects isEnabled status: if disabled or false, renders null.
+ * Displays English and Telugu announcements in a seamless, single horizontal line.
+ * Appears below the header across all pages.
+ * Controlled dynamically by CMS (scrolling_announcement section in chinmaya home content)
+ * or via optional component props.
  */
 export const ScrollingAnnouncementBanner = ({
-  isEnabled = true,
-  englishContent,
-  teluguContent,
-  linkUrl = '/shri-shantamalleshwara-swami-temple#maha-shivaratri',
+  isEnabled: propIsEnabled,
+  englishContent: propEnglish,
+  teluguContent: propTelugu,
+  linkUrl: propLink,
 }) => {
+  const [data, setData] = useState({
+    isEnabled: propIsEnabled !== undefined ? propIsEnabled : true,
+    englishContent: propEnglish || DEFAULT_EN,
+    teluguContent: propTelugu || DEFAULT_TE,
+    linkUrl: propLink || '/maga-masam-poojalu',
+  });
+
+  useEffect(() => {
+    // If props are explicitly supplied, respect them
+    if (propIsEnabled !== undefined) {
+      setData({
+        isEnabled: propIsEnabled,
+        englishContent: propEnglish || DEFAULT_EN,
+        teluguContent: propTelugu || DEFAULT_TE,
+        linkUrl: propLink || '/maga-masam-poojalu',
+      });
+      return;
+    }
+
+    const fetchBanner = () => {
+      webContentService
+        .getPublicPage('chinmaya', 'home')
+        .then((res) => {
+          if (res.data?.success && res.data?.data) {
+            const page = res.data.data;
+            const sec = (page.sections || []).find((s) => s.sectionId === 'scrolling_announcement');
+            const f = page.fieldsMap?.scrolling_announcement;
+            const enabled = sec
+              ? (sec.isEnabled === true || sec.isEnabled === 'true')
+              : (f?._isEnabled === true || f?._isEnabled === 'true');
+            const en = f?.english_content || sec?.fields?.find((x) => x.key === 'english_content')?.value;
+            const te = f?.telugu_content || sec?.fields?.find((x) => x.key === 'telugu_content')?.value;
+            const link = f?.link_url || sec?.fields?.find((x) => x.key === 'link_url')?.value;
+
+            setData({
+              isEnabled: enabled !== false,
+              englishContent: en || DEFAULT_EN,
+              teluguContent: te || DEFAULT_TE,
+              linkUrl: link || '/maga-masam-poojalu',
+            });
+          }
+        })
+        .catch(() => {});
+    };
+
+    fetchBanner();
+
+    const handleCmsUpdate = () => fetchBanner();
+    window.addEventListener('cms_updated', handleCmsUpdate);
+    window.addEventListener('storage', handleCmsUpdate);
+    return () => {
+      window.removeEventListener('cms_updated', handleCmsUpdate);
+      window.removeEventListener('storage', handleCmsUpdate);
+    };
+  }, [propIsEnabled, propEnglish, propTelugu, propLink]);
+
   // If disabled by administrator, do not render
-  if (!isEnabled) {
+  if (!data.isEnabled) {
     return null;
   }
 
-  const enText = englishContent || DEFAULT_EN;
-  const teText = teluguContent || DEFAULT_TE;
+  const enText = data.englishContent || DEFAULT_EN;
+  const teText = data.teluguContent || DEFAULT_TE;
   const targetLink =
-    linkUrl && linkUrl !== '#'
-      ? linkUrl.includes('maha-shivaratri')
-        ? linkUrl
-        : `${linkUrl}#maha-shivaratri`
-      : '/shri-shantamalleshwara-swami-temple#maha-shivaratri';
+    data.linkUrl &&
+    data.linkUrl !== '#' &&
+    !data.linkUrl.includes('shantamalleshwara') &&
+    !data.linkUrl.includes('maha-shivaratri')
+      ? data.linkUrl
+      : '/maga-masam-poojalu';
 
   const renderUnits = (prefix = 'seq') => {
     return Array.from({ length: 3 }).map((_, idx) => (
@@ -56,12 +115,12 @@ export const ScrollingAnnouncementBanner = ({
     <div
       className="announcement-banner-wrapper"
       role="region"
-      aria-label="Shri Shantamalleshwara Swami Temple Announcement"
+      aria-label="Chinmaya Mission Adoni Announcement"
     >
       <Link
         to={targetLink}
         className="announcement-banner-link"
-        title="Shri Shantamalleshwara Swami Temple — Maha Shivaratri Special"
+        title="Chinmaya Mission Adoni — Maga Masam Poojalu"
       >
         <div className="announcement-marquee-track">
           {/* Primary Track Content (Read by Screen Readers) */}

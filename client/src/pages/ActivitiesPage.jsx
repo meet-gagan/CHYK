@@ -24,7 +24,6 @@ const FEATURED_WINGS = [
   {
     id: 'devi-group',
     title: 'DEVI GROUP',
-    badge: 'DEVOTIONAL WING',
     icon: <Heart className="w-5 h-5 text-[var(--orange)]" />,
     imageUrl: '/assets/images/activity-devigroup.jpg',
     content:
@@ -63,7 +62,6 @@ const FEATURED_WINGS = [
   {
     id: 'balvihar-classes',
     title: 'BALVIHAR CLASSES',
-    badge: 'CHILDREN’S WING • VALUE EDUCATION',
     icon: <Users className="w-5 h-5 text-[var(--orange)]" />,
     imageUrl: '/assets/images/activity-balvihar.jpg',
     featured: true,
@@ -177,12 +175,6 @@ const ActivityCard = ({ activity, onSelect }) => {
           loading="eager"
         />
 
-        {activity.category && (
-          <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md text-white font-bold text-[10px] sm:text-[11px] uppercase tracking-wider border border-white/20 shadow-md z-20">
-            {activity.category}
-          </span>
-        )}
-
         <button
           type="button"
           onClick={() => onSelect(activity)}
@@ -258,7 +250,6 @@ export const ActivitiesPage = () => {
       id: 'kuchipudi-classes',
       title: 'Kuchipudi Classes',
       subtitle: 'Indian classical dance',
-      category: 'Classical Dance & Arts',
       imageUrl: '/assets/our-activities/kuchipudi-classes.jpg',
       imageSource: 'Indian classical dance | Chinmaya Mission',
       icon: <Sparkles className="w-5 h-5" />,
@@ -283,7 +274,6 @@ export const ActivitiesPage = () => {
       id: 'sanskrit-classes',
       title: 'Sanskrit Classes',
       subtitle: 'Language & Chanting',
-      category: 'Sacred Learning & Chanting',
       imageUrl: '/assets/our-activities/sanskrit-classes.jpg',
       imageAlt: 'Sanskrit Classes and Chanting at Chinmaya Mission',
       imageSource: 'Sanskrit Learning & Chanting Sessions',
@@ -309,7 +299,6 @@ export const ActivitiesPage = () => {
       id: 'bhagavad-gita',
       title: 'Bhagavad Gita Study',
       subtitle: 'Wisdom for life',
-      category: 'Scriptural Wisdom',
       imageUrl: '/assets/our-activities/bhagavad-gita-book.jpg',
       imageSource: 'Wisdom for life | Chinmaya Mission',
       icon: <Flame className="w-5 h-5" />,
@@ -334,7 +323,6 @@ export const ActivitiesPage = () => {
       id: 'satsang',
       title: 'Satsang',
       subtitle: 'Spiritual Fellowship',
-      category: 'Spiritual Fellowship & Discourse',
       imageUrl: '/assets/images/activity-satsang.jpg',
       imageSource: 'Chinmaya Mission Satsang Gathering',
       icon: <Sun className="w-5 h-5" />,
@@ -359,7 +347,6 @@ export const ActivitiesPage = () => {
       id: 'vishnu-sahasranamam',
       title: 'Vishnu Sahasranamam',
       subtitle: 'Devotional chanting',
-      category: 'Devotional Chanting',
       imageUrl: '/assets/our-activities/vishnu-sahasranamam.jpg',
       imageSource: 'Devotional chanting | Temples & Satsang',
       icon: <Heart className="w-5 h-5" />,
@@ -430,12 +417,6 @@ export const ActivitiesPage = () => {
                   className="relative z-10 max-h-full max-w-full w-auto h-auto object-contain rounded-xl shadow-sm transition-transform duration-500 ease-out group-hover:scale-[1.02] block"
                   loading="eager"
                 />
-
-                {card.badge && (
-                  <span className="absolute top-3.5 left-3.5 px-3.5 py-1 rounded-full bg-black/80 backdrop-blur-md text-white font-bold text-xs uppercase tracking-wider border border-white/20 shadow-md z-20">
-                    {card.badge}
-                  </span>
-                )}
               </div>
 
               {/* Card Body */}
@@ -513,7 +494,6 @@ export const ActivitiesPage = () => {
                     handleSelectActivity({
                       ...CHYK_FEATURE_DATA,
                       title: CHYK_FEATURE_DATA.heading,
-                      badge: 'YOUTH IN ACTION',
                       icon: <Zap className="w-5 h-5 text-[var(--orange)]" />,
                       content: `${CHYK_FEATURE_DATA.p1} ${CHYK_FEATURE_DATA.p2}`,
                     })
@@ -547,9 +527,6 @@ export const ActivitiesPage = () => {
                     e.currentTarget.src = '/assets/chyk-group.jpg';
                   }}
                 />
-                <div className="absolute top-4 right-4 px-4 py-1.5 rounded-full bg-black/80 text-[var(--yellow)] font-extrabold text-xs backdrop-blur-md border border-white/20 z-20">
-                  YOUTH IN ACTION
-                </div>
               </div>
             </div>
           </div>
@@ -636,20 +613,15 @@ export const ActivitiesPage = () => {
                 <X className="w-5 h-5" />
               </button>
 
-              {/* Header Badges Floating on Image */}
-              <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 right-3 sm:right-4 flex flex-wrap items-center justify-between gap-2 z-20 pointer-events-none">
-                {(selectedActivity.badge || selectedActivity.category) && (
-                  <span className="px-3.5 py-1.5 rounded-full bg-[var(--orange)] text-white text-xs font-extrabold uppercase tracking-wider shadow-lg">
-                    {selectedActivity.badge || selectedActivity.category}
-                  </span>
-                )}
-                {selectedActivity.detailedInfo?.location && (
+              {/* Header Info Floating on Image */}
+              {selectedActivity.detailedInfo?.location && (
+                <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 z-20 pointer-events-none">
                   <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/70 backdrop-blur-md text-white text-xs font-bold shadow-lg border border-white/10">
                     <MapPin className="w-3.5 h-3.5 text-[var(--orange)]" />
                     <span>{selectedActivity.detailedInfo.location}</span>
                   </span>
-                )}
-              </div>
+                </div>
+              )}
             </div>
 
             {/* Scrollable Modal Content */}

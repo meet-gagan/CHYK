@@ -334,6 +334,7 @@ export const footerService = {
 
 export const mediaService = {
   getMedia: (params) => api.get('/media', { params }),
+  getPublicMedia: (params) => api.get('/media/public', { params }),
   getMediaById: (id) => api.get(`/media/${id}`),
   getCategories: () => api.get('/media/categories'),
   uploadMedia: (data) => {

@@ -67,6 +67,12 @@ const mediaSchema = new mongoose.Schema(
       default: 'Other',
       index: true,
     },
+    website: {
+      type: String,
+      enum: ['chinmaya', 'marathon'],
+      default: 'chinmaya',
+      index: true,
+    },
     page: {
       type: String,
       default: 'General',

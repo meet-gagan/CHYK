@@ -3,82 +3,98 @@ import { GeneralEnquiryPopup } from './GeneralEnquiryPopup';
 import './FloatingGeneralEnquiry.css';
 
 /**
- * Floating Persistent General Enquiries Button
- * Fixed on screen across all pages, starts from the top ("up") right below
- * the header/announcement banner, dynamically moves down and up as the user scrolls,
- * and allows devotees to open and submit enquiries unlimited times.
+ * Constant Floating General Enquiries Button & Corner Widget
+ * Stays constant at the right bottom corner (no scrolling movements).
+ * Auto-pops up for 10 seconds on website entry (unless already filled and submitted).
+ * When clicked, opens a compact square popup box directly at the right bottom corner
+ * while leaving the rest of the website visible and interactive.
  */
 export const FloatingGeneralEnquiry = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [scrollDelta, setScrollDelta] = useState(0);
-  const [isScrolling, setIsScrolling] = useState(false);
-  const lastScrollY = useRef(0);
-  const scrollTimeout = useRef(null);
+  const [isAutoOpened, setIsAutoOpened] = useState(false);
+  const autoCloseTimerRef = useRef(null);
 
+  // Auto-pop up for 10 seconds on initial website load if not already submitted
   useEffect(() => {
-    let ticking = false;
+    try {
+      const alreadySubmitted =
+        localStorage.getItem('chinmaya_general_enquiry_submitted') === 'true';
 
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY || window.pageYOffset || 0;
-      const maxScroll = Math.max(
-        1,
-        document.documentElement.scrollHeight - window.innerHeight
-      );
-      const progress = Math.min(1, Math.max(0, currentScrollY / maxScroll));
-      const delta = currentScrollY - lastScrollY.current;
-      lastScrollY.current = currentScrollY;
+      if (!alreadySubmitted) {
+        // Small initial delay so page loads smoothly before showing the 10s popup
+        const openTimer = setTimeout(() => {
+          setIsOpen(true);
+          setIsAutoOpened(true);
 
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScrollProgress(progress);
-          setScrollDelta(Math.max(-24, Math.min(24, delta * 0.75)));
-          setIsScrolling(true);
+          autoCloseTimerRef.current = setTimeout(() => {
+            setIsOpen(false);
+            setIsAutoOpened(false);
+          }, 10000);
+        }, 1200);
 
-          if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
-          scrollTimeout.current = setTimeout(() => {
-            setIsScrolling(false);
-            setScrollDelta(0);
-          }, 180);
-
-          ticking = false;
-        });
-        ticking = true;
+        return () => {
+          clearTimeout(openTimer);
+          if (autoCloseTimerRef.current) {
+            clearTimeout(autoCloseTimerRef.current);
+          }
+        };
       }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    // Run initial calculation
-    handleScroll();
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
-    };
+    } catch (e) {
+      console.warn('LocalStorage error in FloatingGeneralEnquiry:', e);
+    }
   }, []);
 
-  // Calculate dynamic vertical position:
-  // Starts from "up" near the top (~13vh / min-top below navbar & ticker)
-  // and smoothly glides down towards the bottom (~84vh) as you scroll down.
-  const dynamicTopVh = 13 + scrollProgress * 71;
+  const handleOpenManually = () => {
+    if (autoCloseTimerRef.current) {
+      clearTimeout(autoCloseTimerRef.current);
+      autoCloseTimerRef.current = null;
+    }
+    setIsAutoOpened(false);
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    if (autoCloseTimerRef.current) {
+      clearTimeout(autoCloseTimerRef.current);
+      autoCloseTimerRef.current = null;
+    }
+    setIsOpen(false);
+    setIsAutoOpened(false);
+  };
+
+  const handleUserInteracted = () => {
+    // If the user starts interacting or typing, cancel the 10-second auto-close
+    if (autoCloseTimerRef.current) {
+      clearTimeout(autoCloseTimerRef.current);
+      autoCloseTimerRef.current = null;
+    }
+    setIsAutoOpened(false);
+  };
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        className={`floating-general-enquiry-btn ${!isScrolling ? 'is-idle' : 'is-scrolling'}`}
-        style={{
-          top: `calc(max(var(--min-top, 122px), ${dynamicTopVh}vh) + ${scrollDelta}px)`,
-        }}
-        aria-label="Open General Enquiries Form"
-        title="General enquiries — Click to submit an enquiry"
-      >
-        <span className="floating-enquiry-text-top">General</span>
-        <span className="floating-enquiry-text-bottom">enquiries</span>
-      </button>
+      {/* Constant Right Bottom Corner Floating Icon */}
+      {!isOpen && (
+        <button
+          type="button"
+          onClick={handleOpenManually}
+          className="floating-general-enquiry-btn"
+          aria-label="Open General Enquiries Form"
+          title="General enquiries — Click to submit an enquiry"
+        >
+          <span className="floating-enquiry-text-top">General</span>
+          <span className="floating-enquiry-text-bottom">enquiries</span>
+        </button>
+      )}
 
-      {isOpen && <GeneralEnquiryPopup onClose={() => setIsOpen(false)} />}
+      {/* Right Bottom Corner Square Popup Box */}
+      {isOpen && (
+        <GeneralEnquiryPopup
+          onClose={handleClose}
+          onUserInteracted={handleUserInteracted}
+          isAutoOpened={isAutoOpened}
+        />
+      )}
     </>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { webContentService } from '../services/api';
+import { webContentService, mediaService } from '../services/api';
 import { TempleSevaSection } from '../components/TempleSevaSection';
 import {
   Flame,
@@ -23,6 +23,14 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
 
   const location = useLocation();
 
+  const [nityaPoojaluData, setNityaPoojaluData] = useState({
+    title: 'Nitya Poojalu',
+    badge: 'Every Day',
+    desc: 'Daily poojas are performed to Lord Shiva every morning and evening with devotion and traditional rituals.\n\nMorning & Evening Poojas – Every Day.',
+    timing: 'Morning & Evening Poojas – Every Day.',
+    image: '/assets/images/temple-seva-nitya-poojalu.jpg',
+  });
+
   useEffect(() => {
     document.title = 'Shri Shantamalleshwara Swami Temple | Chinmaya Mission';
 
@@ -34,6 +42,23 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
     if (!isTargeted) {
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
+
+    // Fetch dynamic Nitya Poojalu media asset if configured or edited by Admin
+    mediaService
+      .getPublicMedia({ category: 'Nitya Poojalu' })
+      .then((res) => {
+        if (res.data?.success && Array.isArray(res.data.data) && res.data.data.length > 0) {
+          const item = res.data.data[0];
+          setNityaPoojaluData((prev) => ({
+            title: item.title || prev.title,
+            badge: item.caption || prev.badge,
+            desc: item.description || prev.desc,
+            timing: prev.timing,
+            image: item.url || prev.image,
+          }));
+        }
+      })
+      .catch(() => {});
 
     webContentService
       .getPublicPage('chinmaya', 'shantamalleshwara_temple')
@@ -62,19 +87,19 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
     },
     {
       name: 'Shiva-Parvati Kalyana Mahotsavam',
-      period: 'Magha Masa (Post-Shivaratri Monday)',
+      period: 'Magha Masam (Post-Shivaratri Monday)',
       desc: 'A divine celestial wedding ceremony celebrating the cosmic union of Lord Shiva and Goddess Parvati, drawing 600 to 1,000 devotees, followed by community Annadanam and Mahaprasadam.',
       icon: <Heart className="w-5 h-5 text-rose-500" />,
     },
     {
       name: 'Karthika Deepotsavam',
-      period: 'Karthika Masa (Every Monday)',
+      period: 'Karthika Masam (Every Monday)',
       desc: 'The hilltop sanctum is illuminated with hundreds of sacred earthen lamps (deepams), offering a magnificent radiant spectacle with special evening deeparadhana.',
       icon: <Sun className="w-5 h-5 text-amber-500" />,
     },
     {
-      name: 'Magha Masa Special Daily Pujas',
-      period: 'Month of Magha',
+      name: 'Magha Masam Special Daily Pujas',
+      period: 'Month of Magha Masam',
       desc: 'Month-long daily special abhishekams and sacred archanas supported by hundreds of community devotee sponsors, culminating in the joyous celebrations of Mahashivaratri.',
       icon: <Sparkles className="w-5 h-5 text-[var(--orange)]" />,
     },
@@ -213,13 +238,55 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
 
             <p className="text-sm sm:text-base text-slate-700">
               {f.temple_history?.worshipP2 ||
-                'During the holy month of Magha, extended daily special pujas are conducted with active sponsorship and participation from hundreds of devotee families, culminating in the festive celebrations of Maha Shivaratri.'}
+                'During the holy month of Magha Masam, extended daily special pujas are conducted with active sponsorship and participation from hundreds of devotee families, culminating in the festive celebrations of Maha Shivaratri.'}
             </p>
 
             <p className="text-sm sm:text-base text-slate-700">
               {f.temple_history?.worshipP3 ||
                 'The Devasthanam celebrates Maha Shivaratri, Lord Shiva-Parvati Kalyana Mahotsavam, Karthika Deepotsavam, and Pradosha Vratam with profound Vedic fervour, bringing the entire community together in devotional unity, Annadanam, and cultural preservation.'}
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* NITYA POOJALU SECTION */}
+      <section className="bg-[#090909] text-white py-12 sm:py-16 border-t border-[#2d2723]">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10">
+          <div className="text-center max-w-3xl mx-auto space-y-2">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black font-heading text-white tracking-tight">
+              {nityaPoojaluData.title || 'Nitya Poojalu'}
+            </h2>
+            <div className="w-16 h-1 bg-[var(--orange)] rounded-full mx-auto mt-2" />
+          </div>
+
+          <div className="max-w-sm sm:max-w-md mx-auto">
+            <div className="bg-[#141414] border border-[#2d2723] rounded-2xl overflow-hidden flex flex-col shadow-lg shadow-black/40 hover:border-[#f5c46a]/60 hover:-translate-y-1 transition-all duration-300 text-left group">
+              <div className="w-full h-56 sm:h-64 overflow-hidden bg-black/40 relative">
+                <img
+                  src={nityaPoojaluData.image || '/assets/images/temple-seva-nitya-poojalu.jpg'}
+                  alt={nityaPoojaluData.title || 'Nitya Poojalu'}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-5 sm:p-6 flex flex-col flex-1 space-y-2.5">
+                <span className="inline-block self-start px-3 py-1 rounded-full bg-[#1f1f23] text-[#e0e0e0] text-xs font-medium border border-white/5">
+                  {nityaPoojaluData.badge || 'Every Day'}
+                </span>
+                <h3 className="text-lg sm:text-xl font-bold font-heading text-[#f5c46a] leading-snug group-hover:text-amber-300 transition-colors">
+                  {nityaPoojaluData.title || 'Nitya Poojalu'}
+                </h3>
+                <div className="text-slate-300 text-xs sm:text-sm leading-relaxed font-normal pt-1 space-y-2">
+                  <p className="whitespace-pre-line">
+                    {nityaPoojaluData.desc}
+                  </p>
+                  {nityaPoojaluData.timing && !nityaPoojaluData.desc?.includes(nityaPoojaluData.timing) && (
+                    <p className="text-[#f5c46a]/90 font-medium">
+                      {nityaPoojaluData.timing}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -232,10 +299,10 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="text-center max-w-3xl mx-auto space-y-2">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black font-heading text-slate-900 tracking-tight">
-              Annual Festivals &amp; Observances
+              Special Occasion Poojas
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 font-medium">
-              Throughout the year, thousands of devotees ascend the hillock to celebrate auspicious Shaivite festivals and participate in sacred community rituals.
+              Let every prayer bring peace, every ritual inspire devotion, and every celebration strengthens our spiritual connection.
             </p>
           </div>
 

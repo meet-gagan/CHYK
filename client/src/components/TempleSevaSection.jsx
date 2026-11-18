@@ -44,8 +44,23 @@ function todayStr() {
   return `${y}-${m}-${day}`;
 }
 
+/**
+ * Returns minimum allowable date for Seva/Pooja booking in YYYY-MM-DD.
+ * Devotees must book at least 2 days in advance (day after tomorrow onwards).
+ * Past dates, present date (today), and tomorrow are unavailable.
+ * E.g., if today is 18th Nov, bookings are open from 20th Nov onwards (17th, 18th, 19th unavailable).
+ */
+export const getMinSevaDate = () => {
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() + 2);
+  const y = minDate.getFullYear();
+  const m = String(minDate.getMonth() + 1).padStart(2, '0');
+  const day = String(minDate.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+};
+
 function isFutureDate(s) {
-  return Boolean(s && s >= todayStr());
+  return Boolean(s && s >= getMinSevaDate());
 }
 
 function sanitizePhone(v) {
@@ -143,7 +158,7 @@ export const POOJA_SERVICES = [
       { name: 'Nitya Archana Seva (1 Month)', price: 5116 },
       { name: 'Pournima Visesha Puja (1 Year)', price: 6000 },
       { name: 'Amavasya Visesha Puja (1 Year)', price: 6000 },
-      { name: 'Masa Shivaratri Puja (1 Year)', price: 6000 },
+      { name: 'Masam Shivaratri Puja (1 Year)', price: 6000 },
       { name: 'Arudra Nakshatra Puja (1 Year)', price: 6000 },
     ],
   },
@@ -177,7 +192,7 @@ export const POOJA_SERVICES = [
   },
   {
     id: 'rudrabhishekam',
-    name: 'RudrAbhishekam',
+    name: 'Rudrabhishekam',
     desc: 'Abhishekam with Sri Rudram Namakam Chamakam',
     icon: 'ॐ',
     pujaType: 'rudrabhishekam',
@@ -197,7 +212,7 @@ export const POOJA_SERVICES = [
   },
   {
     id: 'sri-chakra',
-    name: 'Sri Chakra|KumkumArchana',
+    name: 'Sri Chakra|Kumkumarchana',
     desc: 'Kumkuma puja',
     icon: '✴',
     pujaType: 'sri_chakra_kumkumarchana',
@@ -243,19 +258,19 @@ export const POOJA_SERVICES = [
   },
   {
     id: 'maha-shivaratri',
-    name: 'Maha Shivaratri|Special',
-    desc: 'Auspicious Maghamasa Pujas & Abhishekams (30 Days)',
+    name: 'Magha Masam Poojalu',
+    desc: 'Auspicious Magha Masam Poojalu & Abhishekams (30 Days)',
     icon: '✶',
     pujaType: 'maha_shivaratri',
     isSpecial: true,
     options: [
-      { name: 'Daily Sankalpa Rudrabhisheka Puja (30 Days) with Prasadam', price: 1221 },
+      { name: 'Daily Sankalpa Rudrabhisheka Puja (30 Days)', price: 1221 },
       {
-        name: 'Daily Sankalpa Rudrabhisheka Puja (30 Days) + Shiva Parvati Kalyana Seva',
+        name: 'Shiva Parvati Kalyana Seva + Daily Sankalpa Rudrabhisheka Puja (30 Days)',
         price: 10008,
       },
       {
-        name: 'Daily Sankalpa Rudrabhisheka Puja (30 Days) + Shiva Parvati Kalyana Seva + Anna Prasada Seva',
+        name: 'Shiva Parvati Kalyana Seva + Anna Prasada Seva + Daily Sankalpa Rudrabhisheka Puja (30 Days)',
         price: 15116,
       },
     ],
@@ -347,6 +362,15 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
+    if (name === 'dob' && value) {
+      const minDate = getMinSevaDate();
+      if (value < minDate) {
+        setErrors((prev) => ({
+          ...prev,
+          dob: 'Bookings must be made at least 2 days in advance. Past dates, today, and tomorrow are unavailable.',
+        }));
+      }
+    }
   };
 
   const validate = () => {
@@ -363,6 +387,13 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
       newErrors.email = 'Please enter your email ID';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
       newErrors.email = 'Please enter a valid email address';
+    }
+
+    const minDate = getMinSevaDate();
+    if (!formData.dob) {
+      newErrors.dob = 'Please select a Seva Date (at least 2 days in advance)';
+    } else if (formData.dob < minDate) {
+      newErrors.dob = 'Bookings must be made at least 2 days in advance. Past dates, today, and tomorrow are unavailable.';
     }
 
     setErrors(newErrors);
@@ -854,7 +885,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                         {formData.phoneNumber || '—'}
                       </td>
                       <td style={{ padding: '3.5px 6px', color: '#64748b', fontWeight: '600' }}>
-                        Sankalpa Date:
+                        Seva Date:
                       </td>
                       <td style={{ padding: '3.5px 6px', fontWeight: '600', color: '#0f172a' }}>
                         {printDobStr}
@@ -949,122 +980,139 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
 
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-[#061527]/75 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Modal Dialog Card */}
-      <div className="relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-[#EAE0CE] w-full max-w-2xl max-h-[92vh] flex flex-col overflow-hidden z-10 transition-all transform scale-100 animate-in fade-in zoom-in-95 duration-200">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-[#0C1A30] via-[#142845] to-[#0C1A30] text-white p-5 sm:p-6 relative border-b border-[#C89B59]/30 shrink-0">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#C89B59]/20 border border-[#C89B59]/40 flex items-center justify-center shrink-0">
-                <Heart className="w-5 h-5 text-[#E6BF70] fill-current" />
-              </div>
-              <div>
-                <h3 className="text-lg sm:text-xl font-bold font-spiritual-heading text-white tracking-wide">
-                  {step === 'review'
-                    ? 'Review Details & Contribution'
-                    : step === 'proof'
-                    ? 'Submit Payment Verification'
-                    : step === 'confirmed'
-                    ? 'Sankalpa Registered'
-                    : 'EXPLORE CONTRIBUTION OPTIONS'}
-                </h3>
-                <p className="text-xs sm:text-[13px] text-[#F4E8D3]/80">
+      <div
+        className="relative bg-white rounded-3xl shadow-2xl border border-[#ECE3D4] w-full max-w-2xl max-h-[92vh] flex flex-col overflow-hidden z-10 animate-in zoom-in-95 duration-200"
+        style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
+      >
+        {/* Top Decorative Amber Bar */}
+        <div className="h-1.5 w-full bg-gradient-to-r from-[var(--orange,#FF8A3D)] via-[#FFA14A] to-[var(--yellow,#D97706)] shrink-0" />
+
+        {/* Modal Header */}
+        <div className="px-5 sm:px-6 pt-5 pb-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-b from-[#FFFDF9] to-white shrink-0">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <div className="w-10 h-10 rounded-2xl bg-[var(--orange)]/10 text-[var(--orange)] flex items-center justify-center shrink-0 shadow-sm">
+              <Sparkles className="w-5 h-5 text-[var(--orange)]" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <span className="text-[10px] font-extrabold uppercase tracking-widest text-[var(--orange)] block">
+                {step === 'review'
+                  ? 'REVIEW & CONFIRM'
+                  : step === 'proof'
+                  ? 'PAYMENT VERIFICATION'
+                  : step === 'confirmed'
+                  ? 'SANKALPA RECORDED'
+                  : 'SACRED SEVA OFFERING'}
+              </span>
+              <h2 className="text-lg sm:text-xl font-bold font-heading text-[#0A192F] leading-tight truncate">
+                {step === 'review'
+                  ? 'Review Details & Contribution'
+                  : step === 'proof'
+                  ? 'Submit Payment Verification'
+                  : step === 'confirmed'
+                  ? 'Sankalpa Registered'
+                  : serviceDisplayName}
+              </h2>
+              {step !== 'form' && (
+                <p className="text-xs text-slate-500 mt-0.5 truncate">
                   {step === 'review'
                     ? 'Verify your sacred details before offering seva'
                     : step === 'proof'
-                    ? 'Enter your UTR ID and upload the payment screenshot'
-                    : step === 'confirmed'
-                    ? 'May the presiding deity bless you and your family'
-                    : 'Pooja Sankalpa, Devotee Details & Contribution Record'}
+                    ? 'Share your payment details to WhatsApp or Email below'
+                    : 'May the presiding deity bless you and your family'}
                 </p>
-              </div>
+              )}
             </div>
-
-            <button
-              type="button"
-              onClick={onClose}
-              className="p-2 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-              aria-label="Close modal"
-            >
-              <X className="w-5 h-5" />
-            </button>
           </div>
 
-          {/* Step Progress Pill */}
-          {step !== 'confirmed' && (
-            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-semibold">
-              <span className="flex items-center gap-1.5 text-[#E6BF70]">
-                <span className="w-5 h-5 rounded-full bg-[#C89B59] text-[#0C1A30] font-bold flex items-center justify-center text-[11px]">
-                  {step === 'review' || step === 'proof' ? '✓' : '1'}
-                </span>
-                <span>Details</span>
-              </span>
-              <div className="h-0.5 flex-1 mx-2 bg-white/20">
-                <div
-                  className={`h-full bg-[#C89B59] transition-all duration-300 ${
-                    step === 'review' || step === 'proof' ? 'w-full' : 'w-0'
-                  }`}
-                />
-              </div>
-              <span
-                className={`flex items-center gap-1.5 ${
-                  step === 'review' || step === 'proof' ? 'text-[#E6BF70]' : 'text-slate-400'
-                }`}
-              >
-                <span
-                  className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-[11px] ${
-                    step === 'review' || step === 'proof'
-                      ? 'bg-[#C89B59] text-[#0C1A30]'
-                      : 'bg-white/20 text-slate-300'
-                  }`}
-                >
-                  {step === 'proof' ? '✓' : '2'}
-                </span>
-                <span>Review & QR</span>
-              </span>
-              <div className="h-0.5 flex-1 mx-2 bg-white/20">
-                <div
-                  className={`h-full bg-[#C89B59] transition-all duration-300 ${
-                    step === 'proof' ? 'w-full' : 'w-0'
-                  }`}
-                />
-              </div>
-              <span
-                className={`flex items-center gap-1.5 ${
-                  step === 'proof' ? 'text-[#E6BF70]' : 'text-slate-400'
-                }`}
-              >
-                <span
-                  className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-[11px] ${
-                    step === 'proof'
-                      ? 'bg-[#C89B59] text-[#0C1A30]'
-                      : 'bg-white/20 text-slate-300'
-                  }`}
-                >
-                  3
-                </span>
-                <span>Payment Proof</span>
-              </span>
-            </div>
-          )}
+          <button
+            type="button"
+            onClick={onClose}
+            className="p-1.5 sm:p-2 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer shrink-0 ml-2"
+            aria-label="Close dialog"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
+        {/* Step Progress Pill */}
+        {step !== 'confirmed' && (
+          <div className="px-5 sm:px-6 py-2.5 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between text-xs font-semibold shrink-0">
+            <span className={`flex items-center gap-1.5 ${step === 'form' ? 'text-[var(--orange)] font-bold' : 'text-slate-700'}`}>
+              <span className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-[11px] ${
+                step === 'review' || step === 'proof' ? 'bg-emerald-600 text-white' : 'bg-[var(--orange)] text-white'
+              }`}>
+                {step === 'review' || step === 'proof' ? '✓' : '1'}
+              </span>
+              <span>Details</span>
+            </span>
+            <div className="h-0.5 flex-1 mx-2 sm:mx-3 bg-slate-200">
+              <div
+                className={`h-full bg-[var(--orange)] transition-all duration-300 ${
+                  step === 'review' || step === 'proof' ? 'w-full' : 'w-0'
+                }`}
+              />
+            </div>
+            <span
+              className={`flex items-center gap-1.5 ${
+                step === 'review' ? 'text-[var(--orange)] font-bold' : step === 'proof' ? 'text-slate-700' : 'text-slate-400'
+              }`}
+            >
+              <span
+                className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-[11px] ${
+                  step === 'proof'
+                    ? 'bg-emerald-600 text-white'
+                    : step === 'review'
+                    ? 'bg-[var(--orange)] text-white'
+                    : 'bg-white border border-slate-200 text-slate-400'
+                }`}
+              >
+                {step === 'proof' ? '✓' : '2'}
+              </span>
+              <span>Review &amp; QR</span>
+            </span>
+            <div className="h-0.5 flex-1 mx-2 sm:mx-3 bg-slate-200">
+              <div
+                className={`h-full bg-[var(--orange)] transition-all duration-300 ${
+                  step === 'proof' ? 'w-full' : 'w-0'
+                }`}
+              />
+            </div>
+            <span
+              className={`flex items-center gap-1.5 ${
+                step === 'proof' ? 'text-[var(--orange)] font-bold' : 'text-slate-400'
+              }`}
+            >
+              <span
+                className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-[11px] ${
+                  step === 'proof'
+                    ? 'bg-[var(--orange)] text-white'
+                    : 'bg-white border border-slate-200 text-slate-400'
+                }`}
+              >
+                3
+              </span>
+              <span>Payment Proof</span>
+            </span>
+          </div>
+        )}
+
         {/* Modal Scrollable Body */}
-        <div className="p-5 sm:p-7 overflow-y-auto space-y-6 flex-1 bg-[#FAF7F2]">
+        <div className="p-5 sm:p-7 overflow-y-auto space-y-6 flex-1 bg-white">
           {/* ========================================================= */}
           {/* STEP 1: FORM INPUTS                                       */}
           {/* ========================================================= */}
           {step === 'form' && (
             <form onSubmit={handleReviewClick} className="space-y-5">
               {/* Sacred Information Callout */}
-              <div className="bg-white p-4 rounded-xl border border-[#EAE0CE] text-xs sm:text-sm text-[#4A5568] leading-relaxed shadow-sm">
+              <div className="bg-orange-50/60 border border-orange-200/70 p-4 rounded-2xl text-xs sm:text-sm text-slate-700 leading-relaxed shadow-sm">
                 <p className="flex items-start gap-2">
-                  <Sparkles className="w-4 h-4 text-[#C89B59] shrink-0 mt-0.5" />
+                  <Sparkles className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
                   <span>
                     Please provide your sacred details for the <strong>Pooja Sankalpa</strong>,
                     temple blessings, and formal donation acknowledgement.
@@ -1073,13 +1121,13 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
               </div>
 
               {/* Seva Offering Overview & Available Poojas Selection */}
-              <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#EAE0CE] shadow-sm space-y-3.5">
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b border-[#FAF5EA]">
+              <div className="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3.5">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b border-slate-200/70">
                   <div>
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#C89B59] block">
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-[var(--orange)] block">
                       {service.templeName || 'Chinmaya Mission Sacred Seva'}
                     </span>
-                    <h3 className="text-lg sm:text-xl font-bold font-spiritual-heading text-[#0C1A30]">
+                    <h3 className="text-lg sm:text-xl font-bold font-heading text-[#0A192F]">
                       {serviceDisplayName}
                     </h3>
                     {(service.desc || service.descriptionText) && (
@@ -1088,11 +1136,11 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                       </p>
                     )}
                   </div>
-                  <div className="shrink-0 bg-[#FAF7F2] p-3 rounded-xl border border-[#EAE0CE] text-right sm:min-w-[130px]">
+                  <div className="shrink-0 bg-white p-3 rounded-xl border border-slate-200 text-right sm:min-w-[130px] shadow-sm">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
                       Offering Dakshina
                     </span>
-                    <span className="text-base sm:text-xl font-black text-[#B8860B]">
+                    <span className="text-base sm:text-xl font-black text-[var(--orange)]">
                       ₹{Number(currentAmount).toLocaleString('en-IN')}
                     </span>
                   </div>
@@ -1102,11 +1150,11 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 {service.options && service.options.length > 1 ? (
                   <div className="space-y-2.5 pt-1">
                     <div className="flex items-center justify-between">
-                      <label className="text-xs font-bold uppercase tracking-wider text-[#0C1A30] flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-[#C89B59]" />
+                      <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-[var(--orange)]" />
                         <span>Available Poojas &amp; Sevas ({service.options.length} options)</span>
                       </label>
-                      <span className="text-[11px] font-semibold text-[#8B6508]">
+                      <span className="text-[11px] font-semibold text-[var(--orange)]">
                         Select your preferred pooja
                       </span>
                     </div>
@@ -1122,16 +1170,16 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                             onClick={() => setSelectedOption(opt)}
                             className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex items-center justify-between gap-2 ${
                               isSelected
-                                ? 'bg-amber-50/80 border-[#C89B59] ring-2 ring-[#C89B59]/30 shadow-sm'
-                                : 'bg-[#FAF7F2] border-[#EAE0CE] hover:border-[#C89B59]/60 hover:bg-white'
+                                ? 'bg-orange-50/80 border-[var(--orange)] ring-2 ring-[var(--orange)]/25 shadow-sm'
+                                : 'bg-white border-slate-200 hover:border-[var(--orange)]/60 hover:bg-slate-50'
                             }`}
                           >
                             <div className="min-w-0 pr-2">
-                              <span className="text-xs sm:text-[13px] font-bold text-[#0C1A30] block leading-snug">
+                              <span className="text-xs sm:text-[13px] font-bold text-[#0A192F] block leading-snug">
                                 {opt.name}
                               </span>
                             </div>
-                            <span className="text-xs sm:text-sm font-black text-[#B8860B] shrink-0">
+                            <span className="text-xs sm:text-sm font-black text-[var(--orange)] shrink-0">
                               ₹{Number(opt.price).toLocaleString('en-IN')}
                             </span>
                           </button>
@@ -1147,7 +1195,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                           const opt = service.options.find((o) => o.name === e.target.value);
                           if (opt) setSelectedOption(opt);
                         }}
-                        className="w-full px-3.5 py-2 bg-[#FAF7F2] rounded-xl border border-[#D9CEBA] text-xs text-[#0C1A30] font-medium focus:outline-none focus:ring-2 focus:ring-[#C89B59] cursor-pointer"
+                        className="w-full px-3.5 py-2.5 bg-white rounded-xl border border-slate-200 text-xs text-[#0A192F] font-medium focus:outline-none focus:ring-2 focus:ring-[var(--orange)] cursor-pointer"
                       >
                         {service.options.map((opt) => (
                           <option key={opt.name} value={opt.name}>
@@ -1158,22 +1206,22 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-between text-xs sm:text-sm text-slate-700 bg-[#FAF7F2] p-3 rounded-xl border border-[#EAE0CE]">
+                  <div className="flex items-center justify-between text-xs sm:text-sm text-slate-700 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
                     <span className="font-semibold">
-                      Selected Seva: <strong className="text-[#0C1A30]">{selectedOption?.name || serviceDisplayName}</strong>
+                      Selected Seva: <strong className="text-[#0A192F]">{selectedOption?.name || serviceDisplayName}</strong>
                     </span>
-                    <span className="font-black text-[#B8860B]">
+                    <span className="font-black text-[var(--orange)]">
                       ₹{Number(currentAmount).toLocaleString('en-IN')}
                     </span>
                   </div>
                 )}
               </div>
 
-              {/* Devotee Sacred Form Fields (Matching Image 1) */}
+              {/* Devotee Sacred Form Fields */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* 1. Full Name */}
                 <div className="space-y-1.5 sm:col-span-2">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Full Name <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -1183,9 +1231,9 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="e.g., Ramesh Kummar"
-                      className={`w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border text-sm text-[#0C1A30] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all ${
-                        errors.name ? 'border-red-400 bg-red-50/20' : 'border-[#D9CEBA]'
+                      placeholder="Enter your full name"
+                      className={`w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--orange)] focus:border-transparent transition-all ${
+                        errors.name ? 'border-red-400 bg-red-50/20' : 'border-slate-200 text-[#0A192F]'
                       }`}
                       required
                     />
@@ -1195,7 +1243,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
 
                 {/* 2. Phone Number */}
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Phone Number <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -1205,9 +1253,9 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                       name="phoneNumber"
                       value={formData.phoneNumber}
                       onChange={handleChange}
-                      placeholder="e.g., +91 98765 43210"
-                      className={`w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border text-sm text-[#0C1A30] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all ${
-                        errors.phoneNumber ? 'border-red-400 bg-red-50/20' : 'border-[#D9CEBA]'
+                      placeholder="10-digit number"
+                      className={`w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--orange)] focus:border-transparent transition-all ${
+                        errors.phoneNumber ? 'border-red-400 bg-red-50/20' : 'border-slate-200 text-[#0A192F]'
                       }`}
                       required
                     />
@@ -1219,8 +1267,8 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
 
                 {/* 3. Email ID */}
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
-                    Email ID <span className="text-red-500">*</span>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                    Email Address <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
                     <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -1229,9 +1277,9 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="e.g., rameshkummar@gmail.com"
-                      className={`w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border text-sm text-[#0C1A30] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all ${
-                        errors.email ? 'border-red-400 bg-red-50/20' : 'border-[#D9CEBA]'
+                      placeholder="name@example.com"
+                      className={`w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--orange)] focus:border-transparent transition-all ${
+                        errors.email ? 'border-red-400 bg-red-50/20' : 'border-slate-200 text-[#0A192F]'
                       }`}
                       required
                     />
@@ -1241,26 +1289,36 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                   )}
                 </div>
 
-                {/* 4. Date of Birth */}
+                {/* 4. Seva Date */}
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
-                    Date of Birth (DOB)
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                    Seva Date <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
                     <Calendar className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                     <input
                       type="date"
                       name="dob"
+                      min={getMinSevaDate()}
                       value={formData.dob}
                       onChange={handleChange}
-                      className="w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border border-[#D9CEBA] text-sm text-[#0C1A30] focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all"
+                      required
+                      className={`w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--orange)] focus:border-transparent transition-all cursor-pointer ${
+                        errors.dob ? 'border-red-400 bg-red-50/20' : 'border-slate-200 text-[#0A192F]'
+                      }`}
                     />
                   </div>
+                  <p className="text-[11px] text-slate-500 font-medium">
+                    Bookings must be made at least 2 days in advance. Past dates, today, and tomorrow are unavailable.
+                  </p>
+                  {errors.dob && (
+                    <p className="text-xs text-red-500 font-medium">{errors.dob}</p>
+                  )}
                 </div>
 
                 {/* 5. Gotram */}
                 <div className="space-y-1.5 sm:col-span-2">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Gotram (గోత్రం)
                   </label>
                   <div className="relative">
@@ -1270,15 +1328,15 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                       name="gotram"
                       value={formData.gotram}
                       onChange={handleChange}
-                      placeholder="e.g., Bharadwaja, Kaundinya, Kashya"
-                      className="w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border border-[#D9CEBA] text-sm text-[#0C1A30] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all"
+                      placeholder="e.g., Bharadwaja, Kaundinya, Kashyapa"
+                      className="w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--orange)] focus:border-transparent transition-all text-[#0A192F]"
                     />
                   </div>
                 </div>
 
                 {/* 6. Address */}
                 <div className="space-y-1.5 sm:col-span-2">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Address (నివాసం)
                   </label>
                   <div className="relative">
@@ -1289,7 +1347,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                       onChange={handleChange}
                       rows={2}
                       placeholder="Door No, Street, City, State, Pincode"
-                      className="w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border border-[#D9CEBA] text-sm text-[#0C1A30] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all"
+                      className="w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--orange)] focus:border-transparent transition-all leading-relaxed resize-none text-[#0A192F]"
                     />
                   </div>
                 </div>
@@ -1300,16 +1358,16 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 text-sm font-semibold transition-colors cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 text-sm font-semibold transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn-seva-register px-6 py-2.5 text-sm font-bold flex items-center gap-2 cursor-pointer shadow-md"
+                  className="btn-primary py-3 px-6 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01]"
                 >
                   <span>Book Now</span>
-                  <ArrowRight className="w-4 h-4 text-[#0A192F]" />
+                  <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             </form>
@@ -1321,18 +1379,18 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
           {step === 'review' && (
             <div className="space-y-6">
               {/* Review Card */}
-              <div className="bg-white rounded-2xl border-2 border-[#C89B59]/40 shadow-sm p-5 sm:p-6 space-y-5 relative overflow-hidden">
-                <div className="flex items-center justify-between border-b border-[#EAE0CE] pb-3">
-                  <div className="flex items-center gap-2 text-[#0C1A30]">
-                    <ShieldCheck className="w-5 h-5 text-[#C89B59]" />
-                    <h4 className="font-spiritual-heading font-bold text-base sm:text-lg">
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 space-y-5 relative overflow-hidden">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <div className="flex items-center gap-2 text-[#0A192F]">
+                    <ShieldCheck className="w-5 h-5 text-[var(--orange)]" />
+                    <h4 className="font-heading font-bold text-base sm:text-lg">
                       Sankalpa &amp; Seva Summary
                     </h4>
                   </div>
                   <button
                     type="button"
                     onClick={() => setStep('form')}
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#B8860B] hover:text-[#8B6508] bg-[#FAF5EA] px-3 py-1.5 rounded-lg border border-[#C89B59]/30 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[var(--orange)] hover:text-amber-700 bg-orange-50/80 px-3 py-1.5 rounded-lg border border-orange-200/60 transition-colors cursor-pointer"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
                     <span>Edit Details</span>
@@ -1345,7 +1403,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                     <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
                       Seva Offering
                     </span>
-                    <span className="font-bold text-[#0C1A30] text-base">
+                    <span className="font-bold text-[#0A192F] text-base">
                       {selectedOption ? selectedOption.name : serviceDisplayName}
                     </span>
                   </div>
@@ -1354,7 +1412,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                     <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
                       Seva Price / Dakshina
                     </span>
-                    <span className="font-bold text-[#B8860B] text-base">
+                    <span className="font-bold text-[var(--orange)] text-base">
                       ₹{currentAmount.toLocaleString('en-IN')}
                     </span>
                   </div>
@@ -1363,7 +1421,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                     <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
                       Devotee Name
                     </span>
-                    <span className="font-bold text-[#0C1A30] text-base">
+                    <span className="font-bold text-[#0A192F] text-base">
                       {formData.name || '—'}
                     </span>
                   </div>
@@ -1388,7 +1446,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
 
                   <div>
                     <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
-                      Date of Birth
+                      Seva Date
                     </span>
                     <span className="font-semibold text-slate-800">
                       {formData.dob
@@ -1397,7 +1455,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                             month: 'short',
                             year: 'numeric',
                           })
-                        : 'Not Specified'}
+                        : 'As Scheduled by Priest'}
                     </span>
                   </div>
 
@@ -1405,7 +1463,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                     <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
                       Gotram
                     </span>
-                    <span className="font-semibold text-[#0C1A30]">
+                    <span className="font-semibold text-[#0A192F]">
                       {formData.gotram || 'Not Specified'}
                     </span>
                   </div>
@@ -1422,19 +1480,19 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
               </div>
 
               {/* QR Code Container */}
-              <div className="bg-gradient-to-br from-[#FAF5EA] to-[#F3E8D0] rounded-2xl border-2 border-dashed border-[#C89B59] p-6 text-center space-y-3 shadow-inner">
-                <div className="w-16 h-16 rounded-2xl bg-white border border-[#C89B59]/40 flex items-center justify-center mx-auto text-[#0C1A30] shadow-sm">
-                  <QrCode className="w-8 h-8 text-[#C89B59]" />
+              <div className="bg-gradient-to-br from-orange-50/40 via-amber-50/30 to-slate-50 rounded-2xl border-2 border-dashed border-orange-200 p-6 text-center space-y-3 shadow-inner">
+                <div className="w-16 h-16 rounded-2xl bg-white border border-orange-200 flex items-center justify-center mx-auto text-[var(--orange)] shadow-sm">
+                  <QrCode className="w-8 h-8 text-[var(--orange)]" />
                 </div>
                 <div className="space-y-1">
-                  <h5 className="font-spiritual-heading font-bold text-base text-[#0C1A30]">
+                  <h5 className="font-heading font-bold text-base text-[#0A192F]">
                     Payment QR Code
                   </h5>
-                  <p className="text-xs sm:text-sm text-[#4A5568] max-w-md mx-auto">
+                  <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto">
                     The official seva payment QR code will be displayed here for direct UPI / Net Banking transfer.
                   </p>
                 </div>
-                <div className="inline-block px-3.5 py-1.5 rounded-full bg-white/80 border border-[#C89B59]/40 text-xs font-bold text-[#8B6508]">
+                <div className="inline-block px-3.5 py-1.5 rounded-full bg-white border border-orange-200 text-xs font-bold text-[var(--orange)]">
                   ✨ QR Code will be printed / activated here shortly
                 </div>
               </div>
@@ -1444,7 +1502,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 <button
                   type="button"
                   onClick={() => setStep('form')}
-                  className="px-4 py-2.5 rounded-xl border border-[#C89B59] text-[#0C1A30] hover:bg-white text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Edit</span>
@@ -1455,11 +1513,11 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                   <button
                     type="button"
                     onClick={handleDonePaymentClick}
-                    className="btn-seva-register px-6 py-2.5 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-md"
+                    className="btn-primary px-6 py-2.5 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-md transition-all hover:scale-[1.01]"
                   >
-                    <CheckCircle2 className="w-4 h-4 text-[#0A192F]" />
+                    <CheckCircle2 className="w-4 h-4" />
                     <span>Done / I Have Paid</span>
-                    <ArrowRight className="w-4 h-4 text-[#0A192F]" />
+                    <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
               </div>
@@ -1479,19 +1537,18 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
               )}
 
               {/* Info Banner */}
-              <div className="bg-white p-4 rounded-xl border border-[#EAE0CE] text-xs sm:text-sm text-[#4A5568] leading-relaxed shadow-sm">
+              <div className="bg-orange-50/60 border border-orange-200/70 p-4 rounded-2xl text-xs sm:text-sm text-slate-700 leading-relaxed shadow-sm">
                 <p className="flex items-start gap-2">
-                  <Sparkles className="w-4 h-4 text-[#C89B59] shrink-0 mt-0.5" />
+                  <Sparkles className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
                   <span>
-                    Thank you for your payment! Please submit your <strong>UTR Reference ID</strong>{' '}
-                    and share the payment details below for the WhatsApp Number / Email Id.
+                    Thank you for your payment! Please share your payment details below for the WhatsApp Number / Email Id.
                   </span>
                 </p>
               </div>
 
               {/* Pre-filled Devotee Details Summary Card */}
-              <div className="bg-white rounded-2xl border border-[#EAE0CE] p-4 sm:p-5 shadow-sm space-y-3">
-                <div className="flex items-center justify-between pb-2 border-b border-[#FAF5EA]">
+              <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm space-y-3">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
                     Seva Booking Details
                   </span>
@@ -1505,7 +1562,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                     <span className="text-slate-400 block text-[11px] font-semibold uppercase">
                       Amount
                     </span>
-                    <span className="font-extrabold text-[#B8860B] text-base sm:text-lg">
+                    <span className="font-extrabold text-[var(--orange)] text-base sm:text-lg">
                       ₹{Number(currentAmount).toLocaleString('en-IN')}
                     </span>
                   </div>
@@ -1514,7 +1571,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                     <span className="text-slate-400 block text-[11px] font-semibold uppercase">
                       Devotee Name
                     </span>
-                    <span className="font-bold text-[#0C1A30] truncate block">
+                    <span className="font-bold text-[#0A192F] truncate block">
                       {formData.name || '—'}
                     </span>
                   </div>
@@ -1540,12 +1597,12 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
               </div>
 
               {/* Payment details notice for Chinmaya Sanjeevaraya & Shri Shantamalleshwara */}
-              <div className="bg-[#FAF7F2] p-5 rounded-2xl border border-[#EAE0CE] space-y-3.5 shadow-sm text-left">
-                <p className="text-sm font-semibold text-[#0C1A30] leading-snug">
+              <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3.5 shadow-sm text-left">
+                <p className="text-sm font-semibold text-[#0A192F] leading-snug">
                   Share the payment details to the what number or email attached below.
                 </p>
 
-                <div className="space-y-2 pt-1 border-t border-[#EAE0CE]/70 text-xs sm:text-sm">
+                <div className="space-y-2 pt-1 border-t border-slate-200 text-xs sm:text-sm">
                   <div className="flex items-center gap-2.5">
                     <span className="font-bold text-slate-700">whats app number :</span>
                     <a
@@ -1562,7 +1619,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                     <span className="font-bold text-slate-700">Email id:</span>
                     <a
                       href="mailto:Chinmayamission01@gmail.com"
-                      className="font-mono font-bold text-[#B8860B] hover:text-[#996515] hover:underline"
+                      className="font-mono font-bold text-[var(--orange)] hover:underline"
                     >
                       Chinmayamission01@gmail.com
                     </a>
@@ -1570,110 +1627,12 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </div>
               </div>
 
-              {/*
-              // Commented out UTR ID Input & Upload Screenshot for Chinmaya Sanjeevaraya & Shri Shantamalleshwara
-              <div className="space-y-1.5">
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
-                  UTR ID / UPI Reference Number <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <Smartphone className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                  <input
-                    type="text"
-                    name="utrId"
-                    value={formData.utrId}
-                    onChange={handleChange}
-                    placeholder="e.g., 429812345678 (12-digit UTR from PhonePe / UPI receipt)"
-                    maxLength={24}
-                    className={`w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border text-sm text-[#0C1A30] font-mono placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all ${
-                      errors.utrId ? 'border-red-400 bg-red-50/20' : 'border-[#D9CEBA]'
-                    }`}
-                    required
-                  />
-                </div>
-                {errors.utrId ? (
-                  <p className="text-xs text-red-500 font-medium">{errors.utrId}</p>
-                ) : (
-                  <p className="text-[11px] text-slate-500">
-                    Find this 12-digit UTR in your PhonePe / banking transaction details
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
-                  Upload Screenshot of Payment <span className="text-red-500">*</span>
-                </label>
-
-                {!formData.screenshot ? (
-                  <label
-                    className={`flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-2xl bg-white hover:bg-slate-50 transition-all cursor-pointer ${
-                      errors.screenshot ? 'border-red-400 bg-red-50/10' : 'border-[#D9CEBA]'
-                    }`}
-                  >
-                    <div className="w-12 h-12 rounded-full bg-[#FAF5EA] border border-[#C89B59]/30 flex items-center justify-center text-[#B8860B] mb-2">
-                      <UploadCloud className="w-6 h-6" />
-                    </div>
-                    <span className="text-xs sm:text-sm font-bold text-[#0C1A30]">
-                      Click to upload payment screenshot
-                    </span>
-                    <span className="text-[11px] text-slate-500 mt-1">
-                      PNG, JPG, JPEG or PDF (Max 5MB)
-                    </span>
-                    <input
-                      type="file"
-                      accept="image/*,application/pdf"
-                      onChange={handleFileChange}
-                      className="hidden"
-                    />
-                  </label>
-                ) : (
-                  <div className="bg-white rounded-2xl border-2 border-[#C89B59]/40 p-4 shadow-sm flex items-center justify-between">
-                    <div className="flex items-center gap-3 overflow-hidden">
-                      {formData.screenshotPreview ? (
-                        <img
-                          src={formData.screenshotPreview}
-                          alt="Payment Proof Preview"
-                          className="w-14 h-14 rounded-lg object-cover border border-[#EAE0CE] shrink-0"
-                        />
-                      ) : (
-                        <div className="w-14 h-14 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0">
-                          <FileCheck className="w-7 h-7" />
-                        </div>
-                      )}
-                      <div className="truncate">
-                        <span className="text-xs font-bold text-[#0C1A30] block truncate">
-                          {formData.screenshot}
-                        </span>
-                        <span className="text-[11px] text-emerald-600 font-semibold block">
-                          ✓ File ready to upload ({formData.screenshotSize})
-                        </span>
-                      </div>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={handleRemoveScreenshot}
-                      className="p-2 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer shrink-0"
-                      title="Remove screenshot"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                )}
-
-                {errors.screenshot && (
-                  <p className="text-xs text-red-500 font-medium">{errors.screenshot}</p>
-                )}
-              </div>
-              */}
-
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setStep('review')}
-                  className="px-4 py-2.5 rounded-xl border border-[#C89B59] text-[#0C1A30] hover:bg-white text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to QR Code</span>
@@ -1682,9 +1641,9 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn-seva-register px-6 py-2.5 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-md"
+                  className="btn-primary px-6 py-2.5 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-md transition-all hover:scale-[1.01]"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-[#0A192F]" />
+                  <CheckCircle2 className="w-4 h-4" />
                   <span>{isSubmitting ? 'Submitting...' : 'Done'}</span>
                 </button>
               </div>
@@ -1701,29 +1660,29 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
               </div>
 
               <div className="space-y-2 max-w-md mx-auto">
-                <h4 className="text-xl sm:text-2xl font-bold font-spiritual-heading text-[#0C1A30]">
+                <h4 className="text-xl sm:text-2xl font-bold font-heading text-[#0A192F]">
                   Seva Booking &amp; Payment Proof Submitted!
                 </h4>
-                <p className="text-sm text-[#4A5568] leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   Hari Om, <strong>{formData.name}</strong>. Thank you for booking{' '}
-                  <strong className="text-[#0C1A30]">{bookingReceipt?.pujaName}</strong> at{' '}
+                  <strong className="text-[#0A192F]">{bookingReceipt?.pujaName}</strong> at{' '}
                   <strong>{bookingReceipt?.templeName}</strong>. Your sacred details and payment proof have been recorded.
                 </p>
               </div>
 
               {bookingReceipt && (
-                <div className="bg-white p-5 rounded-2xl border border-[#EAE0CE] max-w-md mx-auto text-xs text-slate-700 space-y-2.5 shadow-sm text-left">
-                  <div className="flex justify-between border-b border-slate-100 pb-2">
+                <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 max-w-md mx-auto text-xs text-slate-700 space-y-2.5 shadow-sm text-left">
+                  <div className="flex justify-between border-b border-slate-200 pb-2">
                     <span className="text-slate-500 font-semibold uppercase tracking-wider text-[11px]">Booking Reference</span>
-                    <span className="font-mono font-bold text-[#B8860B] text-xs">{bookingReceipt.refId}</span>
+                    <span className="font-mono font-bold text-[var(--orange)] text-xs">{bookingReceipt.refId}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500 font-medium">Seva Offering:</span>
-                    <span className="font-bold text-[#0C1A30]">{bookingReceipt.pujaName}</span>
+                    <span className="font-bold text-[#0A192F]">{bookingReceipt.pujaName}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500 font-medium">Amount:</span>
-                    <span className="font-extrabold text-[#0C1A30] text-sm">₹{Number(bookingReceipt.amount).toLocaleString('en-IN')}</span>
+                    <span className="font-extrabold text-[#0A192F] text-sm">₹{Number(bookingReceipt.amount).toLocaleString('en-IN')}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500 font-medium">UTR / Transaction ID:</span>
@@ -1739,7 +1698,19 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                       <span className="font-medium text-slate-800">{bookingReceipt.nakshetra}</span>
                     </div>
                   )}
-                  <div className="flex justify-between pt-1 border-t border-slate-100">
+                  {(bookingReceipt.date || formData.dob) && (
+                    <div className="flex justify-between">
+                      <span className="text-slate-500 font-medium">Seva Date:</span>
+                      <span className="font-semibold text-slate-800">
+                        {new Date(bookingReceipt.date || formData.dob).toLocaleDateString('en-GB', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric',
+                        })}
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex justify-between pt-1 border-t border-slate-200">
                     <span className="text-slate-500 font-medium">Status:</span>
                     <span className="font-bold text-emerald-600">✓ Payment Proof Submitted</span>
                   </div>
@@ -1750,7 +1721,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="btn-seva-register px-8 py-2.5 text-sm font-bold cursor-pointer shadow-md"
+                  className="btn-primary px-8 py-3 rounded-xl text-sm font-bold cursor-pointer shadow-md text-white transition-all hover:scale-[1.01]"
                 >
                   Done
                 </button>
@@ -1832,7 +1803,7 @@ export function MyBookingsModal({ open, onClose }) {
       <div
         className="seva-modal"
         onClick={(e) => e.stopPropagation()}
-        style={{ maxWidth: 680 }}
+        style={{ maxWidth: 680, fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
       >
         <button className="seva-modal-close" onClick={onClose}>
           ×
@@ -1850,8 +1821,8 @@ export function MyBookingsModal({ open, onClose }) {
               marginTop: 12,
               fontSize: 30,
               color: '#FFFFFF',
-              fontFamily: 'var(--seva-f-display, "Cinzel", serif)',
-              fontWeight: 600,
+              fontFamily: "'Outfit', 'Plus Jakarta Sans', sans-serif",
+              fontWeight: 700,
             }}
           >
             Registered Sevas
@@ -2079,13 +2050,11 @@ export const TempleSevaSection = () => {
         <div className="seva-container">
           {/* Header */}
           <div className="seva-header-block">
-            <span className="seva-eyebrow">Daily Rhythm</span>
-            <h2 style={{ marginTop: 24 }}>
+            <h2>
               The Hours of <span className="seva-serif-display" style={{ color: 'var(--seva-gold)' }}>Devotion &amp; Seva</span>
             </h2>
             <p className="seva-header-description">
-              Sacred services mark our days — each a returning to silence, each an offering of light.
-              Choose a seva, name the divine intention, and our priests will perform it in your name.
+              Let every prayer become an offering and every offering a path to the Divine. Choose a sacred seva and seek blessings through rituals performed with devotion and grace.
             </p>
           </div>
 
@@ -2108,9 +2077,9 @@ export const TempleSevaSection = () => {
                   }`}
                 >
                   {isHighlighted && (
-                    <div className="seva-highlight-banner" aria-label="Maha Shivaratri Special">
+                    <div className="seva-highlight-banner" aria-label="Magha Masam Poojalu">
                       <span className="seva-highlight-dot" />
-                      <span>Maha Shivaratri Special</span>
+                      <span>Magha Masam Poojalu</span>
                     </div>
                   )}
 
@@ -2160,25 +2129,6 @@ export const TempleSevaSection = () => {
 
       {/* Devotee's Bookings Drawer / List */}
       <MyBookingsModal open={myBookingsOpen} onClose={() => setMyBookingsOpen(false)} />
-
-      {/* Sacred Seva Closing Footer */}
-      <footer className="seva-temple-footer">
-        <div className="seva-container">
-          <div
-            style={{
-              fontFamily: 'var(--seva-f-sanskrit)',
-              fontSize: 32,
-              color: 'var(--seva-gold)',
-            }}
-          >
-            ॐ नमः शिवाय
-          </div>
-          <p>Shri Shantamalleshwara Swami Temple Sanctuary</p>
-          <p style={{ fontSize: 12, color: 'var(--seva-ivory-faint)' }}>
-            All bookings are processed directly without payment. Sanctified priests conduct sevas with devotion.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 };

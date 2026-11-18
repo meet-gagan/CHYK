@@ -179,7 +179,7 @@ export const INITIAL_24_IMAGES = [
   },
   {
     url: '/assets/kartika_deepam_upcome.jpeg',
-    title: 'Kartika Masa Deeparadhana',
+    title: 'Kartika Masam Deeparadhana',
     category: 'Festivals & Homams',
     description: 'A sacred month-long ritual of lighting thousands of clay oil lamps across the temple sanctum.',
     tag: 'Deeparadhana',

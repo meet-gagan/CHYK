@@ -35,7 +35,7 @@ export const submitGeneralEnquiry = async (req, res) => {
     if (!learningGoal) {
       return res.status(400).json({
         success: false,
-        message: 'Please answer: "What do you want to learn from this?"',
+        message: 'Please answer: "What would you like to know more about?"',
       });
     }
 

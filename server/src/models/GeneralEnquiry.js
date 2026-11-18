@@ -20,7 +20,7 @@ const generalEnquirySchema = new mongoose.Schema(
     },
     learningGoal: {
       type: String,
-      required: [true, 'What do you want to learn from this is required'],
+      required: [true, 'What would you like to know more about is required'],
       trim: true,
     },
     status: {

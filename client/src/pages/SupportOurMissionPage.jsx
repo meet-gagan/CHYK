@@ -97,18 +97,18 @@ const sevaCategories = [
 export const SupportOurMissionPage = () => {
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false);
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState('Devotee Donation Details');
-  const [modalSubtitle, setModalSubtitle] = useState('Pooja Sankalpa & Contribution Record');
+  const [modalTitle, setModalTitle] = useState('Explore Contribution Options');
+  const [modalSubtitle, setModalSubtitle] = useState('');
 
   const openContributionModal = () => {
     setModalTitle('Explore Contribution Options');
-    setModalSubtitle('Pooja Sankalpa, Devotee Details & Contribution Record');
+    setModalSubtitle('');
     setIsDonationModalOpen(true);
   };
 
   const openDonationModal = () => {
-    setModalTitle('Devotee Donation Details');
-    setModalSubtitle('Pooja Sankalpa & Sacred Seva Offering');
+    setModalTitle('Explore Contribution Options');
+    setModalSubtitle('');
     setIsDonationModalOpen(true);
   };
 

@@ -25,3 +25,18 @@ export const getMaxDobDate = () => {
   const day = String(today.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
+
+/**
+ * Returns minimum allowable date for Seva/Pooja booking in YYYY-MM-DD.
+ * Bookings must be made at least 2 days in advance (day after tomorrow onwards).
+ * Past dates, present date (today), and tomorrow are unavailable.
+ * E.g., if today is 18th Nov, bookings are only open from 20th Nov onwards (17th, 18th, 19th unavailable).
+ */
+export const getMinSevaDate = () => {
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() + 2);
+  const year = minDate.getFullYear();
+  const month = String(minDate.getMonth() + 1).padStart(2, '0');
+  const day = String(minDate.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};

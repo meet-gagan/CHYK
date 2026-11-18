@@ -171,6 +171,7 @@ export const UpdateContentPage = () => {
               fields: [
                 { key: 'cardTitle', label: 'Card Title', type: 'text', value: 'ORGANIZATION DETAILS', placeholder: 'Enter card title...' },
                 { key: 'address', label: 'Address', type: 'textarea', value: 'Chinmaya Cultural Complex,\nNear Arts College Road,\nAdoni - 518301.', placeholder: 'Enter address...' },
+                { key: 'contactPerson', label: 'Name', type: 'text', value: 'Temple Incharge', placeholder: 'Enter name...' },
                 { key: 'phone', label: 'Phone Number', type: 'text', value: '+91 7337351555', placeholder: 'Enter phone number...' },
                 { key: 'email', label: 'Email Address', type: 'text', value: 'contact@chinmayamissionadoni.org', placeholder: 'Enter email address...' },
               ],
@@ -187,6 +188,7 @@ export const UpdateContentPage = () => {
               fields: [
                 { key: 'cardTitle', label: 'Card Title', type: 'text', value: 'ORGANIZATION DETAILS', placeholder: 'Enter card title...' },
                 { key: 'address', label: 'Address', type: 'textarea', value: 'Chinmaya Cultural Complex,\nNear Arts College Road,\nAdoni - 518301.', placeholder: 'Enter address...' },
+                { key: 'contactPerson', label: 'Name', type: 'text', value: 'Temple Incharge', placeholder: 'Enter name...' },
                 { key: 'phone', label: 'Phone Number', type: 'text', value: '+91 7337351555', placeholder: 'Enter phone number...' },
                 { key: 'email', label: 'Email Address', type: 'text', value: 'contact@chinmayamissionadoni.org', placeholder: 'Enter email address...' },
               ],
@@ -212,6 +214,35 @@ export const UpdateContentPage = () => {
               });
             }
           }
+
+          // Ensure all 3 cards (contact_info, contact_card_2, contact_card_3) have the 'Name' field directly above Phone Number
+          const cardConfigs = [
+            { id: 'contact_info', defaultName: 'Chinmaya Mission Incharge' },
+            { id: 'contact_card_2', defaultName: 'Temple Incharge' },
+            { id: 'contact_card_3', defaultName: 'Temple Incharge' },
+          ];
+
+          cardConfigs.forEach(({ id, defaultName }) => {
+            const sec = (page.sections || []).find((s) => s.sectionId === id);
+            if (sec && Array.isArray(sec.fields)) {
+              const hasPerson = sec.fields.some((f) => f.key === 'contactPerson' || f.key === 'name');
+              if (!hasPerson) {
+                const phoneIdx = sec.fields.findIndex((f) => f.key === 'phone');
+                const newField = {
+                  key: 'contactPerson',
+                  label: 'Name',
+                  type: 'text',
+                  value: defaultName,
+                  placeholder: 'Enter name...',
+                };
+                if (phoneIdx !== -1) {
+                  sec.fields.splice(phoneIdx, 0, newField);
+                } else {
+                  sec.fields.push(newField);
+                }
+              }
+            }
+          });
         }
 
         setActivePage(page);

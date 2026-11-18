@@ -202,7 +202,7 @@ export const adminFooterService = {
 export const adminMediaService = {
   getMedia: (params) => adminApi.get('/media', { params }),
   getMediaById: (id) => adminApi.get(`/media/${id}`),
-  getCategories: () => adminApi.get('/media/categories'),
+  getCategories: (params) => adminApi.get('/media/categories', { params }),
   uploadMedia: (formData) =>
     adminApi.post('/media/upload', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },

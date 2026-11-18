@@ -101,12 +101,19 @@ export const Navbar = () => {
         location.pathname === '/shanta-malleshwara-temple'
       );
     }
+    if (path === '/maga-masam-poojalu' || path === '/magha-masam-poojalu') {
+      return (
+        location.pathname === '/maga-masam-poojalu' ||
+        location.pathname === '/magha-masam-poojalu'
+      );
+    }
     return location.pathname === path;
   };
 
   const isAnyTempleActive =
     isTempleActive('/chinmaya-sanjeevaraya-temple') ||
-    isTempleActive('/sri-shantha-mamleshwara-swami-temple');
+    isTempleActive('/sri-shantha-mamleshwara-swami-temple') ||
+    isTempleActive('/maga-masam-poojalu');
 
   const isChinmayaMissionAdoniActive =
     location.pathname === '/chinmaya-mission-adoni' ||
@@ -154,6 +161,10 @@ export const Navbar = () => {
         {
           name: 'Shri Shantamalleshwara Swami Temple',
           path: '/shri-shantamalleshwara-swami-temple',
+        },
+        {
+          name: 'Maga Masam Poojalu',
+          path: '/maga-masam-poojalu',
         },
       ],
     },

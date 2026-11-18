@@ -4,7 +4,6 @@ import {
   X,
   Heart,
   User,
-  Calendar,
   Phone,
   Mail,
   MapPin,
@@ -32,7 +31,7 @@ export const DonationModal = ({
   isOpen,
   onClose,
   modalTitle = 'Explore Contribution Options',
-  modalSubtitle = 'Pooja Sankalpa, Devotee Details & Contribution Record',
+  modalSubtitle = '',
 }) => {
   const { normalUser } = useAuth();
   const [step, setStep] = useState('form'); // 'form' | 'review' | 'proof' | 'confirmed'
@@ -681,134 +680,141 @@ export const DonationModal = ({
 
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-[#061527]/75 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Modal Dialog Card */}
-      <div className="relative bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-[#EAE0CE] w-full max-w-2xl max-h-[92vh] flex flex-col overflow-hidden z-10 transition-all transform scale-100 animate-in fade-in zoom-in-95 duration-200">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-[#0C1A30] via-[#142845] to-[#0C1A30] text-white p-4 sm:p-6 relative border-b border-[#C89B59]/30 shrink-0">
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
-              <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#C89B59]/20 border border-[#C89B59]/40 flex items-center justify-center shrink-0">
-                <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-[#E6BF70] fill-current" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <h3 className="text-base sm:text-xl font-bold font-spiritual-heading text-white tracking-wide truncate">
-                  {step === 'form' && modalTitle}
-                  {step === 'review' && 'Review Donation & PhonePe QR'}
-                  {step === 'proof' && 'Submit Payment Verification'}
-                  {step === 'confirmed' && 'Contribution Received With Gratitude'}
-                </h3>
-                <p className="text-xs sm:text-[13px] text-[#F4E8D3]/80 truncate">
+      <div
+        className="relative bg-white rounded-3xl shadow-2xl border border-[#ECE3D4] w-full max-w-2xl max-h-[92vh] flex flex-col overflow-hidden z-10 animate-in zoom-in-95 duration-200"
+        style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
+      >
+        {/* Top Decorative Amber Bar */}
+        <div className="h-1.5 w-full bg-gradient-to-r from-[var(--orange,#FF8A3D)] via-[#FFA14A] to-[var(--yellow,#D97706)] shrink-0" />
+
+        {/* Modal Header */}
+        <div className="px-5 sm:px-6 pt-5 pb-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-b from-[#FFFDF9] to-white shrink-0">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
+            <div className="w-10 h-10 rounded-2xl bg-[var(--orange)]/10 text-[var(--orange)] flex items-center justify-center shrink-0 shadow-sm">
+              <Heart className="w-5 h-5 text-[var(--orange)] fill-current" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <span className="text-[10px] font-extrabold uppercase tracking-widest text-[var(--orange)] block">
+                SUPPORT OUR MISSION
+              </span>
+              <h2 className="text-lg sm:text-xl font-bold font-heading text-[#0A192F] leading-tight truncate">
+                {step === 'form' && modalTitle}
+                {step === 'review' && 'Review Donation & PhonePe QR'}
+                {step === 'proof' && 'Submit Payment Verification'}
+                {step === 'confirmed' && 'Contribution Received With Gratitude'}
+              </h2>
+              {((step === 'form' && modalSubtitle) || step !== 'form') && (
+                <p className="text-xs text-slate-500 mt-0.5 truncate">
                   {step === 'form' && modalSubtitle}
                   {step === 'review' && 'Verify details and scan the QR code to complete donation'}
-                  {step === 'proof' && 'Enter your UTR ID and upload the payment screenshot'}
+                  {step === 'proof' && 'Share your payment details to WhatsApp or Email below'}
                   {step === 'confirmed' && 'May Pujya Gurudev bless you and your family'}
                 </p>
-              </div>
+              )}
             </div>
-
-            <button
-              type="button"
-              onClick={onClose}
-              className="p-1.5 sm:p-2 rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-colors cursor-pointer shrink-0"
-              aria-label="Close modal"
-            >
-              <X className="w-5 h-5" />
-            </button>
           </div>
 
-          {/* 3-Step Progress Indicator */}
-          {step !== 'confirmed' && (
-            <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-semibold">
-              {/* Step 1 */}
-              <span
-                className={`flex items-center gap-1.5 ${
-                  step === 'form' ? 'text-[#E6BF70]' : 'text-slate-300'
-                }`}
-              >
-                <span
-                  className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-[11px] ${
-                    step === 'form'
-                      ? 'bg-[#C89B59] text-[#0C1A30]'
-                      : 'bg-emerald-600/80 text-white'
-                  }`}
-                >
-                  {step !== 'form' ? '✓' : '1'}
-                </span>
-                <span>Details & Amount</span>
-              </span>
-
-              <div className="h-0.5 flex-1 mx-2 sm:mx-3 bg-white/20">
-                <div
-                  className={`h-full bg-[#C89B59] transition-all duration-300 ${
-                    step === 'review' || step === 'proof' ? 'w-full' : 'w-0'
-                  }`}
-                />
-              </div>
-
-              {/* Step 2 */}
-              <span
-                className={`flex items-center gap-1.5 ${
-                  step === 'review' ? 'text-[#E6BF70]' : 'text-slate-400'
-                }`}
-              >
-                <span
-                  className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-[11px] ${
-                    step === 'review'
-                      ? 'bg-[#C89B59] text-[#0C1A30]'
-                      : step === 'proof'
-                      ? 'bg-emerald-600/80 text-white'
-                      : 'bg-white/20 text-slate-300'
-                  }`}
-                >
-                  {step === 'proof' ? '✓' : '2'}
-                </span>
-                <span>Review & QR</span>
-              </span>
-
-              <div className="h-0.5 flex-1 mx-2 sm:mx-3 bg-white/20">
-                <div
-                  className={`h-full bg-[#C89B59] transition-all duration-300 ${
-                    step === 'proof' ? 'w-full' : 'w-0'
-                  }`}
-                />
-              </div>
-
-              {/* Step 3 */}
-              <span
-                className={`flex items-center gap-1.5 ${
-                  step === 'proof' ? 'text-[#E6BF70]' : 'text-slate-400'
-                }`}
-              >
-                <span
-                  className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-[11px] ${
-                    step === 'proof'
-                      ? 'bg-[#C89B59] text-[#0C1A30]'
-                      : 'bg-white/20 text-slate-300'
-                  }`}
-                >
-                  3
-                </span>
-                <span>Proof & UTR</span>
-              </span>
-            </div>
-          )}
+          <button
+            type="button"
+            onClick={onClose}
+            className="p-1.5 sm:p-2 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer shrink-0 ml-2"
+            aria-label="Close dialog"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
+        {/* 3-Step Progress Indicator */}
+        {step !== 'confirmed' && (
+          <div className="px-5 sm:px-6 py-2.5 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between text-xs font-semibold shrink-0">
+            {/* Step 1 */}
+            <span
+              className={`flex items-center gap-1.5 ${
+                step === 'form' ? 'text-[var(--orange)] font-bold' : 'text-slate-700'
+              }`}
+            >
+              <span
+                className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-[11px] ${
+                  step !== 'form' ? 'bg-emerald-600 text-white' : 'bg-[var(--orange)] text-white'
+                }`}
+              >
+                {step !== 'form' ? '✓' : '1'}
+              </span>
+              <span>Details &amp; Amount</span>
+            </span>
+
+            <div className="h-0.5 flex-1 mx-2 sm:mx-3 bg-slate-200">
+              <div
+                className={`h-full bg-[var(--orange)] transition-all duration-300 ${
+                  step === 'review' || step === 'proof' ? 'w-full' : 'w-0'
+                }`}
+              />
+            </div>
+
+            {/* Step 2 */}
+            <span
+              className={`flex items-center gap-1.5 ${
+                step === 'review' ? 'text-[var(--orange)] font-bold' : step === 'proof' ? 'text-slate-700' : 'text-slate-400'
+              }`}
+            >
+              <span
+                className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-[11px] ${
+                  step === 'review'
+                    ? 'bg-[var(--orange)] text-white'
+                    : step === 'proof'
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-white border border-slate-200 text-slate-400'
+                }`}
+              >
+                {step === 'proof' ? '✓' : '2'}
+              </span>
+              <span>Review &amp; QR</span>
+            </span>
+
+            <div className="h-0.5 flex-1 mx-2 sm:mx-3 bg-slate-200">
+              <div
+                className={`h-full bg-[var(--orange)] transition-all duration-300 ${
+                  step === 'proof' ? 'w-full' : 'w-0'
+                }`}
+              />
+            </div>
+
+            {/* Step 3 */}
+            <span
+              className={`flex items-center gap-1.5 ${
+                step === 'proof' ? 'text-[var(--orange)] font-bold' : 'text-slate-400'
+              }`}
+            >
+              <span
+                className={`w-5 h-5 rounded-full font-bold flex items-center justify-center text-[11px] ${
+                  step === 'proof'
+                    ? 'bg-[var(--orange)] text-white'
+                    : 'bg-white border border-slate-200 text-slate-400'
+                }`}
+              >
+                3
+              </span>
+              <span>Payment Proof</span>
+            </span>
+          </div>
+        )}
+
         {/* Modal Scrollable Body */}
-        <div className="p-5 sm:p-7 overflow-y-auto space-y-6 flex-1 bg-[#FAF7F2]">
+        <div className="p-5 sm:p-7 overflow-y-auto space-y-6 flex-1 bg-white">
           {/* ========================================================= */}
           {/* STEP 1: FORM INPUTS (Exact User Order)                    */}
           {/* ========================================================= */}
           {step === 'form' && (
             <form onSubmit={handleReviewClick} className="space-y-5">
               {/* 1st Field: Enter the amount how much you will donate */}
-              <div className="bg-white p-4 rounded-xl border border-[#EAE0CE] shadow-sm space-y-2.5">
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
+              <div className="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                   Enter Donation Amount (₹) <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
@@ -822,8 +828,8 @@ export const DonationModal = ({
                     onChange={handleChange}
                     placeholder="e.g., 501, 1001, 2500, 5000"
                     min="1"
-                    className={`w-full pl-9 pr-3.5 py-3 bg-[#FAF7F2] rounded-xl border text-base font-bold text-[#0C1A30] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all ${
-                      errors.amount ? 'border-red-400 bg-red-50/20' : 'border-[#D9CEBA]'
+                    className={`w-full pl-9 pr-3.5 py-3 bg-white rounded-xl border text-base font-bold text-[#0A192F] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[var(--orange)] transition-all ${
+                      errors.amount ? 'border-red-400 bg-red-50/20' : 'border-slate-200'
                     }`}
                     required
                   />
@@ -847,8 +853,8 @@ export const DonationModal = ({
                       }}
                       className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
                         String(formData.amount) === String(amt)
-                          ? 'bg-[#0C1A30] text-[#E6BF70] border border-[#C89B59] shadow-sm'
-                          : 'bg-white border border-[#D9CEBA] text-slate-700 hover:border-[#C89B59] hover:bg-[#FAF5EA]'
+                          ? 'bg-[var(--orange)] text-white border border-[var(--orange)] shadow-sm'
+                          : 'bg-white border border-slate-200 text-slate-700 hover:border-[var(--orange)]/60 hover:bg-slate-50'
                       }`}
                     >
                       ₹{amt.toLocaleString('en-IN')}
@@ -860,7 +866,7 @@ export const DonationModal = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* 2nd Field: Name */}
                 <div className="space-y-1.5 sm:col-span-2">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Full Name <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -870,9 +876,9 @@ export const DonationModal = ({
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="e.g., Ramesh Kummar"
-                      className={`w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border text-sm text-[#0C1A30] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all ${
-                        errors.name ? 'border-red-400 bg-red-50/20' : 'border-[#D9CEBA]'
+                      placeholder="Enter your full name"
+                      className={`w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--orange)] focus:border-transparent transition-all ${
+                        errors.name ? 'border-red-400 bg-red-50/20' : 'border-slate-200 text-[#0A192F]'
                       }`}
                       required
                     />
@@ -882,7 +888,7 @@ export const DonationModal = ({
 
                 {/* 3rd & 4th Field: Phone Number */}
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Phone Number <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -892,9 +898,9 @@ export const DonationModal = ({
                       name="phoneNumber"
                       value={formData.phoneNumber}
                       onChange={handleChange}
-                      placeholder="e.g., +91 98765 43210"
-                      className={`w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border text-sm text-[#0C1A30] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all ${
-                        errors.phoneNumber ? 'border-red-400 bg-red-50/20' : 'border-[#D9CEBA]'
+                      placeholder="10-digit number"
+                      className={`w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--orange)] focus:border-transparent transition-all ${
+                        errors.phoneNumber ? 'border-red-400 bg-red-50/20' : 'border-slate-200 text-[#0A192F]'
                       }`}
                       required
                     />
@@ -906,8 +912,8 @@ export const DonationModal = ({
 
                 {/* 5th Field: Email id */}
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
-                    Email ID <span className="text-red-500">*</span>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                    Email Address <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
                     <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -916,9 +922,9 @@ export const DonationModal = ({
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="e.g., rameshkummar@gmail.com"
-                      className={`w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border text-sm text-[#0C1A30] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all ${
-                        errors.email ? 'border-red-400 bg-red-50/20' : 'border-[#D9CEBA]'
+                      placeholder="name@example.com"
+                      className={`w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--orange)] focus:border-transparent transition-all ${
+                        errors.email ? 'border-red-400 bg-red-50/20' : 'border-slate-200 text-[#0A192F]'
                       }`}
                       required
                     />
@@ -928,26 +934,9 @@ export const DonationModal = ({
                   )}
                 </div>
 
-                {/* 6th Field: Dob */}
+                {/* 6th Field: Address */}
                 <div className="space-y-1.5 sm:col-span-2">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
-                    Date of Birth (DOB)
-                  </label>
-                  <div className="relative">
-                    <Calendar className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                    <input
-                      type="date"
-                      name="dob"
-                      value={formData.dob}
-                      onChange={handleChange}
-                      className="w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border border-[#D9CEBA] text-sm text-[#0C1A30] focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all"
-                    />
-                  </div>
-                </div>
-
-                {/* 7th Field: Address */}
-                <div className="space-y-1.5 sm:col-span-2">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Address (నివాసం)
                   </label>
                   <div className="relative">
@@ -958,7 +947,7 @@ export const DonationModal = ({
                       onChange={handleChange}
                       rows={2}
                       placeholder="Door No, Street, City, State, Pincode"
-                      className="w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border border-[#D9CEBA] text-sm text-[#0C1A30] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all"
+                      className="w-full pl-10 pr-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-[var(--orange)] focus:border-transparent transition-all leading-relaxed resize-none text-[#0A192F]"
                     />
                   </div>
                 </div>
@@ -969,16 +958,16 @@ export const DonationModal = ({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-5 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-100 text-sm font-semibold transition-colors cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 text-sm font-semibold transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="btn-seva-register px-6 py-2.5 text-sm font-bold flex items-center gap-2 cursor-pointer shadow-md"
+                  className="btn-primary py-3 px-6 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01]"
                 >
                   <span>Review Details</span>
-                  <ArrowRight className="w-4 h-4 text-[#0A192F]" />
+                  <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             </form>
@@ -990,18 +979,18 @@ export const DonationModal = ({
           {step === 'review' && (
             <div className="space-y-6">
               {/* Devotee Details Summary Card */}
-              <div className="bg-white rounded-2xl border-2 border-[#C89B59]/40 shadow-sm p-5 sm:p-6 space-y-4 relative overflow-hidden">
-                <div className="flex items-center justify-between border-b border-[#EAE0CE] pb-3">
-                  <div className="flex items-center gap-2 text-[#0C1A30]">
-                    <ShieldCheck className="w-5 h-5 text-[#C89B59]" />
-                    <h4 className="font-spiritual-heading font-bold text-base sm:text-lg">
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 space-y-4 relative overflow-hidden">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <div className="flex items-center gap-2 text-[#0A192F]">
+                    <ShieldCheck className="w-5 h-5 text-[var(--orange)]" />
+                    <h4 className="font-heading font-bold text-base sm:text-lg">
                       Review Contribution Details
                     </h4>
                   </div>
                   <button
                     type="button"
                     onClick={() => setStep('form')}
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#B8860B] hover:text-[#8B6508] bg-[#FAF5EA] px-3 py-1.5 rounded-lg border border-[#C89B59]/30 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-[var(--orange)] hover:text-amber-700 bg-orange-50/80 px-3 py-1.5 rounded-lg border border-orange-200/60 transition-colors cursor-pointer"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
                     <span>Edit Details</span>
@@ -1009,16 +998,16 @@ export const DonationModal = ({
                 </div>
 
                 {/* Prominent Amount Banner */}
-                <div className="bg-gradient-to-r from-[#0C1A30] to-[#142845] p-4 rounded-xl text-white flex items-center justify-between">
+                <div className="bg-gradient-to-r from-orange-50/80 via-amber-50/60 to-slate-50 p-4 rounded-xl border border-orange-200/70 flex items-center justify-between">
                   <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#E6BF70] block">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--orange)] block">
                       Pledged Donation Amount
                     </span>
-                    <span className="text-xl sm:text-2xl font-black text-white">
+                    <span className="text-xl sm:text-2xl font-black text-[#0A192F]">
                       ₹{Number(formData.amount || 0).toLocaleString('en-IN')}
                     </span>
                   </div>
-                  <div className="text-right text-xs text-[#F4E8D3]/80">
+                  <div className="text-right text-xs text-slate-500">
                     <span>Devotee Seva Contribution</span>
                   </div>
                 </div>
@@ -1029,7 +1018,7 @@ export const DonationModal = ({
                     <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
                       Devotee Name
                     </span>
-                    <span className="font-bold text-[#0C1A30] text-base">
+                    <span className="font-bold text-[#0A192F] text-base">
                       {formData.name || '—'}
                     </span>
                   </div>
@@ -1043,27 +1032,12 @@ export const DonationModal = ({
                     </span>
                   </div>
 
-                  <div>
+                  <div className="sm:col-span-2">
                     <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
                       Email Address
                     </span>
                     <span className="font-semibold text-slate-800">
                       {formData.email || '—'}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
-                      Date of Birth (DOB)
-                    </span>
-                    <span className="font-semibold text-slate-800">
-                      {formData.dob
-                        ? new Date(formData.dob).toLocaleDateString('en-GB', {
-                            day: 'numeric',
-                            month: 'short',
-                            year: 'numeric',
-                          })
-                        : 'Not Specified'}
                     </span>
                   </div>
 
@@ -1079,35 +1053,35 @@ export const DonationModal = ({
               </div>
 
               {/* PhonePe QR Code Container */}
-              <div className="bg-gradient-to-br from-[#FAF5EA] to-[#F3E8D0] rounded-2xl border-2 border-dashed border-[#C89B59] p-5 sm:p-6 text-center space-y-4 shadow-inner">
+              <div className="bg-gradient-to-br from-orange-50/40 via-amber-50/30 to-slate-50 rounded-2xl border-2 border-dashed border-orange-200 p-5 sm:p-6 text-center space-y-4 shadow-inner">
                 <div className="flex items-center justify-center gap-2">
                   <div className="w-9 h-9 rounded-xl bg-[#5f259f] text-white flex items-center justify-center font-bold text-xs shadow-sm">
                     पे
                   </div>
-                  <h5 className="font-spiritual-heading font-bold text-lg text-[#0C1A30]">
+                  <h5 className="font-heading font-bold text-lg text-[#0A192F]">
                     PhonePe UPI QR Code
                   </h5>
                 </div>
 
-                <p className="text-xs sm:text-sm text-[#4A5568] max-w-md mx-auto">
+                <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto">
                   Scan this QR code using <strong>PhonePe</strong>, Google Pay, Paytm, or any UPI
                   app to complete your donation of{' '}
-                  <strong className="text-[#0C1A30]">
+                  <strong className="text-[#0A192F]">
                     ₹{Number(formData.amount || 0).toLocaleString('en-IN')}
                   </strong>
                   .
                 </p>
 
                 {/* QR Code Graphic Box */}
-                <div className="bg-white rounded-2xl p-6 border-2 border-dashed border-[#C89B59] max-w-xs mx-auto shadow-sm text-center space-y-3">
-                  <div className="w-44 h-44 sm:w-48 sm:h-48 mx-auto bg-gradient-to-br from-slate-50 to-[#FAF5EA] rounded-xl border border-[#EAE0CE] flex flex-col items-center justify-center p-3 relative">
+                <div className="bg-white rounded-2xl p-6 border-2 border-dashed border-orange-200 max-w-xs mx-auto shadow-sm text-center space-y-3">
+                  <div className="w-44 h-44 sm:w-48 sm:h-48 mx-auto bg-gradient-to-br from-slate-50 to-orange-50/30 rounded-xl border border-slate-200 flex flex-col items-center justify-center p-3 relative">
                     <div className="w-14 h-14 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-center mb-2 shadow-sm">
                       <QrCode className="w-9 h-9 text-[#5f259f]" />
                     </div>
                     <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#5f259f] text-white text-[10px] font-bold tracking-wider uppercase mb-1">
                       PhonePe UPI
                     </span>
-                    <p className="text-xs font-bold text-[#0C1A30]">
+                    <p className="text-xs font-bold text-[#0A192F]">
                       Pay ₹{Number(formData.amount || 0).toLocaleString('en-IN')}
                     </p>
                     <p className="text-[10px] text-slate-500 mt-0.5">
@@ -1117,11 +1091,11 @@ export const DonationModal = ({
                 </div>
 
                 {/* Instructional Note */}
-                <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 border border-[#C89B59]/40 text-xs font-bold text-[#8B6508]">
+                <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-orange-200 text-xs font-bold text-[var(--orange)]">
                   <span>✨ PhonePe QR code will be added here. Once paid, click Done below!</span>
                 </div>
 
-                <div className="bg-white/80 p-3 rounded-xl border border-[#EAE0CE] text-xs text-slate-600 max-w-md mx-auto">
+                <div className="bg-white p-3.5 rounded-xl border border-slate-200 text-xs text-slate-600 max-w-md mx-auto">
                   <p>
                     <strong>Next Step:</strong> After completing the payment, note your{' '}
                     <strong>12-digit UTR ID</strong> and take a screenshot of the payment receipt.
@@ -1135,7 +1109,7 @@ export const DonationModal = ({
                 <button
                   type="button"
                   onClick={() => setStep('form')}
-                  className="px-4 py-2.5 rounded-xl border border-[#C89B59] text-[#0C1A30] hover:bg-white text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Edit</span>
@@ -1146,11 +1120,11 @@ export const DonationModal = ({
                   <button
                     type="button"
                     onClick={handleDonePaymentClick}
-                    className="btn-seva-register px-6 py-2.5 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-md"
+                    className="btn-primary px-6 py-2.5 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-md transition-all hover:scale-[1.01]"
                   >
-                    <CheckCircle2 className="w-4 h-4 text-[#0A192F]" />
+                    <CheckCircle2 className="w-4 h-4" />
                     <span>Done / I Have Paid</span>
-                    <ArrowRight className="w-4 h-4 text-[#0A192F]" />
+                    <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
               </div>
@@ -1170,19 +1144,18 @@ export const DonationModal = ({
               )}
 
               {/* Info Banner */}
-              <div className="bg-white p-4 rounded-xl border border-[#EAE0CE] text-xs sm:text-sm text-[#4A5568] leading-relaxed shadow-sm">
+              <div className="bg-orange-50/60 border border-orange-200/70 p-4 rounded-2xl text-xs sm:text-sm text-slate-700 leading-relaxed shadow-sm">
                 <p className="flex items-start gap-2">
-                  <Sparkles className="w-4 h-4 text-[#C89B59] shrink-0 mt-0.5" />
+                  <Sparkles className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
                   <span>
-                    Thank you for your payment! Please submit your <strong>UTR Reference ID</strong>{' '}
-                    and share the payment details below for the WhatsApp Number / Email Id.
+                    Thank you for your payment! Please share your payment details below for the WhatsApp Number / Email Id.
                   </span>
                 </p>
               </div>
 
               {/* Redirected Devotee Details Summary Card */}
-              <div className="bg-white rounded-2xl border border-[#EAE0CE] p-4 sm:p-5 shadow-sm space-y-3">
-                <div className="flex items-center justify-between pb-2 border-b border-[#FAF5EA]">
+              <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm space-y-3">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
                     Transferred Contribution Details
                   </span>
@@ -1196,7 +1169,7 @@ export const DonationModal = ({
                     <span className="text-slate-400 block text-[11px] font-semibold uppercase">
                       Amount Paid
                     </span>
-                    <span className="font-extrabold text-[#B8860B] text-base sm:text-lg">
+                    <span className="font-extrabold text-[var(--orange)] text-base sm:text-lg">
                       ₹{Number(formData.amount || 0).toLocaleString('en-IN')}
                     </span>
                   </div>
@@ -1205,7 +1178,7 @@ export const DonationModal = ({
                     <span className="text-slate-400 block text-[11px] font-semibold uppercase">
                       Devotee Name
                     </span>
-                    <span className="font-bold text-[#0C1A30] truncate block">
+                    <span className="font-bold text-[#0A192F] truncate block">
                       {formData.name || '—'}
                     </span>
                   </div>
@@ -1231,12 +1204,12 @@ export const DonationModal = ({
               </div>
 
               {/* Payment details notice for Support Our Mission */}
-              <div className="bg-[#FAF7F2] p-5 rounded-2xl border border-[#EAE0CE] space-y-3.5 shadow-sm text-left">
-                <p className="text-sm font-semibold text-[#0C1A30] leading-snug">
+              <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3.5 shadow-sm text-left">
+                <p className="text-sm font-semibold text-[#0A192F] leading-snug">
                   Share the payment details to the what number or email attached below.
                 </p>
 
-                <div className="space-y-2 pt-1 border-t border-[#EAE0CE]/70 text-xs sm:text-sm">
+                <div className="space-y-2 pt-1 border-t border-slate-200 text-xs sm:text-sm">
                   <div className="flex items-center gap-2.5">
                     <span className="font-bold text-slate-700">whats app number :</span>
                     <a
@@ -1253,7 +1226,7 @@ export const DonationModal = ({
                     <span className="font-bold text-slate-700">Email id:</span>
                     <a
                       href="mailto:Chinmayamission01@gmail.com"
-                      className="font-mono font-bold text-[#B8860B] hover:text-[#996515] hover:underline"
+                      className="font-mono font-bold text-[var(--orange)] hover:underline"
                     >
                       Chinmayamission01@gmail.com
                     </a>
@@ -1261,110 +1234,12 @@ export const DonationModal = ({
                 </div>
               </div>
 
-              {/*
-              // Commented out UTR ID Input & Upload Screenshot for Support Our Mission
-              <div className="space-y-1.5">
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
-                  UTR ID / UPI Reference Number <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <Smartphone className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                  <input
-                    type="text"
-                    name="utrId"
-                    value={formData.utrId}
-                    onChange={handleChange}
-                    placeholder="e.g., 429812345678 (12-digit UTR from PhonePe / UPI receipt)"
-                    maxLength={24}
-                    className={`w-full pl-10 pr-3.5 py-2.5 bg-white rounded-xl border text-sm text-[#0C1A30] font-mono placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C89B59] transition-all ${
-                      errors.utrId ? 'border-red-400 bg-red-50/20' : 'border-[#D9CEBA]'
-                    }`}
-                    required
-                  />
-                </div>
-                {errors.utrId ? (
-                  <p className="text-xs text-red-500 font-medium">{errors.utrId}</p>
-                ) : (
-                  <p className="text-[11px] text-slate-500">
-                    Find this 12-digit UTR in your PhonePe / banking transaction details
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#0C1A30]">
-                  Upload Screenshot of Payment <span className="text-red-500">*</span>
-                </label>
-
-                {!formData.screenshot ? (
-                  <label
-                    className={`flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-2xl bg-white hover:bg-slate-50 transition-all cursor-pointer ${
-                      errors.screenshot ? 'border-red-400 bg-red-50/10' : 'border-[#D9CEBA]'
-                    }`}
-                  >
-                    <div className="w-12 h-12 rounded-full bg-[#FAF5EA] border border-[#C89B59]/30 flex items-center justify-center text-[#B8860B] mb-2">
-                      <UploadCloud className="w-6 h-6" />
-                    </div>
-                    <span className="text-xs sm:text-sm font-bold text-[#0C1A30]">
-                      Click to upload payment screenshot
-                    </span>
-                    <span className="text-[11px] text-slate-500 mt-1">
-                      PNG, JPG, JPEG or PDF (Max 5MB)
-                    </span>
-                    <input
-                      type="file"
-                      accept="image/*,application/pdf"
-                      onChange={handleFileChange}
-                      className="hidden"
-                    />
-                  </label>
-                ) : (
-                  <div className="bg-white rounded-2xl border-2 border-[#C89B59]/40 p-4 shadow-sm flex items-center justify-between">
-                    <div className="flex items-center gap-3 overflow-hidden">
-                      {formData.screenshotPreview ? (
-                        <img
-                          src={formData.screenshotPreview}
-                          alt="Payment Proof Preview"
-                          className="w-14 h-14 rounded-lg object-cover border border-[#EAE0CE] shrink-0"
-                        />
-                      ) : (
-                        <div className="w-14 h-14 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0">
-                          <FileCheck className="w-7 h-7" />
-                        </div>
-                      )}
-                      <div className="truncate">
-                        <span className="text-xs font-bold text-[#0C1A30] block truncate">
-                          {formData.screenshot}
-                        </span>
-                        <span className="text-[11px] text-emerald-600 font-semibold block">
-                          ✓ File ready to upload ({formData.screenshotSize})
-                        </span>
-                      </div>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={handleRemoveScreenshot}
-                      className="p-2 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer shrink-0"
-                      title="Remove screenshot"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                )}
-
-                {errors.screenshot && (
-                  <p className="text-xs text-red-500 font-medium">{errors.screenshot}</p>
-                )}
-              </div>
-              */}
-
               {/* Action Buttons */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setStep('review')}
-                  className="px-4 py-2.5 rounded-xl border border-[#C89B59] text-[#0C1A30] hover:bg-white text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to QR Code</span>
@@ -1373,9 +1248,9 @@ export const DonationModal = ({
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn-seva-register px-6 py-2.5 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-md"
+                  className="btn-primary px-6 py-2.5 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-md transition-all hover:scale-[1.01]"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-[#0A192F]" />
+                  <CheckCircle2 className="w-4 h-4" />
                   <span>{isSubmitting ? 'Submitting...' : 'Done'}</span>
                 </button>
               </div>
@@ -1392,13 +1267,13 @@ export const DonationModal = ({
               </div>
 
               <div className="space-y-2 max-w-md mx-auto">
-                <h4 className="text-xl sm:text-2xl font-bold font-spiritual-heading text-[#0C1A30]">
+                <h4 className="text-xl sm:text-2xl font-bold font-heading text-[#0A192F]">
                   Contribution &amp; Payment Proof Submitted!
                 </h4>
-                <p className="text-sm text-[#4A5568] leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   Hari Om, <strong>{formData.name}</strong>. Thank you for your generous
                   contribution of{' '}
-                  <strong className="text-[#0C1A30]">
+                  <strong className="text-[#0A192F]">
                     ₹{Number(formData.amount || 0).toLocaleString('en-IN')}
                   </strong>{' '}
                   to Chinmaya Mission.
@@ -1407,19 +1282,19 @@ export const DonationModal = ({
 
               {/* Receipt Summary Card */}
               {submittedReceipt && (
-                <div className="bg-white p-5 rounded-2xl border border-[#EAE0CE] max-w-md mx-auto text-xs text-slate-700 space-y-2.5 shadow-sm text-left">
-                  <div className="flex justify-between border-b border-slate-100 pb-2">
+                <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 max-w-md mx-auto text-xs text-slate-700 space-y-2.5 shadow-sm text-left">
+                  <div className="flex justify-between border-b border-slate-200 pb-2">
                     <span className="text-slate-500 font-semibold uppercase tracking-wider text-[11px]">
                       Donation Reference
                     </span>
-                    <span className="font-mono font-bold text-[#B8860B] text-xs">
+                    <span className="font-mono font-bold text-[var(--orange)] text-xs">
                       {submittedReceipt.refId || submittedReceipt.bookingId}
                     </span>
                   </div>
 
                   <div className="flex justify-between">
                     <span className="text-slate-500 font-medium">Amount:</span>
-                    <span className="font-extrabold text-[#0C1A30] text-sm">
+                    <span className="font-extrabold text-[#0A192F] text-sm">
                       ₹{Number(submittedReceipt.amount || formData.amount || 0).toLocaleString('en-IN')}
                     </span>
                   </div>
@@ -1450,7 +1325,7 @@ export const DonationModal = ({
                     <span className="font-medium text-emerald-600">✓ Shared via WhatsApp / Email</span>
                   </div>
 
-                  <div className="flex justify-between pt-1 border-t border-slate-100">
+                  <div className="flex justify-between pt-1 border-t border-slate-200">
                     <span className="text-slate-500 font-medium">Verification Status:</span>
                     <span className="font-bold text-emerald-600">
                       ✓ Under Accounts Verification
@@ -1460,7 +1335,7 @@ export const DonationModal = ({
               )}
 
               {/* Contribution Acknowledgement Note */}
-              <div className="bg-white p-4 rounded-xl border border-[#EAE0CE] max-w-md mx-auto text-xs text-slate-600 leading-relaxed shadow-sm">
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 max-w-md mx-auto text-xs text-slate-600 leading-relaxed shadow-sm">
                 <p>
                   Official receipt and formal acknowledgement will be emailed to{' '}
                   <strong>{formData.email}</strong> once your details are verified by our accounts
@@ -1472,7 +1347,7 @@ export const DonationModal = ({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="btn-seva-register px-8 py-2.5 text-sm font-bold cursor-pointer shadow-md"
+                  className="btn-primary px-8 py-3 rounded-xl text-sm font-bold cursor-pointer shadow-md text-white transition-all hover:scale-[1.01]"
                 >
                   Done
                 </button>

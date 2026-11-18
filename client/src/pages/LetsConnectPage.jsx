@@ -6,6 +6,7 @@ import {
   MapPin,
   Phone,
   Mail,
+  User,
   Send,
   CheckCircle,
   MessageSquare,
@@ -243,17 +244,18 @@ export const LetsConnectPage = () => {
         <div className="lg:col-span-7">
           {(() => {
             const activeCards = [
-              { data: f.contact_info, key: 'contact_info', defaultTitle: 'ORGANIZATION DETAILS' },
-              { data: f.contact_card_2, key: 'contact_card_2', defaultTitle: 'Sri Chinmaya Sanjeevaraya Swamy Temple' },
-              { data: f.contact_card_3, key: 'contact_card_3', defaultTitle: 'SHRI SHANTAMALLESHWARA SWAMI TEMPLE' },
+              { data: f.contact_info, key: 'contact_info', defaultTitle: 'ORGANIZATION DETAILS', defaultName: 'Chinmaya Mission Incharge' },
+              { data: f.contact_card_2, key: 'contact_card_2', defaultTitle: 'Sri Chinmaya Sanjeevaraya Swamy Temple', defaultName: 'Temple Incharge' },
+              { data: f.contact_card_3, key: 'contact_card_3', defaultTitle: 'SHRI SHANTAMALLESHWARA SWAMI TEMPLE', defaultName: 'Temple Incharge' },
             ].filter(({ data }) => data?._isEnabled !== false);
 
             return (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6 items-start">
-                {activeCards.map(({ data, key, defaultTitle }, idx) => {
+                {activeCards.map(({ data, key, defaultTitle, defaultName }, idx) => {
                   const isCenteredBottom = idx === 2 && activeCards.length === 3;
                   const title = data?.cardTitle || data?.title || defaultTitle;
                   const address = data?.address || 'Chinmaya Cultural Complex,\nNear Arts College Road,\nAdoni - 518301.';
+                  const contactPerson = (data?.contactPerson || data?.name || defaultName || '').trim();
                   const phone = data?.phone || '+91 7337351555';
                   const email = data?.email || 'contact@chinmayamissionadoni.org';
                   const addressLines = address.split('\n').map((l) => l.trim()).filter(Boolean);
@@ -291,6 +293,20 @@ export const LetsConnectPage = () => {
                             )}
                           </div>
                         </div>
+
+                        {/* Name (Contact Person) - Above Phone Number */}
+                        {contactPerson && (
+                          <div className="flex items-center gap-3.5">
+                            <div className="w-10 h-10 rounded-2xl bg-amber-500/15 text-amber-600 flex items-center justify-center flex-shrink-0 shadow-xs">
+                              <User className="w-5 h-5" />
+                            </div>
+                            <div className="min-w-0">
+                              <p className="m-0 text-xs sm:text-sm font-bold text-[var(--text-primary)] tracking-wide truncate">
+                                {contactPerson}
+                              </p>
+                            </div>
+                          </div>
+                        )}
 
                         {/* Phone */}
                         <div className="flex items-center gap-3.5">

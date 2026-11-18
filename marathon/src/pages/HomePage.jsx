@@ -297,7 +297,7 @@ export const HomePage = () => {
         primaryButtonLink: heroConfig.primaryButtonLink || s.primaryButtonLink,
         secondaryButtonText: heroConfig.secondaryButtonText || s.secondaryButtonText,
         secondaryButtonLink: heroConfig.secondaryButtonLink || s.secondaryButtonLink,
-        imageUrl: '/assets/images/hero-runners-chyk-2026.png',
+        imageUrl: heroConfig.imageUrl || s.imageUrl || '/assets/images/hero-runners-chyk-2026.png',
       };
     }
     if (s.type === 'marathon' && marathonUpdates) {
