@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 
 export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
   const [activeModalIndex, setActiveModalIndex] = useState(null);
@@ -101,10 +101,6 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
       
       {/* Header Container aligned with main layout */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center space-y-2">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[var(--yellow)]/15 text-[var(--yellow)] font-extrabold text-xs tracking-widest uppercase border border-[var(--yellow)]/30">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>MOVEMENT POSTERS & INSPIRATION</span>
-        </div>
         <h3 className="text-xl sm:text-2xl font-extrabold font-heading text-white tracking-tight uppercase">
           CHINMAYA YUVA KENDRA, ADONI
         </h3>

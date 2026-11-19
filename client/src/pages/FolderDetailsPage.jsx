@@ -124,8 +124,8 @@ export const FolderDetailsPage = () => {
                 _id: img.id,
                 title: img.title,
                 description: img.desc,
-                category: img.category,
-                tag: img.tag,
+                category: '',
+                tag: '',
                 url: img.src,
                 mediaType: 'image',
                 displayOrder: idx + 1,
@@ -298,9 +298,6 @@ export const FolderDetailsPage = () => {
                   {/* Card Body */}
                   <div className="gallery-card-body">
                     <div>
-                      <span className="gallery-category-badge">
-                        {item.tag ? `${item.tag} · ` : ''}{item.category || 'Sacred Darshan'}
-                      </span>
                       <h2 className="gallery-card-title">{item.title}</h2>
                       <p className="gallery-card-desc">{item.description}</p>
                     </div>
@@ -372,10 +369,6 @@ export const FolderDetailsPage = () => {
             {/* Details Bar */}
             <div className="gallery-lightbox-info">
               <div>
-                <span className="gallery-category-badge">
-                  {currentLightboxImg.tag ? `${currentLightboxImg.tag} · ` : ''}
-                  {currentLightboxImg.category || 'Sacred Darshan'}
-                </span>
                 <h2 className="gallery-lightbox-title">{currentLightboxImg.title}</h2>
                 <p className="gallery-lightbox-desc">{currentLightboxImg.description}</p>
               </div>
@@ -440,9 +433,6 @@ export const FolderDetailsPage = () => {
 
             <div className="gallery-lightbox-info">
               <div>
-                <span className="gallery-category-badge">
-                  Video Archive · {activeVideoItem.category}
-                </span>
                 <h2 className="gallery-lightbox-title">{activeVideoItem.title}</h2>
                 <p className="gallery-lightbox-desc">{activeVideoItem.description}</p>
               </div>

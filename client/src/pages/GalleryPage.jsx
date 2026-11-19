@@ -12,7 +12,7 @@ export const GALLERY_IMAGES = [
     title: 'Shri Shantamalleshwara Swami Jyotirlinga (Hero Sanctum)',
     category: 'Temple & Sanctum',
     desc: 'Sacred Ishana Lingam representing the cosmic space element, consecrated with arrow marks from Kakatiya times.',
-    tag: 'Principal Shrine',
+    tag: '',
   },
   {
     id: 'temple-real-clean',
@@ -20,7 +20,7 @@ export const GALLERY_IMAGES = [
     title: 'Sanctum Sanctorum with Bilva & Sacred Chandan',
     category: 'Temple & Sanctum',
     desc: 'Authentic sanctum photograph of Lord Malleswara adorned with sacred Bilva leaves, Chandan, and Kumkum.',
-    tag: 'Sanctum Photograph',
+    tag: '',
   },
   {
     id: 'temple-nandi',
@@ -28,7 +28,7 @@ export const GALLERY_IMAGES = [
     title: 'Sacred Nandi Vahana Guardian',
     category: 'Temple & Sanctum',
     desc: 'Ancient stone-carved Nandi bull facing the inner sanctum of Lord Shiva atop Navaratna Shikhara.',
-    tag: 'Nandi Vahana',
+    tag: '',
   },
   {
     id: 'temple-hilltop-trishul',
@@ -36,7 +36,7 @@ export const GALLERY_IMAGES = [
     title: 'Sacred Golden Trishul on Hilltop',
     category: 'Temple & Sanctum',
     desc: 'The majestic golden trident erected on Navaratna Shikhara hill overlooking the hills.',
-    tag: 'Sacred Trishul',
+    tag: '',
   },
   {
     id: 'temple-hilltop-panorama',
@@ -44,7 +44,7 @@ export const GALLERY_IMAGES = [
     title: 'Navaratna Shikhara Hilltop Sanctuary',
     category: 'Temple & Sanctum',
     desc: 'Panoramic hilltop view of the 12th-century Kakatiya temple complex built on multicolored strata rock.',
-    tag: 'Hilltop View',
+    tag: '',
   },
 
   // 2. Sacred Deities (Pancha Lingas & Goddess)
@@ -54,7 +54,7 @@ export const GALLERY_IMAGES = [
     title: 'Sadyojata Linga — Bhogalingeswara Shiva',
     category: 'Sacred Deities',
     desc: 'West-facing lingam representing the Prithvi (Earth) element behind the principal shrine.',
-    tag: 'Pancha Linga',
+    tag: '',
   },
   {
     id: 'tyagarajeswara',
@@ -62,7 +62,7 @@ export const GALLERY_IMAGES = [
     title: 'Vamadeva Linga — Tyagarajeswara Shiva',
     category: 'Sacred Deities',
     desc: 'North-facing lingam beside the holy spring pond, representing the Jala (Water) element.',
-    tag: 'Pancha Linga',
+    tag: '',
   },
   {
     id: 'parvati-ammavaru',
@@ -70,7 +70,7 @@ export const GALLERY_IMAGES = [
     title: 'Goddess Parvati Ammavaru',
     category: 'Sacred Deities',
     desc: 'The eternal Divine Mother Parvati, consort of Lord Shiva, worshipped with Sri Chakra Kumkumarchana.',
-    tag: 'Divine Mother',
+    tag: '',
   },
   {
     id: 'shivaya-darshan',
@@ -78,7 +78,7 @@ export const GALLERY_IMAGES = [
     title: 'Sanctum Darshan & Devotion',
     category: 'Sacred Deities',
     desc: 'Sacred offering in the inner sanctum surrounded by brass lamps and camphor glow.',
-    tag: 'Darshan',
+    tag: '',
   },
   {
     id: 'kalasha-sthapana',
@@ -86,7 +86,7 @@ export const GALLERY_IMAGES = [
     title: 'Sacred Kalasha Sthapana',
     category: 'Sacred Deities',
     desc: 'Sacred Kalash filled with holy waters and mango leaves, embodying the divine supreme presence.',
-    tag: 'Vedic Ritual',
+    tag: '',
   },
   {
     id: 'havan-sacred-fire',
@@ -94,7 +94,7 @@ export const GALLERY_IMAGES = [
     title: 'Vedic Agni Havan Ritual',
     category: 'Sacred Deities',
     desc: 'Priests performing Vedic Agni homam with ghee offerings, chanting ancient mantras for cosmic peace.',
-    tag: 'Havan',
+    tag: '',
   },
   {
     id: 'sevak-team',
@@ -102,7 +102,7 @@ export const GALLERY_IMAGES = [
     title: 'Temple Sevak Team & Priests',
     category: 'Sacred Deities',
     desc: 'Chinmaya Mission sevaks and priests dedicated to preserving the heritage of Shri Shantamalleshwara Swami.',
-    tag: 'Sevak Sangha',
+    tag: '',
   },
 
   // 3. Grand Festivals & Celebrations
@@ -112,7 +112,7 @@ export const GALLERY_IMAGES = [
     title: 'Maha Shivaratri Mahotsavam 2027',
     category: 'Festivals & Homams',
     desc: 'Grand all-night vigil celebrating the Great Night of Shiva with continuous Rudrabhishekam.',
-    tag: 'Grand Festival',
+    tag: '',
   },
   {
     id: 'maha-shivaratri-fest',
@@ -120,7 +120,7 @@ export const GALLERY_IMAGES = [
     title: 'Maha Shivaratri Temple Celebrations',
     category: 'Festivals & Homams',
     desc: 'Thousands of devotees joining the sacred vigil and chanting Om Namah Shivaya through the night.',
-    tag: 'Maha Shivaratri',
+    tag: '',
   },
   {
     id: 'rudra-homam-upcome',
@@ -128,7 +128,7 @@ export const GALLERY_IMAGES = [
     title: 'Maha Rudra Homam & Fire Ritual',
     category: 'Festivals & Homams',
     desc: 'Most sacred Vedic ritual invoking Lord Shiva in his fierce Rudra form to ward off negative energies.',
-    tag: 'Vedic Homam',
+    tag: '',
   },
   {
     id: 'rudra-homam-fest',
@@ -136,7 +136,7 @@ export const GALLERY_IMAGES = [
     title: 'Nakshatra Homam Celebrations',
     category: 'Festivals & Homams',
     desc: 'Annual Vedic ritual balancing cosmic planetary influences for devotee peace and prosperity.',
-    tag: 'Nakshatra Homam',
+    tag: '',
   },
   {
     id: 'kartika-deepam',
@@ -144,7 +144,7 @@ export const GALLERY_IMAGES = [
     title: 'Kartika Masam Deeparadhana',
     category: 'Festivals & Homams',
     desc: 'A sacred month-long ritual of lighting thousands of clay oil lamps across the temple sanctum.',
-    tag: 'Deeparadhana',
+    tag: '',
   },
   {
     id: 'sopana-deepotsavam',
@@ -152,7 +152,7 @@ export const GALLERY_IMAGES = [
     title: 'Kartika Sopana Deepotsavam',
     category: 'Festivals & Homams',
     desc: 'Illuminating every step of the Navaratna Shikhara hill path with golden lamps on Kartika Pournami.',
-    tag: 'Deepotsavam',
+    tag: '',
   },
   {
     id: 'shiva-parvati-kalyanam-new',
@@ -160,7 +160,7 @@ export const GALLERY_IMAGES = [
     title: 'Shiva Parvati Kalyanam Celebrations',
     category: 'Festivals & Homams',
     desc: 'Symbolizing the supreme union of pure consciousness (Shiva) and primordial energy (Shakti).',
-    tag: 'Kalyanam',
+    tag: '',
   },
   {
     id: 'upcome-kalyanam',
@@ -168,7 +168,7 @@ export const GALLERY_IMAGES = [
     title: 'Divine Kalyana Mahotsavam Banner',
     category: 'Festivals & Homams',
     desc: 'Official temple banner for the celestial wedding festival of Lord Shiva and Goddess Parvati.',
-    tag: 'Festival Banner',
+    tag: '',
   },
   {
     id: 'kumbha-abhishekam',
@@ -176,7 +176,7 @@ export const GALLERY_IMAGES = [
     title: 'Maha Kumbha Abhishekam Ceremony',
     category: 'Festivals & Homams',
     desc: 'Sanctification ritual rejuvenating the temple by empowering the gopuram spire and deities.',
-    tag: 'Kumbha Abhishekam',
+    tag: '',
   },
   {
     id: 'kalasha-puja-mega',
@@ -184,7 +184,7 @@ export const GALLERY_IMAGES = [
     title: 'Mega Kalasha Puja Gathering',
     category: 'Festivals & Homams',
     desc: 'Devotees participating in collective Kalasha puja with chanting of Sri Rudram and Chamakam.',
-    tag: 'Kalasha Puja',
+    tag: '',
   },
   {
     id: 'chinmaya-amrit-mahotsav',
@@ -192,7 +192,7 @@ export const GALLERY_IMAGES = [
     title: 'Chinmaya Amrit Mahotsav (75 Years)',
     category: 'Festivals & Homams',
     desc: 'Special celebrations commemorating 75 years of Chinmaya Mission service to Vedic spirituality.',
-    tag: 'Amrit Mahotsav',
+    tag: '',
   },
   {
     id: 'rajat-mahotsav',
@@ -200,7 +200,7 @@ export const GALLERY_IMAGES = [
     title: 'Rajata Mahotsav Silver Jubilee',
     category: 'Festivals & Homams',
     desc: 'Celebrating 25 years of temple revival and cultural heritage preservation.',
-    tag: 'Silver Jubilee',
+    tag: '',
   },
 ];
 

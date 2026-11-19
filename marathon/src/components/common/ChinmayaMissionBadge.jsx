@@ -22,8 +22,8 @@ export const ChinmayaMissionBadge = ({ className = '', size = 'medium' }) => {
       <div className={`rounded-full bg-[var(--cyan)]/20 flex items-center justify-center text-[var(--cyan)] ${isSmall ? 'w-4 h-4' : 'w-5 h-5'}`}>
         <MapPin className={isSmall ? 'w-2.5 h-2.5' : 'w-3 h-3'} />
       </div>
-      <span className={`font-extrabold text-[var(--text-primary)] tracking-wide ${isSmall ? 'text-xs' : 'text-xs sm:text-sm'}`}>
-        Route of Mini-Marathon
+      <span className={`font-extrabold text-[var(--text-primary)] tracking-wide whitespace-nowrap inline-block ${isSmall ? 'text-xs' : 'text-xs sm:text-sm'}`}>
+        Route of Mini&#8209;Marathon
       </span>
     </button>
   );

@@ -167,7 +167,7 @@ export const PrivacyPolicyPage = () => {
           <div className="text-center space-y-3 pt-2">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 font-extrabold text-xs uppercase tracking-wider border border-emerald-500/20 shadow-xs">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Participant Data Privacy • Anti-Drug Mini-Marathon 2027</span>
+              <span>Participant Data Privacy • Anti-Drug <span className="whitespace-nowrap inline-block">Mini&#8209;Marathon</span> 2027</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading text-[var(--text-primary)] tracking-tight">

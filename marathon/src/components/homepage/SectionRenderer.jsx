@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { CountdownTimer } from '../CountdownTimer';
 import heroRunnersImage from '../../assets/hero-runners-2026-new.jpg';
+import { renderNoBreakMiniMarathon, formatMiniMarathonText } from '../../utils/textUtils';
 import {
   Award,
   ArrowRight,
@@ -63,7 +64,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
           <div className="hidden md:block absolute inset-0 z-0 pointer-events-none overflow-hidden">
             <img
               src={heroGraphicUrl}
-              alt={section.title ? section.title.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon') : 'Anti-Drug Movement Mini-Marathon Runners'}
+              alt={formatMiniMarathonText(section.title || 'Anti-Drug Movement Mini-Marathon Runners')}
               className="w-full h-full object-cover object-[center_right] lg:object-right"
               onError={(e) => {
                 e.target.src = heroRunnersImage;
@@ -80,16 +81,16 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
               <div className="w-full flex flex-col items-center md:items-start text-center md:text-left space-y-4 sm:space-y-5">
                 <div className="space-y-2 sm:space-y-2.5">
                   <h1 className="text-2xl sm:text-4xl lg:text-[2.65rem] font-black font-heading tracking-tight text-[var(--text-primary)] leading-[1.1] uppercase drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
-                    {section.title ? section.title.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon') : 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026'}
+                    {renderNoBreakMiniMarathon(section.title || 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026')}
                   </h1>
                   {displaySubtitle && (
                     <p className="text-base sm:text-xl lg:text-2xl font-black font-heading text-[var(--orange)] tracking-wide drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
-                      {displaySubtitle}
+                      {renderNoBreakMiniMarathon(displaySubtitle)}
                     </p>
                   )}
                   {displayDescription && (
                     <p className="text-xs sm:text-sm lg:text-base font-extrabold text-[var(--text-primary)]/85 max-w-lg mx-auto md:mx-0 leading-relaxed tracking-wider uppercase">
-                      {displayDescription}
+                      {renderNoBreakMiniMarathon(displayDescription)}
                     </p>
                   )}
                 </div>
@@ -107,7 +108,9 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                     title="Click to view Mini-Marathon Route Map"
                   >
                     <MapPin className="w-4 h-4 text-[var(--cyan)] group-hover:scale-110 transition-transform shrink-0" />
-                    <span className="underline decoration-dotted underline-offset-4 font-extrabold">Route of Mini-Marathon</span>
+                    <span className="underline decoration-dotted underline-offset-4 font-extrabold whitespace-nowrap inline-block">
+                      Route of Mini&#8209;Marathon
+                    </span>
                   </Link>
                 </div>
 
@@ -141,7 +144,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
               <div className="w-full max-w-[340px] sm:max-w-[500px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-[rgba(11,35,64,0.08)] bg-white/60 backdrop-blur-sm group">
                 <img
                   src={heroGraphicUrl}
-                  alt={section.title ? section.title.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon') : 'Anti-Drug Movement Mini-Marathon Runners'}
+                  alt={formatMiniMarathonText(section.title || 'Anti-Drug Movement Mini-Marathon Runners')}
                   className="w-full h-auto max-h-[220px] sm:max-h-[300px] object-cover block"
                   onError={(e) => {
                     e.target.src = heroRunnersImage;
@@ -169,10 +172,10 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
           <div className="max-w-4xl mx-auto space-y-8">
             <div className="text-center space-y-3">
               <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-[var(--text-primary)]">
-                {section.title || 'FREQUENTLY ASKED QUESTIONS'}
+                {renderNoBreakMiniMarathon(section.title || 'FREQUENTLY ASKED QUESTIONS')}
               </h2>
               <p className="text-xs sm:text-sm text-[var(--text-muted)] max-w-xl mx-auto font-medium">
-                Got a question regarding the mini-marathon? Find quick answers below.
+                Got a question regarding the <span className="whitespace-nowrap inline-block">mini&#8209;marathon</span>? Find quick answers below.
               </p>
             </div>
 
@@ -187,13 +190,13 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                       <span className="w-7 h-7 rounded-full bg-[var(--orange)]/10 text-[var(--orange)] flex items-center justify-center shrink-0 border border-[var(--orange)]/30">
                         <HelpCircle className="w-4 h-4 text-[var(--orange)]" />
                       </span>
-                      <span className="font-extrabold">{faq.question}</span>
+                      <span className="font-extrabold">{renderNoBreakMiniMarathon(faq.question)}</span>
                     </span>
                     <ChevronDown className={`w-5 h-5 text-[var(--text-muted)] shrink-0 transition-transform ${openFaq === idx ? 'rotate-180 text-[var(--orange)]' : ''}`} />
                   </button>
                   {openFaq === idx && (
                     <div className="px-5 pb-5 text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed border-t border-[var(--border-color)]/50 pt-3">
-                      <p className="pl-10 font-medium">{faq.answer}</p>
+                      <p className="pl-10 font-medium">{renderNoBreakMiniMarathon(faq.answer)}</p>
                     </div>
                   )}
                 </div>
@@ -219,10 +222,10 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
         <section className="py-16 px-4 bg-gradient-to-r from-[var(--orange)] via-[#E64A19] to-[var(--orange)] text-white text-center">
           <div className="max-w-4xl mx-auto space-y-6">
             <h2 className="text-3xl sm:text-5xl font-black font-heading tracking-tight">
-              {section.title || 'BE PART OF THE MOVEMENT IN ADONI!'}
+              {renderNoBreakMiniMarathon(section.title || 'BE PART OF THE MOVEMENT IN ADONI!')}
             </h2>
             <p className="text-base sm:text-lg text-white/90 max-w-2xl mx-auto font-medium">
-              {section.description ? section.description.replace(/(?<!mini[- ])marathon/gi, 'mini-marathon') : 'Register today individually or submit your school/college bulk student details. Receive your official mini-marathon certificate & pass!'}
+              {renderNoBreakMiniMarathon(section.description || 'Register today individually or submit your school/college bulk student details. Receive your official mini-marathon certificate & pass!')}
             </p>
           </div>
         </section>
@@ -234,17 +237,17 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
           <div className="p-8 sm:p-12 rounded-3xl bg-white border border-[rgba(11,35,64,0.08)] border-l-4 border-l-[var(--orange)] space-y-6 shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)]">
             {section.badgeText && (
               <span className="px-3.5 py-1 rounded-full bg-[var(--orange)]/15 text-[var(--orange)] font-extrabold text-xs uppercase tracking-widest">
-                {section.badgeText}
+                {renderNoBreakMiniMarathon(section.badgeText)}
               </span>
             )}
             <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-[var(--text-primary)]">
-              {section.title}
+              {renderNoBreakMiniMarathon(section.title)}
             </h2>
             {section.subtitle && (
-              <h3 className="text-lg font-bold text-[var(--orange)]">{section.subtitle}</h3>
+              <h3 className="text-lg font-bold text-[var(--orange)]">{renderNoBreakMiniMarathon(section.subtitle)}</h3>
             )}
             {section.description && (
-              <p className="text-sm text-[var(--text-muted)] leading-relaxed">{section.description}</p>
+              <p className="text-sm text-[var(--text-muted)] leading-relaxed">{renderNoBreakMiniMarathon(section.description)}</p>
             )}
             {section.imageUrl && (
               <div className="rounded-2xl overflow-hidden max-h-[350px]">

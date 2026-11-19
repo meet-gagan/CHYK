@@ -495,7 +495,7 @@ export const GalleryManagementPage = () => {
       !mediaSearch.trim() ||
       (m.title && m.title.toLowerCase().includes(mediaSearch.toLowerCase())) ||
       (m.description && m.description.toLowerCase().includes(mediaSearch.toLowerCase())) ||
-      (m.category && m.category.toLowerCase().includes(mediaSearch.toLowerCase()));
+      (m.tag && m.tag.toLowerCase().includes(mediaSearch.toLowerCase()));
     const matchesType =
       mediaTypeFilter === 'ALL' || m.mediaType === mediaTypeFilter.toLowerCase();
     return matchesSearch && matchesType;
@@ -872,9 +872,11 @@ export const GalleryManagementPage = () => {
 
                     <div className="p-3.5 flex-grow flex flex-col justify-between">
                       <div>
-                        <span className="text-[10px] font-bold text-[#F0441D] block mb-1">
-                          {item.tag || item.category || 'Sacred Media'}
-                        </span>
+                        {item.tag && (
+                          <span className="text-[10px] font-bold text-[#F0441D] block mb-1">
+                            {item.tag}
+                          </span>
+                        )}
                         <h4 className="text-xs font-bold text-white line-clamp-1 mb-1">
                           {item.title || 'Untitled Media'}
                         </h4>
@@ -1171,29 +1173,15 @@ export const GalleryManagementPage = () => {
                   className="w-full p-3 bg-[#0B132B] border border-white/10 rounded-xl text-xs text-white focus:outline-none"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold text-white block mb-1">Category</label>
-                  <select
-                    value={imageUploadForm.category}
-                    onChange={(e) => setImageUploadForm({ ...imageUploadForm, category: e.target.value })}
-                    className="w-full p-3 bg-[#0B132B] border border-white/10 rounded-xl text-xs text-white focus:outline-none"
-                  >
-                    <option value="Temple & Sanctum">Temple & Sanctum</option>
-                    <option value="Sacred Deities">Sacred Deities</option>
-                    <option value="Festivals & Homams">Festivals & Homams</option>
-                    <option value="General">General</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-white block mb-1">Tag / Label</label>
-                  <input
-                    type="text"
-                    value={imageUploadForm.tag}
-                    onChange={(e) => setImageUploadForm({ ...imageUploadForm, tag: e.target.value })}
-                    className="w-full p-3 bg-[#0B132B] border border-white/10 rounded-xl text-xs text-white focus:outline-none"
-                  />
-                </div>
+              <div>
+                <label className="text-xs font-bold text-white block mb-1">Tag / Label</label>
+                <input
+                  type="text"
+                  placeholder="Optional tag (e.g. Sanctum, Silver Jubilee)"
+                  value={imageUploadForm.tag}
+                  onChange={(e) => setImageUploadForm({ ...imageUploadForm, tag: e.target.value })}
+                  className="w-full p-3 bg-[#0B132B] border border-white/10 rounded-xl text-xs text-white focus:outline-none"
+                />
               </div>
               <div>
                 <label className="text-xs font-bold text-white block mb-1">Description</label>
@@ -1265,28 +1253,14 @@ export const GalleryManagementPage = () => {
                   className="w-full p-3 bg-[#0B132B] border border-white/10 rounded-xl text-xs text-white focus:outline-none"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold text-white block mb-1">Category</label>
-                  <select
-                    value={videoUploadForm.category}
-                    onChange={(e) => setVideoUploadForm({ ...videoUploadForm, category: e.target.value })}
-                    className="w-full p-3 bg-[#0B132B] border border-white/10 rounded-xl text-xs text-white focus:outline-none"
-                  >
-                    <option value="Festivals & Homams">Festivals & Homams</option>
-                    <option value="Temple & Sanctum">Temple & Sanctum</option>
-                    <option value="General">General</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-white block mb-1">Thumbnail URL</label>
-                  <input
-                    type="text"
-                    value={videoUploadForm.thumbnailUrl}
-                    onChange={(e) => setVideoUploadForm({ ...videoUploadForm, thumbnailUrl: e.target.value })}
-                    className="w-full p-3 bg-[#0B132B] border border-white/10 rounded-xl text-xs text-white focus:outline-none"
-                  />
-                </div>
+              <div>
+                <label className="text-xs font-bold text-white block mb-1">Thumbnail URL</label>
+                <input
+                  type="text"
+                  value={videoUploadForm.thumbnailUrl}
+                  onChange={(e) => setVideoUploadForm({ ...videoUploadForm, thumbnailUrl: e.target.value })}
+                  className="w-full p-3 bg-[#0B132B] border border-white/10 rounded-xl text-xs text-white focus:outline-none"
+                />
               </div>
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
                 <button
@@ -1339,27 +1313,16 @@ export const GalleryManagementPage = () => {
                   className="w-full p-3 bg-[#0B132B] border border-white/10 rounded-xl text-xs text-white focus:outline-none"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold text-white block mb-1">Category</label>
-                  <input
-                    type="text"
-                    value={mediaEditForm.category}
-                    onChange={(e) => setMediaEditForm({ ...mediaEditForm, category: e.target.value })}
-                    className="w-full p-3 bg-[#0B132B] border border-white/10 rounded-xl text-xs text-white focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-white block mb-1">Status</label>
-                  <select
-                    value={mediaEditForm.status}
-                    onChange={(e) => setMediaEditForm({ ...mediaEditForm, status: e.target.value })}
-                    className="w-full p-3 bg-[#0B132B] border border-white/10 rounded-xl text-xs text-white focus:outline-none"
-                  >
-                    <option value="published">Published</option>
-                    <option value="draft">Draft</option>
-                  </select>
-                </div>
+              <div>
+                <label className="text-xs font-bold text-white block mb-1">Status</label>
+                <select
+                  value={mediaEditForm.status}
+                  onChange={(e) => setMediaEditForm({ ...mediaEditForm, status: e.target.value })}
+                  className="w-full p-3 bg-[#0B132B] border border-white/10 rounded-xl text-xs text-white focus:outline-none"
+                >
+                  <option value="published">Published</option>
+                  <option value="draft">Draft</option>
+                </select>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
                 <button

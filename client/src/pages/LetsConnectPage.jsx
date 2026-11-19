@@ -151,7 +151,7 @@ export const LetsConnectPage = () => {
                 required
                 value={formData.fullName}
                 onChange={handleChange}
-                placeholder="e.g. Ramesh Kumar"
+                placeholder="Enter your full name"
                 className="w-full py-3 px-4 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--orange)]"
               />
             </div>
@@ -167,7 +167,7 @@ export const LetsConnectPage = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="ramesh@example.com"
+                  placeholder="name@example.com"
                   className="w-full py-3 px-4 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--orange)]"
                 />
               </div>
@@ -187,7 +187,7 @@ export const LetsConnectPage = () => {
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: formatPhoneInput(e.target.value) })}
-                    placeholder="98765 43210"
+                    placeholder="10-digit mobile number"
                     maxLength={12}
                     className="w-full pl-20 pr-4 py-3 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--orange)]"
                   />

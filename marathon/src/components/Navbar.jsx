@@ -73,8 +73,8 @@ export const Navbar = () => {
           <div className="flex items-center gap-3 shrink-0 h-full py-2">
             <LeftLogo />
             <div className="hidden xl:block border-l border-[var(--border-color)] pl-3">
-              <span className="text-[10px] uppercase tracking-widest font-black text-[var(--orange)] block leading-tight">
-                MINI-MARATHON 2026
+              <span className="text-[10px] uppercase tracking-widest font-black text-[var(--orange)] block leading-tight whitespace-nowrap inline-block">
+                MINI&#8209;MARATHON 2026
               </span>
               <span className="text-xs font-bold text-[var(--text-primary)] block leading-tight whitespace-nowrap">
                 Anti-Drug Movement Run

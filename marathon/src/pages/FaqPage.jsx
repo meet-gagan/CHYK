@@ -11,6 +11,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { faqService, contactService, webContentService } from '../services/api';
+import { renderNoBreakMiniMarathon } from '../utils/textUtils';
 
 const DEFAULT_MARATHON_FAQS = [
   {
@@ -173,9 +174,8 @@ export const FaqPage = () => {
           </h1>
 
           <p className="text-sm sm:text-base text-[var(--text-muted)] max-w-2xl mx-auto font-medium">
-            {f.faq_list?.subtitle ? (
-              f.faq_list.subtitle.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon')
-            ) : (
+            {renderNoBreakMiniMarathon(
+              f.faq_list?.subtitle ||
               'Everything you need to know about the Anti-Drug Movement Mini-Marathon Run 2026. Have a question not listed here? Ask our organizers directly!'
             )}
           </p>
@@ -256,7 +256,7 @@ export const FaqPage = () => {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="e.g. Ramesh Kumar"
+                    placeholder="Enter your full name"
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-[var(--orange)] focus:ring-2 focus:ring-[var(--orange)]/20 text-sm font-semibold text-slate-800 transition-all"
                   />
                 </div>
@@ -270,7 +270,7 @@ export const FaqPage = () => {
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="e.g. 9876543210"
+                    placeholder="10-digit mobile number"
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-[var(--orange)] focus:ring-2 focus:ring-[var(--orange)]/20 text-sm font-semibold text-slate-800 transition-all"
                   />
                 </div>
@@ -340,7 +340,7 @@ export const FaqPage = () => {
                     <span className="w-7 h-7 rounded-full bg-[var(--orange)]/10 text-[var(--orange)] flex items-center justify-center shrink-0 border border-[var(--orange)]/30">
                       <HelpCircle className="w-4 h-4" />
                     </span>
-                    <span className="font-extrabold">{faq.question}</span>
+                    <span className="font-extrabold">{renderNoBreakMiniMarathon(faq.question)}</span>
                   </span>
                   <ChevronDown
                     className={`w-5 h-5 text-slate-400 shrink-0 transition-transform duration-300 ${
@@ -351,7 +351,7 @@ export const FaqPage = () => {
 
                 {isOpen && (
                   <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed border-t border-slate-100 animate-in fade-in duration-200">
-                    <p className="pl-10 font-medium">{faq.answer}</p>
+                    <p className="pl-10 font-medium">{renderNoBreakMiniMarathon(faq.answer)}</p>
                   </div>
                 )}
               </div>

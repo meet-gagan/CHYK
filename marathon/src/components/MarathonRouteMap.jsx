@@ -104,7 +104,7 @@ export const MarathonRouteMap = ({ className = '' }) => {
               ) : (
                 <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold shadow-md">
                   <MapPin className="w-3 h-3 text-cyan-400" />
-                  <span>Full 3.5 KM Mini-Marathon Route</span>
+                  <span>Full 3.5 KM <span className="whitespace-nowrap inline-block">Mini&#8209;Marathon</span> Route</span>
                 </div>
               )}
             </div>

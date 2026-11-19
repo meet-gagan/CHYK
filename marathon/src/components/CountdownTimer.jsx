@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Clock, MapPin } from 'lucide-react';
+import { Clock, MapPin } from 'lucide-react';
 
 export const CountdownTimer = ({ targetDate = '2027-01-24T06:00:00.000+05:30' }) => {
   const calculateTimeLeft = () => {
@@ -43,10 +43,6 @@ export const CountdownTimer = ({ targetDate = '2027-01-24T06:00:00.000+05:30' })
           
           {/* Header Info */}
           <div className="text-center lg:text-left space-y-1 sm:space-y-1.5">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--orange)]/15 text-[var(--orange)] font-extrabold text-[11px] sm:text-xs uppercase tracking-wider border border-[var(--orange)]/30 mb-0.5 shadow-sm">
-              <Calendar className="w-3.5 h-3.5" />
-              <span>EVENT COUNTDOWN</span>
-            </div>
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-black font-heading text-[var(--text-primary)] tracking-tight">
               24 JANUARY <span className="text-[var(--orange)]">2027</span>
             </h3>

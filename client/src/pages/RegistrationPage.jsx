@@ -633,7 +633,7 @@ export const RegistrationPage = () => {
                   disabled={!isRegistrationOpen}
                   value={indForm.contactNumber}
                   onChange={(e) => setIndForm({ ...indForm, contactNumber: formatPhoneInput(e.target.value) })}
-                  placeholder="98765 43210"
+                  placeholder="10-digit mobile number"
                   maxLength={12}
                   className={`w-full pl-20 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border text-sm text-[var(--text-primary)] focus:outline-none ${
                     indErrors.contactNumber ? 'border-red-500' : 'border-[var(--border-color)] focus:border-[var(--orange)]'
@@ -771,7 +771,7 @@ export const RegistrationPage = () => {
                     required
                     value={bulkForm.phone}
                     onChange={(e) => setBulkForm({ ...bulkForm, phone: formatPhoneInput(e.target.value) })}
-                    placeholder="98765 43210"
+                    placeholder="10-digit mobile number"
                     maxLength={12}
                     className="w-full pl-20 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--cyan)]"
                   />

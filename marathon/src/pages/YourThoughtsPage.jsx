@@ -605,8 +605,8 @@ export const YourThoughtsPage = () => {
                         <Lock className="w-3 h-3" />
                         <span>Anonymous Runner</span>
                       </span>
-                      <span className="text-[10px] tracking-wide uppercase">
-                        Mini-Marathon 2026
+                      <span className="text-[10px] tracking-wide uppercase whitespace-nowrap inline-block">
+                        Mini&#8209;Marathon 2026
                       </span>
                     </div>
                   </article>

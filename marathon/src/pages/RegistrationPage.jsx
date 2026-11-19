@@ -10,6 +10,7 @@ import { MarathonRouteMap } from '../components/MarathonRouteMap';
 import { adoniInstitutionsList } from '../utils/constants';
 import { formatPhoneInput, getCleanPhoneNumber } from '../utils/phoneUtils';
 import { calculateAgeFromDob, getMaxDobDate } from '../utils/dateUtils';
+import { renderNoBreakMiniMarathon } from '../utils/textUtils';
 import {
   Award,
   CheckCircle,
@@ -707,16 +708,16 @@ export const RegistrationPage = () => {
 
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading text-[var(--text-primary)]">
           {regContent?.title ? (
-            regContent.title.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon')
+            renderNoBreakMiniMarathon(regContent.title)
           ) : (
-            <>MINI-MARATHON <span className="text-[var(--orange)]">REGISTRATION</span></>
+            <><span className="whitespace-nowrap inline-block">MINI&#8209;MARATHON</span> <span className="text-[var(--orange)]">REGISTRATION</span></>
           )}
         </h1>
         <p className="text-xs sm:text-sm text-[var(--text-muted)] font-medium max-w-xl mx-auto">
           {regContent?.guidelines ? (
-            regContent.guidelines.replace(/(?<!mini[- ])marathon/gi, 'mini-marathon')
+            renderNoBreakMiniMarathon(regContent.guidelines)
           ) : (
-            <>Last date of registration is <strong className="text-[var(--text-primary)] font-bold">30 November 2026 (30/11/2026)</strong>. Details will be used to generate your official mini-marathon pass and certificate.</>
+            <>Last date of registration is <strong className="text-[var(--text-primary)] font-bold">30 November 2026 (30/11/2026)</strong>. Details will be used to generate your official <span className="whitespace-nowrap inline-block">mini&#8209;marathon</span> pass and certificate.</>
           )}
         </p>
 
@@ -1031,7 +1032,7 @@ export const RegistrationPage = () => {
                     disabled={!isRegistrationOpen}
                     value={indForm.contactNumber}
                     onChange={(e) => setIndForm({ ...indForm, contactNumber: formatPhoneInput(e.target.value) })}
-                    placeholder="98765 43210"
+                    placeholder="10-digit mobile number"
                     maxLength={12}
                     className={`w-full pl-20 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border text-sm text-[var(--text-primary)] focus:outline-none ${
                       indErrors.contactNumber ? 'border-red-500' : 'border-[var(--border-color)] focus:border-[var(--orange)]'
@@ -1391,7 +1392,7 @@ export const RegistrationPage = () => {
                           onChange={(e) =>
                             updateFriendField(idx, 'contactNumber', formatPhoneInput(e.target.value))
                           }
-                          placeholder="98765 43210"
+                          placeholder="10-digit mobile number"
                           maxLength={12}
                           className={`w-full pl-20 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border text-sm text-[var(--text-primary)] focus:outline-none ${
                             friendsErrors[idx]?.contactNumber
@@ -1459,7 +1460,7 @@ export const RegistrationPage = () => {
                     ? `SUBMIT REGISTRATION (YOU + ${friendsList.length} ${
                         friendsList.length === 1 ? 'PARTICIPANT' : 'PARTICIPANTS'
                       })`
-                    : 'SUBMIT MINI-MARATHON REGISTRATION'}
+                    : <>SUBMIT <span className="whitespace-nowrap inline-block">MINI&#8209;MARATHON</span> REGISTRATION</>}
                 </span>
               </button>
             </div>
@@ -1524,7 +1525,7 @@ export const RegistrationPage = () => {
                     required
                     value={bulkForm.phone}
                     onChange={(e) => setBulkForm({ ...bulkForm, phone: formatPhoneInput(e.target.value) })}
-                    placeholder="98765 43210"
+                    placeholder="10-digit mobile number"
                     maxLength={12}
                     className="w-full pl-20 pr-4 py-3.5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--cyan)]"
                   />

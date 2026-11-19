@@ -283,7 +283,7 @@ export const RegistrationAuthModal = ({
         <div className="text-center space-y-1.5 mb-5 relative z-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-[var(--orange)]/15 text-[var(--orange)] border border-[var(--orange)]/30">
             <Sparkles className="w-3 h-3" />
-            <span>Anti-Drug Movement Mini-Marathon 2026</span>
+            <span>Anti-Drug Movement <span className="whitespace-nowrap inline-block">Mini&#8209;Marathon</span> 2026</span>
           </div>
 
           <h3 className="text-xl sm:text-2xl font-black font-heading text-[var(--text-primary)] tracking-tight">
@@ -294,7 +294,7 @@ export const RegistrationAuthModal = ({
             {pendingAction === 'BULK'
               ? 'Sign in or create an account to finalize your School/College batch registration'
               : mode === 'signup'
-              ? 'New participant? Create your account in 30 seconds to proceed with mini-marathon registration.'
+              ? <>New participant? Create your account in 30 seconds to proceed with <span className="whitespace-nowrap inline-block">mini&#8209;marathon</span> registration.</>
               : 'Already have an account? Sign in with your phone and password to register.'}
           </p>
         </div>
@@ -379,7 +379,7 @@ export const RegistrationAuthModal = ({
                   name="fullName"
                   value={signupForm.fullName}
                   onChange={handleSignupChange}
-                  placeholder="e.g. Rahul Sharma"
+                  placeholder="Enter your full name"
                   className={`w-full pl-9 pr-3 py-2 rounded-xl bg-[var(--bg-tertiary)] border text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--orange)] transition-colors ${
                     validationErrors.fullName ? 'border-red-500' : 'border-[var(--border-color)]'
                   }`}
@@ -406,7 +406,7 @@ export const RegistrationAuthModal = ({
                   name="phone"
                   value={signupForm.phone}
                   onChange={handleSignupChange}
-                  placeholder="98765 43210"
+                  placeholder="10-digit mobile number"
                   maxLength={11}
                   className={`w-full pl-11 pr-3 py-2 rounded-xl bg-[var(--bg-tertiary)] border text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--orange)] transition-colors ${
                     validationErrors.phone ? 'border-red-500' : 'border-[var(--border-color)]'
@@ -545,7 +545,7 @@ export const RegistrationAuthModal = ({
                   name="phone"
                   value={loginForm.phone}
                   onChange={handleLoginChange}
-                  placeholder="98765 43210"
+                  placeholder="10-digit mobile number"
                   maxLength={11}
                   className={`w-full pl-11 pr-3 py-2 rounded-xl bg-[var(--bg-tertiary)] border text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--orange)] transition-colors ${
                     validationErrors.phone ? 'border-red-500' : 'border-[var(--border-color)]'

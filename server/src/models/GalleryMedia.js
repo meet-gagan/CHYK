@@ -39,7 +39,7 @@ const galleryMediaSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      default: 'General',
+      default: '',
       trim: true,
     },
     tag: {

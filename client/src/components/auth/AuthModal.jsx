@@ -273,7 +273,7 @@ export const AuthModal = ({
                     setLoginPhone(formatPhoneInput(e.target.value));
                     if (errors.phone) setErrors({ ...errors, phone: '' });
                   }}
-                  placeholder="98765 43210"
+                  placeholder="10-digit mobile number"
                   maxLength={11}
                   required
                   className={`w-full pl-20 pr-4 py-3 rounded-2xl bg-[#FFFDF9] border text-slate-900 text-sm font-semibold placeholder:text-slate-400 focus:outline-none focus:bg-white transition-all shadow-inner ${
@@ -341,7 +341,7 @@ export const AuthModal = ({
                   type="text"
                   value={signupData.fullName}
                   onChange={(e) => setSignupData({ ...signupData, fullName: e.target.value })}
-                  placeholder="e.g. Ramesh Sharma"
+                  placeholder="Enter your full name"
                   required
                   className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#FFFDF9] border border-[#EBD6A2] focus:border-[#F0441D] focus:bg-white text-slate-900 text-xs font-semibold focus:outline-none shadow-inner placeholder:text-slate-400"
                 />
@@ -362,7 +362,7 @@ export const AuthModal = ({
                   type="email"
                   value={signupData.email}
                   onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
-                  placeholder="devotee@example.com"
+                  placeholder="name@example.com"
                   required
                   className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-[#FFFDF9] border border-[#EBD6A2] focus:border-[#F0441D] focus:bg-white text-slate-900 text-xs font-semibold focus:outline-none shadow-inner placeholder:text-slate-400"
                 />
@@ -384,7 +384,7 @@ export const AuthModal = ({
                   type="tel"
                   value={signupData.phone}
                   onChange={(e) => setSignupData({ ...signupData, phone: formatPhoneInput(e.target.value) })}
-                  placeholder="98765 43210"
+                  placeholder="10-digit mobile number"
                   maxLength={11}
                   required
                   className="w-full pl-18 pr-3 py-2.5 rounded-xl bg-[#FFFDF9] border border-[#EBD6A2] focus:border-[#F0441D] focus:bg-white text-slate-900 text-xs font-semibold focus:outline-none shadow-inner placeholder:text-slate-400"

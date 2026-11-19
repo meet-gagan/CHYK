@@ -102,8 +102,8 @@ export const MarathonComingSoonPage = () => {
         <div className="space-y-3">
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black font-heading tracking-tight leading-[1.1] text-white">
             ANTI-DRUG MOVEMENT <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F0441D] via-[#FFD12D] to-[#06B6D4]">
-              MINI-MARATHON RUN 2026
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F0441D] via-[#FFD12D] to-[#06B6D4] whitespace-nowrap inline-block">
+              MINI&#8209;MARATHON RUN 2026
             </span>
           </h1>
 

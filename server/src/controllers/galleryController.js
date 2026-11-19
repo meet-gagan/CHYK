@@ -219,8 +219,12 @@ export const getPublicFolderMedia = async (req, res) => {
       .sort({ displayOrder: 1, createdAt: 1 })
       .lean();
 
+    const isTempleFolder = folder.slug === 'shri-shantamalleshwara-swami-temple-images';
+
     const formattedMedia = media.map((item) => ({
       ...item,
+      category: '',
+      tag: isTempleFolder ? '' : (item.tag || ''),
       media_url: item.url,
       media_type: item.mediaType,
       thumbnail_url: item.thumbnailUrl || (item.mediaType === 'video' ? '' : item.url),
@@ -710,8 +714,12 @@ export const getAdminFolderMedia = async (req, res) => {
       .sort({ displayOrder: 1, createdAt: 1 })
       .lean();
 
+    const isTempleFolder = folder.slug === 'shri-shantamalleshwara-swami-temple-images';
+
     const formattedMedia = media.map((item) => ({
       ...item,
+      category: '',
+      tag: isTempleFolder ? '' : (item.tag || ''),
       media_url: item.url,
       media_type: item.mediaType,
       thumbnail_url: item.thumbnailUrl || (item.mediaType === 'video' ? '' : item.url),
@@ -763,7 +771,7 @@ export const uploadFolderMedia = async (req, res) => {
     const {
       title,
       description,
-      category = 'General',
+      category = '',
       tag = '',
       displayOrder,
       status = 'published',
@@ -814,7 +822,7 @@ export const uploadFolderMedia = async (req, res) => {
           thumbnailUrl: isVideo ? (thumbnailUrl || '') : uploadResult.url,
           title: (title && files.length === 1) ? title.trim() : cleanOriginalName,
           description: (description && files.length === 1) ? description.trim() : '',
-          category: category.trim() || 'General',
+          category: (category || '').trim(),
           tag: tag.trim() || '',
           displayOrder: (displayOrder !== undefined && files.length === 1) ? Number(displayOrder) : nextOrder++,
           status: ['published', 'draft'].includes((status || '').toLowerCase()) ? status.toLowerCase() : 'published',
@@ -850,7 +858,7 @@ export const uploadFolderMedia = async (req, res) => {
         thumbnailUrl: (thumbnailUrl || '').trim() || (isVideo ? '' : url.trim()),
         title: (title || '').trim() || 'Media Item',
         description: (description || '').trim(),
-        category: category.trim() || 'General',
+        category: (category || '').trim(),
         tag: tag.trim() || '',
         displayOrder: displayOrder !== undefined ? Number(displayOrder) : nextOrder,
         status: ['published', 'draft'].includes((status || '').toLowerCase()) ? status.toLowerCase() : 'published',
@@ -921,7 +929,7 @@ export const updateMediaItem = async (req, res) => {
 
     if (title !== undefined) item.title = (title || '').trim();
     if (description !== undefined) item.description = (description || '').trim();
-    if (category !== undefined) item.category = (category || 'General').trim();
+    if (category !== undefined) item.category = (category || '').trim();
     if (tag !== undefined) item.tag = (tag || '').trim();
     if (displayOrder !== undefined) item.displayOrder = Number(displayOrder) || 0;
     if (status && ['published', 'draft'].includes(status.toLowerCase())) {

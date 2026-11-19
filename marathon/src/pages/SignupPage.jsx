@@ -188,7 +188,7 @@ export const SignupPage = () => {
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                placeholder="e.g. Ramesh Sharma"
+                placeholder="Enter your full name"
                 required
                 className={`w-full pl-10 pr-4 py-3 rounded-2xl bg-[var(--bg-tertiary)] border text-[var(--text-primary)] font-semibold text-sm placeholder-[var(--text-muted)] focus:outline-none transition-all shadow-inner ${
                   errors.fullName ? 'border-red-500' : 'border-[var(--border-color)] focus:border-[var(--orange)]'
@@ -271,7 +271,7 @@ export const SignupPage = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="98765 43210"
+                placeholder="10-digit mobile number"
                 maxLength={11}
                 required
                 className={`w-full pl-20 pr-4 py-3 rounded-2xl bg-[var(--bg-tertiary)] border text-[var(--text-primary)] font-semibold text-sm placeholder-[var(--text-muted)] focus:outline-none transition-all shadow-inner ${

@@ -164,7 +164,7 @@ export const TermsPage = () => {
               className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[var(--text-muted)] hover:text-[var(--orange)] transition-colors text-decoration-none group"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              <span>Back to Mini-Marathon Home</span>
+              <span>Back to <span className="whitespace-nowrap inline-block">Mini&#8209;Marathon</span> Home</span>
             </Link>
 
             <button
@@ -179,7 +179,7 @@ export const TermsPage = () => {
           <div className="text-center space-y-3 pt-2">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[var(--orange)]/10 text-[var(--orange)] font-extrabold text-xs uppercase tracking-wider border border-[var(--orange)]/20 shadow-xs">
               <Flame className="w-3.5 h-3.5" />
-              <span>Anti-Drug Movement Mini-Marathon 2027</span>
+              <span>Anti-Drug Movement <span className="whitespace-nowrap inline-block">Mini&#8209;Marathon</span> 2027</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading text-[var(--text-primary)] tracking-tight">
@@ -257,7 +257,7 @@ export const TermsPage = () => {
             to="/register"
             className="btn-primary text-xs py-2.5 px-6 font-black uppercase tracking-wider text-decoration-none shadow-md whitespace-nowrap"
           >
-            Register for Mini-Marathon
+            Register for <span className="whitespace-nowrap inline-block">Mini&#8209;Marathon</span>
           </Link>
         </div>
       </div>

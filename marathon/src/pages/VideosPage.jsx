@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { videoService } from '../services/api';
-import { Play, X, AlertTriangle, RefreshCw, Film, Sparkles, Maximize2, Minimize2 } from 'lucide-react';
+import { Play, X, AlertTriangle, RefreshCw, Maximize2, Minimize2 } from 'lucide-react';
 
 const YoutubeIcon = ({ className = 'w-4 h-4' }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -110,10 +110,6 @@ export const VideosPage = () => {
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--orange,#FF6600)]/10 text-[var(--orange,#FF6600)] font-black text-xs uppercase tracking-widest border border-[var(--orange,#FF6600)]/20 shadow-sm">
-            <Film className="w-3.5 h-3.5" />
-            <span>Anti-Drug Movement Media</span>
-          </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading text-[var(--text-primary,#0B2340)] tracking-tight">
             Udaan
           </h1>
@@ -121,8 +117,8 @@ export const VideosPage = () => {
             "Fly high, Choose a meaningful Life"
           </p>
           <p className="text-xs sm:text-sm lg:text-base text-[var(--text-primary,#0B2340)]/75 font-medium leading-relaxed">
-            Watch event highlights, inspirational messages, youth movements, and mini-marathon stories
-            from the Anti-Drug Movement Mini-Marathon 2026.
+            Watch event highlights, inspirational messages, youth movements, and <span className="whitespace-nowrap inline-block">mini&#8209;marathon</span> stories
+            from the Anti-Drug Movement <span className="whitespace-nowrap inline-block">Mini&#8209;Marathon</span> 2026.
           </p>
         </div>
 

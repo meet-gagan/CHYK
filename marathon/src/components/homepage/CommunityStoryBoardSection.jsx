@@ -58,7 +58,7 @@ const FALLBACK_THOUGHTS = [
   },
   {
     _id: 'fb-2',
-    content: 'Every step we take together in this mini-marathon echoes a clear message: Health is true wealth! Proud to be part of Chinmaya Mission\'s initiative. ✨💪',
+    content: 'Every step we take together in this mini\u2011marathon echoes a clear message: Health is true wealth! Proud to be part of Chinmaya Mission\'s initiative. ✨💪',
     color: 'mint',
     createdAt: '2026-10-16T12:15:00.000Z',
   },

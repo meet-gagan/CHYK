@@ -101,7 +101,7 @@ export const AboutPage = () => {
       <section className="relative pt-10 pb-14 sm:pt-16 sm:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-[var(--orange,#FF6600)]/10 via-[var(--bg-primary)] to-[var(--bg-primary)] border-b border-[var(--border-color,#E5E7EB)]">
         <div className="max-w-5xl mx-auto text-center space-y-4 sm:space-y-6">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading tracking-tight text-[var(--text-primary)]">
-            ABOUT THE MINI-MARATHON
+            ABOUT THE <span className="whitespace-nowrap inline-block">MINI&#8209;MARATHON</span>
           </h1>
 
           <div className="inline-block px-4 py-1.5 rounded-xl bg-slate-900 text-white text-xs sm:text-sm font-black uppercase tracking-widest shadow-sm">
@@ -124,13 +124,13 @@ export const AboutPage = () => {
           <div className="space-y-4 text-sm sm:text-base leading-relaxed text-[var(--text-muted,#64748B)]">
             <p>
               <strong className="text-[var(--text-primary)] font-bold">WE RISE. WE RUN. WE RESIST.</strong> is
-              an anti-drug awareness mini-marathon organised by{' '}
+              an anti-drug awareness <span className="whitespace-nowrap inline-block">mini&#8209;marathon</span> organised by{' '}
               <strong className="text-[var(--text-primary)] font-bold">Chinmaya Yuva Kendra (CHYK), Adoni</strong>,
               with the vision of creating awareness about the harmful effects of substance abuse and inspiring individuals,
               especially youth, to choose a life of health, purpose and responsibility.
             </p>
             <p>
-              This mini-marathon is more than a sporting event; it is a movement of courage, awareness and collective responsibility.
+              This <span className="whitespace-nowrap inline-block">mini&#8209;marathon</span> is more than a sporting event; it is a movement of courage, awareness and collective responsibility.
             </p>
           </div>
 
@@ -210,7 +210,7 @@ export const AboutPage = () => {
               This initiative is part of a collective effort to strengthen the movement towards a drug-free India.
               Organised by <strong className="text-[var(--text-primary)]">Chinmaya Yuva Kendra (CHYK), Adoni</strong>, in
               association with <strong className="text-[var(--text-primary)]">All India Chinmaya Yuva Kendra (AICHYK)</strong>,
-              the mini-marathon aligns with the vision of the{' '}
+              the <span className="whitespace-nowrap inline-block">mini&#8209;marathon</span> aligns with the vision of the{' '}
               <strong className="text-[var(--text-primary)]">
                 Ministry of Social Justice and Empowerment, Government of India
               </strong>
@@ -295,7 +295,7 @@ export const AboutPage = () => {
             </p>
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
               Drug abuse affects not just individuals but families, friendships, communities and the future of our nation.
-              By participating in this mini-marathon, you become part of a larger movement that refuses to remain silent.
+              By participating in this <span className="whitespace-nowrap inline-block">mini&#8209;marathon</span>, you become part of a larger movement that refuses to remain silent.
             </p>
           </div>
 
@@ -343,7 +343,7 @@ export const AboutPage = () => {
               <Users className="w-5 h-5" />
             </div>
             <h2 className="text-xl sm:text-2xl font-black font-heading text-[var(--text-primary)]">
-              MORE THAN A MINI-MARATHON. A MOVEMENT.
+              MORE THAN A <span className="whitespace-nowrap inline-block">MINI&#8209;MARATHON</span>. A MOVEMENT.
             </h2>
           </div>
 
@@ -387,7 +387,7 @@ export const AboutPage = () => {
               className="btn-primary w-full sm:w-auto py-3.5 px-7 text-xs sm:text-sm font-extrabold shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer transition-transform hover:scale-105 whitespace-nowrap"
             >
               <Award className="w-4 h-4 shrink-0" />
-              <span>REGISTER FOR MINI-MARATHON</span>
+              <span>REGISTER FOR <span className="whitespace-nowrap inline-block">MINI&#8209;MARATHON</span></span>
             </button>
             <Link
               to="/route-map"

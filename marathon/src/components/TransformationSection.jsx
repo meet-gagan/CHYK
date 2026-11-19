@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { PEER_PRESSURE_DETAILS, ORDERED_TRAIT_NAMES } from '../data/peerPressureData';
 import { CLARITY_STRENGTH_DETAILS, ORDERED_POSITIVE_TRAIT_NAMES } from '../data/clarityStrengthData';
+import { renderNoBreakMiniMarathon } from '../utils/textUtils';
 
 export const TransformationSection = ({ content }) => {
   if (content?._isEnabled === false) return null;
@@ -120,7 +121,7 @@ export const TransformationSection = ({ content }) => {
           )}
         </h2>
         <p className="text-base sm:text-lg text-[var(--text-muted)] leading-relaxed">
-          {subtitle}
+          {renderNoBreakMiniMarathon(subtitle)}
         </p>
       </div>
 

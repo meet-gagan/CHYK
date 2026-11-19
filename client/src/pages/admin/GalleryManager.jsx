@@ -536,7 +536,7 @@ export const GalleryManager = () => {
       !mediaSearch.trim() ||
       (m.title && m.title.toLowerCase().includes(mediaSearch.toLowerCase())) ||
       (m.description && m.description.toLowerCase().includes(mediaSearch.toLowerCase())) ||
-      (m.category && m.category.toLowerCase().includes(mediaSearch.toLowerCase()));
+      (m.tag && m.tag.toLowerCase().includes(mediaSearch.toLowerCase()));
     const matchesType =
       mediaTypeFilter === 'ALL' || m.mediaType === mediaTypeFilter.toLowerCase();
     return matchesSearch && matchesType;
@@ -1106,11 +1106,13 @@ export const GalleryManager = () => {
                     {/* Card Body */}
                     <div className="p-3.5 flex-grow flex flex-col justify-between">
                       <div>
-                        <div className="flex items-center gap-1.5 mb-1">
-                          <span className="text-[10px] font-bold text-[var(--orange)] truncate">
-                            {item.tag || item.category || 'Sacred Media'}
-                          </span>
-                        </div>
+                        {item.tag && (
+                          <div className="flex items-center gap-1.5 mb-1">
+                            <span className="text-[10px] font-bold text-[var(--orange)] truncate">
+                              {item.tag}
+                            </span>
+                          </div>
+                        )}
                         <h4 className="text-xs font-bold text-[var(--text-primary)] line-clamp-1 mb-1">
                           {item.title || 'Untitled Media'}
                         </h4>
@@ -1556,43 +1558,19 @@ export const GalleryManager = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold text-[var(--text-primary)] block mb-1">
-                    Category
-                  </label>
-                  <select
-                    value={imageUploadForm.category}
-                    onChange={(e) =>
-                      setImageUploadForm({
-                        ...imageUploadForm,
-                        category: e.target.value,
-                      })
-                    }
-                    className="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-xs text-[var(--text-primary)] focus:outline-none"
-                  >
-                    <option value="Temple & Sanctum">Temple & Sanctum</option>
-                    <option value="Sacred Deities">Sacred Deities</option>
-                    <option value="Festivals & Homams">Festivals & Homams</option>
-                    <option value="Rituals & Sevas">Rituals & Sevas</option>
-                    <option value="General">General</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-xs font-bold text-[var(--text-primary)] block mb-1">
-                    Tag / Label (e.g. Pancha Linga)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Sanctum Photograph"
-                    value={imageUploadForm.tag}
-                    onChange={(e) =>
-                      setImageUploadForm({ ...imageUploadForm, tag: e.target.value })
-                    }
-                    className="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-xs text-[var(--text-primary)] focus:outline-none"
-                  />
-                </div>
+              <div>
+                <label className="text-xs font-bold text-[var(--text-primary)] block mb-1">
+                  Tag / Label (e.g. Pancha Linga)
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Sanctum Photograph"
+                  value={imageUploadForm.tag}
+                  onChange={(e) =>
+                    setImageUploadForm({ ...imageUploadForm, tag: e.target.value })
+                  }
+                  className="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-xs text-[var(--text-primary)] focus:outline-none"
+                />
               </div>
 
               <div>
@@ -1741,47 +1719,23 @@ export const GalleryManager = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs font-bold text-[var(--text-primary)] block mb-1">
-                    Category
-                  </label>
-                  <select
-                    value={videoUploadForm.category}
-                    onChange={(e) =>
-                      setVideoUploadForm({
-                        ...videoUploadForm,
-                        category: e.target.value,
-                      })
-                    }
-                    className="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-xs text-[var(--text-primary)] focus:outline-none"
-                  >
-                    <option value="Festivals & Homams">Festivals & Homams</option>
-                    <option value="Rituals & Sevas">Rituals & Sevas</option>
-                    <option value="Temple & Sanctum">Temple & Sanctum</option>
-                    <option value="Sacred Deities">Sacred Deities</option>
-                    <option value="General">General</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-xs font-bold text-[var(--text-primary)] block mb-1">
-                    Publication Status
-                  </label>
-                  <select
-                    value={videoUploadForm.status}
-                    onChange={(e) =>
-                      setVideoUploadForm({
-                        ...videoUploadForm,
-                        status: e.target.value,
-                      })
-                    }
-                    className="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-xs text-[var(--text-primary)] focus:outline-none"
-                  >
-                    <option value="published">Published</option>
-                    <option value="draft">Draft</option>
-                  </select>
-                </div>
+              <div>
+                <label className="text-xs font-bold text-[var(--text-primary)] block mb-1">
+                  Publication Status
+                </label>
+                <select
+                  value={videoUploadForm.status}
+                  onChange={(e) =>
+                    setVideoUploadForm({
+                      ...videoUploadForm,
+                      status: e.target.value,
+                    })
+                  }
+                  className="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-xs text-[var(--text-primary)] focus:outline-none"
+                >
+                  <option value="published">Published</option>
+                  <option value="draft">Draft</option>
+                </select>
               </div>
 
               <div>
@@ -1880,23 +1834,6 @@ export const GalleryManager = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-bold text-[var(--text-primary)] block mb-1">
-                    Category
-                  </label>
-                  <input
-                    type="text"
-                    value={mediaEditForm.category}
-                    onChange={(e) =>
-                      setMediaEditForm({
-                        ...mediaEditForm,
-                        category: e.target.value,
-                      })
-                    }
-                    className="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-xs text-[var(--text-primary)] focus:outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-xs font-bold text-[var(--text-primary)] block mb-1">
                     Tag / Label
                   </label>
                   <input
@@ -1908,9 +1845,7 @@ export const GalleryManager = () => {
                     className="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-xs text-[var(--text-primary)] focus:outline-none"
                   />
                 </div>
-              </div>
 
-              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-bold text-[var(--text-primary)] block mb-1">
                     Status
@@ -1929,23 +1864,23 @@ export const GalleryManager = () => {
                     <option value="draft">Draft</option>
                   </select>
                 </div>
+              </div>
 
-                <div>
-                  <label className="text-xs font-bold text-[var(--text-primary)] block mb-1">
-                    Display Order
-                  </label>
-                  <input
-                    type="number"
-                    value={mediaEditForm.displayOrder}
-                    onChange={(e) =>
-                      setMediaEditForm({
-                        ...mediaEditForm,
-                        displayOrder: Number(e.target.value) || 0,
-                      })
-                    }
-                    className="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-xs text-[var(--text-primary)] focus:outline-none"
-                  />
-                </div>
+              <div>
+                <label className="text-xs font-bold text-[var(--text-primary)] block mb-1">
+                  Display Order
+                </label>
+                <input
+                  type="number"
+                  value={mediaEditForm.displayOrder}
+                  onChange={(e) =>
+                    setMediaEditForm({
+                      ...mediaEditForm,
+                      displayOrder: Number(e.target.value) || 0,
+                    })
+                  }
+                  className="w-full p-3 bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl text-xs text-[var(--text-primary)] focus:outline-none"
+                />
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
@@ -2016,7 +1951,7 @@ export const GalleryManager = () => {
             <div className="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
               <div>
                 <span className="text-[10px] font-bold text-[var(--orange)] uppercase">
-                  {previewItem.mediaType} · {previewItem.category}
+                  {previewItem.tag ? `${previewItem.mediaType} · ${previewItem.tag}` : previewItem.mediaType}
                 </span>
                 <h3 className="text-base font-black text-white line-clamp-1">
                   {previewItem.title}

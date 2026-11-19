@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CountdownTimer } from '../CountdownTimer';
 import heroRunnersImage from '../../assets/hero-runners-2026-new.jpg';
+import { renderNoBreakMiniMarathon } from '../../utils/textUtils';
 import {
   Award,
   ArrowRight,
@@ -61,16 +62,16 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
               <div className="w-full flex flex-col items-center md:items-start text-center md:text-left space-y-4 sm:space-y-5">
                 <div className="space-y-2 sm:space-y-2.5">
                   <h1 className="text-2xl sm:text-4xl lg:text-[2.65rem] font-black font-heading tracking-tight text-[var(--text-primary)] leading-[1.1] uppercase drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
-                    {section.title || 'ANTI-DRUG MOVEMENT MARATHON RUN 2026'}
+                    {renderNoBreakMiniMarathon(section.title || 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026')}
                   </h1>
                   {displaySubtitle && (
                     <p className="text-base sm:text-xl lg:text-2xl font-black font-heading text-[var(--orange)] tracking-wide drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
-                      {displaySubtitle}
+                      {renderNoBreakMiniMarathon(displaySubtitle)}
                     </p>
                   )}
                   {displayDescription && (
                     <p className="text-xs sm:text-sm lg:text-base font-extrabold text-[var(--text-primary)]/85 max-w-lg mx-auto md:mx-0 leading-relaxed tracking-wider uppercase">
-                      {displayDescription}
+                      {renderNoBreakMiniMarathon(displayDescription)}
                     </p>
                   )}
                 </div>

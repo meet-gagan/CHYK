@@ -38,10 +38,10 @@ export const RouteMapPage = () => {
         <div className="max-w-6xl mx-auto">
           <div className="max-w-3xl">
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tight leading-tight text-[var(--text-primary)]">
-              Anti-Drug Movement <span className="text-[var(--orange)]">Mini-Marathon Route Map</span>
+              Anti-Drug Movement <span className="text-[var(--orange)]"><span className="whitespace-nowrap inline-block">Mini&#8209;Marathon</span> Route Map</span>
             </h1>
             <p className="mt-3 sm:mt-4 text-sm sm:text-base text-[var(--text-muted)] leading-relaxed font-medium">
-              Explore the certified 3.5 kilometer mini-marathon route weaving through Adoni's prominent landmarks.
+              Explore the certified 3.5 kilometer <span className="whitespace-nowrap inline-block">mini&#8209;marathon</span> route weaving through Adoni's prominent landmarks.
               Beginning from <strong>Municipal High School Grounds</strong> and triumphantly finishing at{' '}
               <strong>Chinmaya Mission, Adoni</strong>. Publicly accessible to all participants and families!
             </p>

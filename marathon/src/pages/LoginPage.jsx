@@ -119,7 +119,7 @@ export const LoginPage = () => {
                 type="tel"
                 value={phone}
                 onChange={handlePhoneChange}
-                placeholder="98765 43210"
+                placeholder="10-digit mobile number"
                 maxLength={11}
                 required
                 className="w-full pl-20 pr-4 py-3.5 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] text-[var(--text-primary)] font-semibold text-sm placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--orange)] transition-all shadow-inner"

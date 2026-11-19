@@ -465,7 +465,7 @@ export const Footer = ({ overrideData = null }) => {
               CONNECT WITH US
             </h4>
             <p className="text-xs text-slate-300 font-medium leading-relaxed">
-              Follow our movement updates, announcements, mini-marathon media, and community stories.
+              Follow our movement updates, announcements, <span className="whitespace-nowrap inline-block">mini&#8209;marathon</span> media, and community stories.
             </p>
             <div className="flex flex-wrap items-center gap-2.5 pt-1">
               {SOCIAL_MEDIA_LINKS.map((item) => {
