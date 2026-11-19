@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 
 export const MarathonComingSoonPage = () => {
-  const targetDate = '2026-12-20T06:00:00.000+05:30';
+  const targetDate = '2027-01-24T06:00:00.000+05:30';
 
   const calculateTimeLeft = () => {
     const eventTime = Date.parse(targetDate);
@@ -29,7 +29,7 @@ export const MarathonComingSoonPage = () => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
-    document.title = 'Coming Soon | Anti-Drug Movement Marathon Run 2026 - Adoni';
+    document.title = 'Coming Soon | Anti-Drug Movement Mini-Marathon Run 2026 - Adoni';
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
@@ -103,7 +103,7 @@ export const MarathonComingSoonPage = () => {
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black font-heading tracking-tight leading-[1.1] text-white">
             ANTI-DRUG MOVEMENT <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F0441D] via-[#FFD12D] to-[#06B6D4]">
-              MARATHON RUN 2026
+              MINI-MARATHON RUN 2026
             </span>
           </h1>
 
@@ -117,7 +117,7 @@ export const MarathonComingSoonPage = () => {
           <div className="flex items-center justify-between border-b border-white/10 pb-3 text-xs font-extrabold uppercase tracking-wider text-slate-300">
             <span className="flex items-center gap-1.5 text-[#06B6D4]">
               <Calendar className="w-4 h-4" />
-              <span>Sunday, 20 Dec 2026</span>
+              <span>Sunday, 24 Jan 2027</span>
             </span>
             <span className="flex items-center gap-1.5 text-[#FFD12D]">
               <Clock className="w-4 h-4" />
@@ -159,7 +159,7 @@ export const MarathonComingSoonPage = () => {
           An initiative by <strong>Chinmaya Mission, Adoni</strong> & <strong>Chinmaya Yuva Kendra, Adoni</strong>
         </p>
         <p className="text-[11px] text-slate-500 mt-0.5">
-          © 2026 Anti-Drug Movement Marathon. All rights reserved.
+          © 2026 Anti-Drug Movement Mini-Marathon. All rights reserved.
         </p>
       </footer>
     </div>

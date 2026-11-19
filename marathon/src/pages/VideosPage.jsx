@@ -36,7 +36,7 @@ export const VideosPage = () => {
   };
 
   useEffect(() => {
-    document.title = 'Udaan | Anti-Drug Movement Marathon Run 2026';
+    document.title = 'Udaan | Anti-Drug Movement Mini-Marathon Run 2026';
     fetchVideos();
   }, []);
 
@@ -121,8 +121,8 @@ export const VideosPage = () => {
             "Fly high, Choose a meaningful Life"
           </p>
           <p className="text-xs sm:text-sm lg:text-base text-[var(--text-primary,#0B2340)]/75 font-medium leading-relaxed">
-            Watch event highlights, inspirational messages, youth movements, and marathon stories
-            from the Anti-Drug Movement Marathon 2026.
+            Watch event highlights, inspirational messages, youth movements, and mini-marathon stories
+            from the Anti-Drug Movement Mini-Marathon 2026.
           </p>
         </div>
 

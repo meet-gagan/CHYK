@@ -60,7 +60,7 @@ export const VerifyPassPage = () => {
           className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--text-muted)] hover:text-[var(--orange)] transition-colors text-decoration-none"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to Marathon Home</span>
+          <span>Back to Mini-Marathon Home</span>
         </Link>
 
         {loading ? (
@@ -160,7 +160,7 @@ export const VerifyPassPage = () => {
               <div className="pt-2 flex items-center justify-between text-[11px] font-bold text-[var(--text-muted)]">
                 <div className="flex items-center gap-1.5">
                   <Calendar className="w-3.5 h-3.5 text-[var(--orange)]" />
-                  <span>20 Dec 2026, 6:00 AM</span>
+                  <span>24 Jan 2027, 6:00 AM</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-[var(--cyan)]" />

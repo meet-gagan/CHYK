@@ -4,9 +4,9 @@ const DEFAULT_SECTIONS = [
   {
     sectionId: 'hero-1',
     type: 'hero',
-    title: 'ANTI-DRUG MOVEMENT MARATHON RUN 2026',
+    title: 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026',
     subtitle: 'WE RISE. WE RUN. WE RESIST.',
-    description: 'RUN FOR LIFE. STAND AGAINST DRUGS',
+    description: 'Anti Drug Mini-Marathon',
     badgeText: 'CHINMAYA MISSION, ADONI & CHINMAYA YUVA KENDRA, ADONI',
     primaryButtonText: 'REGISTER NOW',
     primaryButtonLink: '/register',
@@ -20,10 +20,10 @@ const DEFAULT_SECTIONS = [
     sectionId: 'marathon-1',
     type: 'marathon',
     title: 'EVENT DETAILS & COUNTDOWN',
-    subtitle: 'Sunday, 20 December 2026 • 6:00 AM Onwards',
+    subtitle: 'Sunday, 24 January 2027 • 6:00 AM Onwards',
     description: 'Starting from Chinmaya Mission, Adoni, Andhra Pradesh.',
     badgeText: 'EVENT INFORMATION',
-    primaryButtonText: 'REGISTER FOR MARATHON',
+    primaryButtonText: 'REGISTER FOR MINI-MARATHON',
     primaryButtonLink: '/register',
     isEnabled: true,
     order: 2,
@@ -87,10 +87,20 @@ const getOrCreateHomePage = async () => {
     await homePage.save();
   } else {
     // Automatically keep Hero slogans up to date
+    let needsSave = false;
     const heroSection = homePage.sections?.find((s) => s.type === 'hero' || s.sectionId === 'hero-1');
-    if (heroSection && (/YOUR LIFE/i.test(heroSection.subtitle) || /Run for a Drug-Free/i.test(heroSection.description))) {
+    if (heroSection && (/YOUR LIFE/i.test(heroSection.subtitle) || /Run for a Drug-Free/i.test(heroSection.description) || /RUN FOR LIFE/i.test(heroSection.description) || heroSection.title === 'ANTI-DRUG MOVEMENT MARATHON RUN 2026')) {
+      heroSection.title = 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026';
       heroSection.subtitle = 'WE RISE. WE RUN. WE RESIST.';
-      heroSection.description = 'RUN FOR LIFE. STAND AGAINST DRUGS';
+      heroSection.description = 'Anti Drug Mini-Marathon';
+      needsSave = true;
+    }
+    const marathonSection = homePage.sections?.find((s) => s.type === 'marathon' || s.sectionId === 'marathon-1');
+    if (marathonSection && (marathonSection.subtitle?.includes('20 December 2026') || marathonSection.subtitle?.includes('20 Dec 2026'))) {
+      marathonSection.subtitle = 'Sunday, 24 January 2027 • 6:00 AM Onwards';
+      needsSave = true;
+    }
+    if (needsSave) {
       await homePage.save();
     }
   }

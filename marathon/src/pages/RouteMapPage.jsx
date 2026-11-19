@@ -19,7 +19,7 @@ export const RouteMapPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = 'Official Marathon Route Map | Anti-Drug Run Adoni 2026';
+    document.title = 'Official Mini-Marathon Route Map | Anti-Drug Run Adoni 2026';
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, []);
 
@@ -38,10 +38,10 @@ export const RouteMapPage = () => {
         <div className="max-w-6xl mx-auto">
           <div className="max-w-3xl">
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading tracking-tight leading-tight text-[var(--text-primary)]">
-              Anti-Drug Movement <span className="text-[var(--orange)]">Marathon Route Map</span>
+              Anti-Drug Movement <span className="text-[var(--orange)]">Mini-Marathon Route Map</span>
             </h1>
             <p className="mt-3 sm:mt-4 text-sm sm:text-base text-[var(--text-muted)] leading-relaxed font-medium">
-              Explore the certified 3.5 kilometer marathon route weaving through Adoni's prominent landmarks.
+              Explore the certified 3.5 kilometer mini-marathon route weaving through Adoni's prominent landmarks.
               Beginning from <strong>Municipal High School Grounds</strong> and triumphantly finishing at{' '}
               <strong>Chinmaya Mission, Adoni</strong>. Publicly accessible to all participants and families!
             </p>
@@ -63,7 +63,7 @@ export const RouteMapPage = () => {
                 <Calendar className="w-4 h-4 shrink-0" />
                 <span>Event Date</span>
               </div>
-              <p className="text-sm sm:text-base font-black text-[var(--text-primary)] leading-tight">Sun, 20 Dec 2026</p>
+              <p className="text-sm sm:text-base font-black text-[var(--text-primary)] leading-tight">Sun, 24 Jan 2027</p>
               <p className="text-[11px] text-[var(--text-muted)] font-medium">Flag-off at 6:00 AM</p>
             </div>
 

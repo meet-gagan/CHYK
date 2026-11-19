@@ -22,6 +22,7 @@ import { ChangePasswordPage } from './pages/ChangePasswordPage';
 import { StoryBoardPage } from './pages/StoryBoardPage';
 import { UpdateContentPage } from './pages/UpdateContentPage';
 import { GalleryManagementPage } from './pages/GalleryManagementPage';
+import { TermsPrivacyPage } from './pages/TermsPrivacyPage';
 
 export function App() {
   return (
@@ -208,6 +209,17 @@ export function App() {
               <ProtectedRoute>
                 <AdminLayout>
                   <FooterCmsPage />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/terms-privacy"
+            element={
+              <ProtectedRoute>
+                <AdminLayout>
+                  <TermsPrivacyPage />
                 </AdminLayout>
               </ProtectedRoute>
             }

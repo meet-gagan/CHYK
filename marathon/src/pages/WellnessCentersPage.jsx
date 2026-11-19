@@ -22,7 +22,7 @@ export const WellnessCentersPage = () => {
   const [copiedAddressId, setCopiedAddressId] = useState(null);
 
   useEffect(() => {
-    document.title = 'Wellness Centers | Anti-Drug Movement Marathon Run 2026';
+    document.title = 'Wellness Centers | Anti-Drug Movement Mini-Marathon Run 2026';
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, []);
 

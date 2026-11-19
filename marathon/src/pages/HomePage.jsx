@@ -21,9 +21,9 @@ const DEFAULT_HOMEPAGE_SECTIONS = [
   {
     sectionId: 'hero-1',
     type: 'hero',
-    title: 'ANTI-DRUG MOVEMENT MARATHON RUN 2026',
+    title: 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026',
     subtitle: 'WE RISE. WE RUN. WE RESIST.',
-    description: 'RUN FOR LIFE. STAND AGAINST DRUGS',
+    description: 'Anti Drug Mini-Marathon',
     badgeText: 'CHINMAYA MISSION, ADONI & CHINMAYA YUVA KENDRA, ADONI',
     primaryButtonText: 'REGISTER NOW',
     primaryButtonLink: '/register',
@@ -37,10 +37,10 @@ const DEFAULT_HOMEPAGE_SECTIONS = [
     sectionId: 'marathon-1',
     type: 'marathon',
     title: 'EVENT DETAILS & COUNTDOWN',
-    subtitle: 'Sunday, 20 December 2026 • 6:00 AM Onwards',
+    subtitle: 'Sunday, 24 January 2027 • 6:00 AM Onwards',
     description: 'Starting from Chinmaya Mission, Adoni, Andhra Pradesh.',
     badgeText: 'EVENT INFORMATION',
-    primaryButtonText: 'REGISTER FOR MARATHON',
+    primaryButtonText: 'REGISTER FOR MINI-MARATHON',
     primaryButtonLink: '/register',
     isEnabled: true,
     order: 2,
@@ -50,7 +50,7 @@ const DEFAULT_HOMEPAGE_SECTIONS = [
     type: 'cta',
     title: 'BE PART OF THE MOVEMENT IN ADONI!',
     subtitle: 'CHINMAYA MISSION, ADONI & CHINMAYA YUVA KENDRA, ADONI',
-    description: 'Register today individually or submit your school/college bulk student details. Receive your official marathon certificate & pass!',
+    description: 'Register today individually or submit your school/college bulk student details. Receive your official mini-marathon certificate & pass!',
     primaryButtonText: '',
     primaryButtonLink: '',
     isEnabled: true,
@@ -61,8 +61,8 @@ const DEFAULT_HOMEPAGE_SECTIONS = [
 const DEFAULT_ACTIVITIES = [
   {
     _id: 'act-1',
-    title: 'Youth Marathon Prep Bootcamps',
-    category: 'Marathon Training',
+    title: 'Youth Mini-Marathon Prep Bootcamps',
+    category: 'Mini-Marathon Training',
     description: 'Weekly morning running sessions and endurance training across Adoni schools and colleges.',
     imageUrl: 'https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?q=80&w=800&auto=format&fit=crop',
     active: true,
@@ -88,17 +88,17 @@ const DEFAULT_ACTIVITIES = [
 const DEFAULT_FAQS = [
   {
     _id: 'faq-1',
-    question: 'When and where is the Anti-Drug Marathon Run 2026?',
-    answer: 'The event will take place on Sunday, 20 December 2026, starting at 6:00 AM from Chinmaya Mission, Adoni, Andhra Pradesh.',
+    question: 'When and where is the Anti-Drug Mini-Marathon Run 2026?',
+    answer: 'The event will take place on Sunday, 24 January 2027, starting at 6:00 AM from Chinmaya Mission, Adoni, Andhra Pradesh.',
   },
   {
     _id: 'faq-2',
-    question: 'Who can participate in the marathon?',
-    answer: 'The marathon is open to everyone! Students from schools and colleges, working professionals, families, and senior citizens in Adoni are all encouraged to join.',
+    question: 'Who can participate in the mini-marathon?',
+    answer: 'The mini-marathon is open to everyone! Students from schools and colleges, working professionals, families, and senior citizens in Adoni are all encouraged to join.',
   },
   {
     _id: 'faq-3',
-    question: 'What is the last date to register for the marathon?',
+    question: 'What is the last date to register for the mini-marathon?',
     answer: 'The last day of registration is 30 November 2026 (30/11/2026). Make sure to register online before the deadline.',
   },
   {
@@ -339,17 +339,31 @@ export const HomePage = () => {
     cta: 3,
   };
 
-  const sections = [...filteredSections].sort((a, b) => {
-    const orderA = SECTION_ORDER[a.type] !== undefined ? SECTION_ORDER[a.type] : 99;
-    const orderB = SECTION_ORDER[b.type] !== undefined ? SECTION_ORDER[b.type] : 99;
-    return orderA - orderB;
-  });
+  const sections = [...filteredSections]
+    .sort((a, b) => {
+      const orderA = SECTION_ORDER[a.type] !== undefined ? SECTION_ORDER[a.type] : 99;
+      const orderB = SECTION_ORDER[b.type] !== undefined ? SECTION_ORDER[b.type] : 99;
+      return orderA - orderB;
+    })
+    .map((s) => ({
+      ...s,
+      title: s.title ? s.title.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon') : s.title,
+      subtitle: s.subtitle
+        ? s.subtitle
+            .replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon')
+            .replace(/20\s*December\s*2026/gi, '24 January 2027')
+            .replace(/20\s*Dec\s*2026/gi, '24 Jan 2027')
+        : s.subtitle,
+      description: s.description ? s.description.replace(/(?<!mini[- ])marathon/gi, 'mini-marathon') : s.description,
+      badgeText: s.badgeText ? s.badgeText.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon') : s.badgeText,
+      primaryButtonText: s.primaryButtonText ? s.primaryButtonText.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon') : s.primaryButtonText,
+    }));
 
   return (
     <div className="min-h-screen space-y-2">
       {/* Event Countdown: Positioned below the Header and above the Hero banner (2nd image) */}
       <section className="w-full pt-1 sm:pt-2 pb-1">
-        <CountdownTimer targetDate={eventConfig?.eventDate || '2026-12-20T06:00:00.000+05:30'} />
+        <CountdownTimer targetDate={eventConfig?.eventDate || '2027-01-24T06:00:00.000+05:30'} />
       </section>
 
       {/* Dynamic Sections Rendered According to Admin Order */}

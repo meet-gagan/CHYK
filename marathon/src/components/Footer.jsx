@@ -294,17 +294,17 @@ export const Footer = ({ overrideData = null }) => {
   const pledgeHeading =
     pledge.heading === 'THE MARATHON PLEDGE' || !pledge.heading
       ? 'Our Motto'
-      : pledge.heading;
+      : pledge.heading.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon');
 
   const pledgeTitle =
     pledge.title === 'RUN FOR A DRUG-FREE FUTURE' || !pledge.title
       ? 'TO GIVE MAXIMUM HAPPINESS'
-      : pledge.title;
+      : pledge.title.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon');
 
   const pledgeDescription =
     pledge.description?.includes('I pledge to reject') || !pledge.description
       ? '"To give maximum happiness to the maximum number of people for the maximum time is our motto." — Pujya Gurudev Swami Chinmayananda'
-      : pledge.description;
+      : pledge.description.replace(/(?<!mini[- ])marathon/gi, 'mini-marathon');
 
   const footerStyle = {
     backgroundColor: appearance?.backgroundColor || '#0B2340',
@@ -349,10 +349,11 @@ export const Footer = ({ overrideData = null }) => {
                   lowerLabel.includes('chinmaya mission site') ||
                   (rawLink.url || '').toLowerCase().includes('chinmaya-mission-adoni') ||
                   (rawLink.url || '').toLowerCase().includes('localhost:5176');
-                const displayLabel =
+                const displayLabel = (
                   lowerLabel === 'main mission site' || lowerLabel.includes('main mission')
                     ? 'Chinmaya Mission Site'
-                    : rawLink.label;
+                    : rawLink.label
+                )?.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon');
                 const link = isMainSite
                   ? { ...rawLink, label: displayLabel, url: MAIN_SITE_URL, openInNewTab: true }
                   : { ...rawLink, label: displayLabel };
@@ -464,7 +465,7 @@ export const Footer = ({ overrideData = null }) => {
               CONNECT WITH US
             </h4>
             <p className="text-xs text-slate-300 font-medium leading-relaxed">
-              Follow our movement updates, announcements, marathon media, and community stories.
+              Follow our movement updates, announcements, mini-marathon media, and community stories.
             </p>
             <div className="flex flex-wrap items-center gap-2.5 pt-1">
               {SOCIAL_MEDIA_LINKS.map((item) => {

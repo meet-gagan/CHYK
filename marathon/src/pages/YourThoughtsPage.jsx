@@ -153,7 +153,7 @@ export const YourThoughtsPage = () => {
 
   // Set document title & fetch multi-website CMS data
   useEffect(() => {
-    document.title = 'Your Thoughts & Story Board | Marathon 2026';
+    document.title = 'Your Thoughts & Story Board | Mini-Marathon 2026';
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
     webContentService
@@ -313,7 +313,7 @@ export const YourThoughtsPage = () => {
 
   // Format non-identifying publication date
   const formatPublishedDate = (isoString) => {
-    if (!isoString) return 'Marathon Community';
+    if (!isoString) return 'Mini-Marathon Community';
     try {
       const d = new Date(isoString);
       return d.toLocaleDateString('en-US', {
@@ -322,7 +322,7 @@ export const YourThoughtsPage = () => {
         year: 'numeric',
       });
     } catch {
-      return 'Marathon Community';
+      return 'Mini-Marathon Community';
     }
   };
 
@@ -606,7 +606,7 @@ export const YourThoughtsPage = () => {
                         <span>Anonymous Runner</span>
                       </span>
                       <span className="text-[10px] tracking-wide uppercase">
-                        Marathon 2026
+                        Mini-Marathon 2026
                       </span>
                     </div>
                   </article>
@@ -721,7 +721,7 @@ export const YourThoughtsPage = () => {
                     Share Your Thoughts
                   </h2>
                   <p className="text-xs text-[#59616D] font-medium">
-                    Pin your words of inspiration to the Marathon Story Board.
+                    Pin your words of inspiration to the Mini-Marathon Story Board.
                   </p>
                 </div>
               </div>

@@ -79,8 +79,8 @@ export const MarathonRouteMap = ({ className = '' }) => {
               referrerPolicy="no-referrer-when-downgrade"
               title={
                 activePoint
-                  ? `${activePoint.name} - Anti-Drug Marathon 2026 Water Point`
-                  : 'Anti-Drug Marathon 2026 Route Map - Municipal High School to Chinmaya Mission via Gosha Hospital'
+                  ? `${activePoint.name} - Anti-Drug Mini-Marathon 2026 Water Point`
+                  : 'Anti-Drug Mini-Marathon 2026 Route Map - Municipal High School to Chinmaya Mission via Gosha Hospital'
               }
               className="w-full h-full min-h-[380px] sm:min-h-[440px]"
             />
@@ -95,7 +95,7 @@ export const MarathonRouteMap = ({ className = '' }) => {
                     type="button"
                     onClick={() => setSelectedPointNumber(null)}
                     className="ml-1 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/20 hover:bg-white/30 text-amber-300 hover:text-white text-[10px] font-extrabold transition-colors cursor-pointer border-0"
-                    title="Reset to view full marathon route"
+                    title="Reset to view full mini-marathon route"
                   >
                     <RotateCcw className="w-2.5 h-2.5" />
                     <span>Full Route</span>
@@ -104,7 +104,7 @@ export const MarathonRouteMap = ({ className = '' }) => {
               ) : (
                 <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold shadow-md">
                   <MapPin className="w-3 h-3 text-cyan-400" />
-                  <span>Full 3.5 KM Marathon Route</span>
+                  <span>Full 3.5 KM Mini-Marathon Route</span>
                 </div>
               )}
             </div>

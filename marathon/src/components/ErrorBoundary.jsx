@@ -35,7 +35,7 @@ export class ErrorBoundary extends React.Component {
             </div>
             <div className="space-y-2">
               <h2 className="text-xl font-black font-heading text-white">
-                Anti-Drug Movement Marathon 2026
+                Anti-Drug Movement Mini-Marathon 2026
               </h2>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                 A temporary display hiccup occurred while rendering this page.

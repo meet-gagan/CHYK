@@ -74,7 +74,7 @@ export const Navbar = () => {
             <LeftLogo />
             <div className="hidden xl:block border-l border-[var(--border-color)] pl-3">
               <span className="text-[10px] uppercase tracking-widest font-black text-[var(--orange)] block leading-tight">
-                MARATHON 2026
+                MINI-MARATHON 2026
               </span>
               <span className="text-xs font-bold text-[var(--text-primary)] block leading-tight whitespace-nowrap">
                 Anti-Drug Movement Run
@@ -196,8 +196,8 @@ export const Navbar = () => {
                     <Link
                       to="/"
                       className="flex items-center text-decoration-none group cursor-pointer"
-                      title="Go to Marathon Home"
-                      aria-label="Go to Marathon Home"
+                      title="Go to Mini-Marathon Home"
+                      aria-label="Go to Mini-Marathon Home"
                     >
                       <img
                         src="/assets/logos/chyk-logo.png"
@@ -232,8 +232,8 @@ export const Navbar = () => {
                     <Link
                       to="/"
                       className="flex items-center text-decoration-none group cursor-pointer"
-                      title="Go to Marathon Home"
-                      aria-label="Go to Marathon Home"
+                      title="Go to Mini-Marathon Home"
+                      aria-label="Go to Mini-Marathon Home"
                     >
                       <img
                         src="/assets/logos/chyk-logo.png"
@@ -252,8 +252,8 @@ export const Navbar = () => {
               <Link
                 to="/"
                 className="flex items-center text-decoration-none mr-1 shrink-0 cursor-pointer"
-                title="Go to Marathon Home"
-                aria-label="Go to Marathon Home"
+                title="Go to Mini-Marathon Home"
+                aria-label="Go to Mini-Marathon Home"
               >
                 <img
                   src="/assets/logos/chyk-logo.png"
@@ -364,7 +364,7 @@ export const Navbar = () => {
               className="btn-primary w-full justify-center py-3 font-extrabold text-xs flex items-center gap-2 cursor-pointer"
             >
               <Award className="w-4 h-4" />
-              <span>REGISTER FOR MARATHON</span>
+              <span>REGISTER FOR MINI-MARATHON</span>
             </button>
 
             {isUserAuthenticated && (

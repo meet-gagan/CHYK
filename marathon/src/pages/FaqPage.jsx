@@ -15,18 +15,18 @@ import { faqService, contactService, webContentService } from '../services/api';
 const DEFAULT_MARATHON_FAQS = [
   {
     _id: 'faq-1',
-    question: 'When and where is the Anti-Drug Marathon Run 2026?',
-    answer: 'The marathon will be held on Sunday, 20 December 2026, starting at 6:00 AM from Chinmaya Mission, Adoni, Andhra Pradesh. All runners must assemble by 5:30 AM.',
+    question: 'When and where is the Anti-Drug Mini-Marathon Run 2026?',
+    answer: 'The mini-marathon will be held on Sunday, 24 January 2027, starting at 6:00 AM from Chinmaya Mission, Adoni, Andhra Pradesh. All runners must assemble by 5:30 AM.',
   },
   {
     _id: 'faq-2',
-    question: 'Who can participate in the marathon?',
-    answer: 'The marathon is open to everyone! Students from schools and colleges, working professionals, families, youth, and senior citizens in Adoni are all warmly invited to join.',
+    question: 'Who can participate in the mini-marathon?',
+    answer: 'The mini-marathon is open to everyone! Students from schools and colleges, working professionals, families, youth, and senior citizens in Adoni are all warmly invited to join.',
   },
   {
     _id: 'faq-3',
     question: 'Is there an entry fee for registration?',
-    answer: 'No, participation in the Anti-Drug Movement Marathon Run 2026 is completely FREE. It is a community awareness initiative organized by Chinmaya Mission, Adoni & Chinmaya Yuva Kendra, Adoni.',
+    answer: 'No, participation in the Anti-Drug Movement Mini-Marathon Run 2026 is completely FREE. It is a community awareness initiative organized by Chinmaya Mission, Adoni & Chinmaya Yuva Kendra, Adoni.',
   },
   {
     _id: 'faq-4',
@@ -36,11 +36,11 @@ const DEFAULT_MARATHON_FAQS = [
   {
     _id: 'faq-5',
     question: 'Will certificates and T-shirts be provided to participants?',
-    answer: 'Yes! Every registered participant who completes the marathon will receive an official Anti-Drug Movement Marathon certificate, event T-shirt, and refreshments.',
+    answer: 'Yes! Every registered participant who completes the mini-marathon will receive an official Anti-Drug Movement Mini-Marathon certificate, event T-shirt, and refreshments.',
   },
   {
     _id: 'faq-6',
-    question: 'How do I get my Marathon Entry Pass?',
+    question: 'How do I get my Mini-Marathon Entry Pass?',
     answer: 'Once you complete your registration, an official Entry Pass with a secure QR code will be generated instantly. You can view, download, or print it anytime from your profile.',
   },
   {
@@ -90,8 +90,11 @@ export const FaqPage = () => {
           if (Array.isArray(items) && items.length > 0) {
             setFaqs(items.map((it) => ({
               _id: it.itemId || it._id,
-              question: it.title,
-              answer: it.description,
+              question: (it.title || '').replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon'),
+              answer: (it.description || '')
+                .replace(/(?<!mini[- ])marathon/gi, 'mini-marathon')
+                .replace(/20\s*December\s*2026/gi, '24 January 2027')
+                .replace(/20\s*Dec\s*2026/gi, '24 Jan 2027'),
             })));
             setLoading(false);
             return;
@@ -101,7 +104,14 @@ export const FaqPage = () => {
         const res = await faqService.getFAQs();
         const apiFaqs = res.data?.data || res.data || [];
         if (Array.isArray(apiFaqs) && apiFaqs.length > 0) {
-          setFaqs(apiFaqs);
+          setFaqs(apiFaqs.map((it) => ({
+            ...it,
+            question: (it.question || '').replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon'),
+            answer: (it.answer || '')
+              .replace(/(?<!mini[- ])marathon/gi, 'mini-marathon')
+              .replace(/20\s*December\s*2026/gi, '24 January 2027')
+              .replace(/20\s*Dec\s*2026/gi, '24 Jan 2027'),
+          })));
         }
       } catch (err) {
         console.warn('Using default marathon FAQs:', err.message);
@@ -133,7 +143,7 @@ export const FaqPage = () => {
         fullName: formData.name.trim(),
         message: formData.question.trim(),
         phone: formData.phone.trim() || undefined,
-        category: 'Marathon FAQ Question',
+        category: 'Mini-Marathon FAQ Question',
       });
 
       setSubmitSuccess(true);
@@ -163,7 +173,11 @@ export const FaqPage = () => {
           </h1>
 
           <p className="text-sm sm:text-base text-[var(--text-muted)] max-w-2xl mx-auto font-medium">
-            {f.faq_list?.subtitle || 'Everything you need to know about the Anti-Drug Movement Marathon Run 2026. Have a question not listed here? Ask our organizers directly!'}
+            {f.faq_list?.subtitle ? (
+              f.faq_list.subtitle.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon')
+            ) : (
+              'Everything you need to know about the Anti-Drug Movement Mini-Marathon Run 2026. Have a question not listed here? Ask our organizers directly!'
+            )}
           </p>
 
           {/* Action Button: Ask Your FAQ */}
@@ -271,7 +285,7 @@ export const FaqPage = () => {
                     rows={4}
                     value={formData.question}
                     onChange={(e) => setFormData({ ...formData, question: e.target.value })}
-                    placeholder="Describe what you would like to ask regarding the marathon route, timing, bib collection, certificate, or rules..."
+                    placeholder="Describe what you would like to ask regarding the mini-marathon route, timing, bib collection, certificate, or rules..."
                     className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-[var(--orange)] focus:ring-2 focus:ring-[var(--orange)]/20 text-sm font-semibold text-slate-800 transition-all resize-none"
                   />
                 </div>

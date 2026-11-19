@@ -32,8 +32,9 @@ export const TransformationSection = ({ content }) => {
 
   const title = content?.title || 'YOUR LIFE. YOUR CHOICE.';
   const subtitle =
-    content?.subtitle ||
-    'The Anti-Drug Movement Marathon is not just a run — it is a conscious transition from darkness into light, strength, and purposeful living.';
+    content?.subtitle
+      ? content.subtitle.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon')
+      : 'The Anti-Drug Movement Mini-Marathon is not just a run — it is a conscious transition from darkness into light, strength, and purposeful living.';
   const negativeTitle = content?.negativeTitle || 'Peer Pressure & Addiction';
   const positiveTitle = content?.positiveTitle || 'Clarity, Strength & Purpose';
 

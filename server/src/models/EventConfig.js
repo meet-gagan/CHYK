@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 
 const eventConfigSchema = new mongoose.Schema(
   {
-    programName: { type: String, default: 'ANTI-DRUG MOVEMENT MARATHON RUN 2026' },
+    programName: { type: String, default: 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026' },
     slogan: { type: String, default: 'WE RISE. WE RUN. WE RESIST.' },
-    subSlogan: { type: String, default: 'RUN FOR LIFE. STAND AGAINST DRUGS' },
+    subSlogan: { type: String, default: 'Anti Drug Mini-Marathon' },
     location: { type: String, default: 'Adoni, Andhra Pradesh, India' },
     venue: { type: String, default: 'Chinmaya Mission, Adoni' },
-    eventDate: { type: Date, default: new Date('2026-12-20T06:00:00.000+05:30') },
+    eventDate: { type: Date, default: new Date('2027-01-24T06:00:00.000+05:30') },
     eventTime: { type: String, default: '6:00 AM onwards' },
     organizers: {
       type: [String],

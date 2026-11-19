@@ -748,8 +748,8 @@ export const registrationService = {
       contactNumber: reg.contactNumber ? `+91 ${reg.contactNumber.replace(/^\+?91/, '').slice(-4).padStart(10, '•')}` : '—',
       groupId: reg.groupId || null,
       groupRole: reg.groupRole || null,
-      event: 'ANTI-DRUG MOVEMENT MARATHON RUN 2026',
-      date: 'Sunday, 20 December 2026',
+      event: 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026',
+      date: 'Sunday, 24 January 2027',
       venue: 'Chinmaya Mission, Adoni, Andhra Pradesh',
       message: isConfirmed ? 'Entry pass verified and active.' : `Entry pass is ${reg.status}.`,
     };

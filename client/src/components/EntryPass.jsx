@@ -20,7 +20,7 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
         day: 'numeric',
         month: 'long',
       })
-    : 'Sunday, 20 December';
+    : 'Sunday, 24 January';
 
   const displayLocation = eventConfig?.venue || 'Chinmaya Mission';
 

@@ -113,10 +113,11 @@ export function App() {
                   {/* Marathon Landing Page */}
                   <Route path="/" element={<HomePage />} />
 
-                  {/* Dedicated About The Marathon Page */}
+                  {/* Dedicated About The Mini-Marathon Page */}
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/about-us" element={<AboutPage />} />
                   <Route path="/about-the-marathon" element={<AboutPage />} />
+                  <Route path="/about-the-mini-marathon" element={<AboutPage />} />
 
               {/* Dedicated FAQs Page with Ask Your FAQ doubt submission */}
               <Route path="/faqs" element={<FaqPage />} />
@@ -141,6 +142,7 @@ export function App() {
               <Route path="/route-map" element={<RouteMapPage />} />
               <Route path="/route" element={<RouteMapPage />} />
               <Route path="/marathon-map" element={<RouteMapPage />} />
+              <Route path="/mini-marathon-map" element={<RouteMapPage />} />
 
               {/* Terms and Conditions Page */}
               <Route path="/terms" element={<TermsPage />} />

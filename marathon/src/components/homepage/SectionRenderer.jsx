@@ -35,7 +35,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
 
   if (!section || !section.isEnabled) return null;
 
-  const eventDateStr = eventConfig?.eventDate || '2026-12-20T06:00:00.000+05:30';
+  const eventDateStr = eventConfig?.eventDate || '2027-01-24T06:00:00.000+05:30';
 
   switch (section.type) {
     case 'hero': {
@@ -49,8 +49,8 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
 
       const rawDescription = section.description || '';
       const displayDescription =
-        /Run for a Drug-Free Future/i.test(rawDescription) || !rawDescription
-          ? 'RUN FOR LIFE. STAND AGAINST DRUGS'
+        /Run for a Drug-Free Future|RUN FOR LIFE/i.test(rawDescription) || !rawDescription
+          ? 'Anti Drug Mini-Marathon'
           : rawDescription;
 
       return (
@@ -63,7 +63,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
           <div className="hidden md:block absolute inset-0 z-0 pointer-events-none overflow-hidden">
             <img
               src={heroGraphicUrl}
-              alt={section.title || 'Anti-Drug Movement Marathon Runners'}
+              alt={section.title ? section.title.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon') : 'Anti-Drug Movement Mini-Marathon Runners'}
               className="w-full h-full object-cover object-[center_right] lg:object-right"
               onError={(e) => {
                 e.target.src = heroRunnersImage;
@@ -80,7 +80,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
               <div className="w-full flex flex-col items-center md:items-start text-center md:text-left space-y-4 sm:space-y-5">
                 <div className="space-y-2 sm:space-y-2.5">
                   <h1 className="text-2xl sm:text-4xl lg:text-[2.65rem] font-black font-heading tracking-tight text-[var(--text-primary)] leading-[1.1] uppercase drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
-                    {section.title || 'ANTI-DRUG MOVEMENT MARATHON RUN 2026'}
+                    {section.title ? section.title.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon') : 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026'}
                   </h1>
                   {displaySubtitle && (
                     <p className="text-base sm:text-xl lg:text-2xl font-black font-heading text-[var(--orange)] tracking-wide drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
@@ -98,16 +98,16 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                 <div className="inline-flex flex-wrap items-center justify-center md:justify-start gap-3 sm:gap-5 px-3.5 sm:px-4 py-2.5 rounded-2xl bg-white/95 backdrop-blur-sm border border-[rgba(11,35,64,0.08)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)] text-xs font-bold text-[var(--text-primary)] mx-auto md:mx-0">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-[var(--orange)] shrink-0" />
-                    <span>Sunday, 20 December 2026</span>
+                    <span>Sunday, 24 January 2027</span>
                   </div>
                   <div className="h-4 w-px bg-[var(--border-color)] hidden sm:block" />
                   <Link
                     to="/route-map"
                     className="flex items-center gap-2 text-decoration-none text-[var(--text-primary)] hover:text-[var(--orange)] transition-colors cursor-pointer group"
-                    title="Click to view Marathon Route Map"
+                    title="Click to view Mini-Marathon Route Map"
                   >
                     <MapPin className="w-4 h-4 text-[var(--cyan)] group-hover:scale-110 transition-transform shrink-0" />
-                    <span className="underline decoration-dotted underline-offset-4 font-extrabold">Route of Marathon</span>
+                    <span className="underline decoration-dotted underline-offset-4 font-extrabold">Route of Mini-Marathon</span>
                   </Link>
                 </div>
 
@@ -141,7 +141,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
               <div className="w-full max-w-[340px] sm:max-w-[500px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-[rgba(11,35,64,0.08)] bg-white/60 backdrop-blur-sm group">
                 <img
                   src={heroGraphicUrl}
-                  alt={section.title || 'Anti-Drug Movement Marathon Runners'}
+                  alt={section.title ? section.title.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon') : 'Anti-Drug Movement Mini-Marathon Runners'}
                   className="w-full h-auto max-h-[220px] sm:max-h-[300px] object-cover block"
                   onError={(e) => {
                     e.target.src = heroRunnersImage;
@@ -172,7 +172,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                 {section.title || 'FREQUENTLY ASKED QUESTIONS'}
               </h2>
               <p className="text-xs sm:text-sm text-[var(--text-muted)] max-w-xl mx-auto font-medium">
-                Got a question regarding the marathon? Find quick answers below.
+                Got a question regarding the mini-marathon? Find quick answers below.
               </p>
             </div>
 
@@ -222,7 +222,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
               {section.title || 'BE PART OF THE MOVEMENT IN ADONI!'}
             </h2>
             <p className="text-base sm:text-lg text-white/90 max-w-2xl mx-auto font-medium">
-              {section.description || 'Register today individually or submit your school/college bulk student details. Receive your official marathon certificate & pass!'}
+              {section.description ? section.description.replace(/(?<!mini[- ])marathon/gi, 'mini-marathon') : 'Register today individually or submit your school/college bulk student details. Receive your official mini-marathon certificate & pass!'}
             </p>
           </div>
         </section>

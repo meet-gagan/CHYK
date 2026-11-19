@@ -23,6 +23,7 @@ import {
   Globe,
   Folder,
   HelpCircle,
+  Scale,
 } from 'lucide-react';
 
 export const AdminLayout = ({ children }) => {
@@ -64,6 +65,7 @@ export const AdminLayout = ({ children }) => {
         { name: 'Activities CMS', path: '/activities-cms', icon: Sparkles },
         { name: 'General Enquiry', path: '/general-enquiry', icon: HelpCircle },
         { name: "Let's Connect", path: '/lets-connect', icon: MessageSquare },
+        { name: 'T&C and PP', path: '/terms-privacy', icon: Scale },
         { name: 'Footer CMS', path: '/footer-cms', icon: Settings },
       ],
     },

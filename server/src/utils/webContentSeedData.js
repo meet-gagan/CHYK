@@ -686,9 +686,9 @@ export const DEFAULT_WEBSITE_PAGES = {
       isSystemPage: true,
       status: 'PUBLISHED',
       seo: {
-        metaTitle: 'Anti-Drug Movement Marathon Run 2026 | Official Portal',
-        metaDescription: 'Official registration portal for the 3K Anti-Drug Movement Marathon Run 2026 in Adoni.',
-        keywords: 'Marathon 2026, Anti-Drug, Adoni, Free Registration, Chinmaya Yuva Kendra',
+        metaTitle: 'Anti-Drug Movement Mini-Marathon Run 2026 | Official Portal',
+        metaDescription: 'Official registration portal for the 3K Anti-Drug Movement Mini-Marathon Run 2026 in Adoni.',
+        keywords: 'Mini-Marathon 2026, Anti-Drug, Adoni, Free Registration, Chinmaya Yuva Kendra',
       },
       sections: [
         {
@@ -699,9 +699,9 @@ export const DEFAULT_WEBSITE_PAGES = {
           isEnabled: true,
           fields: [
             { key: 'badgeText', label: 'Organizers Badge', type: 'text', value: 'CHINMAYA MISSION, ADONI & CHINMAYA YUVA KENDRA, ADONI' },
-            { key: 'title', label: 'Event Title', type: 'text', value: 'ANTI-DRUG MOVEMENT MARATHON RUN 2026' },
+            { key: 'title', label: 'Event Title', type: 'text', value: 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026' },
             { key: 'subtitle', label: 'Movement Slogan', type: 'text', value: 'WE RISE. WE RUN. WE RESIST.' },
-            { key: 'description', label: 'Callout Tagline', type: 'textarea', value: 'RUN FOR LIFE. STAND AGAINST DRUGS' },
+            { key: 'description', label: 'Callout Tagline', type: 'textarea', value: 'Anti Drug Mini-Marathon' },
             { key: 'primaryButtonText', label: 'Primary Button Label', type: 'text', value: 'REGISTER NOW' },
             { key: 'primaryButtonLink', label: 'Primary Button Link', type: 'link', value: '/register' },
             { key: 'secondaryButtonText', label: 'Secondary Button Label', type: 'text', value: 'EXPLORE THE MOVEMENT' },
@@ -730,7 +730,7 @@ export const DEFAULT_WEBSITE_PAGES = {
           isEnabled: true,
           fields: [
             { key: 'title', label: 'Section Title', type: 'text', value: 'YOUR LIFE. YOUR CHOICE.' },
-            { key: 'subtitle', label: 'Introductory Paragraph', type: 'textarea', value: 'The Anti-Drug Movement Marathon is not just a run — it is a conscious transition from darkness into light, strength, and purposeful living.' },
+            { key: 'subtitle', label: 'Introductory Paragraph', type: 'textarea', value: 'The Anti-Drug Movement Mini-Marathon is not just a run — it is a conscious transition from darkness into light, strength, and purposeful living.' },
             { key: 'negativeTitle', label: 'Negative / Risk Mindset Title', type: 'text', value: 'Peer Pressure & Addiction' },
             { key: 'positiveTitle', label: 'Positive / Empowered Mindset Title', type: 'text', value: 'Clarity, Strength & Purpose' },
           ],
@@ -745,9 +745,9 @@ export const DEFAULT_WEBSITE_PAGES = {
           fields: [
             { key: 'badgeText', label: 'Section Badge', type: 'text', value: 'EVENT INFORMATION' },
             { key: 'title', label: 'Section Title', type: 'text', value: 'EVENT DETAILS & COUNTDOWN' },
-            { key: 'subtitle', label: 'Date & Time', type: 'text', value: 'Sunday, 20 December 2026 • 6:00 AM Onwards' },
+            { key: 'subtitle', label: 'Date & Time', type: 'text', value: 'Sunday, 24 January 2027 • 6:00 AM Onwards' },
             { key: 'description', label: 'Venue Location', type: 'textarea', value: 'Starting from Chinmaya Mission, Adoni, Andhra Pradesh.' },
-            { key: 'primaryButtonText', label: 'Action Button Label', type: 'text', value: 'REGISTER FOR MARATHON' },
+            { key: 'primaryButtonText', label: 'Action Button Label', type: 'text', value: 'REGISTER FOR MINI-MARATHON' },
             { key: 'primaryButtonLink', label: 'Action Button Link', type: 'link', value: '/register' },
           ],
           items: [],
@@ -807,7 +807,7 @@ export const DEFAULT_WEBSITE_PAGES = {
               key: 'description',
               label: 'Banner Description',
               type: 'textarea',
-              value: 'Register today individually or submit your school/college bulk student details. Receive your official marathon certificate & entry pass!',
+              value: 'Register today individually or submit your school/college bulk student details. Receive your official mini-marathon certificate & entry pass!',
             },
             { key: 'primaryButtonText', label: 'Button Label', type: 'text', value: '' },
             { key: 'primaryButtonLink', label: 'Button Destination', type: 'link', value: '' },
@@ -824,9 +824,9 @@ export const DEFAULT_WEBSITE_PAGES = {
       isSystemPage: true,
       status: 'PUBLISHED',
       seo: {
-        metaTitle: 'Frequently Asked Questions | Anti-Drug Marathon 2026',
+        metaTitle: 'Frequently Asked Questions | Anti-Drug Mini-Marathon 2026',
         metaDescription: 'Frequently asked questions about registration, T-shirts, entry passes, and event day guidelines.',
-        keywords: 'Marathon FAQs, Questions, Adoni Marathon, T-shirt, Entry Pass',
+        keywords: 'Mini-Marathon FAQs, Questions, Adoni Mini-Marathon, T-shirt, Entry Pass',
       },
       sections: [
         {
@@ -837,15 +837,15 @@ export const DEFAULT_WEBSITE_PAGES = {
           isEnabled: true,
           fields: [
             { key: 'title', label: 'FAQ Page Title', type: 'text', value: 'Frequently Asked Questions' },
-            { key: 'subtitle', label: 'Subtitle Description', type: 'textarea', value: 'Clear answers to everything you need to know about the Anti-Drug Marathon Run 2026.' },
+            { key: 'subtitle', label: 'Subtitle Description', type: 'textarea', value: 'Clear answers to everything you need to know about the Anti-Drug Mini-Marathon Run 2026.' },
           ],
           items: [
-            { itemId: 'faq-1', title: 'When and where is the Anti-Drug Marathon Run 2026?', description: 'The marathon will be held on Sunday, 20 December 2026, starting at 6:00 AM from Chinmaya Mission, Adoni, Andhra Pradesh. All runners must assemble by 5:30 AM.', order: 1 },
-            { itemId: 'faq-2', title: 'Who can participate in the marathon?', description: 'The marathon is open to everyone! Students from schools and colleges, working professionals, families, youth, and senior citizens in Adoni are all warmly invited to join.', order: 2 },
-            { itemId: 'faq-3', title: 'Is there an entry fee for registration?', description: 'No, participation in the Anti-Drug Movement Marathon Run 2026 is completely FREE. It is a community awareness initiative organized by Chinmaya Mission, Adoni & Chinmaya Yuva Kendra, Adoni.', order: 3 },
+            { itemId: 'faq-1', title: 'When and where is the Anti-Drug Mini-Marathon Run 2026?', description: 'The mini-marathon will be held on Sunday, 24 January 2027, starting at 6:00 AM from Chinmaya Mission, Adoni, Andhra Pradesh. All runners must assemble by 5:30 AM.', order: 1 },
+            { itemId: 'faq-2', title: 'Who can participate in the mini-marathon?', description: 'The mini-marathon is open to everyone! Students from schools and colleges, working professionals, families, youth, and senior citizens in Adoni are all warmly invited to join.', order: 2 },
+            { itemId: 'faq-3', title: 'Is there an entry fee for registration?', description: 'No, participation in the Anti-Drug Movement Mini-Marathon Run 2026 is completely FREE. It is a community awareness initiative organized by Chinmaya Mission, Adoni & Chinmaya Yuva Kendra, Adoni.', order: 3 },
             { itemId: 'faq-4', title: 'How can schools and colleges submit registrations?', description: 'Educational institutions can register multiple students at once through bulk registrations. Individual students can also register directly online through our student registration form.', order: 4 },
-            { itemId: 'faq-5', title: 'Will certificates and T-shirts be provided to participants?', description: 'Yes! Every registered participant who completes the marathon will receive an official Anti-Drug Movement Marathon certificate, event T-shirt, and refreshments.', order: 5 },
-            { itemId: 'faq-6', title: 'How do I get my Marathon Entry Pass?', description: 'Once you complete your registration, an official Entry Pass with a secure QR code will be generated instantly. You can view, download, or print it anytime from your profile.', order: 6 },
+            { itemId: 'faq-5', title: 'Will certificates and T-shirts be provided to participants?', description: 'Yes! Every registered participant who completes the mini-marathon will receive an official Anti-Drug Movement Mini-Marathon certificate, event T-shirt, and refreshments.', order: 5 },
+            { itemId: 'faq-6', title: 'How do I get my Mini-Marathon Entry Pass?', description: 'Once you complete your registration, an official Entry Pass with a secure QR code will be generated instantly. You can view, download, or print it anytime from your profile.', order: 6 },
             { itemId: 'faq-7', title: 'Can I register a friend or family member?', description: 'Yes! Use the "+ ADD A FRIEND" feature on the registration form to register yourself and a friend together in one simple step.', order: 7 },
           ],
         },
@@ -859,9 +859,9 @@ export const DEFAULT_WEBSITE_PAGES = {
       isSystemPage: true,
       status: 'PUBLISHED',
       seo: {
-        metaTitle: 'Our Story Board & Community Thoughts | Marathon 2026',
+        metaTitle: 'Our Story Board & Community Thoughts | Mini-Marathon 2026',
         metaDescription: 'Share your personal message against addiction and read inspiring stories from fellow runners across Adoni.',
-        keywords: 'Your Thoughts, Story Board, Marathon Community, Adoni, Inspiration',
+        keywords: 'Your Thoughts, Story Board, Mini-Marathon Community, Adoni, Inspiration',
       },
       sections: [
         {
@@ -890,9 +890,9 @@ export const DEFAULT_WEBSITE_PAGES = {
       isSystemPage: true,
       status: 'PUBLISHED',
       seo: {
-        metaTitle: 'Register for Anti-Drug Marathon 2026',
+        metaTitle: 'Register for Anti-Drug Mini-Marathon 2026',
         metaDescription: 'Free online registration for individual runners and bulk school/college batches.',
-        keywords: 'Register, Marathon Pass, Free Entry, Adoni Marathon',
+        keywords: 'Register, Mini-Marathon Pass, Free Entry, Adoni Mini-Marathon',
       },
       sections: [
         {
@@ -902,7 +902,7 @@ export const DEFAULT_WEBSITE_PAGES = {
           order: 1,
           isEnabled: true,
           fields: [
-            { key: 'title', label: 'Registration Title', type: 'text', value: 'Anti-Drug Movement Marathon Run 2026' },
+            { key: 'title', label: 'Registration Title', type: 'text', value: 'Anti-Drug Movement Mini-Marathon Run 2026' },
             { key: 'subtitle', label: 'Sub-heading', type: 'text', value: 'Individual & Student Batch Registration' },
             {
               key: 'guidelines',

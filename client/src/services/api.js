@@ -93,7 +93,9 @@ const isAdminTarget = (config) => {
     url.includes('/activities/admin') ||
     url.includes('/contact/admin') ||
     url.includes('/faqs/admin') ||
-    (url.includes('/videos') && config.method?.toLowerCase() !== 'get')
+    (url.includes('/videos') && config.method?.toLowerCase() !== 'get') ||
+    (url.includes('/legal') && config.method?.toLowerCase() !== 'get') ||
+    url.includes('/legal/all')
   ) {
     return true;
   }
@@ -401,6 +403,16 @@ export const marathonSiteSettingsService = {
   getStatus: () => api.get('/marathon-site-settings'),
   updateStatus: (isLive) => api.put('/marathon-site-settings', { isLive }),
   toggleStatus: () => api.post('/marathon-site-settings/toggle'),
+};
+
+export const legalService = {
+  getLegalDoc: (website, type) => api.get(`/legal/${website}/${type}`),
+  updateLegalDoc: (website, type, data) =>
+    api.put(`/legal/${website}/${type}`, data, { headers: { 'X-Auth-Scope': 'admin' } }),
+  resetLegalDoc: (website, type) =>
+    api.post(`/legal/${website}/${type}/reset`, {}, { headers: { 'X-Auth-Scope': 'admin' } }),
+  getAllLegalDocs: () =>
+    api.get('/legal/all', { headers: { 'X-Auth-Scope': 'admin' } }),
 };
 
 export const videoService = {

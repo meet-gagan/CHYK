@@ -13,6 +13,7 @@ import Video from '../models/Video.js';
 import { extractYouTubeId, getYouTubeThumbnailUrl } from './youtube.js';
 import { defaultFooterConfig } from '../controllers/footerController.js';
 import { seedGalleryInitialData } from './gallerySeed.js';
+import { ensureLegalDoc } from '../controllers/legalController.js';
 
 export const adoniInstitutionsList = [
   'Stonehill International School',
@@ -87,21 +88,29 @@ export const seedInitialData = async () => {
     const configExists = await EventConfig.findOne();
     if (!configExists) {
       await EventConfig.create({
-        programName: 'ANTI-DRUG MOVEMENT MARATHON RUN 2026',
+        programName: 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026',
         slogan: 'WE RISE. WE RUN. WE RESIST.',
-        subSlogan: 'RUN FOR LIFE. STAND AGAINST DRUGS',
+        subSlogan: 'Anti Drug Mini-Marathon',
         location: 'Adoni, Andhra Pradesh, India',
         venue: 'Chinmaya Mission, Adoni',
-        eventDate: new Date('2026-12-20T06:00:00.000+05:30'),
+        eventDate: new Date('2027-01-24T06:00:00.000+05:30'),
         eventTime: '6:00 AM onwards',
         organizers: ['Chinmaya Mission, Adoni', 'Chinmaya Yuva Kendra, Adoni'],
         registrationOpen: true,
       });
       console.log('[Seed] Event configuration initialized.');
     } else {
-      if (configExists.slogan === 'YOUR LIFE. YOUR CHOICE.' || !configExists.slogan) {
+      if (new Date(configExists.eventDate).getTime() === new Date('2026-12-20T06:00:00.000+05:30').getTime() || new Date(configExists.eventDate).getFullYear() === 2026) {
+        configExists.eventDate = new Date('2027-01-24T06:00:00.000+05:30');
+        await configExists.save();
+      }
+      if (configExists.programName === 'ANTI-DRUG MOVEMENT MARATHON RUN 2026') {
+        configExists.programName = 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026';
+        await configExists.save();
+      }
+      if (configExists.slogan === 'YOUR LIFE. YOUR CHOICE.' || !configExists.slogan || configExists.subSlogan === 'RUN FOR LIFE. STAND AGAINST DRUGS') {
         configExists.slogan = 'WE RISE. WE RUN. WE RESIST.';
-        configExists.subSlogan = 'RUN FOR LIFE. STAND AGAINST DRUGS';
+        configExists.subSlogan = 'Anti Drug Mini-Marathon';
         await configExists.save();
       }
     }
@@ -172,8 +181,8 @@ export const seedInitialData = async () => {
     // 6. Initial FAQs
     const defaultFaqsList = [
       {
-        question: 'When and where is the Anti-Drug Marathon Run 2026?',
-        answer: 'The event will take place on Sunday, 20 December 2026, starting at 6:00 AM from Chinmaya Mission, Adoni, Andhra Pradesh.',
+        question: 'When and where is the Anti-Drug Mini-Marathon Run 2026?',
+        answer: 'The event will take place on Sunday, 24 January 2027, starting at 6:00 AM from Chinmaya Mission, Adoni, Andhra Pradesh.',
         order: 1,
       },
       {
@@ -368,9 +377,9 @@ export const seedInitialData = async () => {
           {
             sectionId: 'hero-1',
             type: 'hero',
-            title: 'ANTI-DRUG MOVEMENT MARATHON RUN 2026',
+            title: 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026',
             subtitle: 'WE RISE. WE RUN. WE RESIST.',
-            description: 'RUN FOR LIFE. STAND AGAINST DRUGS',
+            description: 'Anti Drug Mini-Marathon',
             badgeText: 'CHINMAYA MISSION, ADONI & CHINMAYA YUVA KENDRA, ADONI',
             primaryButtonText: 'REGISTER NOW',
             primaryButtonLink: '/register',
@@ -384,10 +393,10 @@ export const seedInitialData = async () => {
             sectionId: 'marathon-1',
             type: 'marathon',
             title: 'EVENT DETAILS & COUNTDOWN',
-            subtitle: 'Sunday, 20 December 2026 • 6:00 AM Onwards',
+            subtitle: 'Sunday, 24 January 2027 • 6:00 AM Onwards',
             description: 'Starting from Chinmaya Mission, Adoni, Andhra Pradesh.',
             badgeText: 'EVENT INFORMATION',
-            primaryButtonText: 'REGISTER FOR MARATHON',
+            primaryButtonText: 'REGISTER FOR MINI-MARATHON',
             primaryButtonLink: '/register',
             isEnabled: true,
             order: 2,
@@ -409,7 +418,7 @@ export const seedInitialData = async () => {
             type: 'cta',
             title: 'BE PART OF THE MOVEMENT IN ADONI!',
             subtitle: 'CHINMAYA MISSION, ADONI & CHINMAYA YUVA KENDRA, ADONI',
-            description: 'Register today individually or submit your school/college bulk student details. Receive your official marathon certificate & pass!',
+            description: 'Register today individually or submit your school/college bulk student details. Receive your official mini-marathon certificate & pass!',
             primaryButtonText: '',
             primaryButtonLink: '',
             isEnabled: true,
@@ -429,9 +438,10 @@ export const seedInitialData = async () => {
       console.log('[Seed] Default HomePage CMS configuration created.');
     } else {
       const heroSection = homePageExists.sections?.find((s) => s.type === 'hero' || s.sectionId === 'hero-1');
-      if (heroSection && (/YOUR LIFE/i.test(heroSection.subtitle) || /Run for a Drug-Free/i.test(heroSection.description))) {
+      if (heroSection && (/YOUR LIFE/i.test(heroSection.subtitle) || /Run for a Drug-Free/i.test(heroSection.description) || /RUN FOR LIFE/i.test(heroSection.description) || heroSection.title === 'ANTI-DRUG MOVEMENT MARATHON RUN 2026')) {
+        heroSection.title = 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026';
         heroSection.subtitle = 'WE RISE. WE RUN. WE RESIST.';
-        heroSection.description = 'RUN FOR LIFE. STAND AGAINST DRUGS';
+        heroSection.description = 'Anti Drug Mini-Marathon';
         await homePageExists.save();
         console.log('[Seed] HomePage hero slogans updated.');
       }
@@ -1502,6 +1512,17 @@ export const seedInitialData = async () => {
 
     // 13. Seed Initial Gallery Folder & Sacred Images if empty
     await seedGalleryInitialData();
+
+    // 14. Seed Legal Documents (Terms & Conditions, Privacy Policy for Chinmaya & Marathon)
+    try {
+      await ensureLegalDoc('chinmaya', 'terms');
+      await ensureLegalDoc('chinmaya', 'privacy');
+      await ensureLegalDoc('marathon', 'terms');
+      await ensureLegalDoc('marathon', 'privacy');
+      console.log('[Seed] Checked and ensured all 4 legal documents.');
+    } catch (legalErr) {
+      console.warn('[Seed] Legal documents seed notice:', legalErr.message);
+    }
   } catch (err) {
     console.error('[Seed Error]:', err.message);
   }

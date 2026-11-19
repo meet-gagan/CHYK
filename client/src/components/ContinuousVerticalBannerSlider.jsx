@@ -37,7 +37,7 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
       id: 'p5',
       imageUrl: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=800&auto=format&fit=crop',
       title: 'YOUR CHOICE DEFINES YOUR TOMORROW',
-      tag: 'DECEMBER 20, 2026',
+      tag: 'JANUARY 24, 2027',
       color: 'from-pink-600 to-rose-500',
     },
     {

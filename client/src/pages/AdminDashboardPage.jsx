@@ -24,6 +24,7 @@ import { SevaBookingsManager } from './admin/SevaBookingsManager';
 import { MarathonImagesManager } from './admin/MarathonImagesManager';
 import { AdminVideosPage } from './admin/AdminVideosPage';
 import { GalleryManager } from './admin/GalleryManager';
+import { TermsPrivacyManager } from './admin/TermsPrivacyManager';
 import { RegistrationSummaryCards } from '../components/admin/RegistrationSummaryCards';
 import { ClassSummary } from '../components/admin/ClassSummary';
 import { RegistrationDetailsModal } from '../components/admin/RegistrationDetailsModal';
@@ -64,6 +65,7 @@ import {
   HeartHandshake,
   AlertTriangle,
   Folder,
+  Scale,
 } from 'lucide-react';
 
 export const AdminDashboardPage = ({ defaultTab }) => {
@@ -87,6 +89,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
     if (path.includes('/admin/update-content') || path.includes('/admin/content')) return 'UPDATE_CONTENT';
     if (path.includes('/admin/footer')) return 'FOOTER_CMS';
     if (path.includes('/admin/home')) return 'HOME_PAGE';
+    if (path.includes('/admin/terms-privacy') || path.includes('/admin/terms') || path.includes('/admin/privacy') || path.includes('/admin/tc-and-pp')) return 'TERMS_PRIVACY';
     if (path.includes('/admin/bookings') || path.includes('/admin/seva-bookings') || path.includes('/admin/donations')) return 'BOOKINGS';
     return 'STATS';
   };
@@ -490,6 +493,7 @@ export const AdminDashboardPage = ({ defaultTab }) => {
           { id: 'GALLERY', label: 'Gallery Management', icon: Folder },
           { id: 'IMAGES', label: 'Images & Media', icon: ImageIcon },
           { id: 'HOME_PAGE', label: 'Home Page CMS', icon: Layout },
+          { id: 'TERMS_PRIVACY', label: 'T&C and PP', icon: Scale },
           { id: 'FOOTER_CMS', label: 'Footer CMS', icon: Settings },
           { id: 'REGISTRATIONS', label: 'Registrations', icon: Award },
           { id: 'EVENT_CONFIG', label: 'Event Control', icon: Settings },
@@ -553,6 +557,9 @@ export const AdminDashboardPage = ({ defaultTab }) => {
 
       {/* TAB: FOOTER CMS */}
       {activeTab === 'FOOTER_CMS' && <FooterManager />}
+
+      {/* TAB: TERMS & CONDITIONS AND PRIVACY POLICY (T&C and PP) */}
+      {activeTab === 'TERMS_PRIVACY' && <TermsPrivacyManager />}
 
       {/* TAB 1: DASHBOARD OVERVIEW STATS */}
       {activeTab === 'STATS' && (

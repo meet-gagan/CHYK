@@ -348,4 +348,8 @@ export const marathonSiteSettingsService = {
   toggleStatus: () => api.post('/marathon-site-settings/toggle'),
 };
 
+export const legalService = {
+  getLegalDoc: (website, type) => api.get(`/legal/${website}/${type}`),
+};
+
 export default api;

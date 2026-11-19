@@ -295,4 +295,12 @@ export const adminGeneralEnquiryService = {
   deleteEnquiry: (id) => adminApi.delete(`/general-enquiry/${id}`),
 };
 
+// --- 16. LEGAL DOCUMENTS (T&C and PP) ---
+export const adminLegalService = {
+  getAll: () => adminApi.get('/legal/all'),
+  getDoc: (website, type) => adminApi.get(`/legal/${website}/${type}`),
+  updateDoc: (website, type, data) => adminApi.put(`/legal/${website}/${type}`, data),
+  resetDoc: (website, type) => adminApi.post(`/legal/${website}/${type}/reset`),
+};
+
 export default adminApi;

@@ -45,6 +45,7 @@ import marathonSiteSettingsRoutes from './routes/marathonSiteSettingsRoutes.js';
 import videoRoutes from './routes/videoRoutes.js';
 import galleryRoutes from './routes/galleryRoutes.js';
 import generalEnquiryRoutes from './routes/generalEnquiryRoutes.js';
+import legalRoutes from './routes/legalRoutes.js';
 
 const app = express();
 
@@ -173,6 +174,7 @@ const routes = [
   { path: 'site-status', router: siteSettingsRoutes },
   { path: 'marathon-site-settings', router: marathonSiteSettingsRoutes },
   { path: 'marathon-site-status', router: marathonSiteSettingsRoutes },
+  { path: 'legal', router: legalRoutes },
 ];
 
 routes.forEach(({ path: routePath, router }) => {

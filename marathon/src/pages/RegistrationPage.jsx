@@ -570,7 +570,7 @@ export const RegistrationPage = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'Anti_Drug_Marathon_Student_Bulk_Template.csv');
+    link.setAttribute('download', 'Anti_Drug_Mini_Marathon_Student_Bulk_Template.csv');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -634,7 +634,7 @@ export const RegistrationPage = () => {
     if (e) e.preventDefault();
 
     if (!isRegistrationOpen) {
-      alert('Marathon registration is currently closed by the organizers.');
+      alert('Mini-Marathon registration is currently closed by the organizers.');
       return;
     }
     if (!bulkForm.contactPersonName.trim()) {
@@ -707,14 +707,16 @@ export const RegistrationPage = () => {
 
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading text-[var(--text-primary)]">
           {regContent?.title ? (
-            regContent.title
+            regContent.title.replace(/(?<!mini[- ])marathon/gi, 'Mini-Marathon')
           ) : (
-            <>MARATHON <span className="text-[var(--orange)]">REGISTRATION</span></>
+            <>MINI-MARATHON <span className="text-[var(--orange)]">REGISTRATION</span></>
           )}
         </h1>
         <p className="text-xs sm:text-sm text-[var(--text-muted)] font-medium max-w-xl mx-auto">
-          {regContent?.guidelines || (
-            <>Last date of registration is <strong className="text-[var(--text-primary)] font-bold">30 November 2026 (30/11/2026)</strong>. Details will be used to generate your official marathon pass and certificate.</>
+          {regContent?.guidelines ? (
+            regContent.guidelines.replace(/(?<!mini[- ])marathon/gi, 'mini-marathon')
+          ) : (
+            <>Last date of registration is <strong className="text-[var(--text-primary)] font-bold">30 November 2026 (30/11/2026)</strong>. Details will be used to generate your official mini-marathon pass and certificate.</>
           )}
         </p>
 
@@ -748,7 +750,7 @@ export const RegistrationPage = () => {
                   Sign In or Sign Up Required to Register
                 </span>
                 <span className="text-[var(--text-muted)] text-xs block mt-0.5">
-                  Please create an account or sign in to complete your marathon registration and link your entry pass.
+                  Please create an account or sign in to complete your mini-marathon registration and link your entry pass.
                 </span>
                 <Link
                   to="/route-map"
@@ -825,8 +827,8 @@ export const RegistrationPage = () => {
               <AlertCircle className="w-5 h-5 flex-shrink-0" />
               <span>
                 {isPastDeadline
-                  ? 'Marathon registration is now closed. The last date to register was 30 November 2026 (30/11/2026).'
-                  : 'Marathon registration is currently closed by the organizers. Please check back later.'}
+                  ? 'Mini-Marathon registration is now closed. The last date to register was 30 November 2026 (30/11/2026).'
+                  : 'Mini-Marathon registration is currently closed by the organizers. Please check back later.'}
               </span>
             </div>
           )}
@@ -1066,7 +1068,7 @@ export const RegistrationPage = () => {
                     className="w-5 h-5 mt-0.5 text-[var(--orange)] rounded accent-[var(--orange)] cursor-pointer"
                   />
                   <span className="text-xs text-[var(--text-muted)] font-semibold leading-relaxed">
-                    I hereby declare that I am physically fit to participate in the Anti-Drug Movement Marathon Run 2026. I agree to the event rules,{' '}
+                    I hereby declare that I am physically fit to participate in the Anti-Drug Movement Mini-Marathon Run 2026. I agree to the event rules,{' '}
                     <Link
                       to="/terms"
                       className="text-[var(--orange)] underline font-bold hover:text-[var(--orange)]/80"
@@ -1420,7 +1422,7 @@ export const RegistrationPage = () => {
                           className="w-5 h-5 mt-0.5 text-[var(--cyan)] rounded accent-[var(--cyan)] cursor-pointer"
                         />
                         <span className="text-xs text-[var(--text-muted)] font-semibold leading-relaxed">
-                          I declare on behalf of Participant {idx + 2} ({friendItem.fullName.trim() || `Participant ${idx + 2}`}) that they are physically fit to participate in the Anti-Drug Movement Marathon Run 2026 and agree to the event rules,{' '}
+                          I declare on behalf of Participant {idx + 2} ({friendItem.fullName.trim() || `Participant ${idx + 2}`}) that they are physically fit to participate in the Anti-Drug Movement Mini-Marathon Run 2026 and agree to the event rules,{' '}
                           <Link
                             to="/terms"
                             className="text-[var(--cyan)] underline font-bold hover:text-[var(--cyan)]/80"
@@ -1457,7 +1459,7 @@ export const RegistrationPage = () => {
                     ? `SUBMIT REGISTRATION (YOU + ${friendsList.length} ${
                         friendsList.length === 1 ? 'PARTICIPANT' : 'PARTICIPANTS'
                       })`
-                    : 'SUBMIT MARATHON REGISTRATION'}
+                    : 'SUBMIT MINI-MARATHON REGISTRATION'}
                 </span>
               </button>
             </div>

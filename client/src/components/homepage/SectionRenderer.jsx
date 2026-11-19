@@ -16,7 +16,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
 
   if (!section || !section.isEnabled) return null;
 
-  const eventDateStr = eventConfig?.eventDate || '2026-12-20T06:00:00.000+05:30';
+  const eventDateStr = eventConfig?.eventDate || '2027-01-24T06:00:00.000+05:30';
 
   switch (section.type) {
     case 'hero': {
@@ -30,8 +30,8 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
 
       const rawDescription = section.description || '';
       const displayDescription =
-        /Run for a Drug-Free Future/i.test(rawDescription) || !rawDescription
-          ? 'RUN FOR LIFE. STAND AGAINST DRUGS'
+        /Run for a Drug-Free Future|RUN FOR LIFE/i.test(rawDescription) || !rawDescription
+          ? 'Anti Drug Mini-Marathon'
           : rawDescription;
 
       return (
@@ -79,7 +79,7 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                 <div className="inline-flex flex-wrap items-center justify-center md:justify-start gap-3 sm:gap-5 px-3.5 sm:px-4 py-2.5 rounded-2xl bg-white/95 backdrop-blur-sm border border-[rgba(11,35,64,0.08)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)] text-xs font-bold text-[var(--text-primary)] mx-auto md:mx-0">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-[var(--orange)] shrink-0" />
-                    <span>Sunday, 20 December 2026</span>
+                    <span>Sunday, 24 January 2027</span>
                   </div>
                   <div className="h-4 w-px bg-[var(--border-color)] hidden sm:block" />
                   <Link

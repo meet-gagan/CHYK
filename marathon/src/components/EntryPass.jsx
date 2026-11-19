@@ -21,7 +21,7 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
         day: 'numeric',
         month: 'long',
       })
-    : 'Sunday, 20 December';
+    : 'Sunday, 24 January';
 
   const displayLocation = eventConfig?.venue || 'Chinmaya Mission, Adoni';
 
@@ -103,7 +103,7 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
       {/* 2. EVENT TITLE */}
       <div style={{ textAlign: 'center', margin: '14px 0' }}>
         <h1 style={{ fontSize: '20px', fontWeight: 900, color: '#0f172a', letterSpacing: '0.03em', textTransform: 'uppercase', margin: 0, lineHeight: 1.2 }}>
-          ANTI-DRUG MARATHON 2026
+          ANTI-DRUG MINI-MARATHON 2026
         </h1>
         <p style={{ fontSize: '11px', fontWeight: 800, color: '#ea580c', letterSpacing: '0.2em', textTransform: 'uppercase', margin: '4px 0 0 0' }}>
           ENTRY PASS
@@ -238,7 +238,7 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
 
       {/* 5. FOOTER MESSAGE */}
       <p style={{ fontSize: '11px', fontWeight: 600, color: '#3b82f6', textAlign: 'center', margin: '14px 0 0 0' }}>
-        Please carry this pass for entry to the marathon.
+        Please carry this pass for entry to the mini-marathon.
       </p>
 
       {/* 6. FOOTER DIVIDER & BRANDING */}

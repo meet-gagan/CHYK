@@ -457,6 +457,38 @@ export function App() {
               }
             />
             <Route
+              path="/admin/terms-privacy"
+              element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminDashboardPage defaultTab="TERMS_PRIVACY" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/terms"
+              element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminDashboardPage defaultTab="TERMS_PRIVACY" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/privacy"
+              element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminDashboardPage defaultTab="TERMS_PRIVACY" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/tc-and-pp"
+              element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminDashboardPage defaultTab="TERMS_PRIVACY" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/admin/update-content"
               element={
                 <ProtectedRoute requireAdmin={true}>

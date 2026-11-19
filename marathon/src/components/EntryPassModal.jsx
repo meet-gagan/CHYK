@@ -36,7 +36,7 @@ export const EntryPassModal = ({ data, eventConfig, onClose }) => {
     setDownloading(true);
 
     try {
-      const filename = activeRecord?.registrationId || 'marathon-entry-pass';
+      const filename = activeRecord?.registrationId || 'mini-marathon-entry-pass';
       const success = await downloadEntryPassAsImage('official-entry-pass', filename);
       if (success) {
         setDownloadSuccess(true);

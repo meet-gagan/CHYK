@@ -5,12 +5,12 @@ export const getEventConfig = async (req, res) => {
     let config = await EventConfig.findOne();
     if (!config) {
       config = await EventConfig.create({
-        programName: 'ANTI-DRUG MOVEMENT MARATHON RUN 2026',
+        programName: 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026',
         slogan: 'WE RISE. WE RUN. WE RESIST.',
-        subSlogan: 'RUN FOR LIFE. STAND AGAINST DRUGS',
+        subSlogan: 'Anti Drug Mini-Marathon',
         location: 'Adoni, Andhra Pradesh, India',
         venue: 'Chinmaya Mission, Adoni',
-        eventDate: new Date('2026-12-20T06:00:00.000+05:30'),
+        eventDate: new Date('2027-01-24T06:00:00.000+05:30'),
         eventTime: '6:00 AM onwards',
         organizers: ['Chinmaya Mission, Adoni', 'Chinmaya Yuva Kendra, Adoni'],
         registrationOpen: true,
@@ -18,13 +18,21 @@ export const getEventConfig = async (req, res) => {
       });
     } else {
       let needsSave = false;
-      if (!config.registrationEndDate) {
+      if (new Date(config.eventDate).getTime() === new Date('2026-12-20T06:00:00.000+05:30').getTime() || new Date(config.eventDate).getFullYear() === 2026) {
+        config.eventDate = new Date('2027-01-24T06:00:00.000+05:30');
+        needsSave = true;
+      }
+      if (!config.registrationEndDate || new Date(config.registrationEndDate).getMonth() === 11) {
         config.registrationEndDate = new Date('2026-11-30T23:59:59.000+05:30');
         needsSave = true;
       }
-      if (config.slogan === 'YOUR LIFE. YOUR CHOICE.' || !config.slogan) {
+      if (config.programName === 'ANTI-DRUG MOVEMENT MARATHON RUN 2026') {
+        config.programName = 'ANTI-DRUG MOVEMENT MINI-MARATHON RUN 2026';
+        needsSave = true;
+      }
+      if (config.slogan === 'YOUR LIFE. YOUR CHOICE.' || !config.slogan || config.subSlogan === 'RUN FOR LIFE. STAND AGAINST DRUGS') {
         config.slogan = 'WE RISE. WE RUN. WE RESIST.';
-        config.subSlogan = 'RUN FOR LIFE. STAND AGAINST DRUGS';
+        config.subSlogan = 'Anti Drug Mini-Marathon';
         needsSave = true;
       }
       if (needsSave) {

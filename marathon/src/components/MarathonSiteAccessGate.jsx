@@ -86,7 +86,7 @@ function AdminStatusToggle({ isLive, onToggle }) {
     try {
       await onToggle();
     } catch (err) {
-      alert('Failed to toggle marathon status: ' + err.message);
+      alert('Failed to toggle mini-marathon status: ' + err.message);
     } finally {
       setIsUpdating(false);
     }
@@ -101,7 +101,7 @@ function AdminStatusToggle({ isLive, onToggle }) {
           }`}
         />
         <span className="font-semibold text-slate-200">
-          Marathon: <strong className={isLive ? 'text-emerald-400' : 'text-amber-300'}>{isLive ? 'LIVE' : 'COMING SOON'}</strong>
+          Mini-Marathon: <strong className={isLive ? 'text-emerald-400' : 'text-amber-300'}>{isLive ? 'LIVE' : 'COMING SOON'}</strong>
         </span>
       </span>
       <button

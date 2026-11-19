@@ -106,7 +106,7 @@ export const MyActivityPage = () => {
               className="btn-primary py-2.5 px-4 rounded-xl text-xs font-bold uppercase tracking-wide text-decoration-none shadow-md shadow-[var(--orange)]/20"
             >
               <Award className="w-4 h-4" />
-              <span>Register For Marathon</span>
+              <span>Register For Mini-Marathon</span>
             </Link>
           )}
         </div>
@@ -243,7 +243,7 @@ export const MyActivityPage = () => {
                       </Link>
                     ) : (
                       <Link to="/register" className="btn-primary py-2.5 px-5 rounded-2xl text-xs font-bold text-decoration-none">
-                        Register For Marathon
+                        Register For Mini-Marathon
                       </Link>
                     )}
                     <Link to="/lets-connect" className="px-5 py-2.5 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] text-xs font-bold text-[var(--text-primary)] text-decoration-none">
@@ -333,7 +333,7 @@ export const MyActivityPage = () => {
                       <div className="space-y-1 max-w-md mx-auto">
                         <h3 className="text-lg font-bold text-[var(--text-primary)]">Administrator Account</h3>
                         <p className="text-xs text-[var(--text-muted)]">
-                          You are logged in with administrator privileges. You can view, search, export and manage all marathon participant registrations in the Admin Dashboard.
+                          You are logged in with administrator privileges. You can view, search, export and manage all mini-marathon participant registrations in the Admin Dashboard.
                         </p>
                       </div>
                       <Link to="/admin/dashboard" className="inline-flex btn-primary py-3 px-6 rounded-2xl text-xs font-bold text-decoration-none">
@@ -345,7 +345,7 @@ export const MyActivityPage = () => {
                       <div className="space-y-1 max-w-md mx-auto">
                         <h3 className="text-lg font-bold text-[var(--text-primary)]">No registrations found</h3>
                         <p className="text-xs text-[var(--text-muted)]">
-                          You have not registered for any events yet. Join the upcoming Anti-Drug Movement Marathon Run 2026!
+                          You have not registered for any events yet. Join the upcoming Anti-Drug Movement Mini-Marathon Run 2026!
                         </p>
                       </div>
                       <Link to="/register" className="inline-flex btn-primary py-3 px-6 rounded-2xl text-xs font-bold text-decoration-none">
@@ -365,7 +365,7 @@ export const MyActivityPage = () => {
                       <div className="flex items-start justify-between gap-2 border-b border-[var(--border-color)] pb-3.5">
                         <div>
                           <span className="text-[10px] font-black uppercase tracking-widest text-[var(--orange)]">
-                            MARATHON 2026 PASS
+                            MINI-MARATHON 2026 PASS
                           </span>
                           <h3 className="text-base sm:text-lg font-black text-[var(--text-primary)]">{reg.fullName}</h3>
                           <p className="text-xs font-bold text-emerald-500 font-mono mt-0.5">ID: {reg.registrationId}</p>
