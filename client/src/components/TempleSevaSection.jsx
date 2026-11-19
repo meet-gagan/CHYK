@@ -318,15 +318,31 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
   // Initialize selected option
   useEffect(() => {
     if (!service) return;
+    if (service.selectedOption) {
+      setSelectedOption(service.selectedOption);
+      return;
+    }
     if (service.options && service.options.length > 0) {
+      // 1. Try exact match on selectedOptionName
+      if (service.selectedOptionName) {
+        const targetClean = service.selectedOptionName.trim().toLowerCase();
+        const exactMatch = service.options.find(
+          (opt) => (opt.name || '').trim().toLowerCase() === targetClean
+        );
+        if (exactMatch) {
+          setSelectedOption(exactMatch);
+          return;
+        }
+      }
+
+      // 2. Try match on service.name or title
       const targetName = (service.selectedOptionName || service.name || service.title || '')
         .replace('|', ' ')
         .trim()
         .toLowerCase();
-      const match = service.options.find((opt) => {
-        const optClean = (opt.name || '').trim().toLowerCase();
-        return optClean === targetName || optClean.includes(targetName) || targetName.includes(optClean);
-      });
+      const match =
+        service.options.find((opt) => (opt.name || '').trim().toLowerCase() === targetName) ||
+        service.options.find((opt) => (opt.name || '').trim().toLowerCase().includes(targetName));
       setSelectedOption(match || service.options[0]);
     } else {
       setSelectedOption({

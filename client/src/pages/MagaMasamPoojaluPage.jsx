@@ -46,9 +46,11 @@ export const MagaMasamPoojaluPage = () => {
 
   const handleOpenBooking = (optionName = null) => {
     if (optionName) {
+      const matchOpt = maghaMasamService.options.find((o) => o.name === optionName);
       setActiveBookingService({
         ...maghaMasamService,
         selectedOptionName: optionName,
+        selectedOption: matchOpt,
       });
     } else {
       setActiveBookingService(maghaMasamService);
@@ -105,11 +107,6 @@ export const MagaMasamPoojaluPage = () => {
       {/* 1. HERO / TITLE SECTION */}
       <section className="pt-12 sm:pt-16 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-amber-50/60 via-orange-50/20 to-white">
         <div className="max-w-4xl mx-auto space-y-6 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100/80 border border-orange-200 text-[var(--orange)] text-xs font-bold uppercase tracking-wider">
-            <span>ॐ</span>
-            <span>Chinmaya Mission, Adoni</span>
-            <span>ॐ</span>
-          </div>
 
           <div className="space-y-3">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading text-slate-900 tracking-tight">
@@ -316,10 +313,6 @@ export const MagaMasamPoojaluPage = () => {
             className="rounded-3xl bg-gradient-to-b from-amber-500/10 via-white to-amber-500/5 border-2 border-orange-300 p-6 sm:p-10 shadow-lg space-y-8 scroll-mt-20"
           >
             <div className="text-center space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 border border-amber-300 text-amber-900 text-xs font-bold uppercase tracking-wide">
-                <Sparkles className="w-3.5 h-3.5 text-[var(--orange)]" />
-                <span>Devotee Offering &amp; Sankalpam Portal</span>
-              </div>
               <h3 className="text-2xl sm:text-3xl font-black font-heading text-slate-900">
                 Magha Masa Seva Offerings
               </h3>
@@ -330,68 +323,49 @@ export const MagaMasamPoojaluPage = () => {
 
             {/* Seva Options Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {maghaMasamService.options.map((opt, idx) => {
-                const isSpecial = idx > 0;
-                return (
-                  <div
-                    key={idx}
-                    className={`bg-white rounded-2xl p-6 border flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative ${
-                      idx === 0
-                        ? 'border-orange-200 shadow-sm'
-                        : idx === 1
-                        ? 'border-amber-300 shadow-md ring-2 ring-amber-400/30'
-                        : 'border-orange-300 shadow-md ring-2 ring-orange-500/20'
-                    }`}
-                  >
-                    {isSpecial && (
-                      <div className="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-gradient-to-r from-[var(--orange)] to-amber-600 text-white shadow-xs">
-                        {idx === 1 ? 'Most Revered' : 'Maha Seva'}
-                      </div>
-                    )}
-
-                    <div className="space-y-4">
-                      <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center text-[var(--orange)] font-bold">
-                        {idx === 0 ? 'ॐ' : idx === 1 ? '🔱' : '✶'}
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <h4 className="font-bold text-sm sm:text-base text-slate-900 leading-snug">
-                          {opt.name}
-                        </h4>
-                        <p className="text-xs text-slate-500">
-                          {idx === 0
-                            ? 'Daily Sankalpam with your Name and Gotram for 30 consecutive days.'
-                            : idx === 1
-                            ? 'Special Shiva Parvati Kalyana Seva along with daily 30-day Sankalpam.'
-                            : 'Complete Maha Seva with Kalyana Seva, Maha Anna Prasada Seva & 30-day Sankalpam.'}
-                        </p>
-                      </div>
-
-                      <div className="pt-2">
-                        <span className="text-2xl sm:text-3xl font-black text-slate-900 font-heading">
-                          ₹{opt.price.toLocaleString('en-IN')}
-                        </span>
-                        <span className="text-xs text-slate-500 block">per family offering</span>
-                      </div>
+              {maghaMasamService.options.map((opt, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white rounded-2xl p-6 border border-orange-200/80 shadow-sm flex flex-col justify-between transition-all duration-300 hover:shadow-lg hover:border-orange-300 hover:-translate-y-1"
+                >
+                  <div className="space-y-4">
+                    <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center text-[var(--orange)] font-bold">
+                      {idx === 0 ? 'ॐ' : idx === 1 ? '🔱' : '✶'}
                     </div>
 
-                    <div className="pt-6">
-                      <button
-                        type="button"
-                        onClick={() => handleOpenBooking(opt.name)}
-                        className={`w-full py-3 px-4 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
-                          idx === 1
-                            ? 'bg-gradient-to-r from-[var(--orange)] to-amber-600 hover:from-amber-600 hover:to-[var(--orange)] text-white shadow-md shadow-orange-500/25'
-                            : 'bg-slate-900 hover:bg-slate-800 text-white'
-                        }`}
-                      >
-                        <span>Participate • ₹{opt.price.toLocaleString('en-IN')}</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
+                    <div className="space-y-1.5">
+                      <h4 className="font-bold text-sm sm:text-base text-slate-900 leading-snug">
+                        {opt.name}
+                      </h4>
+                      <p className="text-xs text-slate-500">
+                        {idx === 0
+                          ? 'Daily Sankalpam with your Name and Gotram for 30 consecutive days.'
+                          : idx === 1
+                          ? 'Special Shiva Parvati Kalyana Seva along with daily 30-day Sankalpam.'
+                          : 'Complete Maha Seva with Kalyana Seva, Maha Anna Prasada Seva & 30-day Sankalpam.'}
+                      </p>
+                    </div>
+
+                    <div className="pt-2">
+                      <span className="text-2xl sm:text-3xl font-black text-slate-900 font-heading">
+                        ₹{opt.price.toLocaleString('en-IN')}
+                      </span>
+                      <span className="text-xs text-slate-500 block">per family offering</span>
                     </div>
                   </div>
-                );
-              })}
+
+                  <div className="pt-6">
+                    <button
+                      type="button"
+                      onClick={() => handleOpenBooking(opt.name)}
+                      className="w-full py-3 px-4 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer bg-gradient-to-r from-[var(--orange)] to-amber-600 hover:from-amber-600 hover:to-[var(--orange)] text-white shadow-md shadow-orange-500/20"
+                    >
+                      <span>Participate • ₹{opt.price.toLocaleString('en-IN')}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* Quick Summary Banner inside Payment Box */}
