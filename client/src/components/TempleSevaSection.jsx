@@ -1016,15 +1016,15 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
               <Sparkles className="w-5 h-5 text-[var(--orange)]" />
             </div>
             <div className="min-w-0 flex-1">
-              <span className="text-[10px] font-extrabold uppercase tracking-widest text-[var(--orange)] block">
-                {step === 'review'
-                  ? 'REVIEW & CONFIRM'
-                  : step === 'proof'
-                  ? 'PAYMENT VERIFICATION'
-                  : step === 'confirmed'
-                  ? 'SANKALPA RECORDED'
-                  : 'SACRED SEVA OFFERING'}
-              </span>
+              {step !== 'form' && (
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[var(--orange)] block">
+                  {step === 'review'
+                    ? 'REVIEW & CONFIRM'
+                    : step === 'proof'
+                    ? 'PAYMENT VERIFICATION'
+                    : 'SANKALPA RECORDED'}
+                </span>
+              )}
               <h2 className="text-lg sm:text-xl font-bold font-heading text-[#0A192F] leading-tight truncate">
                 {step === 'review'
                   ? 'Review Details & Contribution'
@@ -1125,24 +1125,10 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
           {/* ========================================================= */}
           {step === 'form' && (
             <form onSubmit={handleReviewClick} className="space-y-5">
-              {/* Sacred Information Callout */}
-              <div className="bg-orange-50/60 border border-orange-200/70 p-4 rounded-2xl text-xs sm:text-sm text-slate-700 leading-relaxed shadow-sm">
-                <p className="flex items-start gap-2">
-                  <Sparkles className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
-                  <span>
-                    Please provide your sacred details for the <strong>Pooja Sankalpa</strong>,
-                    temple blessings, and formal donation acknowledgement.
-                  </span>
-                </p>
-              </div>
-
               {/* Seva Offering Overview & Available Poojas Selection */}
               <div className="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3.5">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b border-slate-200/70">
                   <div>
-                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-[var(--orange)] block">
-                      {service.templeName || 'Chinmaya Mission Sacred Seva'}
-                    </span>
                     <h3 className="text-lg sm:text-xl font-bold font-heading text-[#0A192F]">
                       {serviceDisplayName}
                     </h3>
