@@ -51,12 +51,10 @@ export const MarathonComingSoonPage = () => {
 
   return (
     <div className="min-h-screen w-full bg-[#07162D] text-white selection:bg-[#F0441D] selection:text-white relative overflow-hidden flex flex-col justify-between font-sans">
-      {/* Background Animated Gradient Glows */}
       <div className="absolute top-[-15%] left-[20%] w-[500px] h-[500px] bg-[#F0441D]/20 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[10%] w-[550px] h-[550px] bg-[#06B6D4]/15 rounded-full blur-[150px] pointer-events-none" />
       <div className="absolute top-[40%] left-[-10%] w-[400px] h-[400px] bg-[#FFD12D]/10 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Ambient Particle Sparks */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         {particles.map((p) => (
           <span
@@ -73,7 +71,6 @@ export const MarathonComingSoonPage = () => {
         ))}
       </div>
 
-      {/* Top Header / Brand Bar */}
       <header className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-white/10 border border-white/20 p-2 flex items-center justify-center backdrop-blur-md shadow-lg">
@@ -90,15 +87,12 @@ export const MarathonComingSoonPage = () => {
         </div>
       </header>
 
-      {/* Main Coming Soon Hero Content */}
       <main className="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-16 text-center space-y-8 my-auto">
-        {/* Campaign Pill */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#F0441D]/20 border border-[#F0441D]/40 text-[#F0441D] text-xs font-black tracking-widest uppercase shadow-lg">
           <Sparkles className="w-3.5 h-3.5 animate-pulse" />
           <span>WE RISE • WE RUN • WE RESIST</span>
         </div>
 
-        {/* Big Typography Headings */}
         <div className="space-y-3">
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black font-heading tracking-tight leading-[1.1] text-white">
             ANTI-DRUG MOVEMENT <br />
@@ -112,7 +106,6 @@ export const MarathonComingSoonPage = () => {
           </p>
         </div>
 
-        {/* Live Countdown Clock */}
         <div className="max-w-xl mx-auto p-4 sm:p-6 rounded-3xl bg-white/5 border border-white/15 backdrop-blur-xl shadow-2xl space-y-4">
           <div className="flex items-center justify-between border-b border-white/10 pb-3 text-xs font-extrabold uppercase tracking-wider text-slate-300">
             <span className="flex items-center gap-1.5 text-[#06B6D4]">
@@ -153,7 +146,6 @@ export const MarathonComingSoonPage = () => {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="relative z-10 w-full py-5 text-center text-xs text-slate-400 border-t border-white/10">
         <p>
           An initiative by <strong>Chinmaya Mission, Adoni</strong> & <strong>Chinmaya Yuva Kendra, Adoni</strong>

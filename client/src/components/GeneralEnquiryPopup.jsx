@@ -173,7 +173,6 @@ export const GeneralEnquiryPopup = ({ onClose, onUserInteracted, isAutoOpened })
       aria-modal="false"
       aria-labelledby="general-enquiry-title"
     >
-      {/* Top Header Bar */}
       <div className="relative px-5 py-3.5 bg-gradient-to-r from-orange-600 via-amber-600 to-orange-500 text-white flex items-center justify-between shrink-0">
         <div className="flex items-center gap-2.5">
           <span className="text-lg">🕉️</span>
@@ -190,7 +189,6 @@ export const GeneralEnquiryPopup = ({ onClose, onUserInteracted, isAutoOpened })
           </div>
         </div>
 
-        {/* Right side controls: 10s timer on the left side of the X mark */}
         <div className="flex items-center gap-2">
           {timerSeconds !== null && timerSeconds > 0 && (
             <div
@@ -215,7 +213,6 @@ export const GeneralEnquiryPopup = ({ onClose, onUserInteracted, isAutoOpened })
         </div>
       </div>
 
-      {/* Content Area */}
       <div className="p-4 sm:p-5 overflow-y-auto space-y-4 max-h-[calc(85vh-56px)]">
         {submitted ? (
           <div className="py-6 text-center space-y-3.5 animate-in zoom-in-95 duration-200">
@@ -259,7 +256,6 @@ export const GeneralEnquiryPopup = ({ onClose, onUserInteracted, isAutoOpened })
               </div>
             )}
 
-            {/* Name Field */}
             <div>
               <label className="text-xs font-bold text-[var(--text-primary,#07162D)] block mb-1 flex items-center gap-1.5">
                 <User className="w-3.5 h-3.5 text-orange-600" />
@@ -279,9 +275,7 @@ export const GeneralEnquiryPopup = ({ onClose, onUserInteracted, isAutoOpened })
               />
             </div>
 
-            {/* Email & Mobile */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {/* Email Field */}
               <div>
                 <label className="text-xs font-bold text-[var(--text-primary,#07162D)] block mb-1 flex items-center gap-1.5">
                   <Mail className="w-3.5 h-3.5 text-orange-600" />
@@ -301,7 +295,6 @@ export const GeneralEnquiryPopup = ({ onClose, onUserInteracted, isAutoOpened })
                 />
               </div>
 
-              {/* Mobile Number Field */}
               <div>
                 <label className="text-xs font-bold text-[var(--text-primary,#07162D)] block mb-1 flex items-center gap-1.5">
                   <Phone className="w-3.5 h-3.5 text-orange-600" />
@@ -322,7 +315,6 @@ export const GeneralEnquiryPopup = ({ onClose, onUserInteracted, isAutoOpened })
               </div>
             </div>
 
-            {/* Question Textarea */}
             <div>
               <label className="text-xs font-bold text-[var(--text-primary,#07162D)] block mb-1 flex items-center gap-1.5">
                 <HelpCircle className="w-3.5 h-3.5 text-orange-600" />
@@ -342,7 +334,6 @@ export const GeneralEnquiryPopup = ({ onClose, onUserInteracted, isAutoOpened })
               />
             </div>
 
-            {/* Action Buttons */}
             <div className="flex items-center justify-end gap-2.5 pt-1">
               <button
                 type="button"

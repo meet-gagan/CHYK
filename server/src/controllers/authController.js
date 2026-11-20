@@ -46,7 +46,6 @@ export const signupUser = async (req, res) => {
   try {
     const { fullName, email, phone, password, confirmPassword, age, dob, dateOfBirth, profession } = req.body;
 
-    // 1. Validate required fields
     if (!fullName || !fullName.trim()) {
       return res.status(400).json({
         success: false,
@@ -114,7 +113,6 @@ export const signupUser = async (req, res) => {
       });
     }
 
-    // 2. Check for duplicate account with normalized phone number
     const existingPhone = await User.findOne({ phone: cleanPhone });
     if (existingPhone) {
       return res.status(409).json({
@@ -124,7 +122,6 @@ export const signupUser = async (req, res) => {
       });
     }
 
-    // 3. Check for duplicate account with normalized email address
     if (cleanEmail) {
       const existingEmail = await User.findOne({ email: cleanEmail });
       if (existingEmail) {
@@ -136,7 +133,6 @@ export const signupUser = async (req, res) => {
       }
     }
 
-    // 4. Create user
     const userDoc = {
       fullName: fullName.trim(),
       phone: cleanPhone,
@@ -159,7 +155,6 @@ export const signupUser = async (req, res) => {
     const newUser = new User(userDoc);
     await newUser.save();
 
-    // 5. Generate JWT Token
     const token = generateToken(newUser._id, newUser.role);
     const userPayload = {
       _id: newUser._id,

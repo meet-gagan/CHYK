@@ -119,11 +119,7 @@ export const SupportOurMissionPage = () => {
 
   return (
     <div className="support-mission-page min-h-screen">
-      {/* ============================================================ */}
-      {/* 1. HERO SECTION                                              */}
-      {/* ============================================================ */}
       <section className="hero-spiritual-wrap relative text-white py-8 sm:py-10 md:py-12 px-4 sm:px-6 lg:px-8">
-        {/* Background Image with peaceful overlay */}
         <img
           src="/assets/temple-hilltop-view.jpeg"
           alt="Revered hilltop temple sanctuary under serene sky"
@@ -145,9 +141,6 @@ export const SupportOurMissionPage = () => {
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/* 2. INTRODUCTION SECTION                                      */}
-      {/* ============================================================ */}
       <section className="py-14 sm:py-18 md:py-20 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2]">
         <div className="max-w-3xl mx-auto text-center space-y-6 sm:space-y-7 leading-relaxed">
           <div className="flex justify-center">
@@ -181,13 +174,9 @@ export const SupportOurMissionPage = () => {
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/* 3. CONTRIBUTE TO THE MISSION SECTION                         */}
-      {/* ============================================================ */}
       <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2]">
         <div className="max-w-5xl mx-auto">
           <article className="spiritual-card overflow-hidden grid grid-cols-1 md:grid-cols-12 items-stretch">
-            {/* Left Column: Chinmaya Amrit Yatra vehicle & sanctuary */}
             <div className="md:col-span-5 relative min-h-[260px] md:min-h-[420px] bg-[#0C1A30] overflow-hidden group">
               <img
                 src="/assets/images/chinmaya-amrit-yatra.jpg"
@@ -200,7 +189,6 @@ export const SupportOurMissionPage = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-[#0C1A30]/60 via-transparent to-transparent md:hidden" />
             </div>
 
-            {/* Right Column: Heading, Subheading, Content, Button */}
             <div className="md:col-span-7 p-6 sm:p-8 md:p-10 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <div className="space-y-1">
@@ -268,13 +256,9 @@ export const SupportOurMissionPage = () => {
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/* 4. PARTICIPATE IN SEVA SECTION                              */}
-      {/* ============================================================ */}
       <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-[#FAF7F2]">
         <div className="max-w-5xl mx-auto">
           <article className="spiritual-card overflow-hidden grid grid-cols-1 md:grid-cols-12 items-stretch">
-            {/* Left Column: Relevant photograph of volunteers / Sevaks */}
             <div className="md:col-span-5 relative min-h-[260px] md:min-h-[420px] bg-[#0C1A30] overflow-hidden group">
               <img
                 src="/assets/gallery/Sevak_Team.jpeg"
@@ -287,7 +271,6 @@ export const SupportOurMissionPage = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-[#0C1A30]/60 via-transparent to-transparent md:hidden" />
             </div>
 
-            {/* Right Column: Heading, Subheading, Content */}
             <div className="md:col-span-7 p-6 sm:p-8 md:p-10 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <div className="space-y-1">
@@ -336,12 +319,8 @@ export const SupportOurMissionPage = () => {
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/* 5. WAYS TO PARTICIPATE IN SEVA SECTION                      */}
-      {/* ============================================================ */}
       <section className="seva-section-bg py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-y border-[#ECE3D4]/70">
         <div className="max-w-[1360px] mx-auto space-y-12 sm:space-y-14">
-          {/* Section Header */}
           <div className="text-center space-y-2.5 max-w-3xl mx-auto">
             <h2 className="text-2xl sm:text-3xl md:text-[34px] font-bold font-spiritual-heading uppercase tracking-wider text-[#0A192F]">
               WAYS TO PARTICIPATE IN SEVA
@@ -349,7 +328,6 @@ export const SupportOurMissionPage = () => {
             <div className="w-12 h-[2px] bg-[#C5A059] mx-auto rounded-full" />
           </div>
 
-          {/* 5 Cards / Tiles */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-5 items-stretch">
             {sevaCategories.map((cat) => {
               const IconComp = cat.icon;
@@ -374,9 +352,6 @@ export const SupportOurMissionPage = () => {
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/* 6. MANY WAYS TO SERVE. ONE SHARED VISION SECTION             */}
-      {/* ============================================================ */}
       <section className="py-16 sm:py-20 md:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#EBF2F7] via-[#F4F8FA] to-[#FAF7F2] border-y border-[#E2EBF2]">
         <div className="max-w-3xl mx-auto text-center space-y-6 sm:space-y-7">
           <div className="flex justify-center">
@@ -409,7 +384,6 @@ export const SupportOurMissionPage = () => {
         </div>
       </section>
 
-      {/* Devotee Donation Modal with Form & Review steps */}
       <DonationModal
         isOpen={isDonationModalOpen}
         onClose={() => setIsDonationModalOpen(false)}
@@ -417,7 +391,6 @@ export const SupportOurMissionPage = () => {
         modalSubtitle={modalSubtitle}
       />
 
-      {/* Volunteer Seva Application Modal */}
       <VolunteerModal
         isOpen={isVolunteerModalOpen}
         onClose={() => setIsVolunteerModalOpen(false)}

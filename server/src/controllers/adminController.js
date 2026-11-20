@@ -252,7 +252,7 @@ export const getIndividualRegistrationSummary = async (req, res) => {
       success: true,
       data: {
         ...summary,
-        sizes: summary.tshirtSizes, // backward compatibility
+        sizes: summary.tshirtSizes, 
       },
     });
   } catch (err) {
@@ -421,7 +421,6 @@ export const deleteAdminUser = async (req, res) => {
   try {
     const targetUserId = req.params.id;
 
-    // 1. Prevent administrator from deleting themselves
     if (req.user && req.user._id.toString() === targetUserId) {
       return res.status(400).json({
         success: false,
@@ -434,7 +433,6 @@ export const deleteAdminUser = async (req, res) => {
       return res.status(404).json({ success: false, message: 'User record not found' });
     }
 
-    // 2. Prevent deleting the last administrator
     if (targetUser.role === 'admin') {
       const adminCount = await User.countDocuments({ role: 'admin' });
       if (adminCount <= 1) {
@@ -445,7 +443,6 @@ export const deleteAdminUser = async (req, res) => {
       }
     }
 
-    // 3. Permanent delete from database
     await User.findByIdAndDelete(targetUserId);
 
     res.json({

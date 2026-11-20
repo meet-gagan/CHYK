@@ -329,12 +329,8 @@ export const YourThoughtsPage = () => {
   return (
     <div className="min-h-screen bg-[#FFF5E5] text-[#07162D] transition-colors duration-200">
       
-      {/* ======================================================== */}
-      {/* 1. HERO SECTION: OUR STORY BOARD                         */}
-      {/* ======================================================== */}
       <section className="relative overflow-hidden pt-10 sm:pt-14 pb-14 sm:pb-20 px-4 sm:px-6 lg:px-8 border-b border-[#EBD6A2]/50">
         
-        {/* Subtle decorative background paper grid pattern */}
         <div
           className="absolute inset-0 opacity-25 pointer-events-none"
           style={{
@@ -344,7 +340,6 @@ export const YourThoughtsPage = () => {
           aria-hidden="true"
         />
 
-        {/* Ambient warm radial glow */}
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-[#FFD12D]/20 via-[#F0441D]/10 to-transparent blur-3xl pointer-events-none"
           aria-hidden="true"
@@ -352,7 +347,6 @@ export const YourThoughtsPage = () => {
 
         <div className="relative max-w-4xl mx-auto text-center space-y-6">
           
-          {/* Elegant Oversized Heading */}
           <div className="space-y-3">
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-black font-heading tracking-tight text-[#07162D]">
               {f.thoughts_hero?.heading && f.thoughts_hero?.heading !== 'Our Story Board'
@@ -364,10 +358,8 @@ export const YourThoughtsPage = () => {
             </p>
           </div>
 
-          {/* Primary Action Buttons */}
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4">
             
-            {/* Primary Action: Write Your Thoughts */}
             <button
               onClick={() => {
                 setSubmitSuccess(false);
@@ -380,7 +372,6 @@ export const YourThoughtsPage = () => {
               <span>{f.thoughts_hero?.primaryBtnText || 'Write Your Thoughts'}</span>
             </button>
 
-            {/* Secondary Action: Explore the Story Board */}
             <button
               onClick={handleExploreBoard}
               className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white/90 hover:bg-white text-[#07162D] border border-[#EBD6A2] font-bold text-sm sm:text-base flex items-center justify-center gap-2 shadow-xs hover:-translate-y-0.5 transition-all cursor-pointer"
@@ -390,7 +381,6 @@ export const YourThoughtsPage = () => {
             </button>
           </div>
 
-          {/* Anonymous presentation reminder */}
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#59616D] pt-1">
             <ShieldCheck className="w-4 h-4 text-[#138B52]" />
             <span>{f.thoughts_hero?.privacyNote || 'All stories are published completely anonymously to inspire fellow runners.'}</span>
@@ -398,19 +388,14 @@ export const YourThoughtsPage = () => {
         </div>
       </section>
 
-      {/* ======================================================== */}
-      {/* 2. STORY BOARD COMMUNITY WALL                            */}
-      {/* ======================================================== */}
       <section
         ref={boardSectionRef}
         aria-label="Community Story Board Wall"
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-8"
       >
         
-        {/* Filter and Search Bar */}
         <div className="bg-white/80 backdrop-blur-md p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-[#EBD6A2] shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
           
-          {/* Left: Search input */}
           <div className="relative w-full md:w-80">
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#59616D]" />
             <input
@@ -430,7 +415,6 @@ export const YourThoughtsPage = () => {
             )}
           </div>
 
-          {/* Center: Color Filter Pills */}
           <div className="flex items-center gap-1.5 flex-wrap justify-center w-full md:w-auto">
             <button
               onClick={() => setSelectedColorFilter('ALL')}
@@ -465,7 +449,6 @@ export const YourThoughtsPage = () => {
             })}
           </div>
 
-          {/* Right: Refresh Button */}
           <button
             onClick={fetchThoughts}
             disabled={loading}
@@ -477,7 +460,6 @@ export const YourThoughtsPage = () => {
           </button>
         </div>
 
-        {/* Loading State */}
         {loading && (
           <div className="py-20 text-center space-y-3">
             <div className="w-10 h-10 border-3 border-[#F0441D] border-t-transparent rounded-full animate-spin mx-auto" />
@@ -487,7 +469,6 @@ export const YourThoughtsPage = () => {
           </div>
         )}
 
-        {/* Error State */}
         {!loading && error && (
           <div className="p-8 rounded-3xl bg-red-50 border border-red-200 text-center max-w-lg mx-auto space-y-3">
             <AlertCircle className="w-10 h-10 text-red-500 mx-auto" />
@@ -501,7 +482,6 @@ export const YourThoughtsPage = () => {
           </div>
         )}
 
-        {/* Empty State */}
         {!loading && !error && filteredThoughts.length === 0 && (
           <div className="py-16 px-4 text-center max-w-md mx-auto space-y-4 bg-white/70 rounded-3xl border border-[#EBD6A2] p-8 shadow-xs">
             <div className="w-16 h-16 rounded-2xl bg-[#FFE4E6] text-[#F0441D] flex items-center justify-center mx-auto shadow-inner">
@@ -544,9 +524,6 @@ export const YourThoughtsPage = () => {
           </div>
         )}
 
-        {/* ======================================================== */}
-        {/* STICKY NOTES PAGINATED GRID                               */}
-        {/* ======================================================== */}
         {!loading && !error && filteredThoughts.length > 0 && (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-7 pt-4">
@@ -562,13 +539,11 @@ export const YourThoughtsPage = () => {
                     key={thought._id}
                     className={`relative group ${theme.bg} ${theme.border} border-2 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-[0_10px_25px_-5px_rgba(7,22,45,0.06)] hover:shadow-[0_20px_35px_-5px_rgba(7,22,45,0.12)] transition-all duration-300 transform ${rotationClass} hover:scale-[1.02] hover:z-20 flex flex-col justify-between min-h-[220px]`}
                   >
-                    {/* Decorative Washi Tape strip at top */}
                     <div
                       className={`absolute -top-3 left-1/2 -translate-x-1/2 w-14 sm:w-16 h-4 sm:h-5 ${theme.tape} rounded-xs shadow-xs backdrop-blur-xs transform -rotate-1 border border-black/5 pointer-events-none`}
                       aria-hidden="true"
                     />
 
-                    {/* Top Bar inside note */}
                     <div className="flex items-center justify-between pt-1 pb-3 border-b border-black/5 text-[11px] font-bold opacity-75">
                       <span className="uppercase tracking-wider">
                         {theme.name}
@@ -578,7 +553,6 @@ export const YourThoughtsPage = () => {
                       </time>
                     </div>
 
-                    {/* Thought Content */}
                     <div className="py-3 flex-1">
                       <p
                         className={`text-sm sm:text-base leading-relaxed font-medium ${theme.text} whitespace-pre-line ${
@@ -599,7 +573,6 @@ export const YourThoughtsPage = () => {
                       )}
                     </div>
 
-                    {/* Note Footer: Anonymity badge */}
                     <div className="pt-3 border-t border-black/5 flex items-center justify-between text-[11px] font-bold opacity-70">
                       <span className="inline-flex items-center gap-1">
                         <Lock className="w-3 h-3" />
@@ -614,12 +587,8 @@ export const YourThoughtsPage = () => {
               })}
             </div>
 
-            {/* ======================================================== */}
-            {/* PAGINATION CONTROLS                                       */}
-            {/* ======================================================== */}
             {totalPages > 1 && (
               <div className="flex items-center justify-center gap-2 sm:gap-3 pt-6 pb-2">
-                {/* Left Arrow */}
                 <button
                   onClick={() => goToPage(currentPage - 1)}
                   disabled={currentPage === 1}
@@ -629,7 +598,6 @@ export const YourThoughtsPage = () => {
                   <ChevronLeft className="w-5 h-5" />
                 </button>
 
-                {/* Page Number Buttons */}
                 <div className="flex items-center gap-1.5">
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
                     // Show limited page numbers for clean UI
@@ -674,7 +642,6 @@ export const YourThoughtsPage = () => {
                   })}
                 </div>
 
-                {/* Right Arrow */}
                 <button
                   onClick={() => goToPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
@@ -686,7 +653,6 @@ export const YourThoughtsPage = () => {
               </div>
             )}
 
-            {/* Page Info Text */}
             {totalPages > 1 && (
               <p className="text-center text-xs font-semibold text-[#59616D]">
                 Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filteredThoughts.length)} of {filteredThoughts.length} stories
@@ -696,9 +662,6 @@ export const YourThoughtsPage = () => {
         )}
       </section>
 
-      {/* ======================================================== */}
-      {/* 3. "SHARE YOUR THOUGHTS" WRITING MODAL                   */}
-      {/* ======================================================== */}
       {isComposerOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
           <div
@@ -707,7 +670,6 @@ export const YourThoughtsPage = () => {
             aria-modal="true"
             aria-labelledby="composer-title"
           >
-            {/* Modal Header */}
             <div className="px-6 py-5 bg-[#FFF5E5] border-b border-[#EBD6A2] flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-2xl bg-[#F0441D] text-white flex items-center justify-center shadow-xs">
@@ -735,10 +697,8 @@ export const YourThoughtsPage = () => {
               </button>
             </div>
 
-            {/* Modal Body */}
             <div className="p-6 space-y-5">
               
-              {/* Success Notification after submission */}
               {submitSuccess ? (
                 <div className="py-8 text-center space-y-4 animate-in fade-in">
                   <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
@@ -764,7 +724,6 @@ export const YourThoughtsPage = () => {
               ) : (
                 <form onSubmit={handleSubmitThought} className="space-y-4">
                   
-                  {/* Anonymous Notice Banner */}
                   <div className="p-3.5 rounded-2xl bg-[#E0F2FE]/70 border border-[#BAE6FD] flex items-center gap-2.5 text-xs text-[#0369A1]">
                     <ShieldCheck className="w-4 h-4 shrink-0 text-[#0284C7]" />
                     <span>
@@ -772,7 +731,6 @@ export const YourThoughtsPage = () => {
                     </span>
                   </div>
 
-                  {/* Authentication Banner if guest */}
                   {!isUserAuthenticated && (
                     <div className="p-4 rounded-2xl bg-[#FEF9C3] border border-[#FDE047] space-y-2">
                       <div className="flex items-center gap-2 text-xs font-bold text-[#854D0E]">
@@ -785,7 +743,6 @@ export const YourThoughtsPage = () => {
                     </div>
                   )}
 
-                  {/* Sticky Note Color Picker */}
                   <div className="space-y-2">
                     <label className="text-xs font-bold uppercase tracking-wider text-[#59616D] block">
                       Choose Sticky Note Color:
@@ -809,7 +766,6 @@ export const YourThoughtsPage = () => {
                     </div>
                   </div>
 
-                  {/* Live Sticky Note Text Editor */}
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-xs">
                       <label htmlFor="thought-textarea" className="font-bold text-[#07162D]">
@@ -826,7 +782,6 @@ export const YourThoughtsPage = () => {
                       </span>
                     </div>
 
-                    {/* Paper styled textarea container */}
                     <div
                       className={`relative rounded-2xl border-2 p-4 transition-all ${
                         COLOR_THEMES[composerColor]?.bg || 'bg-[#FEF9C3]'
@@ -845,7 +800,6 @@ export const YourThoughtsPage = () => {
                     </div>
                   </div>
 
-                  {/* Quick Emoji Tray */}
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-[11px] font-bold text-[#59616D]">
                       <span className="flex items-center gap-1">
@@ -871,7 +825,6 @@ export const YourThoughtsPage = () => {
                     </div>
                   </div>
 
-                  {/* Error display */}
                   {composerError && (
                     <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs font-bold text-red-700 flex items-center gap-2">
                       <AlertCircle className="w-4 h-4 shrink-0" />
@@ -879,7 +832,6 @@ export const YourThoughtsPage = () => {
                     </div>
                   )}
 
-                  {/* Modal Action Buttons */}
                   <div className="pt-3 border-t border-[#EBD6A2] flex items-center justify-end gap-3">
                     <button
                       type="button"
@@ -929,9 +881,6 @@ export const YourThoughtsPage = () => {
         </div>
       )}
 
-      {/* ======================================================== */}
-      {/* 4. EXPANDED THOUGHT MODAL (READ MORE)                    */}
-      {/* ======================================================== */}
       {expandedThought && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
           <div
@@ -943,7 +892,6 @@ export const YourThoughtsPage = () => {
             role="dialog"
             aria-modal="true"
           >
-            {/* Top washi tape */}
             <div
               className={`absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-5 ${
                 COLOR_THEMES[expandedThought.color]?.tape || 'bg-[#FDE047]/80'

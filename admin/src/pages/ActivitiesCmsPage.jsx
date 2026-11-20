@@ -150,7 +150,6 @@ export const ActivitiesCmsPage = () => {
         </div>
       )}
 
-      {/* Form Card */}
       <div className="p-6 sm:p-7 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-4">
         <div className="flex items-center gap-2 border-b border-white/10 pb-3">
           <Plus className="w-5 h-5 text-[#00B4D8]" />
@@ -228,7 +227,6 @@ export const ActivitiesCmsPage = () => {
         </form>
       </div>
 
-      {/* Existing Activities Grid */}
       <div className="space-y-4">
         <h3 className="text-base font-black font-heading text-white">
           PUBLISHED ACTIVITIES ({activities.length})

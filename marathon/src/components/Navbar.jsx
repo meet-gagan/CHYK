@@ -69,7 +69,6 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-18 md:h-20 gap-3 sm:gap-4">
           
-          {/* LEFT CORNER: Official Logo & Brand */}
           <div className="flex items-center gap-3 shrink-0 h-full py-2">
             <LeftLogo />
             <div className="hidden xl:block border-l border-[var(--border-color)] pl-3">
@@ -82,7 +81,6 @@ export const Navbar = () => {
             </div>
           </div>
 
-          {/* CENTER: Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-2.5 xl:gap-4 2xl:gap-6 shrink-0">
             {navLinks.map((link) => (
               <Link
@@ -113,12 +111,9 @@ export const Navbar = () => {
             ))}
           </nav>
 
-          {/* RIGHT CORNER: Actions & User Dropdown */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             
-            {/* Desktop Actions */}
             <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
-              {/* Registration CTA */}
               <button
                 type="button"
                 onClick={handleRegisterClick}
@@ -128,7 +123,6 @@ export const Navbar = () => {
                 <span className="whitespace-nowrap">REGISTER NOW</span>
               </button>
 
-              {/* Logged in User Dropdown */}
               {isUserAuthenticated && normalUser ? (
                 <div className="flex items-center gap-2.5">
                   <div className="relative">
@@ -145,13 +139,11 @@ export const Navbar = () => {
 
                     {userDropdownOpen && (
                       <div className="absolute right-0 mt-2 w-60 py-2 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl shadow-2xl z-50 animate-in fade-in">
-                        {/* User Card */}
                         <div className="px-4 py-2.5 border-b border-[var(--border-color)]">
                           <p className="text-xs font-black text-[var(--text-primary)] truncate">{normalUser.fullName}</p>
                           <p className="text-[11px] text-[var(--text-muted)] font-mono">+91 {normalUser.phone}</p>
                         </div>
 
-                        {/* Dropdown Links */}
                         <div className="py-1">
                           <Link
                             to="/my-activity"
@@ -172,7 +164,6 @@ export const Navbar = () => {
                           </Link>
                         </div>
 
-                        {/* Logout */}
                         <div className="pt-1 border-t border-[var(--border-color)]">
                           <button
                             onClick={() => {
@@ -191,7 +182,6 @@ export const Navbar = () => {
                     )}
                   </div>
 
-                  {/* CHYK Logo */}
                   <div className="flex items-center pl-1 sm:pl-2 border-l border-[var(--border-color)]/60 shrink-0">
                     <Link
                       to="/"
@@ -209,7 +199,6 @@ export const Navbar = () => {
                   </div>
                 </div>
               ) : (
-                /* Unauthenticated state */
                 <div className="flex items-center gap-1.5 xl:gap-2.5">
                   <Link
                     to="/login"
@@ -227,7 +216,6 @@ export const Navbar = () => {
                     <span>Sign Up</span>
                   </Link>
 
-                  {/* CHYK Logo at right side of the signup button */}
                   <div className="flex items-center pl-1 sm:pl-2 border-l border-[var(--border-color)]/60 shrink-0">
                     <Link
                       to="/"
@@ -247,7 +235,6 @@ export const Navbar = () => {
               )}
             </div>
 
-            {/* Mobile Menu Toggle Button */}
             <div className="flex lg:hidden items-center gap-2">
               <Link
                 to="/"
@@ -274,11 +261,9 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-[var(--bg-secondary)] border-b border-[var(--border-color)] px-4 pt-3 pb-6 space-y-4 max-h-[85vh] overflow-y-auto shadow-2xl animate-in slide-in-from-top-2">
           
-          {/* User Status in Mobile */}
           {isUserAuthenticated && normalUser ? (
             <div className="p-3.5 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] flex items-center justify-between gap-3">
               <div className="flex items-center gap-2.5 truncate">
@@ -319,7 +304,6 @@ export const Navbar = () => {
             </div>
           )}
 
-          {/* Navigation Links */}
           <nav className="flex flex-col space-y-2 pt-2 border-t border-[var(--border-color)]">
             {navLinks.map((link) => (
               <Link
@@ -353,7 +337,6 @@ export const Navbar = () => {
             ))}
           </nav>
 
-          {/* Mobile Bottom CTAs */}
           <div className="pt-3 border-t border-[var(--border-color)] flex flex-col gap-2.5">
             <button
               type="button"

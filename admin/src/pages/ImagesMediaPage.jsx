@@ -36,7 +36,6 @@ export const ImagesMediaPage = () => {
   });
   const [feedback, setFeedback] = useState({ type: null, message: '' });
 
-  // Edit Modal State
   const [editingMedia, setEditingMedia] = useState(null);
   const [updatingMedia, setUpdatingMedia] = useState(false);
 
@@ -256,7 +255,6 @@ export const ImagesMediaPage = () => {
         </button>
       </div>
 
-      {/* Website Selection Switcher Tabs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <button
           type="button"
@@ -356,7 +354,6 @@ export const ImagesMediaPage = () => {
         </div>
       )}
 
-      {/* Upload Card */}
       <div className="p-6 sm:p-7 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-4">
         <div className="flex items-center justify-between border-b border-white/10 pb-3">
           <div className="flex items-center gap-2">
@@ -445,7 +442,6 @@ export const ImagesMediaPage = () => {
         </form>
       </div>
 
-      {/* Media Filter & Library */}
       <div className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
@@ -476,7 +472,6 @@ export const ImagesMediaPage = () => {
           </div>
         </div>
 
-        {/* Section Pills */}
         <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-white/10">
           <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#94A3B8] mr-1">
             Filter:
@@ -592,7 +587,6 @@ export const ImagesMediaPage = () => {
         )}
       </div>
 
-      {/* Edit Media Asset Modal */}
       {editingMedia && (
         <div
           className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in"
@@ -619,7 +613,6 @@ export const ImagesMediaPage = () => {
             </div>
 
             <form onSubmit={handleSaveEdit} className="space-y-4 text-xs">
-              {/* Image Preview & Replacement */}
               <div className="flex items-start gap-4 p-3 rounded-2xl bg-[#0B132B] border border-white/10">
                 <img
                   src={editingMedia.newFile ? URL.createObjectURL(editingMedia.newFile) : editingMedia.url}
@@ -647,7 +640,6 @@ export const ImagesMediaPage = () => {
                 </div>
               </div>
 
-              {/* Title & Category */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-bold text-white uppercase mb-1">
@@ -685,7 +677,6 @@ export const ImagesMediaPage = () => {
                 </div>
               </div>
 
-              {/* Subtitle / Event Date / Badge */}
               <div>
                 <label className="block font-bold text-white uppercase mb-1">
                   Subtitle / Badge / Timing (e.g. Every Day, Every Saturday, April 15th)
@@ -701,7 +692,6 @@ export const ImagesMediaPage = () => {
                 />
               </div>
 
-              {/* Full Description */}
               <div>
                 <label className="block font-bold text-white uppercase mb-1 flex items-center justify-between">
                   <span>Full Event Description (shown when clicked on main site) *</span>

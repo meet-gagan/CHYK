@@ -13,7 +13,6 @@ export const RegistrationDetailsModal = ({ registration, onClose, onEdit }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
       <div className="bg-[#1C2541] border border-white/10 rounded-3xl max-w-xl w-full p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl relative">
         
-        {/* Header */}
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div>
             <span className="text-[10px] font-black tracking-widest uppercase text-[#FF7B00] block">
@@ -31,7 +30,6 @@ export const RegistrationDetailsModal = ({ registration, onClose, onEdit }) => {
           </button>
         </div>
 
-        {/* Badge & Type */}
         <div className="flex flex-wrap items-center gap-2">
           <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${
             isIndividual
@@ -54,7 +52,6 @@ export const RegistrationDetailsModal = ({ registration, onClose, onEdit }) => {
           </span>
         </div>
 
-        {/* Details Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
           
           <div className="p-3.5 rounded-2xl bg-[#0B132B] border border-white/10">
@@ -120,7 +117,6 @@ export const RegistrationDetailsModal = ({ registration, onClose, onEdit }) => {
           </div>
         </div>
 
-        {/* Actions */}
         <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
           {onEdit && (
             <button

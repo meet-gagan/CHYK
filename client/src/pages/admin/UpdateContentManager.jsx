@@ -69,7 +69,6 @@ export const UpdateContentManager = () => {
   // Track expanded sections in editor
   const [expandedSections, setExpandedSections] = useState({});
 
-  // 1. Fetch Pages whenever a website is selected
   useEffect(() => {
     if (!selectedWebsite) {
       setPages([]);
@@ -105,7 +104,6 @@ export const UpdateContentManager = () => {
     }
   };
 
-  // 2. Fetch full page detail when selectedPageId changes
   useEffect(() => {
     if (!selectedPageId) {
       setActivePage(null);
@@ -617,7 +615,6 @@ export const UpdateContentManager = () => {
   return (
     <div className="space-y-6 animate-in fade-in pb-16">
       
-      {/* 1. TOP HEADER BANNER */}
       <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#0E1E38] via-[#142A4D] to-[#0E1E38] border border-cyan-500/20 text-white shadow-2xl relative overflow-hidden">
         <div className="absolute -top-12 -right-12 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -634,7 +631,6 @@ export const UpdateContentManager = () => {
             </p>
           </div>
 
-          {/* WEBSITE SELECTOR DROPDOWN */}
           <div className="min-w-[280px] sm:min-w-[340px] space-y-2">
             <label className="text-xs font-extrabold text-cyan-300 uppercase tracking-wider block">
               SELECT TARGET WEBSITE:
@@ -668,7 +664,6 @@ export const UpdateContentManager = () => {
         </div>
       </div>
 
-      {/* STATUS NOTIFICATION TOAST */}
       {statusMessage.text && (
         <div
           className={`p-4 rounded-2xl border text-xs sm:text-sm font-bold flex items-center justify-between gap-3 shadow-lg animate-in slide-in-from-top-2 ${
@@ -698,7 +693,6 @@ export const UpdateContentManager = () => {
         </div>
       )}
 
-      {/* 2. INITIAL PLACEHOLDER (NO WEBSITE SELECTED) */}
       {!selectedWebsite ? (
         <div className="p-8 sm:p-14 rounded-3xl bg-[var(--bg-secondary)] border-2 border-dashed border-[var(--border-color)] text-center space-y-8 shadow-xl">
           <div className="max-w-md mx-auto space-y-3">
@@ -742,10 +736,8 @@ export const UpdateContentManager = () => {
           </div>
         </div>
       ) : (
-        /* 3. MAIN WORKSPACE: SIDEBAR + CONTENT EDITOR */
         <div className="space-y-6">
           
-          {/* ACTIVE WEBSITE CONTEXT BAR */}
           <div className="p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
@@ -780,7 +772,6 @@ export const UpdateContentManager = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             
-            {/* LEFT COLUMN: PAGE NAVIGATION LIST (Cols 4 of 12) */}
             <div className="lg:col-span-4 space-y-4">
               <div className="p-5 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] space-y-4 shadow-xl">
                 
@@ -796,7 +787,6 @@ export const UpdateContentManager = () => {
                   </span>
                 </div>
 
-                {/* Page Search Box */}
                 <div className="relative">
                   <Search className="w-4 h-4 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
@@ -808,7 +798,6 @@ export const UpdateContentManager = () => {
                   />
                 </div>
 
-                {/* Add Page Button */}
                 <button
                   onClick={() => setIsAddPageModalOpen(true)}
                   className="w-full py-2.5 px-3 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-400 border border-cyan-500/30 text-xs font-extrabold flex items-center justify-center gap-2 transition-all cursor-pointer"
@@ -817,7 +806,6 @@ export const UpdateContentManager = () => {
                   <span>Add New Page</span>
                 </button>
 
-                {/* Page List */}
                 <div className="space-y-1.5 max-h-[560px] overflow-y-auto pr-1">
                   {loadingPages ? (
                     <div className="py-8 text-center text-xs font-bold text-[var(--text-muted)]">
@@ -880,7 +868,6 @@ export const UpdateContentManager = () => {
               </div>
             </div>
 
-            {/* RIGHT COLUMN: ACTIVE PAGE EDITOR (Cols 8 of 12) */}
             <div className="lg:col-span-8 space-y-6">
               {loadingPageDetail ? (
                 <div className="p-16 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-center text-xs font-bold text-[var(--text-muted)]">
@@ -893,7 +880,6 @@ export const UpdateContentManager = () => {
               ) : (
                 <div className="space-y-6">
                   
-                  {/* Page Title & Action Bar */}
                   <div className="p-6 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] space-y-4 shadow-xl">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4">
                       <div>
@@ -911,7 +897,6 @@ export const UpdateContentManager = () => {
                       </div>
 
                       <div className="flex items-center gap-2 flex-wrap">
-                        {/* Live page preview link */}
                         <a
                           href={`${currentWebsiteObj?.url}${activePage.route === '*' ? '' : activePage.route}`}
                           target="_blank"
@@ -922,7 +907,6 @@ export const UpdateContentManager = () => {
                           <span>View Live</span>
                         </a>
 
-                        {/* Discard Changes */}
                         {hasUnsavedChanges && (
                           <button
                             onClick={handleDiscardChanges}
@@ -933,7 +917,6 @@ export const UpdateContentManager = () => {
                           </button>
                         )}
 
-                        {/* Save Button */}
                         <button
                           onClick={handleSavePage}
                           disabled={saving}
@@ -952,7 +935,6 @@ export const UpdateContentManager = () => {
                           )}
                         </button>
 
-                        {/* Delete Page button for custom pages */}
                         {!activePage.isSystemPage && (
                           <button
                             onClick={handleDeletePage}
@@ -965,7 +947,6 @@ export const UpdateContentManager = () => {
                       </div>
                     </div>
 
-                    {/* Basic Meta Settings */}
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
                       <div className="space-y-1">
                         <label className="text-[10px] font-extrabold text-[var(--text-muted)] uppercase tracking-wider">
@@ -1010,7 +991,6 @@ export const UpdateContentManager = () => {
                     </div>
                   </div>
 
-                  {/* SECTIONS ACCORDION LIST */}
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <h3 className="text-xs font-black uppercase tracking-wider text-[var(--text-muted)]">
@@ -1045,7 +1025,6 @@ export const UpdateContentManager = () => {
                           key={section.sectionId || sIdx}
                           className="rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] overflow-hidden shadow-lg transition-all"
                         >
-                          {/* Section Header Accordion Bar */}
                           <div
                             onClick={() => toggleSectionExpand(section.sectionId)}
                             className="p-4 sm:p-5 flex items-center justify-between gap-4 cursor-pointer hover:bg-[var(--bg-tertiary)] transition-colors select-none"
@@ -1079,11 +1058,9 @@ export const UpdateContentManager = () => {
                             </div>
                           </div>
 
-                          {/* Section Body */}
                           {isExpanded && (
                             <div className="p-5 sm:p-6 border-t border-[var(--border-color)] bg-[var(--bg-primary)]/50 space-y-6">
                               
-                              {/* 1. Standard Fields */}
                               {section.fields && section.fields.length > 0 && (
                                 <div className="space-y-4">
                                   <h5 className="text-[11px] font-extrabold uppercase tracking-wider text-cyan-400">
@@ -1108,7 +1085,6 @@ export const UpdateContentManager = () => {
                                             </span>
                                           </div>
 
-                                          {/* TEXTAREA FIELD */}
                                           {field.type === 'textarea' || field.type === 'richtext' ? (
                                             <textarea
                                               rows={4}
@@ -1118,7 +1094,6 @@ export const UpdateContentManager = () => {
                                               className="w-full p-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] leading-relaxed focus:outline-hidden focus:border-cyan-400"
                                             />
                                           ) : field.type === 'image' ? (
-                                            /* IMAGE FIELD WITH INSTANT PREVIEW & UPLOADER */
                                             <div className="space-y-2">
                                               <div className="flex gap-2">
                                                 <input
@@ -1153,7 +1128,6 @@ export const UpdateContentManager = () => {
                                                 )}
                                               </div>
 
-                                              {/* Image Preview Thumbnail */}
                                               {field.value && (
                                                 <div className="relative inline-block rounded-xl overflow-hidden border border-[var(--border-color)] bg-slate-900/40 p-1">
                                                   <img
@@ -1168,7 +1142,6 @@ export const UpdateContentManager = () => {
                                               )}
                                             </div>
                                           ) : (
-                                            /* STANDARD TEXT / LINK FIELD */
                                             <input
                                               type={field.type === 'number' ? 'number' : 'text'}
                                               value={field.value || ''}
@@ -1184,7 +1157,6 @@ export const UpdateContentManager = () => {
                                 </div>
                               )}
 
-                              {/* 2. Repeated Items Manager (FAQs, Cards, Milestones, Festivals, etc.) */}
                               {section.items && (
                                 <div className="space-y-4 pt-4 border-t border-[var(--border-color)]">
                                   <div className="flex items-center justify-between">
@@ -1222,7 +1194,6 @@ export const UpdateContentManager = () => {
                                           </div>
 
                                           <div className="flex items-center gap-1">
-                                            {/* Reorder Up */}
                                             <button
                                               onClick={() => handleReorderItem(sIdx, itIdx, 'up')}
                                               disabled={itIdx === 0}
@@ -1231,7 +1202,6 @@ export const UpdateContentManager = () => {
                                             >
                                               <ArrowUp className="w-3.5 h-3.5" />
                                             </button>
-                                            {/* Reorder Down */}
                                             <button
                                               onClick={() => handleReorderItem(sIdx, itIdx, 'down')}
                                               disabled={itIdx === section.items.length - 1}
@@ -1240,7 +1210,6 @@ export const UpdateContentManager = () => {
                                             >
                                               <ArrowDown className="w-3.5 h-3.5" />
                                             </button>
-                                            {/* Delete Item */}
                                             <button
                                               onClick={() => handleDeleteRepeatedItem(sIdx, itIdx)}
                                               className="p-1 rounded-lg hover:bg-rose-500/20 text-rose-400 cursor-pointer ml-1"
@@ -1251,7 +1220,6 @@ export const UpdateContentManager = () => {
                                           </div>
                                         </div>
 
-                                        {/* Item Fields */}
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                                           <div className="space-y-1">
                                             <label className="text-[10px] font-bold text-[var(--text-muted)]">
@@ -1292,7 +1260,6 @@ export const UpdateContentManager = () => {
                                             />
                                           </div>
 
-                                          {/* Optional Image for Card */}
                                           <div className="sm:col-span-2 space-y-1">
                                             <label className="text-[10px] font-bold text-[var(--text-muted)]">
                                               Card Image URL:
@@ -1331,7 +1298,6 @@ export const UpdateContentManager = () => {
                     })}
                   </div>
 
-                  {/* BOTTOM SAVE STICKY BAR */}
                   <div className="sticky bottom-4 z-20 p-4 rounded-2xl bg-slate-900/95 backdrop-blur-md border border-cyan-500/30 shadow-2xl flex items-center justify-between gap-4 text-white">
                     <div className="flex items-center gap-2">
                       {hasUnsavedChanges ? (
@@ -1388,7 +1354,6 @@ export const UpdateContentManager = () => {
         </div>
       )}
 
-      {/* CREATE NEW DYNAMIC PAGE MODAL */}
       {isAddPageModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl animate-in zoom-in-95">

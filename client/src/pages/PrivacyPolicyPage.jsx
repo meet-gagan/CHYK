@@ -138,7 +138,6 @@ export const PrivacyPolicyPage = () => {
   return (
     <div className="min-h-screen bg-[var(--bg-primary,#FFFDF9)] py-8 sm:py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        {/* Navigation & Header */}
         <div className="space-y-4">
           <div className="flex items-center justify-between gap-4">
             <Link
@@ -179,7 +178,6 @@ export const PrivacyPolicyPage = () => {
           </div>
         </div>
 
-        {/* Search Filter */}
         <div className="relative max-w-md mx-auto">
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
@@ -191,7 +189,6 @@ export const PrivacyPolicyPage = () => {
           />
         </div>
 
-        {/* Policy Sections List */}
         <div className="space-y-4">
           {filteredSections.length > 0 ? (
             filteredSections.map((item, idx) => (
@@ -223,7 +220,6 @@ export const PrivacyPolicyPage = () => {
           )}
         </div>
 
-        {/* Trust & Transparency Footer Note */}
         <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-500/5 to-cyan-500/5 border border-emerald-500/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="space-y-1">
             <div className="flex items-center justify-center sm:justify-start gap-2 text-emerald-600 font-extrabold text-xs">

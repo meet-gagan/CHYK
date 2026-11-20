@@ -212,12 +212,10 @@ export const Navbar = () => {
     <header className="fixed top-0 left-0 right-0 z-50 w-full bg-[var(--glass-bg,#FFFFFF)]/95 backdrop-blur-md border-b border-[var(--glass-border,rgba(11,35,64,0.1))] shadow-sm transition-colors duration-200">
       <div className="w-full px-4 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-16 sm:h-18 md:h-20 gap-3 sm:gap-4">
-          {/* LEFT CORNER: Official Chinmaya Mission Emblem */}
           <div className="flex items-center shrink-0 h-full py-2">
             <LeftLogo />
           </div>
 
-          {/* CENTER: Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-2.5 xl:gap-5 2xl:gap-6">
             {navItems.map((item) => {
               if (item.id === 'about') {
@@ -248,7 +246,6 @@ export const Navbar = () => {
                       />
                     </button>
 
-                    {/* Desktop About Dropdown Menu Panel */}
                     {desktopAboutOpen && (
                       <div
                         className="absolute top-full left-0 mt-2 min-w-[220px] sm:min-w-[240px] bg-white rounded-xl shadow-xl border border-[var(--border-color,#EBD6A2)]/70 py-2 z-50 animate-in fade-in-50 zoom-in-95 duration-150 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3"
@@ -310,7 +307,6 @@ export const Navbar = () => {
                       />
                     </button>
 
-                    {/* Desktop Dropdown Menu Panel */}
                     {desktopTemplesOpen && (
                       <div
                         className="absolute top-full left-0 mt-2 min-w-[280px] sm:min-w-[310px] bg-white rounded-xl shadow-xl border border-[var(--border-color,#EBD6A2)]/70 py-2 z-50 animate-in fade-in-50 zoom-in-95 duration-150 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3"
@@ -358,7 +354,6 @@ export const Navbar = () => {
             })}
           </nav>
 
-          {/* RIGHT CORNER: Authentication Controls & Mobile Hamburger */}
           <div className="flex items-center gap-2 sm:gap-3">
             {!isUserAuthenticated ? (
               <div className="hidden lg:flex items-center gap-2">
@@ -462,7 +457,6 @@ export const Navbar = () => {
               </div>
             )}
 
-            {/* Mobile Menu Toggle Button */}
             <div className="flex lg:hidden items-center">
               <button
                 onClick={() => {
@@ -486,10 +480,8 @@ export const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-[var(--bg-secondary)] border-b border-[var(--border-color)] px-4 pt-3 pb-6 space-y-4 max-h-[85vh] overflow-y-auto shadow-2xl animate-in slide-in-from-top-2">
-          {/* Navigation Links */}
           <nav className="flex flex-col space-y-2">
             {navItems.map((item) => {
               if (item.id === 'about') {
@@ -608,7 +600,6 @@ export const Navbar = () => {
             })}
           </nav>
 
-          {/* Mobile Auth Drawer Section */}
           <div className="pt-3 border-t border-[var(--border-color)]">
             {!isUserAuthenticated ? (
               <div className="grid grid-cols-2 gap-2">
@@ -690,5 +681,4 @@ export const Navbar = () => {
     </header>
   );
 };
-
 

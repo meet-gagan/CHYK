@@ -569,7 +569,6 @@ export const UpdateContentPage = () => {
   return (
     <div className="space-y-6 animate-in fade-in pb-16">
       
-      {/* Header Banner */}
       <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#1C2541] via-[#243054] to-[#1C2541] border border-cyan-500/20 text-white shadow-2xl relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
@@ -585,7 +584,6 @@ export const UpdateContentPage = () => {
             </p>
           </div>
 
-          {/* Website Selection Dropdown */}
           <div className="min-w-[280px] sm:min-w-[340px] space-y-2">
             <label className="text-xs font-extrabold text-cyan-300 uppercase tracking-wider block">
               SELECT TARGET WEBSITE:
@@ -633,7 +631,6 @@ export const UpdateContentPage = () => {
         </div>
       )}
 
-      {/* Placeholder when no website selected */}
       {!selectedWebsite ? (
         <div className="p-8 sm:p-14 rounded-3xl bg-[#1C2541]/50 border-2 border-dashed border-white/10 text-center space-y-8 shadow-xl">
           <div className="max-w-md mx-auto space-y-3">
@@ -668,7 +665,6 @@ export const UpdateContentPage = () => {
           </div>
         </div>
       ) : (
-        /* Workspace */
         <div className="space-y-6">
           <div className="p-4 rounded-2xl bg-[#1C2541] border border-white/10 flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-3">
@@ -701,7 +697,6 @@ export const UpdateContentPage = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            {/* Sidebar Pages */}
             <div className="lg:col-span-4 space-y-4">
               <div className="p-5 rounded-3xl bg-[#1C2541] border border-white/10 space-y-4 shadow-xl">
                 <div className="flex items-center justify-between gap-2">
@@ -776,7 +771,6 @@ export const UpdateContentPage = () => {
               </div>
             </div>
 
-            {/* Page Editor */}
             <div className="lg:col-span-8 space-y-6">
               {!activePage ? (
                 <div className="p-16 rounded-3xl bg-[#1C2541] text-center text-xs font-bold text-slate-400">
@@ -784,7 +778,6 @@ export const UpdateContentPage = () => {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {/* Top bar */}
                   <div className="p-6 rounded-3xl bg-[#1C2541] border border-white/10 space-y-4 shadow-xl">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                       <div>
@@ -861,7 +854,6 @@ export const UpdateContentPage = () => {
                     </div>
                   </div>
 
-                  {/* Sections */}
                   <div className="space-y-4">
                     {(activePage.sections || []).map((section, sIdx) => {
                       if (section.sectionId === 'scrolling_announcement') {
@@ -904,7 +896,6 @@ export const UpdateContentPage = () => {
 
                           {isExpanded && (
                             <div className="p-5 sm:p-6 border-t border-white/10 bg-[#0B132B]/60 space-y-6">
-                              {/* Fields */}
                               {section.fields && section.fields.length > 0 && (
                                 <div className="space-y-4">
                                   <h5 className="text-[11px] font-extrabold uppercase text-cyan-400">Content Fields</h5>
@@ -960,7 +951,6 @@ export const UpdateContentPage = () => {
                                 </div>
                               )}
 
-                              {/* Items */}
                               {section.items && (
                                 <div className="space-y-4 pt-4 border-t border-white/10">
                                   <div className="flex items-center justify-between">
@@ -1038,7 +1028,6 @@ export const UpdateContentPage = () => {
         </div>
       )}
 
-      {/* Add Page Modal */}
       {isAddPageModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/75 flex items-center justify-center p-4">
           <div className="bg-[#1C2541] border border-white/10 rounded-3xl max-w-md w-full p-6 space-y-4 text-white">

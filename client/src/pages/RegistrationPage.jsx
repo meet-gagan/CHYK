@@ -129,7 +129,6 @@ export const RegistrationPage = () => {
     }
   }, [user]);
 
-
   const isPastDeadline = eventConfig?.registrationEndDate
     ? new Date() > new Date(eventConfig.registrationEndDate)
     : false;
@@ -370,7 +369,6 @@ export const RegistrationPage = () => {
   return (
     <div className="min-h-screen pt-2 sm:pt-4 pb-14 px-4 max-w-5xl mx-auto space-y-8 sm:space-y-10">
       
-      {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-2.5">
         <div className="flex flex-wrap items-center justify-center gap-2">
           <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full font-extrabold text-xs tracking-widest uppercase bg-[var(--orange)]/15 text-[var(--orange)] border border-[var(--orange)]/30">
@@ -392,7 +390,6 @@ export const RegistrationPage = () => {
           )}
         </p>
 
-        {/* Authenticated Member Session Banner */}
         <div className="p-4 rounded-3xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center font-black text-sm">
@@ -412,8 +409,6 @@ export const RegistrationPage = () => {
         </div>
       </div>
 
-
-      {/* Registration Mode Tab Toggle */}
       <div className="flex items-center justify-center p-1.5 rounded-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] max-w-md mx-auto">
         <button
           onClick={() => setTab('INDIVIDUAL')}
@@ -440,7 +435,6 @@ export const RegistrationPage = () => {
         </button>
       </div>
 
-      {/* TAB 1: INDIVIDUAL REGISTRATION FORM */}
       {tab === 'INDIVIDUAL' && (
         <div className="glass-card p-8 sm:p-10 rounded-3xl border border-[var(--border-color)] shadow-2xl relative overflow-hidden">
           
@@ -457,7 +451,6 @@ export const RegistrationPage = () => {
 
           <form onSubmit={handleIndividualSubmit} className="space-y-6">
             
-            {/* Full Name */}
             <div>
               <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
                 Full Name (For Certificate) *
@@ -479,7 +472,6 @@ export const RegistrationPage = () => {
               {indErrors.fullName && <p className="text-xs text-red-500 font-bold mt-1">{indErrors.fullName}</p>}
             </div>
 
-            {/* Date of Birth & Profession / Occupation */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <div className="flex items-center justify-between mb-1">
@@ -531,7 +523,6 @@ export const RegistrationPage = () => {
               </div>
             </div>
 
-            {/* Student Toggle */}
             <div>
               <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
                 Are you a Student? *
@@ -565,7 +556,6 @@ export const RegistrationPage = () => {
               </div>
             </div>
 
-            {/* Student Specific Fields (Standard/Class & School/College Dropdown) */}
             {indForm.isStudent && (
               <div className="space-y-4 animate-in fade-in">
                 <div>
@@ -617,7 +607,6 @@ export const RegistrationPage = () => {
               </div>
             )}
 
-            {/* Contact Number */}
             <div>
               <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
                 Contact Mobile Number *
@@ -643,7 +632,6 @@ export const RegistrationPage = () => {
               {indErrors.contactNumber && <p className="text-xs text-red-500 font-bold mt-1">{indErrors.contactNumber}</p>}
             </div>
 
-            {/* Terms & Conditions Checkbox */}
             <div
               id="terms-checkbox-section"
               className={`pt-2 p-3 rounded-2xl transition-all duration-300 ${
@@ -688,7 +676,6 @@ export const RegistrationPage = () => {
               )}
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={!isRegistrationOpen || indSubmitting}
@@ -702,7 +689,6 @@ export const RegistrationPage = () => {
         </div>
       )}
 
-      {/* TAB 2: SCHOOL & COLLEGE BULK REGISTRATION */}
       {tab === 'BULK' && (
         <div className="glass-card p-8 sm:p-10 rounded-3xl border border-[var(--border-color)] shadow-2xl space-y-8">
           
@@ -741,7 +727,6 @@ export const RegistrationPage = () => {
 
           <form onSubmit={handleBulkSubmit} className="space-y-6">
             
-            {/* Institution Contact Information */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
@@ -824,7 +809,6 @@ export const RegistrationPage = () => {
               </div>
             )}
 
-            {/* Drag & Drop File Upload Box & Attached File Display */}
             {bulkFile ? (
               <div className="p-6 rounded-3xl bg-[var(--bg-primary)] border-2 border-[var(--cyan)] shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
@@ -894,11 +878,9 @@ export const RegistrationPage = () => {
               </p>
             )}
 
-            {/* Validation & Preview Summary Table */}
             {parsedData && (
               <div className="space-y-4 pt-4 border-t border-[var(--border-color)] animate-in fade-in">
                 
-                {/* Stats Summary Pills */}
                 <div className="grid grid-cols-3 gap-3 text-center">
                   <div className="p-3 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)]">
                     <span className="text-xs font-bold text-[var(--text-muted)] block">TOTAL ROWS</span>
@@ -914,7 +896,6 @@ export const RegistrationPage = () => {
                   </div>
                 </div>
 
-                {/* Rows Table */}
                 <div className="overflow-x-auto rounded-2xl border border-[var(--border-color)] max-h-64 overflow-y-auto">
                   <table className="w-full text-left text-xs">
                     <thead className="bg-[var(--bg-tertiary)] text-[var(--text-primary)] font-extrabold uppercase sticky top-0">
@@ -953,7 +934,6 @@ export const RegistrationPage = () => {
               </div>
             )}
 
-            {/* Always Visible Submit Button for School / College Bulk Form */}
             <button
               type="submit"
               disabled={bulkSubmitting || !isRegistrationOpen}
@@ -974,12 +954,10 @@ export const RegistrationPage = () => {
         </div>
       )}
 
-      {/* 3.5KM Marathon Interactive Route Map */}
       <div className="pt-10 border-t border-[var(--border-color)]">
         <MarathonRouteMap />
       </div>
 
-      {/* Official Entry Pass Confirmation Modal */}
       {receiptData && (
         <EntryPassModal
           data={receiptData}

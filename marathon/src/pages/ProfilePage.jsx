@@ -156,7 +156,6 @@ export const ProfilePage = () => {
 
   return (
     <div className="min-h-[85vh] py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-8">
-      {/* Top Breadcrumb & Actions */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs font-extrabold uppercase tracking-widest text-[var(--orange)]">
@@ -186,7 +185,6 @@ export const ProfilePage = () => {
         </div>
       </div>
 
-      {/* Profile Success Alert */}
       {profileSuccess && (
         <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3 text-emerald-500 font-semibold text-sm animate-in fade-in">
           <CheckCircle className="w-5 h-5 shrink-0" />
@@ -194,7 +192,6 @@ export const ProfilePage = () => {
         </div>
       )}
 
-      {/* Profile Error Alert */}
       {profileError && (
         <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center gap-3 text-red-500 font-semibold text-sm animate-in fade-in">
           <AlertCircle className="w-5 h-5 shrink-0" />
@@ -202,9 +199,7 @@ export const ProfilePage = () => {
         </div>
       )}
 
-      {/* Main Profile Card */}
       <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[32px] p-6 sm:p-10 shadow-xl relative overflow-hidden backdrop-blur-md">
-        {/* Glow */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--orange)]/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-[var(--border-color)]">
@@ -257,11 +252,9 @@ export const ProfilePage = () => {
           )}
         </div>
 
-        {/* Details Form / View */}
         <div className="pt-8">
           {!isEditing ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {/* Full Name */}
               <div className="p-4 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] space-y-1">
                 <span className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-1.5">
                   <User className="w-3.5 h-3.5 text-[var(--orange)]" />
@@ -270,7 +263,6 @@ export const ProfilePage = () => {
                 <p className="text-sm font-black text-[var(--text-primary)]">{user?.fullName || '—'}</p>
               </div>
 
-              {/* Date of Birth / Age */}
               <div className="p-4 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] space-y-1">
                 <span className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-1.5">
                   <Calendar className="w-3.5 h-3.5 text-[var(--orange)]" />
@@ -283,7 +275,6 @@ export const ProfilePage = () => {
                 </p>
               </div>
 
-              {/* Profession */}
               <div className="p-4 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] space-y-1">
                 <span className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-1.5">
                   <Briefcase className="w-3.5 h-3.5 text-[var(--orange)]" />
@@ -292,7 +283,6 @@ export const ProfilePage = () => {
                 <p className="text-sm font-black text-[var(--text-primary)]">{user?.profession || 'Not specified'}</p>
               </div>
 
-              {/* Phone Number */}
               <div className="p-4 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] space-y-1">
                 <span className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-1.5">
                   <Phone className="w-3.5 h-3.5 text-[var(--orange)]" />
@@ -301,7 +291,6 @@ export const ProfilePage = () => {
                 <p className="text-sm font-black text-[var(--text-primary)]">+91 {user?.phone || '—'}</p>
               </div>
 
-              {/* Email */}
               <div className="p-4 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] space-y-1">
                 <span className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-[var(--cyan)]" />
@@ -313,7 +302,6 @@ export const ProfilePage = () => {
                 </p>
               </div>
 
-              {/* Account Security */}
               <div className="p-4 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] space-y-1">
                 <span className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-1.5">
                   <Shield className="w-3.5 h-3.5 text-emerald-500" />
@@ -325,7 +313,6 @@ export const ProfilePage = () => {
           ) : (
             <form onSubmit={handleProfileSubmit} className="space-y-6 max-w-2xl">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {/* Full Name */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                     Full Name
@@ -339,7 +326,6 @@ export const ProfilePage = () => {
                   />
                 </div>
 
-                {/* Date of Birth (DOB) */}
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
                     <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
@@ -368,7 +354,6 @@ export const ProfilePage = () => {
                   />
                 </div>
 
-                {/* Profession */}
                 <div className="sm:col-span-2 space-y-1.5">
                   <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                     Profession / Occupation
@@ -412,7 +397,6 @@ export const ProfilePage = () => {
         </div>
       </div>
 
-      {/* Change Password Modal */}
       {showPasswordModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in">
           <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[32px] max-w-md w-full p-6 sm:p-8 shadow-2xl relative space-y-6">

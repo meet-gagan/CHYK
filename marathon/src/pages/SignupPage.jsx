@@ -137,11 +137,9 @@ export const SignupPage = () => {
   return (
     <div className="min-h-[85vh] flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent via-[var(--bg-secondary)]/40 to-transparent">
       <div className="w-full max-w-lg space-y-8 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[32px] p-6 sm:p-10 shadow-2xl relative overflow-hidden backdrop-blur-md">
-        {/* Glow accent */}
         <div className="absolute -top-24 -right-24 w-48 h-48 bg-[var(--orange)]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-[var(--cyan)]/10 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Header */}
         <div className="text-center space-y-2 relative z-10">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--orange)]/15 border border-[var(--orange)]/30 text-[var(--orange)] mb-2 shadow-inner">
             <UserPlus className="w-7 h-7" />
@@ -154,7 +152,6 @@ export const SignupPage = () => {
           </p>
         </div>
 
-        {/* Notice for protected action redirect */}
         {redirectUrl && redirectUrl !== '/my-activity' && redirectUrl !== '/' && (
           <div className="p-3.5 rounded-2xl bg-[var(--orange)]/10 border border-[var(--orange)]/25 flex items-start gap-3">
             <Sparkles className="w-5 h-5 text-[var(--orange)] shrink-0 mt-0.5" />
@@ -164,7 +161,6 @@ export const SignupPage = () => {
           </div>
         )}
 
-        {/* Server Error Alert */}
         {serverError && (
           <div className="p-3.5 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-start gap-3 text-red-500 animate-in fade-in">
             <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
@@ -172,9 +168,7 @@ export const SignupPage = () => {
           </div>
         )}
 
-        {/* Signup Form */}
         <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
-          {/* 1. Full Name */}
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
               Full Name <span className="text-red-500">*</span>
@@ -198,9 +192,7 @@ export const SignupPage = () => {
             {errors.fullName && <p className="text-[11px] font-semibold text-red-500 pl-1">{errors.fullName}</p>}
           </div>
 
-          {/* 2. Age & Profession Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Date of Birth (DOB) */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
@@ -231,7 +223,6 @@ export const SignupPage = () => {
               {errors.dob && <p className="text-[11px] font-semibold text-red-500 pl-1">{errors.dob}</p>}
             </div>
 
-            {/* Profession */}
             <div className="space-y-1.5">
               <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Profession <span className="text-red-500">*</span>
@@ -256,7 +247,6 @@ export const SignupPage = () => {
             </div>
           </div>
 
-          {/* 3. Phone Number */}
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
               Phone Number <span className="text-red-500">*</span>
@@ -282,9 +272,7 @@ export const SignupPage = () => {
             {errors.phone && <p className="text-[11px] font-semibold text-red-500 pl-1">{errors.phone}</p>}
           </div>
 
-          {/* 4. Password & Confirm Password */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Password */}
             <div className="space-y-1.5">
               <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Password <span className="text-red-500">*</span>
@@ -315,7 +303,6 @@ export const SignupPage = () => {
               {errors.password && <p className="text-[11px] font-semibold text-red-500 pl-1">{errors.password}</p>}
             </div>
 
-            {/* Confirm Password */}
             <div className="space-y-1.5">
               <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Confirm Password <span className="text-red-500">*</span>
@@ -349,7 +336,6 @@ export const SignupPage = () => {
             </div>
           </div>
 
-          {/* Submit CTA */}
           <button
             type="submit"
             disabled={submitting}
@@ -369,7 +355,6 @@ export const SignupPage = () => {
           </button>
         </form>
 
-        {/* Footer / Switch to Login */}
         <div className="text-center pt-4 border-t border-[var(--border-color)] relative z-10 space-y-3">
           <p className="text-xs text-[var(--text-muted)] font-medium">
             Already have an account?{' '}

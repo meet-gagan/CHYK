@@ -4,7 +4,6 @@ import { authService, AUTH_KEYS, getAdminToken, getUserToken } from '../services
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  // 1. Admin Session State (Dedicated to /admin panel)
   const [adminUser, setAdminUser] = useState(() => {
     try {
       const saved = localStorage.getItem(AUTH_KEYS.ADMIN_USER);
@@ -19,7 +18,6 @@ export const AuthProvider = ({ children }) => {
 
   const [adminToken, setAdminToken] = useState(() => getAdminToken());
 
-  // 2. User Session State (Dedicated to public website & user panel)
   const [normalUser, setNormalUser] = useState(() => {
     try {
       const saved =

@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 import { galleryService } from '../services/api';
 import './GalleryPage.css';
 
-// Comprehensive Registry of Temple & Mission Sacred Images (Preserved for backward compatibility)
 export const GALLERY_IMAGES = [
-  // 1. Temple Lingams & Shrines
   {
     id: 'hero-lingam',
     src: '/assets/hero-lingam-new.jpeg',
@@ -47,7 +45,6 @@ export const GALLERY_IMAGES = [
     tag: '',
   },
 
-  // 2. Sacred Deities (Pancha Lingas & Goddess)
   {
     id: 'bhogalingeswara',
     src: '/assets/gallery/Bhogalingeswara_Shiva.jpeg',
@@ -105,7 +102,6 @@ export const GALLERY_IMAGES = [
     tag: '',
   },
 
-  // 3. Grand Festivals & Celebrations
   {
     id: 'maha-shivaratri-2027',
     src: '/assets/Maha_Shivaratri_upcome_2027.jpeg',
@@ -258,7 +254,6 @@ export const GalleryPage = () => {
   return (
     <div className="gallery-page-container">
       <div className="gallery-content-wrap">
-        {/* Sub-navigation bar */}
         <div className="gallery-subnav">
           <div className="gallery-subnav-left">
             <span className="gallery-subnav-om">ॐ</span>
@@ -266,7 +261,6 @@ export const GalleryPage = () => {
           </div>
         </div>
 
-        {/* Hero Section */}
         <section className="gallery-hero">
           <h1 className="gallery-hero-title">Sacred Image & Video Collections</h1>
           <p className="gallery-hero-subtitle">
@@ -275,11 +269,9 @@ export const GalleryPage = () => {
         </section>
       </div>
 
-      {/* Controls Bar: Search */}
       <div className="gallery-controls-bar">
         <div className="gallery-content-wrap">
           <div className="gallery-controls-flex">
-            {/* Search Input */}
             <div className="gallery-search-box">
               <span className="gallery-search-icon">🔍</span>
               <input
@@ -307,7 +299,6 @@ export const GalleryPage = () => {
         </div>
       </div>
 
-      {/* Grid of Folder Collection Cards */}
       <div className="gallery-content-wrap">
         {loading ? (
           <div className="text-center py-24 text-[var(--ivory-dim)] font-serif text-lg">
@@ -342,7 +333,6 @@ export const GalleryPage = () => {
                   to={`/gallery/${folder.slug}`}
                   className="gallery-collection-card group"
                 >
-                  {/* Cover Image & Count Badge */}
                   <div className="gallery-collection-cover-wrap">
                     {coverImg ? (
                       <img
@@ -366,7 +356,6 @@ export const GalleryPage = () => {
                     </div>
                   </div>
 
-                  {/* Body Info */}
                   <div className="gallery-collection-body">
                     <h2 className="gallery-collection-title group-hover:text-[var(--gold)] transition-colors">
                       {folder.name}

@@ -264,11 +264,9 @@ export const RegistrationAuthModal = ({
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-md my-8 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[28px] sm:rounded-[32px] p-5 sm:p-7 shadow-2xl overflow-hidden cursor-default"
       >
-        {/* Glow accent */}
         <div className="absolute -top-20 -right-20 w-40 h-40 bg-[var(--orange)]/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[var(--cyan)]/15 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Close Button */}
         <button
           type="button"
           onClick={handleClose}
@@ -279,7 +277,6 @@ export const RegistrationAuthModal = ({
           <X className="w-4 h-4 pointer-events-none" />
         </button>
 
-        {/* Modal Header */}
         <div className="text-center space-y-1.5 mb-5 relative z-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-[var(--orange)]/15 text-[var(--orange)] border border-[var(--orange)]/30">
             <Sparkles className="w-3 h-3" />
@@ -299,7 +296,6 @@ export const RegistrationAuthModal = ({
           </p>
         </div>
 
-        {/* Tabs: Create Account vs Sign In */}
         <div className="flex items-center p-1 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] mb-5">
           <button
             type="button"
@@ -336,7 +332,6 @@ export const RegistrationAuthModal = ({
           </button>
         </div>
 
-        {/* Error Alert */}
         {error && (
           <div className="mb-4 p-3 rounded-2xl bg-red-500/10 border border-red-500/30 text-xs text-red-500 flex items-start gap-2">
             <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
@@ -362,10 +357,8 @@ export const RegistrationAuthModal = ({
           </div>
         )}
 
-        {/* MODE: SIGN UP (CREATE ACCOUNT) */}
         {mode === 'signup' && (
           <form onSubmit={handleSignupSubmit} className="space-y-3.5">
-            {/* Full Name */}
             <div>
               <label className="block text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider mb-1">
                 Full Name <span className="text-red-500">*</span>
@@ -392,7 +385,6 @@ export const RegistrationAuthModal = ({
               )}
             </div>
 
-            {/* Mobile Number */}
             <div>
               <label className="block text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider mb-1">
                 Mobile Number <span className="text-red-500">*</span>
@@ -420,7 +412,6 @@ export const RegistrationAuthModal = ({
               )}
             </div>
 
-            {/* Password & Confirm Password */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider mb-1">
@@ -528,10 +519,8 @@ export const RegistrationAuthModal = ({
           </form>
         )}
 
-        {/* MODE: SIGN IN (LOGIN) */}
         {mode === 'login' && (
           <form onSubmit={handleLoginSubmit} className="space-y-3.5">
-            {/* Mobile Number */}
             <div>
               <label className="block text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider mb-1">
                 Registered Mobile Number <span className="text-red-500">*</span>
@@ -559,7 +548,6 @@ export const RegistrationAuthModal = ({
               )}
             </div>
 
-            {/* Password */}
             <div>
               <label className="block text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider mb-1">
                 Password <span className="text-red-500">*</span>
@@ -632,7 +620,6 @@ export const RegistrationAuthModal = ({
           </form>
         )}
 
-        {/* Security badge note */}
         <div className="mt-4 pt-3 border-t border-[var(--border-color)] flex items-center justify-center gap-2 text-[10px] text-[var(--text-muted)]">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
           <span>Your data is stored securely for Chinmaya Yuva Kendra events.</span>

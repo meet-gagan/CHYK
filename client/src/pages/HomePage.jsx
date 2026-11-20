@@ -464,9 +464,7 @@ export function HomePage() {
   return (
     <div className="site-shell">
       <main>
-        {/* HERO SECTION */}
         <section className="hero" id="home">
-          {/* Desktop Background Video (Shown only on tablet, laptop & desktop screens) */}
           <div className="hero-video-wrap hero-video-wrap-desktop" aria-hidden="true">
             <video
               className="hero-video-bg hero-video-desktop"
@@ -499,7 +497,6 @@ export function HomePage() {
               {heroDesc}
             </p>
 
-            {/* Mobile Video: Placed cleanly under the content on mobile, hidden on desktop */}
             <div className="hero-mobile-video-wrap" aria-hidden="true">
               <video
                 ref={mobileVideoRef}
@@ -544,7 +541,6 @@ export function HomePage() {
           <div className="sun-disc" />
         </section>
 
-        {/* ABOUT SECTION */}
         <section className="about-section section-wrap" id="about">
           <div className="about-copy">
             <p className="eyebrow">{aboutEyebrow}</p>
@@ -559,7 +555,6 @@ export function HomePage() {
           </div>
         </section>
 
-        {/* CORE VALUES SECTION */}
         <section className="values-section" id="activities">
           <div className="section-wrap">
             <div className="section-heading">
@@ -583,7 +578,6 @@ export function HomePage() {
           </div>
         </section>
 
-        {/* ONGOING EVENTS SECTION */}
         <section className="events-section ongoing-events-section section-wrap" id="ongoing-events">
           <div className="events-heading">
             <div>
@@ -648,7 +642,6 @@ export function HomePage() {
           </div>
         </section>
 
-        {/* UPCOMING EVENTS SECTION */}
         <section className="events-section section-wrap" id="events">
           <div className="events-heading">
             <div>
@@ -721,7 +714,6 @@ export function HomePage() {
           </div>
         </section>
 
-        {/* CHYK SECTION */}
         <section className="chyk-section section-wrap" id="chyk">
           <div className="chyk-image">
             <img
@@ -760,7 +752,6 @@ export function HomePage() {
         </section>
       </main>
 
-      {/* Full-view Festival Image Modal with Image & Full Event Description */}
       {previewEvent && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-md animate-fade-in"
@@ -772,7 +763,6 @@ export function HomePage() {
             className="relative max-w-3xl w-full max-h-[92vh] bg-slate-950 border border-white/15 rounded-3xl p-4 sm:p-6 shadow-2xl flex flex-col overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Top Close Button */}
             <button
               onClick={() => setPreviewEvent(null)}
               className="sticky top-0 self-end -mr-1 -mt-1 p-2 rounded-full bg-slate-800/90 hover:bg-[var(--orange)] text-white transition-all cursor-pointer z-30 shadow-md border border-white/10"
@@ -781,7 +771,6 @@ export function HomePage() {
               <X size={18} />
             </button>
 
-            {/* Event Image */}
             <div className="w-full flex items-center justify-center py-2">
               <img
                 src={previewEvent.image}
@@ -790,7 +779,6 @@ export function HomePage() {
               />
             </div>
 
-            {/* Event Details & Full Description */}
             <div className="w-full pt-4 text-white border-t border-white/10 mt-3 space-y-4">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                 <div>

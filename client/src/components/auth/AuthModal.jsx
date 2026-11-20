@@ -166,11 +166,9 @@ export const AuthModal = ({
         onClick={(e) => e.stopPropagation()}
         style={{ color: '#07162D' }}
       >
-        {/* Glow Accents */}
         <div className="absolute -top-20 -right-20 w-44 h-44 bg-[#F0441D]/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-20 -left-20 w-44 h-44 bg-[#FFD12D]/15 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Close Button */}
         <button
           type="button"
           onClick={(e) => {
@@ -184,7 +182,6 @@ export const AuthModal = ({
           <X className="w-5 h-5 pointer-events-none stroke-[2.2]" />
         </button>
 
-        {/* Header */}
         <div className="text-center space-y-1.5 mb-6 relative z-10 pt-1 px-4">
           <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[#F0441D]/15 text-[#F0441D] mb-1 shadow-inner">
             {activeTab === 'LOGIN' ? <LogIn className="w-6 h-6" /> : <UserPlus className="w-6 h-6" />}
@@ -211,7 +208,6 @@ export const AuthModal = ({
           </p>
         </div>
 
-        {/* Tab Switcher */}
         <div className="grid grid-cols-2 p-1 rounded-2xl bg-[#FFFDF9] border border-[#EBD6A2] mb-5 relative z-10 shadow-sm">
           <button
             type="button"
@@ -245,7 +241,6 @@ export const AuthModal = ({
           </button>
         </div>
 
-        {/* Server Error Alert */}
         {serverError && (
           <div className="mb-4 p-3 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-start gap-2.5 text-red-600 text-xs font-semibold animate-in fade-in">
             <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
@@ -253,10 +248,8 @@ export const AuthModal = ({
           </div>
         )}
 
-        {/* Tab 1: Login Form */}
         {activeTab === 'LOGIN' ? (
           <form onSubmit={handleLoginSubmit} className="space-y-4 relative z-10">
-            {/* Phone Number */}
             <div className="space-y-1">
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-800">
                 Mobile Number
@@ -284,7 +277,6 @@ export const AuthModal = ({
               {errors.phone && <p className="text-[10px] text-red-500 font-semibold">{errors.phone}</p>}
             </div>
 
-            {/* Password */}
             <div className="space-y-1">
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-800">
                 Password
@@ -326,9 +318,7 @@ export const AuthModal = ({
             </button>
           </form>
         ) : (
-          /* Tab 2: Signup Form */
           <form onSubmit={handleSignupSubmit} className="space-y-3 relative z-10">
-            {/* Full Name */}
             <div className="space-y-1">
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-800">
                 Full Name <span className="text-red-500">*</span>
@@ -349,7 +339,6 @@ export const AuthModal = ({
               {errors.fullName && <p className="text-[10px] text-red-500 font-semibold">{errors.fullName}</p>}
             </div>
 
-            {/* Email Address */}
             <div className="space-y-1">
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-800">
                 Email Address <span className="text-red-500">*</span>
@@ -370,7 +359,6 @@ export const AuthModal = ({
               {errors.email && <p className="text-[10px] text-red-500 font-semibold">{errors.email}</p>}
             </div>
 
-            {/* Phone Number */}
             <div className="space-y-1">
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-800">
                 Phone Number <span className="text-red-500">*</span>
@@ -393,7 +381,6 @@ export const AuthModal = ({
               {errors.phone && <p className="text-[10px] text-red-500 font-semibold">{errors.phone}</p>}
             </div>
 
-            {/* Passwords */}
             <div className="grid grid-cols-2 gap-2">
               <div className="space-y-1">
                 <label className="block text-[10px] font-bold uppercase tracking-wider text-slate-800">
@@ -435,7 +422,6 @@ export const AuthModal = ({
           </form>
         )}
 
-        {/* Security badge */}
         <div className="pt-4 mt-2 border-t border-slate-200/80 flex items-center justify-center gap-1.5 text-[11px] text-slate-500">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
           <span>Encrypted Account for Chinmaya Mission Adoni</span>

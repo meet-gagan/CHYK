@@ -59,7 +59,6 @@ export const RegistrationEditModal = ({ registration, onClose, onUpdated }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
       <div className="bg-[#1C2541] border border-white/10 rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl relative">
         
-        {/* Header */}
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div>
             <span className="text-[10px] font-black tracking-widest uppercase text-[#FF7B00] block">

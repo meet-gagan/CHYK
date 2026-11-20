@@ -282,7 +282,6 @@ export const syncMediaImageToCollections = async (mediaItem, oldUrl) => {
     const newUrl = mediaItem.url;
     const publicId = mediaItem.publicId;
 
-    // 1. Sync to Banners (Vertical Poster Carousel)
     if (
       mediaItem.section === 'Vertical Poster Carousel' ||
       (mediaItem.category === 'Banner' && mediaItem.page === 'Home')
@@ -327,7 +326,6 @@ export const syncMediaImageToCollections = async (mediaItem, oldUrl) => {
       }
     }
 
-    // 2. Sync to Activities
     if (mediaItem.category === 'Activities' || mediaItem.page === 'Activities') {
       const activityQuery = {
         $or: [
@@ -362,7 +360,6 @@ export const syncMediaImageToCollections = async (mediaItem, oldUrl) => {
       }
     }
 
-    // 3. Sync to HomePage sections & disabled maintenance image
     const homeConfig = await HomePage.findOne();
     if (homeConfig) {
       let updatedHome = false;
@@ -387,7 +384,6 @@ export const syncMediaImageToCollections = async (mediaItem, oldUrl) => {
       }
     }
 
-    // 4. Sync to PageContent (e.g. About Page)
     const aboutContent = await PageContent.findOne({ sectionKey: 'about_page' });
     if (aboutContent && aboutContent.content) {
       let updatedAbout = false;
@@ -420,14 +416,12 @@ export const syncMediaImageToCollections = async (mediaItem, oldUrl) => {
       }
     }
 
-    // 5. Sync to Footer
     const footerConfig = await Footer.findOne();
     if (footerConfig && oldUrl && footerConfig.logoUrl === oldUrl) {
       footerConfig.logoUrl = newUrl;
       await footerConfig.save();
     }
 
-    // 6. Sync to WebContent (Upcoming Events & On Going Events on Homepage)
     const chinmayaHome = await WebContent.findOne({ website: 'chinmaya', pageSlug: 'home' });
     if (chinmayaHome && Array.isArray(chinmayaHome.sections)) {
       let updatedCms = false;
@@ -695,7 +689,6 @@ export const deleteMedia = async (req, res) => {
     const mediaTitle = media.title;
     const mediaPublicId = media.publicId;
 
-    // 1. Permanently delete matching activities
     if (mediaUrl || mediaPublicId || mediaTitle) {
       const actFilter = [];
       if (mediaPublicId) actFilter.push({ publicId: mediaPublicId });
@@ -706,7 +699,6 @@ export const deleteMedia = async (req, res) => {
       }
     }
 
-    // 2. Permanently delete matching banners
     if (mediaUrl || mediaPublicId || mediaTitle) {
       const banFilter = [];
       if (mediaPublicId) banFilter.push({ publicId: mediaPublicId });
@@ -717,7 +709,6 @@ export const deleteMedia = async (req, res) => {
       }
     }
 
-    // 3. Clear from HomePage sections if referenced
     const homeConfig = await HomePage.findOne();
     if (homeConfig) {
       let homeChanged = false;
@@ -736,7 +727,6 @@ export const deleteMedia = async (req, res) => {
       if (homeChanged) await homeConfig.save();
     }
 
-    // 4. Clear from PageContent if referenced
     const allPageContents = await PageContent.find();
     for (const pc of allPageContents) {
       let pcChanged = false;

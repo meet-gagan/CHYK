@@ -96,7 +96,6 @@ export const AboutPageCmsPage = () => {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Hero Section Card */}
         <div className="p-6 sm:p-7 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-4 text-xs">
           <h3 className="text-sm font-black font-heading text-[#00B4D8] uppercase tracking-wider border-b border-white/10 pb-2">
             1. Hero Header Section
@@ -155,7 +154,6 @@ export const AboutPageCmsPage = () => {
           </div>
         </div>
 
-        {/* Who We Are Card */}
         <div className="p-6 sm:p-7 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-4 text-xs">
           <h3 className="text-sm font-black font-heading text-[#FF7B00] uppercase tracking-wider border-b border-white/10 pb-2">
             2. "Who We Are" Mission Narrative

@@ -201,7 +201,6 @@ export const TermsPrivacyManager = () => {
 
   return (
     <div className="space-y-6 animate-in fade-in">
-      {/* 1. Header Banner */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 sm:p-6 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-xl">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
@@ -217,7 +216,6 @@ export const TermsPrivacyManager = () => {
           </p>
         </div>
 
-        {/* Global Action: Save Changes */}
         <div className="flex items-center gap-2.5 w-full sm:w-auto">
           <a
             href={getLivePageUrl()}
@@ -249,7 +247,6 @@ export const TermsPrivacyManager = () => {
         </div>
       </div>
 
-      {/* 2. Notification Message */}
       {message.text && (
         <div
           className={`p-4 rounded-2xl flex items-center gap-3 text-xs sm:text-sm font-bold border transition-all ${
@@ -267,13 +264,11 @@ export const TermsPrivacyManager = () => {
         </div>
       )}
 
-      {/* 3. STEP 1: SELECT WEBSITE (Chinmaya Mission vs Marathon) */}
       <div className="space-y-3">
         <label className="text-xs font-black text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-2">
           <span>1. Select Website Platform:</span>
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {/* Option A: Chinmaya Mission Website */}
           <button
             type="button"
             onClick={() => setSelectedWebsite('chinmaya')}
@@ -309,7 +304,6 @@ export const TermsPrivacyManager = () => {
             </div>
           </button>
 
-          {/* Option B: Marathon Website */}
           <button
             type="button"
             onClick={() => setSelectedWebsite('marathon')}
@@ -347,7 +341,6 @@ export const TermsPrivacyManager = () => {
         </div>
       </div>
 
-      {/* 4. STEP 2: SELECT DOCUMENT TYPE (Terms & Conditions vs Privacy Policy) */}
       <div className="space-y-3">
         <label className="text-xs font-black text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-2">
           <span>2. Select Document to Edit:</span>
@@ -381,7 +374,6 @@ export const TermsPrivacyManager = () => {
         </div>
       </div>
 
-      {/* 5. DOCUMENT CONTENT EDITOR */}
       {loading ? (
         <div className="p-12 text-center rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-muted)] font-bold">
           <div className="w-8 h-8 border-3 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
@@ -389,7 +381,6 @@ export const TermsPrivacyManager = () => {
         </div>
       ) : (
         <div className="space-y-6">
-          {/* Active Context Banner */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 px-5 py-3.5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)]">
             <div className="flex items-center gap-2 text-xs font-extrabold text-[var(--text-primary)]">
               <Info className="w-4 h-4 text-cyan-500 shrink-0" />
@@ -410,7 +401,6 @@ export const TermsPrivacyManager = () => {
             </div>
           </div>
 
-          {/* Document Header Fields */}
           <div className="p-6 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-xl space-y-4">
             <h3 className="text-sm font-black text-[var(--text-primary)] uppercase tracking-wider flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-cyan-500" />
@@ -459,7 +449,6 @@ export const TermsPrivacyManager = () => {
             </div>
           </div>
 
-          {/* Document Clauses / Sections List */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
@@ -481,7 +470,6 @@ export const TermsPrivacyManager = () => {
               </button>
             </div>
 
-            {/* List of Section Cards */}
             <div className="space-y-3.5">
               {(docData.sections || []).map((sec, idx) => (
                 <div
@@ -498,7 +486,6 @@ export const TermsPrivacyManager = () => {
                       </span>
                     </div>
 
-                    {/* Section Controls (Move up, Move down, Delete) */}
                     <div className="flex items-center gap-1.5">
                       <button
                         type="button"
@@ -531,7 +518,6 @@ export const TermsPrivacyManager = () => {
                     </div>
                   </div>
 
-                  {/* Clause Title Input */}
                   <div className="space-y-1">
                     <label className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-wider">
                       Clause Title:
@@ -545,7 +531,6 @@ export const TermsPrivacyManager = () => {
                     />
                   </div>
 
-                  {/* Clause Content Input */}
                   <div className="space-y-1">
                     <label className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-wider">
                       Clause Content (Multi-line paragraphs supported):
@@ -568,7 +553,6 @@ export const TermsPrivacyManager = () => {
               )}
             </div>
 
-            {/* Bottom Add Section Button */}
             <button
               type="button"
               onClick={handleAddSection}
@@ -579,7 +563,6 @@ export const TermsPrivacyManager = () => {
             </button>
           </div>
 
-          {/* 6. BOTTOM ACTION TOOLBAR */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-xl">
             <button
               type="button"

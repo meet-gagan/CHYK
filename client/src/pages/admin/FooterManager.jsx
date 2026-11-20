@@ -248,7 +248,6 @@ export const FooterManager = () => {
 
   return (
     <div className="space-y-8">
-      {/* Header Notification Banner */}
       {statusMessage.text && (
         <div
           className={`p-4 rounded-2xl border text-xs font-bold flex items-center gap-3 shadow-md ${
@@ -266,7 +265,6 @@ export const FooterManager = () => {
         </div>
       )}
 
-      {/* Top Action Bar */}
       <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] p-6 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-4 shadow-lg">
         <div>
           <h2 className="text-xl font-black font-heading text-[var(--text-primary)]">
@@ -315,7 +313,6 @@ export const FooterManager = () => {
         </div>
       </div>
 
-      {/* Live Preview Box */}
       {showPreview && (
         <div className="space-y-3 p-4 bg-[var(--bg-tertiary)] border-2 border-[var(--cyan)]/30 rounded-3xl">
           <div className="flex items-center justify-between px-2">
@@ -332,10 +329,8 @@ export const FooterManager = () => {
         </div>
       )}
 
-      {/* Accordions / Section Cards */}
       <form onSubmit={handleSave} className="space-y-6">
         
-        {/* A. FOOTER STATUS */}
         <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl p-6 space-y-4">
           <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-4">
             <div className="flex items-center gap-3">
@@ -373,7 +368,6 @@ export const FooterManager = () => {
           )}
         </div>
 
-        {/* B. BRAND / INTRODUCTION */}
         <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl p-6 space-y-4">
           <div className="flex items-center gap-3 border-b border-[var(--border-color)] pb-4">
             <Layout className="w-5 h-5 text-[var(--cyan)]" />
@@ -405,7 +399,6 @@ export const FooterManager = () => {
           </div>
         </div>
 
-        {/* C. ORGANIZED BY */}
         <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl p-6 space-y-4">
           <div className="flex items-center gap-3 border-b border-[var(--border-color)] pb-4">
             <Heart className="w-5 h-5 text-amber-500" />
@@ -437,7 +430,6 @@ export const FooterManager = () => {
           </div>
         </div>
 
-        {/* D. QUICK NAVIGATION */}
         <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl p-6 space-y-6">
           <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-4">
             <div className="flex items-center gap-3">
@@ -457,7 +449,6 @@ export const FooterManager = () => {
             </div>
           </div>
 
-          {/* Existing Links List */}
           <div className="space-y-3">
             {(formData.quickNavigation?.links || []).map((link, idx) => (
               <div
@@ -536,7 +527,6 @@ export const FooterManager = () => {
             ))}
           </div>
 
-          {/* Add New Link Bar */}
           <div className="p-4 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] flex flex-col sm:flex-row items-center gap-3">
             <span className="text-xs font-extrabold text-[var(--orange)] uppercase">ADD NEW LINK:</span>
             <input
@@ -564,7 +554,6 @@ export const FooterManager = () => {
           </div>
         </div>
 
-        {/* E. EVENT LOCATION & CONTACT */}
         <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl p-6 space-y-6">
           <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-4">
             <div className="flex items-center gap-3">
@@ -627,7 +616,6 @@ export const FooterManager = () => {
             </div>
           </div>
 
-          {/* Multiple Phone Numbers */}
           <div className="space-y-3 pt-2">
             <label className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-2">
               <Phone className="w-4 h-4 text-cyan-400" />
@@ -658,7 +646,6 @@ export const FooterManager = () => {
             </div>
           </div>
 
-          {/* Multiple Email Addresses */}
           <div className="space-y-3 pt-2">
             <label className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-2">
               <Mail className="w-4 h-4 text-emerald-400" />
@@ -688,7 +675,6 @@ export const FooterManager = () => {
             </div>
           </div>
 
-          {/* Optional Links */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-[var(--text-muted)]">Google Maps URL (Optional):</label>
@@ -725,7 +711,6 @@ export const FooterManager = () => {
           </div>
         </div>
 
-        {/* F. MARATHON PLEDGE */}
         <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl p-6 space-y-4">
           <div className="flex items-center gap-3 border-b border-[var(--border-color)] pb-4">
             <Heart className="w-5 h-5 text-[var(--orange)]" />
@@ -767,7 +752,6 @@ export const FooterManager = () => {
           </div>
         </div>
 
-        {/* G. BOTTOM FOOTER */}
         <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl p-6 space-y-4">
           <div className="flex items-center gap-3 border-b border-[var(--border-color)] pb-4">
             <Settings className="w-5 h-5 text-purple-500" />
@@ -857,7 +841,6 @@ export const FooterManager = () => {
           </div>
         </div>
 
-        {/* H. FOOTER APPEARANCE / SETTINGS */}
         <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl p-6 space-y-4">
           <div className="flex items-center gap-3 border-b border-[var(--border-color)] pb-4">
             <Palette className="w-5 h-5 text-indigo-500" />
@@ -929,7 +912,6 @@ export const FooterManager = () => {
           </div>
         </div>
 
-        {/* Bottom Save Bar */}
         <div className="pt-4 flex justify-end gap-3">
           <button
             type="submit"

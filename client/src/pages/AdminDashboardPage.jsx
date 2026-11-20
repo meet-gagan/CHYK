@@ -428,7 +428,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
   return (
     <div className="min-h-screen py-10 px-4 max-w-7xl mx-auto space-y-8">
 
-      {/* Admin Navbar Header */}
       <div className="glass-card p-6 rounded-3xl border-2 border-[var(--cyan)]/30 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-[var(--cyan)] text-white flex items-center justify-center shadow-lg">
@@ -476,7 +475,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
         </div>
       </div>
 
-      {/* Admin Tabs Bar */}
       <div className="flex flex-wrap items-center gap-2 p-2 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)]">
         {[
           { id: 'STATS', label: 'Dashboard Stats', icon: Users },
@@ -516,52 +514,36 @@ export const AdminDashboardPage = ({ defaultTab }) => {
         })}
       </div>
 
-      {/* TAB: SEVAS & DEVOTEE CONTRIBUTIONS / BOOKINGS */}
       {(activeTab === 'BOOKINGS' || activeTab === 'SEVA_BOOKINGS') && <SevaBookingsManager />}
 
-      {/* TAB: MULTI-WEBSITE UPDATE CONTENT CMS */}
       {activeTab === 'UPDATE_CONTENT' && <UpdateContentManager />}
 
-      {/* TAB: STORY BOARD MODERATION */}
       {activeTab === 'STORY_BOARD' && <StoryBoardManager />}
 
-      {/* TAB: USER MANAGEMENT DIRECTORY */}
       {activeTab === 'USERS' && <UserManager />}
 
-      {/* TAB: DEDICATED ADMIN PROFILE */}
       {activeTab === 'ADMIN_PROFILE' && <AdminProfileManager />}
 
-      {/* TAB: GENERAL ENQUIRY INBOX */}
       {activeTab === 'GENERAL_ENQUIRY' && <GeneralEnquiryManager />}
 
-      {/* TAB: LET'S CONNECT INBOX */}
       {activeTab === 'LETS_CONNECT' && <LetsConnectManager />}
 
-      {/* TAB: VOLUNTEERING APPLICATIONS */}
       {activeTab === 'VOLUNTEERING' && <VolunteeringManager />}
 
-      {/* TAB: MARATHON WEBSITE IMAGES & ASSETS */}
       {activeTab === 'MARATHON_IMAGES' && <MarathonImagesManager />}
 
-      {/* TAB: YOUTUBE VIDEO MANAGEMENT */}
       {activeTab === 'VIDEOS' && <AdminVideosPage />}
 
-      {/* TAB: SACRED GALLERY MANAGEMENT */}
       {activeTab === 'GALLERY' && <GalleryManager />}
 
-      {/* TAB: IMAGES & MEDIA LIBRARY */}
       {activeTab === 'IMAGES' && <AdminImagesPage />}
 
-      {/* TAB: HOME PAGE CMS */}
       {activeTab === 'HOME_PAGE' && <HomePageManager />}
 
-      {/* TAB: FOOTER CMS */}
       {activeTab === 'FOOTER_CMS' && <FooterManager />}
 
-      {/* TAB: TERMS & CONDITIONS AND PRIVACY POLICY (T&C and PP) */}
       {activeTab === 'TERMS_PRIVACY' && <TermsPrivacyManager />}
 
-      {/* TAB 1: DASHBOARD OVERVIEW STATS */}
       {activeTab === 'STATS' && (
         <div className="space-y-8 animate-in fade-in">
           {loadingStats ? (
@@ -570,7 +552,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
             </div>
           ) : stats ? (
             <>
-              {/* Metric Cards Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="p-6 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-xl">
                   <span className="text-xs font-extrabold text-[var(--orange)] block mb-1">TOTAL REGISTRATIONS</span>
@@ -593,7 +574,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
                 </div>
               </div>
 
-              {/* Institution & Batch Summary Pills */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div className="p-6 rounded-3xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-center">
                   <span className="text-xs font-bold text-[var(--text-muted)] block">PRELOADED SCHOOLS</span>
@@ -609,7 +589,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
                 </div>
               </div>
 
-              {/* Recent Registrations Table */}
               <div className="glass-card p-6 rounded-3xl border border-[var(--border-color)] space-y-4">
                 <h4 className="text-lg font-extrabold font-heading text-[var(--text-primary)]">
                   RECENT REGISTRATIONS LOG
@@ -650,11 +629,9 @@ export const AdminDashboardPage = ({ defaultTab }) => {
         </div>
       )}
 
-      {/* TAB 2: REGISTRATIONS MANAGEMENT */}
       {activeTab === 'REGISTRATIONS' && (
         <div className="glass-card p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] space-y-8 animate-in fade-in">
 
-          {/* Header & Export Controls */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[var(--border-color)] pb-6">
             <div>
               <div className="flex items-center gap-2">
@@ -694,13 +671,11 @@ export const AdminDashboardPage = ({ defaultTab }) => {
             </div>
           </div>
 
-          {/* DYNAMIC REGISTRATION SUMMARY SECTION */}
           <div className="space-y-4">
             <RegistrationSummaryCards summary={summaryData} loading={loadingSummary} />
             <ClassSummary summary={summaryData} loading={loadingSummary} />
           </div>
 
-          {/* REGISTRATION TYPE FILTER TABS */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-[var(--border-color)]">
             <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)]">
               <button
@@ -762,11 +737,9 @@ export const AdminDashboardPage = ({ defaultTab }) => {
             </div>
           </div>
 
-          {/* VIEW 1: REGISTRATIONS TABLE (ALL, INDIVIDUAL, SCHOOL_COLLEGE) */}
           {regType !== 'BATCHES' && (
             <div className="space-y-4">
 
-              {/* Search & Filter Controls */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 <div className="relative">
                   <Search className="w-4 h-4 text-[var(--text-muted)] absolute left-3.5 top-3.5" />
@@ -833,7 +806,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
                 </select>
               </div>
 
-              {/* Bulk Action Bar */}
               {selectedRegIds.length > 0 && (
                 <div className="p-4 px-5 rounded-2xl bg-red-500/10 border border-red-500/30 flex flex-wrap items-center justify-between gap-3 animate-in fade-in">
                   <div className="flex items-center gap-3">
@@ -860,7 +832,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
                 </div>
               )}
 
-              {/* Table */}
               <div className="overflow-x-auto rounded-2xl border border-[var(--border-color)]">
                 <table className="w-full text-left text-xs">
                   <thead className="bg-[var(--bg-tertiary)] text-[var(--text-primary)] font-extrabold uppercase tracking-wider">
@@ -988,7 +959,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
                 </table>
               </div>
 
-              {/* Pagination */}
               {regPagination.pages > 1 && (
                 <div className="flex items-center justify-between text-xs pt-2">
                   <span className="text-[var(--text-muted)] font-bold">
@@ -1016,7 +986,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
             </div>
           )}
 
-          {/* VIEW 2: SCHOOL / COLLEGE BATCHES SPREADSHEETS */}
           {regType === 'BATCHES' && (
             <div className="space-y-4">
 
@@ -1143,7 +1112,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
             </div>
           )}
 
-          {/* VIEW DETAILS MODAL */}
           {viewingRegistration && (
             <RegistrationDetailsModal
               registration={viewingRegistration}
@@ -1152,7 +1120,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
             />
           )}
 
-          {/* EDIT REGISTRATION MODAL */}
           {editingRegistration && (
             <RegistrationEditModal
               registration={editingRegistration}
@@ -1161,7 +1128,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
             />
           )}
 
-          {/* BATCH STUDENTS MODAL */}
           {selectedBatchStudents && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in">
               <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl max-w-3xl w-full p-6 space-y-4 max-h-[85vh] overflow-y-auto">
@@ -1204,7 +1170,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
             </div>
           )}
 
-          {/* BULK DELETE CONFIRMATION MODAL */}
           {showBulkDeleteRegModal && (
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
               <div className="bg-[var(--bg-secondary)] border border-red-500/40 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">
@@ -1260,7 +1225,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
         </div>
       )}
 
-      {/* TAB 4: EVENT CONFIG CONTROL */}
       {activeTab === 'EVENT_CONFIG' && (
         <div className="glass-card p-8 rounded-3xl border border-[var(--border-color)] max-w-2xl mx-auto space-y-6 animate-in fade-in">
           <h3 className="text-xl font-extrabold font-heading text-[var(--text-primary)]">
@@ -1348,7 +1312,6 @@ export const AdminDashboardPage = ({ defaultTab }) => {
         </div>
       )}
 
-      {/* TAB: CHANGE ADMIN PASSWORD */}
       {activeTab === 'PASSWORD' && (
         <div className="glass-card p-8 rounded-3xl border border-[var(--border-color)] max-w-md mx-auto space-y-6 animate-in fade-in">
           <h3 className="text-xl font-extrabold font-heading text-[var(--text-primary)] text-center">

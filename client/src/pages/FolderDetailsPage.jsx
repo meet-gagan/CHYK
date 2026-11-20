@@ -196,7 +196,6 @@ export const FolderDetailsPage = () => {
   return (
     <div className="gallery-page-container">
       <div className="gallery-content-wrap">
-        {/* Sub-navigation bar */}
         <div className="gallery-subnav">
           <div className="gallery-subnav-left">
             <span className="gallery-subnav-om">ॐ</span>
@@ -209,7 +208,6 @@ export const FolderDetailsPage = () => {
           </Link>
         </div>
 
-        {/* Folder Header Banner */}
         {folder && (
           <header className="gallery-folder-header-card">
             <h1 className="gallery-hero-title">{folder.name}</h1>
@@ -217,7 +215,6 @@ export const FolderDetailsPage = () => {
         )}
       </div>
 
-      {/* Media Grid */}
       <div className="gallery-content-wrap">
         {loading ? (
           <div className="text-center py-24 text-[var(--ivory-dim)] font-serif text-lg">
@@ -261,7 +258,6 @@ export const FolderDetailsPage = () => {
 
               return (
                 <article key={item._id} className="gallery-image-card">
-                  {/* Thumbnail Wrap */}
                   <div
                     className="gallery-thumb-wrap"
                     onClick={() => {
@@ -295,7 +291,6 @@ export const FolderDetailsPage = () => {
                     )}
                   </div>
 
-                  {/* Card Body */}
                   <div className="gallery-card-body">
                     <div>
                       <h2 className="gallery-card-title">{item.title}</h2>
@@ -309,7 +304,6 @@ export const FolderDetailsPage = () => {
         )}
       </div>
 
-      {/* Image Lightbox Modal */}
       {currentLightboxImg && (
         <div
           className="gallery-lightbox-backdrop"
@@ -321,7 +315,6 @@ export const FolderDetailsPage = () => {
             className="gallery-lightbox-dialog"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
             <button
               className="gallery-lightbox-close"
               onClick={() => setActiveLightboxIndex(null)}
@@ -330,7 +323,6 @@ export const FolderDetailsPage = () => {
               ×
             </button>
 
-            {/* Left Navigation Arrow */}
             {imageItems.length > 1 && (
               <button
                 className="gallery-nav-arrow left"
@@ -345,7 +337,6 @@ export const FolderDetailsPage = () => {
               </button>
             )}
 
-            {/* Right Navigation Arrow */}
             {imageItems.length > 1 && (
               <button
                 className="gallery-nav-arrow right"
@@ -358,7 +349,6 @@ export const FolderDetailsPage = () => {
               </button>
             )}
 
-            {/* Main Lightbox Image View */}
             <div className="gallery-lightbox-image-area">
               <img
                 src={currentLightboxImg.url || currentLightboxImg.media_url}
@@ -366,7 +356,6 @@ export const FolderDetailsPage = () => {
               />
             </div>
 
-            {/* Details Bar */}
             <div className="gallery-lightbox-info">
               <div>
                 <h2 className="gallery-lightbox-title">{currentLightboxImg.title}</h2>
@@ -389,7 +378,6 @@ export const FolderDetailsPage = () => {
         </div>
       )}
 
-      {/* Video Modal Player */}
       {activeVideoItem && (
         <div
           className="gallery-lightbox-backdrop"

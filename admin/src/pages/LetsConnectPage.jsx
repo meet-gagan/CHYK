@@ -107,7 +107,6 @@ export const LetsConnectPage = () => {
         </div>
       )}
 
-      {/* Messages List */}
       <div className="space-y-4">
         {loading ? (
           <p className="text-xs text-[#94A3B8] text-center py-8">Loading inbox messages...</p>

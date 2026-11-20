@@ -166,10 +166,8 @@ export const MilestoneJourney = () => {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
 
-        {/* 1. HERO / INTRO HEADER */}
         <JourneyIntro />
 
-        {/* Quick Nav Timeline Jump Ribbon */}
         <div className="hidden lg:flex items-center justify-center gap-1.5 mb-14 overflow-x-auto pb-2 scrollbar-none">
           {MILESTONES_DATA.map((item, idx) => (
             <button
@@ -188,13 +186,11 @@ export const MilestoneJourney = () => {
           ))}
         </div>
 
-        {/* 2. STRAIGHT CENTRAL ROAD & BUS JOURNEY CONTAINER */}
         <div
           ref={roadContainerRef}
           className="relative"
           style={{ height: `${TOTAL_SVG_HEIGHT}px` }}
         >
-          {/* Straight Vertical Highway (SVG Single Source of Truth) */}
           <JourneyRoad
             pathD={PATH_D}
             totalHeight={TOTAL_SVG_HEIGHT}
@@ -204,7 +200,6 @@ export const MilestoneJourney = () => {
             pathRef={pathRef}
           />
 
-          {/* Traveling Bus Strictly Centered on the Straight Road */}
           <div
             className="absolute z-40 pointer-events-none transition-transform duration-75 ease-out"
             style={{
@@ -219,7 +214,6 @@ export const MilestoneJourney = () => {
             />
           </div>
 
-          {/* 3. ALTERNATING LEFT AND RIGHT MILESTONE STATIONS */}
           {STOP_POINTS.map((pt, idx) => {
             const milestone = MILESTONES_DATA[idx];
             const isActive = activeStopIndex === idx;
@@ -235,17 +229,14 @@ export const MilestoneJourney = () => {
                   transform: 'translateY(-50%)',
                 }}
               >
-                {/* 2-Column Desktop Grid with Straight Road in Center */}
                 <div className="w-full flex flex-col md:flex-row items-center px-2 sm:px-4">
 
-                  {/* LEFT Column */}
                   <div
                     className={`w-full md:w-1/2 flex flex-col ${isLeft ? 'items-start md:items-end' : 'hidden md:flex'
                       } ${isLeft ? 'pointer-events-auto' : ''} md:pr-14 lg:pr-20`}
                   >
                     {isLeft && (
                       <div className="space-y-2 w-full max-w-md">
-                        {/* Road Sign Beside Road */}
                         <div className="flex md:justify-end justify-start mb-1">
                           <RoadSign
                             year={milestone.signYear || milestone.year}
@@ -254,7 +245,6 @@ export const MilestoneJourney = () => {
                             side="left"
                           />
                         </div>
-                        {/* Milestone Destination Card */}
                         <MilestoneCard
                           milestone={milestone}
                           position="left"
@@ -266,14 +256,12 @@ export const MilestoneJourney = () => {
                     )}
                   </div>
 
-                  {/* RIGHT Column */}
                   <div
                     className={`w-full md:w-1/2 flex flex-col ${!isLeft ? 'items-start' : 'hidden md:flex'
                       } ${!isLeft ? 'pointer-events-auto' : ''} md:pl-14 lg:pl-20 mt-4 md:mt-0`}
                   >
                     {!isLeft && (
                       <div className="space-y-2 w-full max-w-md">
-                        {/* Road Sign Beside Road */}
                         <div className="flex justify-start mb-1">
                           <RoadSign
                             year={milestone.signYear || milestone.year}
@@ -282,7 +270,6 @@ export const MilestoneJourney = () => {
                             side="right"
                           />
                         </div>
-                        {/* Milestone Destination Card */}
                         <MilestoneCard
                           milestone={milestone}
                           position="right"
@@ -300,7 +287,6 @@ export const MilestoneJourney = () => {
           })}
         </div>
 
-        {/* 4. FINAL DESTINATION TERMINAL */}
         <FinalDestination onRestartJourney={handleRestartJourney} />
 
       </div>

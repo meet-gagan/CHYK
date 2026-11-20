@@ -15,36 +15,30 @@ export const getUserActivities = async (req, res) => {
     const userPhone = req.user.phone;
     const userEmail = req.user.email;
 
-    // 1. Fetch Event & Marathon Registrations
     const registrations = await Registration.find({
       $or: [{ userId }, { contactNumber: userPhone }],
     }).sort({ createdAt: -1 });
 
-    // 2. Fetch User's Temple Seva Bookings & Devotee Contributions
     const sevaBookings = await SevaBooking.find({
       $or: [{ userId }, { phone: userPhone }],
     }).sort({ createdAt: -1 });
 
-    // 3. Fetch User's Volunteer Applications
     const volunteerQueries = [{ phone: userPhone }];
     if (userEmail) volunteerQueries.push({ email: userEmail });
     const volunteerApps = await Volunteer.find({
       $or: volunteerQueries,
     }).sort({ createdAt: -1 });
 
-    // 4. Fetch User's Submitted Community Services
     const communityServices = await CommunityService.find({
       userId,
     }).sort({ createdAt: -1 });
 
-    // 5. Fetch User's Connection & Contact Inquiries
     const contactQueries = [{ userId }, { phone: userPhone }];
     if (userEmail) contactQueries.push({ email: userEmail });
     const contactMessages = await ContactMessage.find({
       $or: contactQueries,
     }).sort({ createdAt: -1 });
 
-    // 6. Fetch Event Config for display metadata
     const eventConfig = await EventConfig.findOne().select(
       'programName slogan venue location eventDate eventTime registrationOpen'
     );

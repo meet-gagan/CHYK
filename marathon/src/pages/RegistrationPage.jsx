@@ -435,7 +435,6 @@ export const RegistrationPage = () => {
             tShirtSize: indForm.tShirtSize,
           },
           friends: formattedFriends,
-          // Single friend fallback for backward compatibility
           friend: formattedFriends[0],
         };
 
@@ -697,7 +696,6 @@ export const RegistrationPage = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 pt-2 sm:pt-4 pb-14 space-y-6 sm:space-y-8">
       
-      {/* Page Header */}
       <div className="text-center space-y-3">
         <div className="flex flex-wrap items-center justify-center gap-2">
           <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full font-extrabold text-xs tracking-widest uppercase bg-[var(--orange)]/15 text-[var(--orange)] border border-[var(--orange)]/30">
@@ -721,7 +719,6 @@ export const RegistrationPage = () => {
           )}
         </p>
 
-        {/* User Session Banner (Logged in vs Open guest) */}
         {isUserAuthenticated && user ? (
           <div className="p-4 rounded-3xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
             <div className="flex items-center gap-3">
@@ -792,7 +789,6 @@ export const RegistrationPage = () => {
         )}
       </div>
 
-      {/* Registration Mode Tab Toggle */}
       <div className="flex items-center justify-center p-1.5 rounded-full bg-[var(--bg-tertiary)] border border-[var(--border-color)] max-w-md mx-auto">
         <button
           onClick={() => setTab('INDIVIDUAL')}
@@ -819,7 +815,6 @@ export const RegistrationPage = () => {
         </button>
       </div>
 
-      {/* TAB 1: INDIVIDUAL REGISTRATION FORM */}
       {tab === 'INDIVIDUAL' && (
         <div className="glass-card p-6 sm:p-10 rounded-3xl border border-[var(--border-color)] shadow-2xl relative overflow-hidden space-y-8">
           
@@ -836,9 +831,6 @@ export const RegistrationPage = () => {
 
           <form onSubmit={handleIndividualSubmit} className="space-y-8">
             
-            {/* ======================================================== */}
-            {/* SECTION: PARTICIPANT 1 (YOUR REGISTRATION) */}
-            {/* ======================================================== */}
             <div className="space-y-6">
               <div className="flex items-center justify-between pb-3 border-b border-[var(--border-color)]">
                 <div className="flex items-center gap-2.5">
@@ -856,7 +848,6 @@ export const RegistrationPage = () => {
                 )}
               </div>
 
-              {/* Full Name */}
               <div>
                 <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
                   Participant 1's Full Name (For Certificate) *
@@ -878,7 +869,6 @@ export const RegistrationPage = () => {
                 {indErrors.fullName && <p className="text-xs text-red-500 font-bold mt-1">{indErrors.fullName}</p>}
               </div>
 
-              {/* Date of Birth & Profession / Occupation */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <div className="flex items-center justify-between mb-1">
@@ -930,7 +920,6 @@ export const RegistrationPage = () => {
                 </div>
               </div>
 
-              {/* Student Toggle */}
               <div>
                 <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
                   Are you a Student? *
@@ -964,7 +953,6 @@ export const RegistrationPage = () => {
                 </div>
               </div>
 
-              {/* Student Specific Fields */}
               {indForm.isStudent && (
                 <div className="space-y-4 p-4 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] animate-in fade-in">
                   <div>
@@ -1016,7 +1004,6 @@ export const RegistrationPage = () => {
                 </div>
               )}
 
-              {/* Contact Number */}
               <div>
                 <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
                   Contact Mobile Number *
@@ -1042,7 +1029,6 @@ export const RegistrationPage = () => {
                 {indErrors.contactNumber && <p className="text-xs text-red-500 font-bold mt-1">{indErrors.contactNumber}</p>}
               </div>
 
-              {/* Participant 1 Terms Checkbox */}
               <div
                 id="terms-checkbox-section"
                 className={`pt-2 p-3 rounded-2xl transition-all duration-300 ${
@@ -1088,12 +1074,6 @@ export const RegistrationPage = () => {
               </div>
             </div>
 
-            {/* ======================================================== */}
-            {/* ADD A FRIEND BUTTON OR PARTICIPANT 2 FORM */}
-            {/* ======================================================== */}
-            {/* ======================================================== */}
-            {/* ADD PARTICIPANT BUTTON OR MULTI-PARTICIPANT FORMS */}
-            {/* ======================================================== */}
             {!hasFriends ? (
               <div className="pt-2 pb-2">
                 <button
@@ -1118,7 +1098,6 @@ export const RegistrationPage = () => {
               </div>
             ) : (
               <div className="space-y-6 animate-in slide-in-from-top-3">
-                {/* Control Bar: Select number of participants & Remove All */}
                 <div className="p-5 sm:p-6 rounded-3xl bg-[var(--bg-tertiary)] border-2 border-[var(--orange)]/40 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-2xl bg-[var(--orange)]/20 flex items-center justify-center text-[var(--orange)]">
@@ -1166,7 +1145,6 @@ export const RegistrationPage = () => {
                   </div>
                 </div>
 
-                {/* Dynamic list of participant cards */}
                 {friendsList.map((friendItem, idx) => (
                   <div
                     key={idx}
@@ -1197,7 +1175,6 @@ export const RegistrationPage = () => {
                       )}
                     </div>
 
-                    {/* Participant Full Name */}
                     <div>
                       <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
                         Participant {idx + 2}'s Full Name (For Certificate) *
@@ -1223,7 +1200,6 @@ export const RegistrationPage = () => {
                       )}
                     </div>
 
-                    {/* Participant DOB & Profession */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
                         <div className="flex items-center justify-between mb-1">
@@ -1274,7 +1250,6 @@ export const RegistrationPage = () => {
                       </div>
                     </div>
 
-                    {/* Participant Student Toggle */}
                     <div>
                       <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
                         Is Participant {idx + 2} a Student? *
@@ -1320,7 +1295,6 @@ export const RegistrationPage = () => {
                       </div>
                     </div>
 
-                    {/* Participant Student Specific Fields */}
                     {friendItem.isStudent && (
                       <div className="space-y-4 p-4 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] animate-in fade-in">
                         <div>
@@ -1374,7 +1348,6 @@ export const RegistrationPage = () => {
                       </div>
                     )}
 
-                    {/* Participant Contact Number */}
                     <div>
                       <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase tracking-wider">
                         Participant {idx + 2}'s Contact Mobile Number *
@@ -1406,7 +1379,6 @@ export const RegistrationPage = () => {
                       )}
                     </div>
 
-                    {/* Participant Terms Checkbox */}
                     <div
                       className={`pt-2 p-3 rounded-2xl transition-all duration-300 ${
                         friendsErrors[idx]?.agreeTerms
@@ -1445,7 +1417,6 @@ export const RegistrationPage = () => {
               </div>
             )}
 
-            {/* Submit Button */}
             <div className="pt-2">
               <button
                 type="submit"
@@ -1469,7 +1440,6 @@ export const RegistrationPage = () => {
         </div>
       )}
 
-      {/* TAB 2: SCHOOL & COLLEGE BULK REGISTRATION */}
       {tab === 'BULK' && (
         <div className="glass-card p-6 sm:p-10 rounded-3xl border border-[var(--border-color)] shadow-2xl space-y-8">
           <div className="border-b border-[var(--border-color)] pb-4 space-y-1">
@@ -1579,7 +1549,6 @@ export const RegistrationPage = () => {
               </div>
             )}
 
-            {/* Template Download & Upload Area */}
             <div className="p-6 rounded-2xl border-2 border-dashed border-[var(--border-color)] bg-[var(--bg-primary)]/50 space-y-4">
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div>
@@ -1636,12 +1605,10 @@ export const RegistrationPage = () => {
         </div>
       )}
 
-      {/* 3.5KM Marathon Interactive Route Map */}
       <div className="pt-10 border-t border-[var(--border-color)]">
         <MarathonRouteMap />
       </div>
 
-      {/* Entry Pass Modal upon Successful Registration */}
       {receiptData && (
         <EntryPassModal
           data={receiptData}
@@ -1650,7 +1617,6 @@ export const RegistrationPage = () => {
         />
       )}
 
-      {/* Auth Modal - Triggered when unauthenticated user tries to submit */}
       <RegistrationAuthModal
         isOpen={authModalOpen}
         onClose={() => {

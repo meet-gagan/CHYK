@@ -333,7 +333,6 @@ export const Footer = ({ overrideData = null }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-6">
           
-          {/* Column 1: Quick Navigation */}
           <div className="space-y-3">
             <h4
               style={headingStyle}
@@ -389,7 +388,6 @@ export const Footer = ({ overrideData = null }) => {
             </ul>
           </div>
 
-          {/* Column 2: Event Location & Contact */}
           <div className="space-y-3">
             <h4
               style={headingStyle}
@@ -428,7 +426,6 @@ export const Footer = ({ overrideData = null }) => {
                 </p>
               )}
 
-              {/* Optional Contact Buttons */}
               <div className="flex flex-wrap gap-2 pt-2">
                 {contact.googleMapsUrl && (
                   <a
@@ -456,7 +453,6 @@ export const Footer = ({ overrideData = null }) => {
             </div>
           </div>
 
-          {/* Column 3: Connect With Us */}
           <div className="space-y-3">
             <h4
               style={headingStyle}
@@ -487,7 +483,6 @@ export const Footer = ({ overrideData = null }) => {
             </div>
           </div>
 
-          {/* Column 4: An Initiative By */}
           <div className="space-y-3">
             <h4
               style={headingStyle}
@@ -504,7 +499,6 @@ export const Footer = ({ overrideData = null }) => {
 
         </div>
 
-        {/* Bottom Footer Section */}
         <div
           style={{ borderColor: appearance?.dividerColor || 'rgba(255, 255, 255, 0.1)' }}
           className="pt-5 border-t flex flex-col sm:flex-row items-center justify-between text-xs opacity-75 gap-3"

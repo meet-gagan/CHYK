@@ -199,7 +199,6 @@ export const registrationService = {
       throw new Error('A maximum of 10 friends can be added per registration.');
     }
 
-    // 1. Validate Primary Participant
     const primaryName = (primaryData.fullName || primaryData.name || '').trim();
     if (!primaryName) {
       throw new Error('Participant 1 (Your) Full Name is required.');
@@ -226,7 +225,6 @@ export const registrationService = {
     const primaryProfession = primaryData.profession ? String(primaryData.profession).trim() : null;
     const primaryInstitution = (primaryData.institutionName || primaryData.schoolName || 'N/A').trim();
 
-    // 2. Validate All Friend Participants
     const validatedFriends = [];
     for (let i = 0; i < friendsList.length; i++) {
       const friendData = friendsList[i];
@@ -270,7 +268,6 @@ export const registrationService = {
       });
     }
 
-    // 3. Duplicate check for primary participant in recent 15 seconds
     const fifteenSecondsAgo = new Date(Date.now() - 15 * 1000);
     const existingRecentPrimary = await Registration.findOne({
       fullName: primaryName,
@@ -294,16 +291,13 @@ export const registrationService = {
       }
     }
 
-    // 4. Generate unique group booking ID
     const groupYear = new Date().getFullYear();
     const groupRandom = crypto.randomBytes(3).toString('hex').toUpperCase();
     const groupId = `GRP-${groupYear}-${Date.now().toString(36).toUpperCase()}-${groupRandom}`;
 
-    // 5. Atomically allocate sequential registration IDs
     const idGen1 = await generateRegistrationId('individual');
     const entryPassId1 = generateEntryPassId(idGen1.registrationId);
 
-    // 6. Build Participant 1 (Primary)
     const reg1 = new Registration({
       registrationId: idGen1.registrationId,
       registrationYear: idGen1.year,
@@ -328,7 +322,6 @@ export const registrationService = {
       status: 'CONFIRMED',
     });
 
-    // 7. Build Friend Participants
     const friendRegistrations = [];
     for (const vf of validatedFriends) {
       const idGenFriend = await generateRegistrationId('individual');
@@ -360,7 +353,6 @@ export const registrationService = {
       friendRegistrations.push(regFriend);
     }
 
-    // 8. Atomic save: save reg1 first, then friends. If any friend fails, rollback all saved records.
     const savedRecords = [];
     try {
       await reg1.save();
@@ -377,7 +369,6 @@ export const registrationService = {
       throw new Error(`Failed to save friend registration: ${saveErr.message}`);
     }
 
-    // 9. Sync all to Google Sheets in background
     for (const rec of savedRecords) {
       syncRegistrationToGoogleSheets(rec).catch(() => {});
     }
@@ -833,10 +824,8 @@ export const registrationService = {
       baseMatch.registrationYear = parseInt(year, 10);
     }
 
-    // 1. Total registrations count
     const totalRegistrations = await Registration.countDocuments(baseMatch);
 
-    // 2. Individual registrations count (FORM or individual or CMA...IN...)
     const individualRegistrations = await Registration.countDocuments({
       ...baseMatch,
       $or: [
@@ -845,7 +834,6 @@ export const registrationService = {
       ],
     });
 
-    // 3. School / College registrations count (SCHOOL_COLLEGE or school_college or CMA...SC...)
     const schoolCollegeRegistrations = await Registration.countDocuments({
       ...baseMatch,
       $or: [
@@ -854,7 +842,6 @@ export const registrationService = {
       ],
     });
 
-    // 4. Dynamic T-Shirt Size Aggregation
     const sizeCounts = await Registration.aggregate([
       { $match: baseMatch },
       {
@@ -888,7 +875,6 @@ export const registrationService = {
       }
     });
 
-    // 5. Dynamic Class-Wise Aggregation
     const classAggregation = await Registration.aggregate([
       {
         $match: {

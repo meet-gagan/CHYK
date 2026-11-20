@@ -283,7 +283,6 @@ export const HomePageManager = () => {
 
   return (
     <div className="space-y-8 animate-in fade-in">
-      {/* Toast Feedback Notification */}
       {feedback.message && (
         <div
           className={`p-4 rounded-2xl text-xs font-extrabold flex items-center justify-between shadow-xl ${
@@ -302,7 +301,6 @@ export const HomePageManager = () => {
         </div>
       )}
 
-      {/* TOP HEADER: GLOBAL HOMEPAGE VISIBILITY STATUS */}
       <div className="p-6 sm:p-8 rounded-3xl bg-[var(--bg-secondary)] border-2 border-[var(--cyan)]/40 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-4">
           <div
@@ -359,7 +357,6 @@ export const HomePageManager = () => {
         </div>
       </div>
 
-      {/* ADMIN CMS NAVIGATION TABS */}
       <div className="flex flex-wrap items-center justify-between gap-3 p-2 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)]">
         <div className="flex flex-wrap gap-2">
           {[
@@ -385,7 +382,6 @@ export const HomePageManager = () => {
           })}
         </div>
 
-        {/* Live Preview Toggle Button */}
         <button
           onClick={() => setActiveTab(activeTab === 'PREVIEW' ? 'EDITOR' : 'PREVIEW')}
           className={`px-4 py-2 rounded-xl text-xs font-extrabold flex items-center gap-2 border transition-all ${
@@ -399,7 +395,6 @@ export const HomePageManager = () => {
         </button>
       </div>
 
-      {/* TAB 1: SECTIONS & CONTENT EDITOR */}
       {activeTab === 'EDITOR' && (
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -421,7 +416,6 @@ export const HomePageManager = () => {
             </button>
           </div>
 
-          {/* Sections List */}
           <div className="space-y-4">
             {sections.map((sec, idx) => (
               <div
@@ -431,7 +425,6 @@ export const HomePageManager = () => {
                 }`}
               >
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  {/* Left Section Info */}
                   <div className="space-y-1 text-left flex-grow">
                     <div className="flex items-center gap-2">
                       <span className="px-2.5 py-0.5 rounded-full bg-[var(--cyan)]/15 text-[var(--cyan)] text-[10px] font-extrabold uppercase">
@@ -461,9 +454,7 @@ export const HomePageManager = () => {
                     )}
                   </div>
 
-                  {/* Right Section Action Buttons */}
                   <div className="flex flex-wrap items-center gap-2 flex-shrink-0">
-                    {/* Reorder Buttons */}
                     <button
                       onClick={() => handleMoveUp(idx)}
                       disabled={idx === 0}
@@ -481,7 +472,6 @@ export const HomePageManager = () => {
                       <ArrowDown className="w-4 h-4" />
                     </button>
 
-                    {/* Enable / Disable Toggle */}
                     <button
                       onClick={() => handleToggleSection(sec.sectionId)}
                       className={`px-3 py-2 rounded-xl text-xs font-extrabold ${
@@ -493,7 +483,6 @@ export const HomePageManager = () => {
                       {sec.isEnabled ? 'ON' : 'OFF'}
                     </button>
 
-                    {/* Edit Section */}
                     <button
                       onClick={() => setEditingSection({ ...sec })}
                       className="p-2 rounded-xl bg-[var(--cyan)]/15 text-[var(--cyan)] hover:bg-[var(--cyan)] hover:text-white transition-colors"
@@ -502,7 +491,6 @@ export const HomePageManager = () => {
                       <Edit className="w-4 h-4" />
                     </button>
 
-                    {/* Delete Section */}
                     <button
                       onClick={() => setDeleteConfirmId(sec.sectionId)}
                       className="p-2 rounded-xl bg-red-500/15 text-red-500 hover:bg-red-500 hover:text-white transition-colors"
@@ -518,7 +506,6 @@ export const HomePageManager = () => {
         </div>
       )}
 
-      {/* TAB 2: WEBSITE APPEARANCE & COLORS */}
       {activeTab === 'THEME' && (
         <div className="glass-card p-8 rounded-3xl border border-[var(--border-color)] max-w-4xl mx-auto space-y-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-4 border-b border-[var(--border-color)]">
@@ -594,7 +581,6 @@ export const HomePageManager = () => {
         </div>
       )}
 
-      {/* TAB 3: MAINTENANCE MODE SETTINGS */}
       {activeTab === 'SETTINGS' && (
         <div className="glass-card p-8 rounded-3xl border border-[var(--border-color)] max-w-2xl mx-auto space-y-6">
           <h3 className="text-xl font-extrabold font-heading text-[var(--text-primary)]">
@@ -679,7 +665,6 @@ export const HomePageManager = () => {
         </div>
       )}
 
-      {/* TAB 4: LIVE PREVIEW HOMEPAGE PANE */}
       {activeTab === 'PREVIEW' && (
         <div className="space-y-4">
           <div className="p-4 rounded-2xl bg-[var(--orange)]/15 border border-[var(--orange)]/30 flex items-center justify-between">
@@ -719,7 +704,6 @@ export const HomePageManager = () => {
         </div>
       )}
 
-      {/* MODAL 1: ADD NEW SECTION MODAL */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
           <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl max-w-xl w-full p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
@@ -838,7 +822,6 @@ export const HomePageManager = () => {
         </div>
       )}
 
-      {/* MODAL 2: EDIT EXISTING SECTION MODAL */}
       {editingSection && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
           <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl max-w-xl w-full p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto">
@@ -933,7 +916,6 @@ export const HomePageManager = () => {
         </div>
       )}
 
-      {/* MODAL 3: DELETE CONFIRMATION DIALOG */}
       {deleteConfirmId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
           <div className="bg-[var(--bg-secondary)] border-2 border-red-500/40 rounded-3xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl">

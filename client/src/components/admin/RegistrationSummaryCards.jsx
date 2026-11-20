@@ -8,7 +8,6 @@ export const RegistrationSummaryCards = ({ summary, loading }) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      {/* Total Registrations */}
       <div className="p-5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] shadow-sm relative overflow-hidden flex items-center justify-between">
         <div>
           <span className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--text-muted)] block">
@@ -26,7 +25,6 @@ export const RegistrationSummaryCards = ({ summary, loading }) => {
         </div>
       </div>
 
-      {/* Individual Registrations */}
       <div className="p-5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] shadow-sm relative overflow-hidden flex items-center justify-between">
         <div>
           <span className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--orange)] block">
@@ -44,7 +42,6 @@ export const RegistrationSummaryCards = ({ summary, loading }) => {
         </div>
       </div>
 
-      {/* School / College Registrations */}
       <div className="p-5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] shadow-sm relative overflow-hidden flex items-center justify-between">
         <div>
           <span className="text-[11px] font-extrabold uppercase tracking-widest text-[var(--cyan)] block">

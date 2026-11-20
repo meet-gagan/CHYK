@@ -13,7 +13,6 @@ export function MarathonSiteAccessGate({ children }) {
 
   const hostname = typeof window !== 'undefined' ? window.location.hostname.toLowerCase() : '';
 
-  // 1. Domains that must ALWAYS be LIVE unconditionally:
   //    - chyk.vercel.app (and vercel preview deployments)
   //    - localhost / 127.0.0.1
   const isVercelLiveDomain =
@@ -22,13 +21,11 @@ export function MarathonSiteAccessGate({ children }) {
     hostname.includes('localhost') ||
     hostname.includes('127.0.0.1');
 
-  // 2. For marathon.chinmayamissionadoni.org (custom domain):
   //    Directly controlled by DB marathonsitesettings:
   //    true in DB = LIVE website
   //    false in DB = COMING SOON mode
   const effectiveIsLive = isVercelLiveDomain ? true : Boolean(isLive);
 
-  // 3. Always allow Admin routes and Pass Verification unconditionally
   if (pathname.startsWith('/admin') || pathname.startsWith('/verify-pass') || pathname.startsWith('/pass/')) {
     return (
       <>
@@ -40,7 +37,6 @@ export function MarathonSiteAccessGate({ children }) {
 
   const isComingSoonRoute = COMING_SOON_PATHS.includes(pathname);
 
-  // 4. When effectiveIsLive === false (Coming Soon mode active):
   //    Block all public routes and display the Marathon Coming Soon page
   if (!effectiveIsLive) {
     if (isComingSoonRoute) {
@@ -55,7 +51,6 @@ export function MarathonSiteAccessGate({ children }) {
     return <Navigate to="/coming-soon" replace />;
   }
 
-  // 5. When effectiveIsLive === true (Live mode active):
   //    Display everything EXCEPT the coming soon page (which redirects to /)
   if (effectiveIsLive && isComingSoonRoute) {
     return <Navigate to="/" replace />;

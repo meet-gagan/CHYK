@@ -177,7 +177,6 @@ export const StoryBoardManager = () => {
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       
-      {/* Toast Notification */}
       {notification && (
         <div
           className={`fixed top-20 right-6 z-50 px-5 py-3.5 rounded-2xl border shadow-xl flex items-center gap-3 animate-in slide-in-from-top-4 duration-300 ${
@@ -195,7 +194,6 @@ export const StoryBoardManager = () => {
         </div>
       )}
 
-      {/* Header & Subtitle */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
@@ -225,10 +223,8 @@ export const StoryBoardManager = () => {
         </button>
       </div>
 
-      {/* Statistics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         
-        {/* Metric 1: Pending */}
         <div className="p-6 rounded-3xl bg-[var(--bg-secondary)] border-2 border-amber-500/30 shadow-xl relative overflow-hidden">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-extrabold uppercase tracking-wider text-amber-400">
@@ -244,7 +240,6 @@ export const StoryBoardManager = () => {
           </p>
         </div>
 
-        {/* Metric 2: Published / Approved */}
         <div className="p-6 rounded-3xl bg-[var(--bg-secondary)] border border-emerald-500/30 shadow-xl relative overflow-hidden">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-400">
@@ -260,7 +255,6 @@ export const StoryBoardManager = () => {
           </p>
         </div>
 
-        {/* Metric 3: Total Submissions */}
         <div className="p-6 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-xl">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-extrabold uppercase tracking-wider text-[var(--cyan)]">
@@ -277,10 +271,8 @@ export const StoryBoardManager = () => {
         </div>
       </div>
 
-      {/* Moderation Controls & Filter Bar */}
       <div className="p-4 sm:p-5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] space-y-4">
         
-        {/* Navigation Tabs */}
         <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
           <button
             onClick={() => setActiveTab('PENDING')}
@@ -313,7 +305,6 @@ export const StoryBoardManager = () => {
           </button>
         </div>
 
-        {/* Search & Color Filter Row */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 pt-1">
           <div className="relative w-full md:w-80">
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
@@ -355,7 +346,6 @@ export const StoryBoardManager = () => {
         </div>
       </div>
 
-      {/* Loading state */}
       {loading && (
         <div className="py-16 text-center space-y-3">
           <div className="w-10 h-10 border-3 border-[var(--cyan)] border-t-transparent rounded-full animate-spin mx-auto" />
@@ -365,7 +355,6 @@ export const StoryBoardManager = () => {
         </div>
       )}
 
-      {/* Empty Queue State */}
       {!loading && filteredThoughts.length === 0 && (
         <div className="p-12 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-center max-w-lg mx-auto space-y-3">
           <div className="w-14 h-14 rounded-2xl bg-[var(--bg-tertiary)] text-[var(--text-muted)] flex items-center justify-center mx-auto">
@@ -384,9 +373,6 @@ export const StoryBoardManager = () => {
         </div>
       )}
 
-      {/* ======================================================== */}
-      {/* THOUGHT SUBMISSION MODERATION CARDS                      */}
-      {/* ======================================================== */}
       {!loading && filteredThoughts.length > 0 && (
         <div className="space-y-4">
           {filteredThoughts.map((thought) => {
@@ -399,7 +385,6 @@ export const StoryBoardManager = () => {
                 key={thought._id}
                 className="p-5 sm:p-6 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-md hover:border-[var(--cyan)]/50 transition-all flex flex-col lg:flex-row items-stretch gap-6"
               >
-                {/* Left Column: Submitter Details (ADMIN PRIVILEGED) */}
                 <div className="w-full lg:w-72 shrink-0 p-4 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] space-y-3">
                   <div className="flex items-center justify-between pb-2 border-b border-[var(--border-color)]">
                     <span className="text-[10px] font-extrabold uppercase tracking-wider text-[var(--cyan)] flex items-center gap-1">
@@ -459,14 +444,11 @@ export const StoryBoardManager = () => {
                   </div>
                 </div>
 
-                {/* Center Column: Sticky Note Thought Content */}
                 <div className="flex-1 flex flex-col justify-between space-y-4">
                   
-                  {/* Sticky note styled text preview */}
                   <div
                     className={`relative rounded-2xl border-2 p-5 ${colorStyle.bg} ${colorStyle.border} shadow-sm`}
                   >
-                    {/* Washi tape header */}
                     <div
                       className={`absolute -top-2.5 left-8 w-14 h-4 ${colorStyle.tape} rounded-xs border border-black/5 pointer-events-none`}
                     />
@@ -487,14 +469,12 @@ export const StoryBoardManager = () => {
                     </p>
                   </div>
 
-                  {/* Right Column / Bottom Action Controls */}
                   <div className="flex items-center justify-between gap-3 pt-2">
                     <span className="text-[11px] font-mono text-[var(--text-muted)]">
                       ID: {thought._id}
                     </span>
 
                     <div className="flex items-center gap-3">
-                      {/* Reject & Delete Button */}
                       <button
                         onClick={() => setRejectDialogItem(thought)}
                         disabled={isActionLoading}
@@ -505,7 +485,6 @@ export const StoryBoardManager = () => {
                         <span>{isPending ? 'Reject & Delete' : 'Delete'}</span>
                       </button>
 
-                      {/* Accept & Publish Button */}
                       {isPending && (
                         <button
                           onClick={() => handleApprove(thought)}
@@ -530,9 +509,6 @@ export const StoryBoardManager = () => {
         </div>
       )}
 
-      {/* ======================================================== */}
-      {/* REJECTION CONFIRMATION MODAL                             */}
-      {/* ======================================================== */}
       {rejectDialogItem && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
           <div

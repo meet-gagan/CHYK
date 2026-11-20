@@ -6,7 +6,6 @@ import crypto from 'crypto';
 
 dotenv.config();
 
-// ──────────────────────────────────────────────────────────────────────────────
 // Cloudflare R2 Configuration
 // Uses the AWS S3-compatible API exposed by Cloudflare R2.
 // Required env vars:
@@ -16,7 +15,6 @@ dotenv.config();
 //   R2_BUCKET_NAME     – Name of the R2 bucket
 //   R2_PUBLIC_URL      – Public base URL (e.g. https://assets.chinmayamissionadoni.org)
 //                        OR the R2 public dev URL: https://<hash>.r2.dev
-// ──────────────────────────────────────────────────────────────────────────────
 
 const isR2Configured = () =>
   !!(

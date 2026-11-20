@@ -67,7 +67,6 @@ export const MyActivityPage = () => {
 
   return (
     <div className="min-h-[85vh] pt-3 sm:pt-4 pb-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-6 sm:space-y-8">
-      {/* Top Banner & Title */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
@@ -112,9 +111,7 @@ export const MyActivityPage = () => {
         </div>
       </div>
 
-      {/* Summary KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
-        {/* Registrations Card */}
         <div
           onClick={() => setActiveTab('REGISTRATIONS')}
           className={`p-5 rounded-3xl border transition-all cursor-pointer ${
@@ -139,7 +136,6 @@ export const MyActivityPage = () => {
           </p>
         </div>
 
-        {/* Confirmed Passes */}
         <div
           onClick={() => setActiveTab('REGISTRATIONS')}
           className={`p-5 rounded-3xl border transition-all cursor-pointer ${
@@ -162,7 +158,6 @@ export const MyActivityPage = () => {
           <p className="text-[11px] text-[var(--text-muted)] mt-0.5">Ready for event check-in</p>
         </div>
 
-        {/* Inquiries */}
         <div
           onClick={() => setActiveTab('INQUIRIES')}
           className={`p-5 rounded-3xl border transition-all cursor-pointer ${
@@ -186,7 +181,6 @@ export const MyActivityPage = () => {
         </div>
       </div>
 
-      {/* Filter Tabs */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[var(--border-color)]">
         {[
           { key: 'ALL', label: 'All Activities', count: displayActivities.length },
@@ -214,7 +208,6 @@ export const MyActivityPage = () => {
         ))}
       </div>
 
-      {/* Content Section based on Tab */}
       {loading ? (
         <div className="py-20 text-center space-y-3">
           <div className="w-10 h-10 border-4 border-[var(--orange)] border-t-transparent rounded-full animate-spin mx-auto" />
@@ -222,7 +215,6 @@ export const MyActivityPage = () => {
         </div>
       ) : (
         <div className="space-y-6">
-          {/* TAB 1: ALL ACTIVITIES CHRONOLOGICAL TIMELINE */}
           {activeTab === 'ALL' && (
             <div className="space-y-4">
               {displayActivities.length === 0 ? (
@@ -302,7 +294,6 @@ export const MyActivityPage = () => {
                       </div>
                     </div>
 
-                    {/* Action Button */}
                     <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
                       {item.activityType === 'EVENT_REGISTRATION' && (
                         <button
@@ -320,7 +311,6 @@ export const MyActivityPage = () => {
             </div>
           )}
 
-          {/* TAB 2: MARATHON REGISTRATIONS & ENTRY PASSES */}
           {activeTab === 'REGISTRATIONS' && (
             <div className="space-y-6">
               {(registrations || []).length === 0 ? (
@@ -361,7 +351,6 @@ export const MyActivityPage = () => {
                       key={reg._id}
                       className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[24px] p-5 sm:p-6 shadow-md hover:shadow-lg transition-all flex flex-col justify-between space-y-4 relative overflow-hidden card-standard"
                     >
-                      {/* Top Ribbon */}
                       <div className="flex items-start justify-between gap-2 border-b border-[var(--border-color)] pb-3.5">
                         <div>
                           <span className="text-[10px] font-black uppercase tracking-widest text-[var(--orange)]">
@@ -381,7 +370,6 @@ export const MyActivityPage = () => {
                         </span>
                       </div>
 
-                      {/* Participant Details Grid */}
                       <div className="grid grid-cols-2 gap-2.5 text-xs">
                         <div className="p-2.5 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-color)]">
                           <span className="text-[9px] font-bold text-[var(--text-muted)] uppercase block">T-Shirt Size</span>
@@ -406,7 +394,6 @@ export const MyActivityPage = () => {
                         </div>
                       </div>
 
-                      {/* Action Bar */}
                       <div className="pt-2">
                         <button
                           onClick={() => setSelectedRegistrationForPass(reg)}
@@ -423,7 +410,6 @@ export const MyActivityPage = () => {
             </div>
           )}
 
-          {/* TAB 3: CONNECTION REQUESTS & INQUIRIES */}
           {activeTab === 'INQUIRIES' && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -496,7 +482,6 @@ export const MyActivityPage = () => {
         </div>
       )}
 
-      {/* Entry Pass Modal for direct viewing and downloading from My Activity */}
       {selectedRegistrationForPass && (
         <EntryPassModal
           data={selectedRegistrationForPass}

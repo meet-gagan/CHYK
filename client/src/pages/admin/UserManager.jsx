@@ -213,7 +213,6 @@ export const UserManager = () => {
 
   return (
     <div className="space-y-6 animate-in fade-in">
-      {/* Header Banner */}
       <div className="glass-card p-6 rounded-3xl border border-[var(--border-color)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="p-3 rounded-2xl bg-[var(--cyan)]/15 text-[var(--cyan)]">
@@ -238,7 +237,6 @@ export const UserManager = () => {
         </button>
       </div>
 
-      {/* Action Feedback Banner */}
       {actionFeedback.message && (
         <div
           className={`p-4 rounded-2xl text-xs font-bold flex items-center justify-between border ${
@@ -264,7 +262,6 @@ export const UserManager = () => {
         </div>
       )}
 
-      {/* Summary KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="p-5 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-sm">
           <span className="text-[11px] font-extrabold text-[var(--text-muted)] uppercase tracking-wider block mb-1">
@@ -303,7 +300,6 @@ export const UserManager = () => {
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
       <div className="glass-card p-4 rounded-3xl border border-[var(--border-color)] flex flex-col md:flex-row items-center justify-between gap-3">
         <form onSubmit={handleSearchSubmit} className="flex-1 w-full flex items-center gap-2">
           <div className="relative flex-1">
@@ -338,7 +334,6 @@ export const UserManager = () => {
         </div>
       </div>
 
-      {/* Bulk Action Bar */}
       {selectedUserIds.length > 0 && (
         <div className="p-4 px-5 rounded-2xl bg-red-500/10 border border-red-500/30 flex flex-wrap items-center justify-between gap-3 animate-in fade-in">
           <div className="flex items-center gap-3">
@@ -365,7 +360,6 @@ export const UserManager = () => {
         </div>
       )}
 
-      {/* Users Table */}
       <div className="glass-card rounded-3xl border border-[var(--border-color)] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
@@ -503,7 +497,6 @@ export const UserManager = () => {
 
                       <td className="p-4 text-right">
                         <div className="flex items-center justify-end gap-1.5">
-                          {/* View Details Button */}
                           <button
                             onClick={() => handleViewDetails(u._id)}
                             className="p-2 rounded-xl bg-[var(--bg-tertiary)] hover:bg-[var(--cyan)] hover:text-white text-[var(--text-primary)] transition-all"
@@ -512,7 +505,6 @@ export const UserManager = () => {
                             <Eye className="w-4 h-4" />
                           </button>
 
-                          {/* Role Toggle Button */}
                           <button
                             onClick={() => handleRoleToggle(u)}
                             disabled={updatingRole === u._id || isSelf}
@@ -532,7 +524,6 @@ export const UserManager = () => {
                             {isAdminRole ? <UserX className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
                           </button>
 
-                          {/* Delete Button */}
                           <button
                             onClick={() => setUserToDelete(u)}
                             disabled={isSelf}
@@ -553,7 +544,6 @@ export const UserManager = () => {
           </table>
         </div>
 
-        {/* Pagination Footer */}
         {pagination.totalPages > 1 && (
           <div className="p-4 border-t border-[var(--border-color)] bg-[var(--bg-tertiary)]/50 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
             <span className="text-[var(--text-muted)] font-medium">
@@ -584,7 +574,6 @@ export const UserManager = () => {
         )}
       </div>
 
-      {/* MODAL 1: USER DETAILS MODAL */}
       {selectedUser && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
           <div className="glass-card max-w-2xl w-full p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] bg-[var(--bg-secondary)] space-y-6 animate-in zoom-in-95">
@@ -610,7 +599,6 @@ export const UserManager = () => {
               </button>
             </div>
 
-            {/* Profile Attributes Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div className="p-3.5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)]">
                 <span className="text-[10px] font-bold text-[var(--text-muted)] block uppercase">
@@ -649,7 +637,6 @@ export const UserManager = () => {
               </div>
             </div>
 
-            {/* User Associated Marathon Passes */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-black font-heading text-[var(--text-primary)] uppercase flex items-center gap-1.5">
@@ -699,7 +686,6 @@ export const UserManager = () => {
         </div>
       )}
 
-      {/* MODAL 2: CONFIRM PERMANENT DELETE MODAL */}
       {userToDelete && (
         <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="glass-card max-w-md w-full p-6 sm:p-8 rounded-3xl border border-red-500/40 bg-[var(--bg-secondary)] space-y-6 animate-in zoom-in-95">
@@ -747,7 +733,6 @@ export const UserManager = () => {
         </div>
       )}
 
-      {/* MODAL 3: CONFIRM BULK PERMANENT DELETE MODAL */}
       {showBulkDeleteModal && (
         <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="glass-card max-w-md w-full p-6 sm:p-8 rounded-3xl border border-red-500/40 bg-[var(--bg-secondary)] space-y-6 animate-in zoom-in-95">

@@ -65,7 +65,6 @@ export const MarathonRouteMap = ({ className = '' }) => {
   return (
     <div className={`w-full max-w-6xl mx-auto ${className}`}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
-        {/* Left Side: Interactive Map */}
         <div className="lg:col-span-7 flex flex-col">
           <div className="relative w-full h-full min-h-[380px] sm:min-h-[440px] rounded-3xl overflow-hidden border border-[var(--border-color)] shadow-xl bg-slate-900 flex-1">
             <iframe
@@ -85,7 +84,6 @@ export const MarathonRouteMap = ({ className = '' }) => {
               className="w-full h-full min-h-[380px] sm:min-h-[440px]"
             />
 
-            {/* Top-Left: Active Location / Full Route Mode Indicator */}
             <div className="absolute top-2.5 left-2.5 sm:top-3 sm:left-3 z-10 flex items-center gap-2">
               {activePoint ? (
                 <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/90 backdrop-blur-md border border-cyan-400/40 text-white text-[11px] font-bold shadow-lg">
@@ -109,7 +107,6 @@ export const MarathonRouteMap = ({ className = '' }) => {
               )}
             </div>
 
-            {/* Top-Right: External Directions Overlay */}
             <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 z-10">
               <a
                 href={currentDirectionsUrl}
@@ -127,7 +124,6 @@ export const MarathonRouteMap = ({ className = '' }) => {
           </div>
         </div>
 
-        {/* Right Side: Water Points Heading and 4 Cards */}
         <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
           <div>
             <div className="flex items-center justify-between gap-2">
@@ -147,7 +143,6 @@ export const MarathonRouteMap = ({ className = '' }) => {
             </div>
           </div>
 
-          {/* 4 Cards with Dynamic Selection (Updates Map directly on left side) */}
           <div className="grid grid-cols-1 gap-3 sm:gap-3.5 flex-1 justify-center">
             {WATER_POINTS.map((point) => {
               const isSelected = selectedPointNumber === point.number;
@@ -163,7 +158,6 @@ export const MarathonRouteMap = ({ className = '' }) => {
                   } transition-all duration-200 flex items-center gap-3.5 group cursor-pointer`}
                   title={`Click to show ${point.name} directly in the map on the left`}
                 >
-                  {/* Number Badge with Unique Color Gradient */}
                   <div
                     className={`w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br ${point.badgeGradient} text-white flex items-center justify-center font-black text-sm shrink-0 shadow-md ${point.shadowColor} ${
                       isSelected ? 'scale-110' : 'group-hover:scale-105'
@@ -172,7 +166,6 @@ export const MarathonRouteMap = ({ className = '' }) => {
                     <span>{point.number}</span>
                   </div>
 
-                  {/* Point Info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2">
                       <h4 className="text-sm sm:text-base font-extrabold text-[var(--text-primary)] group-hover:text-[var(--orange)] transition-colors">
@@ -190,7 +183,6 @@ export const MarathonRouteMap = ({ className = '' }) => {
                     </p>
                   </div>
 
-                  {/* Map Pin Indicator */}
                   <div
                     className={`shrink-0 flex items-center gap-1 transition-colors ${
                       isSelected ? 'text-cyan-600' : 'text-[var(--text-muted)] group-hover:text-[var(--orange)]'

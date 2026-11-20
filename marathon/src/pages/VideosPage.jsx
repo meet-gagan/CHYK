@@ -108,7 +108,6 @@ export const VideosPage = () => {
   return (
     <div className="min-h-screen bg-[var(--bg-primary,#FFFDF9)] py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
-        {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading text-[var(--text-primary,#0B2340)] tracking-tight">
             Udaan
@@ -122,7 +121,6 @@ export const VideosPage = () => {
           </p>
         </div>
 
-        {/* Loading State: Skeleton Cards */}
         {loading && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
             {[...Array(8)].map((_, i) => (
@@ -138,7 +136,6 @@ export const VideosPage = () => {
           </div>
         )}
 
-        {/* Error State */}
         {!loading && error && (
           <div className="max-w-md mx-auto text-center p-8 rounded-3xl bg-white border border-red-500/20 shadow-lg space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center mx-auto">
@@ -157,7 +154,6 @@ export const VideosPage = () => {
           </div>
         )}
 
-        {/* Empty State */}
         {!loading && !error && videos.length === 0 && (
           <div className="max-w-md mx-auto text-center p-12 rounded-3xl bg-white border border-[var(--border-color,#E5E7EB)] shadow-sm space-y-4">
             <div className="w-14 h-14 rounded-3xl bg-[var(--orange,#FF6600)]/10 text-[var(--orange,#FF6600)] flex items-center justify-center mx-auto">
@@ -172,7 +168,6 @@ export const VideosPage = () => {
           </div>
         )}
 
-        {/* Responsive Grid: 4 videos per row on desktop */}
         {!loading && !error && videos.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
             {videos.map((video) => {
@@ -195,7 +190,6 @@ export const VideosPage = () => {
                   className="bg-white rounded-2xl overflow-hidden border border-[rgba(11,35,64,0.08)] shadow-[0_2px_8px_rgba(11,35,64,0.04)] hover:shadow-[0_12px_24px_rgba(11,35,64,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-pointer text-left"
                 >
                   <div>
-                    {/* Fixed 16:9 Thumbnail Dimension */}
                     <div className="relative aspect-video w-full bg-slate-900 overflow-hidden">
                       <img
                         src={thumbUrl}
@@ -210,26 +204,21 @@ export const VideosPage = () => {
                         }}
                       />
 
-                      {/* Dark Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
 
-                      {/* Center Play Button Overlay */}
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-red-600/95 text-white flex items-center justify-center shadow-xl group-hover:scale-115 group-hover:bg-red-600 transition-all duration-300">
                           <Play className="w-5 h-5 fill-white ml-0.5" />
                         </div>
                       </div>
 
-                      {/* YouTube indicator badge */}
                       <div className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-sm text-[10px] font-bold text-white flex items-center gap-1">
                         <YoutubeIcon className="w-3 h-3 text-red-500" />
                         <span>Watch</span>
                       </div>
                     </div>
 
-                    {/* Card Content: Title and Description */}
                     <div className="p-3.5 sm:p-4 space-y-1.5">
-                      {/* Video Title */}
                       <h3
                         className="font-heading font-black text-xs sm:text-sm text-[var(--text-primary,#0B2340)] line-clamp-2 leading-snug group-hover:text-[var(--orange,#FF6600)] transition-colors"
                         title={video.title}
@@ -237,7 +226,6 @@ export const VideosPage = () => {
                         {video.title}
                       </h3>
 
-                      {/* One-Line Description */}
                       <p
                         className="text-[11px] sm:text-xs text-[var(--text-muted,#64748B)] truncate block font-medium"
                         title={video.description}
@@ -253,7 +241,6 @@ export const VideosPage = () => {
         )}
       </div>
 
-      {/* YOUTUBE EMBEDDED PLAYER MODAL (16:9 Aspect Ratio with True Fullscreen Coverage) */}
       {activeVideo && (
         <div
           ref={modalRef}
@@ -273,7 +260,6 @@ export const VideosPage = () => {
             }`}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
             <div
               className={`p-3 sm:p-4 text-white flex items-center justify-between gap-3 border-b border-white/10 transition-all ${
                 isFullscreen
@@ -315,7 +301,6 @@ export const VideosPage = () => {
               </div>
             </div>
 
-            {/* Official YouTube Embedded Player (100% Filled Canvas) */}
             <div
               className={`w-full bg-black relative flex items-center justify-center overflow-hidden ${
                 isFullscreen ? 'w-full h-full flex-1' : 'w-full'
@@ -345,7 +330,6 @@ export const VideosPage = () => {
               />
             </div>
 
-            {/* Modal Footer: Description (Hidden in full screen to allow 100% full video canvas) */}
             {activeVideo.description && !isFullscreen && (
               <div className="p-3 sm:p-4 bg-slate-950 text-slate-300 text-xs sm:text-sm border-t border-white/5 shrink-0">
                 <p className="line-clamp-2">{activeVideo.description}</p>

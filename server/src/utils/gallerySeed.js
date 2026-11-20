@@ -12,7 +12,6 @@ export const INITIAL_TEMPLE_FOLDER = {
 };
 
 export const INITIAL_24_IMAGES = [
-  // 1. Temple Lingams & Shrines
   {
     url: '/assets/hero-lingam-new.jpeg',
     title: 'Shri Shantamalleshwara Swami Jyotirlinga (Hero Sanctum)',
@@ -64,7 +63,6 @@ export const INITIAL_24_IMAGES = [
     status: 'published',
   },
 
-  // 2. Sacred Deities (Pancha Lingas & Goddess)
   {
     url: '/assets/gallery/Bhogalingeswara_Shiva.jpeg',
     title: 'Sadyojata Linga — Bhogalingeswara Shiva',
@@ -136,7 +134,6 @@ export const INITIAL_24_IMAGES = [
     status: 'published',
   },
 
-  // 3. Grand Festivals & Celebrations
   {
     url: '/assets/Maha_Shivaratri_upcome_2027.jpeg',
     title: 'Maha Shivaratri Mahotsavam 2027',

@@ -146,10 +146,8 @@ export const VolunteerModal = ({ isOpen, onClose }) => {
       aria-modal="true"
     >
       <div className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-[#ECE3D4] overflow-hidden flex flex-col max-h-[92vh] animate-in zoom-in-95 duration-200">
-        {/* Top Decorative Amber Bar */}
         <div className="h-1.5 w-full bg-gradient-to-r from-[var(--orange,#FF8A3D)] via-[#FFA14A] to-[var(--yellow,#D97706)]" />
 
-        {/* Modal Header */}
         <div className="px-4 sm:px-6 pt-5 pb-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-b from-[#FFFDF9] to-white shrink-0">
           <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[var(--orange)]/10 text-[var(--orange)] flex items-center justify-center shrink-0 shadow-sm">
@@ -175,10 +173,8 @@ export const VolunteerModal = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        {/* Modal Body */}
         <div className="p-4 sm:p-6 overflow-y-auto space-y-5 flex-1">
           {isSuccess ? (
-            /* Success Screen */
             <div className="py-6 text-center space-y-4 animate-in fade-in zoom-in-95 duration-200">
               <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-inner">
                 <CheckCircle className="w-9 h-9" />
@@ -217,7 +213,6 @@ export const VolunteerModal = ({ isOpen, onClose }) => {
               </button>
             </div>
           ) : (
-            /* Form Screen */
             <form onSubmit={handleSubmit} className="space-y-4">
               {errorMessage && (
                 <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2.5 animate-in fade-in duration-150">
@@ -226,7 +221,6 @@ export const VolunteerModal = ({ isOpen, onClose }) => {
                 </div>
               )}
 
-              {/* Name Field */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                   Full Name <span className="text-red-500">*</span>
@@ -245,7 +239,6 @@ export const VolunteerModal = ({ isOpen, onClose }) => {
                 </div>
               </div>
 
-              {/* DOB Field */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                   Date of Birth <span className="text-red-500">*</span>
@@ -264,7 +257,6 @@ export const VolunteerModal = ({ isOpen, onClose }) => {
                 </div>
               </div>
 
-              {/* Phone & Email Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
@@ -308,13 +300,11 @@ export const VolunteerModal = ({ isOpen, onClose }) => {
                 </div>
               </div>
 
-              {/* Interest in Volunteering Field */}
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                   What is your interest in volunteering? <span className="text-red-500">*</span>
                 </label>
 
-                {/* Quick Selection Tags */}
                 <div className="flex flex-wrap gap-1.5 mb-2.5">
                   {INTEREST_SUGGESTIONS.map((tag) => {
                     const isSelected = formData.interest.includes(tag);
@@ -345,7 +335,6 @@ export const VolunteerModal = ({ isOpen, onClose }) => {
                 />
               </div>
 
-              {/* Submit Button */}
               <div className="pt-2">
                 <button
                   type="submit"

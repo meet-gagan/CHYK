@@ -23,7 +23,6 @@ export const RoadSign = ({
           : 'opacity-65'
       } ${className}`}
     >
-      {/* Signboard Post Graphic */}
       <div
         className={`px-3.5 py-1.5 rounded-xl border-2 flex items-center gap-2 shadow-md transition-all ${
           isActive

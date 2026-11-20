@@ -58,10 +58,8 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
         fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       }}
     >
-      {/* 1. TOP HEADER WITH LOGOS */}
       <div className="relative pb-3" style={{ borderBottom: '1px solid #e2e8f0' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-          {/* Left: Chinmaya Mission Om Logo */}
           <div style={{ flexShrink: 0, width: '44px', display: 'flex', justifyContent: 'flex-start' }}>
             <img
               src="/assets/logos/logo-2.png"
@@ -73,7 +71,6 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
             />
           </div>
 
-          {/* Center: Title & Subtitles */}
           <div style={{ flex: 1, textAlign: 'center', padding: '0 4px' }}>
             <h2 style={{ fontSize: '16px', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', color: '#0f172a', margin: 0, lineHeight: 1.2 }}>
               CHINMAYA MISSION, ADONI
@@ -86,7 +83,6 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
             </p>
           </div>
 
-          {/* Right: Chyk Logo */}
           <div style={{ flexShrink: 0, width: '52px', display: 'flex', justifyContent: 'flex-end' }}>
             <img
               src="/assets/logos/chyk-logo.png"
@@ -100,7 +96,6 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
         </div>
       </div>
 
-      {/* 2. EVENT TITLE */}
       <div style={{ textAlign: 'center', margin: '14px 0' }}>
         <h1 style={{ fontSize: '20px', fontWeight: 900, color: '#0f172a', letterSpacing: '0.03em', textTransform: 'uppercase', margin: 0, lineHeight: 1.2 }}>
           ANTI-DRUG <span style={{ whiteSpace: 'nowrap', display: 'inline-block' }}>MINI&#8209;MARATHON</span> 2026
@@ -110,7 +105,6 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
         </p>
       </div>
 
-      {/* 3. PARTICIPANT INFORMATION CARD */}
       <div
         style={{
           backgroundColor: '#f8faff',
@@ -120,10 +114,8 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
           marginTop: '12px',
         }}
       >
-        {/* Two-Column Grid for Details */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px', rowGap: '14px', textAlign: 'left' }}>
           
-          {/* Row 1 Left: REGISTRATION ID */}
           <div>
             <span style={{ fontSize: '10px', fontWeight: 700, color: '#3b82f6', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block' }}>
               REGISTRATION ID
@@ -133,7 +125,6 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
             </div>
           </div>
 
-          {/* Row 1 Right: PARTICIPANT NAME */}
           <div>
             <span style={{ fontSize: '10px', fontWeight: 700, color: '#3b82f6', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block' }}>
               PARTICIPANT NAME
@@ -143,7 +134,6 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
             </div>
           </div>
 
-          {/* Row 2 Left: T-SHIRT SIZE */}
           <div>
             <span style={{ fontSize: '10px', fontWeight: 700, color: '#3b82f6', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block' }}>
               T-SHIRT SIZE
@@ -153,7 +143,6 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
             </div>
           </div>
 
-          {/* Row 2 Right: CONTACT NUMBER */}
           <div>
             <span style={{ fontSize: '10px', fontWeight: 700, color: '#3b82f6', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block' }}>
               CONTACT NUMBER
@@ -163,7 +152,6 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
             </div>
           </div>
 
-          {/* Row 3 Left: INSTITUTION / TYPE */}
           <div style={{ gridColumn: 'span 2' }}>
             <span style={{ fontSize: '10px', fontWeight: 700, color: '#3b82f6', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block' }}>
               INSTITUTION / TYPE
@@ -175,7 +163,6 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
 
         </div>
 
-        {/* 4. EVENT DETAILS & QR VERIFICATION ROW */}
         <div
           style={{
             backgroundColor: '#ffffff',
@@ -189,9 +176,7 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
             gap: '12px',
           }}
         >
-          {/* Left: Event Date & Location */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', flex: 1, minWidth: 0 }}>
-            {/* Date Row */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', fontWeight: 700, color: '#1e3a8a' }}>
               <div style={{ width: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ea580c', flexShrink: 0 }}>
                 <Calendar className="w-4 h-4 stroke-[2.4]" />
@@ -199,7 +184,6 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
               <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{displayDate}</span>
             </div>
 
-            {/* Location Row */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', fontWeight: 700, color: '#1e3a8a' }}>
               <div style={{ width: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0284c7', flexShrink: 0 }}>
                 <MapPin className="w-4 h-4 stroke-[2.4]" />
@@ -207,7 +191,6 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
               <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{displayLocation}</span>
             </div>
 
-            {/* Pass ID */}
             {registration.entryPassId && (
               <div style={{ fontSize: '9px', fontWeight: 700, color: '#64748b', fontFamily: 'monospace', letterSpacing: '0.04em', marginTop: '2px' }}>
                 PASS CODE: {registration.entryPassId}
@@ -215,7 +198,6 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
             )}
           </div>
 
-          {/* Right: Unique QR Verification Code */}
           <div style={{ textAlign: 'center', flexShrink: 0, paddingLeft: '8px', borderLeft: '1px dashed #dbeafe' }}>
             <div style={{ display: 'inline-block', padding: '4px', backgroundColor: '#ffffff', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <QRCodeSVG
@@ -236,12 +218,10 @@ export const EntryPass = ({ registration, eventConfig, id = 'official-entry-pass
 
       </div>
 
-      {/* 5. FOOTER MESSAGE */}
       <p style={{ fontSize: '11px', fontWeight: 600, color: '#3b82f6', textAlign: 'center', margin: '14px 0 0 0' }}>
         Please carry this pass for entry to the <span style={{ whiteSpace: 'nowrap', display: 'inline-block' }}>mini&#8209;marathon</span>.
       </p>
 
-      {/* 6. FOOTER DIVIDER & BRANDING */}
       <div style={{ width: '70%', margin: '10px auto 8px auto', borderTop: '1px solid #dbeafe' }} />
 
       <p style={{ fontSize: '9px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#3b82f6', textAlign: 'center', margin: 0 }}>

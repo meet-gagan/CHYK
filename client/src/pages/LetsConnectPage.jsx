@@ -104,7 +104,6 @@ export const LetsConnectPage = () => {
 
   return (
     <div className="min-h-screen pt-2 sm:pt-4 pb-14 px-4 max-w-7xl mx-auto space-y-8 sm:space-y-10">
-      {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-2.5">
         <h1 className="text-4xl sm:text-5xl font-black font-heading text-[var(--text-primary)] leading-tight">
           <span>{f.contact_info?.heading && !f.contact_info.heading.toLowerCase().includes('us') ? f.contact_info.heading : "Let's Connect With"}</span>
@@ -116,7 +115,6 @@ export const LetsConnectPage = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-        {/* Contact Form */}
         <div className="lg:col-span-5 glass-card p-7 sm:p-9 rounded-3xl border border-[var(--border-color)] shadow-2xl space-y-6">
           <div className="space-y-2">
             <h3 className="text-2xl font-extrabold font-heading text-[var(--text-primary)]">
@@ -240,7 +238,6 @@ export const LetsConnectPage = () => {
           </form>
         </div>
 
-        {/* Location & Details Side - 3 Organization Cards in 2-Top, 1-Bottom Centered Structure */}
         <div className="lg:col-span-7">
           {(() => {
             const activeCards = [
@@ -274,7 +271,6 @@ export const LetsConnectPage = () => {
                       </h3>
 
                       <div className="space-y-4 text-xs sm:text-sm text-[var(--text-muted)] font-medium">
-                        {/* Address */}
                         <div className="flex items-start gap-3.5">
                           <div className="w-10 h-10 rounded-2xl bg-[var(--orange)]/15 text-[var(--orange)] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                             <MapPin className="w-5 h-5" />
@@ -294,7 +290,6 @@ export const LetsConnectPage = () => {
                           </div>
                         </div>
 
-                        {/* Name (Contact Person) - Above Phone Number */}
                         {contactPerson && (
                           <div className="flex items-center gap-3.5">
                             <div className="w-10 h-10 rounded-2xl bg-amber-500/15 text-amber-600 flex items-center justify-center flex-shrink-0 shadow-xs">
@@ -308,7 +303,6 @@ export const LetsConnectPage = () => {
                           </div>
                         )}
 
-                        {/* Phone */}
                         <div className="flex items-center gap-3.5">
                           <div className="w-10 h-10 rounded-2xl bg-[var(--cyan)]/15 text-[var(--cyan)] flex items-center justify-center flex-shrink-0 shadow-xs">
                             <Phone className="w-5 h-5" />
@@ -323,7 +317,6 @@ export const LetsConnectPage = () => {
                           </div>
                         </div>
 
-                        {/* Email */}
                         <div className="flex items-center gap-3.5">
                           <div className="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center flex-shrink-0 shadow-xs">
                             <Mail className="w-5 h-5" />

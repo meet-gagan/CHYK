@@ -46,12 +46,10 @@ export const AdminLoginPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-[#0B132B] relative overflow-hidden">
-      {/* Subtle background glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#00B4D8]/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="bg-[#1C2541]/90 backdrop-blur-xl border-2 border-[#00B4D8]/30 p-8 sm:p-10 rounded-3xl max-w-md w-full shadow-2xl space-y-6 relative z-10">
         
-        {/* Branding */}
         <div className="text-center space-y-3">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#00B4D8] to-blue-600 text-white flex items-center justify-center mx-auto shadow-lg shadow-[#00B4D8]/30">
             <Shield className="w-9 h-9" />

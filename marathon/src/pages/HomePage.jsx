@@ -141,7 +141,6 @@ export const HomePage = () => {
   });
 
   const loadAllData = () => {
-    // 1. Fetch Public Homepage Configuration from CMS
     homepageService
       .getPublicHomepage()
       .then((res) => {
@@ -155,7 +154,6 @@ export const HomePage = () => {
       })
       .catch(() => {});
 
-    // 2. Fetch Multi-Website CMS Content for Marathon Home
     webContentService
       .getPublicPage('marathon', 'home')
       .then((res) => {
@@ -166,7 +164,6 @@ export const HomePage = () => {
       })
       .catch(() => {});
 
-    // 3. Fetch Auxiliary Data (Events, Banners, FAQs, Activities)
     eventService.getConfig().then((res) => {
       if (res.data?.success) {
         setEventConfig(res.data.data);
@@ -361,26 +358,21 @@ export const HomePage = () => {
 
   return (
     <div className="min-h-screen space-y-2">
-      {/* Event Countdown: Positioned below the Header and above the Hero banner (2nd image) */}
       <section className="w-full pt-1 sm:pt-2 pb-1">
         <CountdownTimer targetDate={eventConfig?.eventDate || '2027-01-24T06:00:00.000+05:30'} />
       </section>
 
-      {/* Dynamic Sections Rendered According to Admin Order */}
       {sections.length > 0 ? (
         sections.map((section) => (
           <React.Fragment key={section.sectionId || section._id}>
-            {/* 1st Image: Transformation Story placed directly above 2nd Image: Quote Banner */}
             {section.type === 'marathon' && (
               <div className="pt-2">
                 <TransformationSection content={webContentData?.fieldsMap?.transformation_section} />
               </div>
             )}
 
-            {/* 2nd Image: Quote Banner placed directly above EVENT DETAILS & COUNTDOWN with zero overlap */}
             {section.type === 'marathon' && <QuoteBanner content={webContentData?.fieldsMap?.quote_banner} />}
 
-            {/* MYTHS VS FACTS Slider & Community Story Board placed directly above BE PART OF THE MOVEMENT IN ADONI! */}
             {section.type === 'cta' && (
               <>
                 <MythsVsFactsSection content={webContentData?.fieldsMap?.myths_vs_facts} />
@@ -398,13 +390,11 @@ export const HomePage = () => {
           </React.Fragment>
         ))
       ) : (
-        /* Fallback if no sections configured */
         <div className="py-20 text-center text-sm font-bold text-[var(--text-muted)]">
           No homepage sections published yet.
         </div>
       )}
 
-      {/* Movement Posters & Inspiration Banner Slider - Positioned directly above Footer */}
       <section className="py-2">
         <ContinuousVerticalBannerSlider banners={banners?.vertical || []} />
       </section>

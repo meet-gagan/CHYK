@@ -201,7 +201,6 @@ export const TermsPrivacyPage = () => {
 
   return (
     <div className="space-y-6">
-      {/* 1. Header Banner */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 sm:p-6 rounded-2xl bg-[#1C2541] border border-white/10 shadow-lg">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
@@ -217,7 +216,6 @@ export const TermsPrivacyPage = () => {
           </p>
         </div>
 
-        {/* Global Action: Save Changes */}
         <div className="flex items-center gap-2.5 w-full sm:w-auto">
           <button
             onClick={handleSave}
@@ -230,7 +228,6 @@ export const TermsPrivacyPage = () => {
         </div>
       </div>
 
-      {/* 2. Notification Message */}
       {message.text && (
         <div
           className={`p-4 rounded-xl flex items-center gap-3 text-xs sm:text-sm font-bold border transition-all ${
@@ -248,13 +245,11 @@ export const TermsPrivacyPage = () => {
         </div>
       )}
 
-      {/* 3. STEP 1: SELECT WEBSITE (Chinmaya Mission vs Marathon) */}
       <div className="space-y-2">
         <label className="text-xs font-black text-slate-300 uppercase tracking-wider flex items-center gap-2">
           <span>1. Select Website Platform:</span>
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-          {/* Option A: Chinmaya Mission Website */}
           <button
             type="button"
             onClick={() => setSelectedWebsite('chinmaya')}
@@ -290,7 +285,6 @@ export const TermsPrivacyPage = () => {
             </div>
           </button>
 
-          {/* Option B: Marathon Website */}
           <button
             type="button"
             onClick={() => setSelectedWebsite('marathon')}
@@ -328,7 +322,6 @@ export const TermsPrivacyPage = () => {
         </div>
       </div>
 
-      {/* 4. STEP 2: SELECT DOCUMENT TYPE (Terms & Conditions vs Privacy Policy) */}
       <div className="space-y-2">
         <label className="text-xs font-black text-slate-300 uppercase tracking-wider flex items-center gap-2">
           <span>2. Select Document to Manage:</span>
@@ -362,7 +355,6 @@ export const TermsPrivacyPage = () => {
         </div>
       </div>
 
-      {/* 5. Document Overview & Metadata */}
       {loading ? (
         <div className="p-12 text-center text-slate-400 space-y-3 bg-[#1C2541] rounded-2xl border border-white/10">
           <div className="w-8 h-8 border-2 border-[#00B4D8] border-t-transparent rounded-full animate-spin mx-auto" />
@@ -370,7 +362,6 @@ export const TermsPrivacyPage = () => {
         </div>
       ) : (
         <div className="space-y-6">
-          {/* Document Header Settings Card */}
           <div className="p-5 sm:p-6 rounded-2xl bg-[#1C2541] border border-white/10 space-y-4 shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
               <div className="space-y-1">
@@ -383,7 +374,6 @@ export const TermsPrivacyPage = () => {
                 </h3>
               </div>
 
-              {/* Live Preview Button & Reset to Default */}
               <div className="flex items-center gap-2">
                 <button
                   type="button"
@@ -409,7 +399,6 @@ export const TermsPrivacyPage = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Document Title */}
               <div className="md:col-span-2 space-y-1.5">
                 <label className="text-xs font-black text-slate-300 uppercase tracking-wider">
                   Document Header Title
@@ -423,7 +412,6 @@ export const TermsPrivacyPage = () => {
                 />
               </div>
 
-              {/* Effective / Last Updated Date */}
               <div className="space-y-1.5">
                 <label className="text-xs font-black text-slate-300 uppercase tracking-wider flex items-center gap-1">
                   <Clock className="w-3.5 h-3.5 text-[#00B4D8]" />
@@ -438,7 +426,6 @@ export const TermsPrivacyPage = () => {
                 />
               </div>
 
-              {/* Document Subtitle / Intro */}
               <div className="md:col-span-3 space-y-1.5">
                 <label className="text-xs font-black text-slate-300 uppercase tracking-wider">
                   Introductory Paragraph / Subtitle
@@ -454,7 +441,6 @@ export const TermsPrivacyPage = () => {
             </div>
           </div>
 
-          {/* 6. Sections / Clauses List */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
@@ -476,7 +462,6 @@ export const TermsPrivacyPage = () => {
               </button>
             </div>
 
-            {/* List of Section Cards */}
             <div className="space-y-4">
               {docData.sections?.map((section, idx) => (
                 <div
@@ -493,7 +478,6 @@ export const TermsPrivacyPage = () => {
                       </span>
                     </div>
 
-                    {/* Action Controls: Move Up, Move Down, Delete */}
                     <div className="flex items-center gap-1.5">
                       <button
                         type="button"
@@ -524,7 +508,6 @@ export const TermsPrivacyPage = () => {
                     </div>
                   </div>
 
-                  {/* Clause Heading & Text */}
                   <div className="space-y-3">
                     <div>
                       <label className="text-[11px] font-black text-slate-300 uppercase tracking-wider block mb-1">
@@ -556,7 +539,6 @@ export const TermsPrivacyPage = () => {
               ))}
             </div>
 
-            {/* Bottom Add Section & Save */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3">
               <button
                 type="button"

@@ -123,12 +123,10 @@ export const ScrollingAnnouncementBanner = ({
         title="Chinmaya Mission Adoni — Maga Masam Poojalu"
       >
         <div className="announcement-marquee-track">
-          {/* Primary Track Content (Read by Screen Readers) */}
           <div className="announcement-track-content">
             {renderUnits('primary')}
           </div>
 
-          {/* Secondary Duplicate Track Content for 100% Seamless Looping (Hidden from Screen Readers) */}
           <div className="announcement-track-content" aria-hidden="true">
             {renderUnits('clone')}
           </div>

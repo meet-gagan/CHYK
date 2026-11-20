@@ -131,9 +131,7 @@ export const GalleryManager = () => {
       .replace(/^-+|-+$/g, '');
   };
 
-  // ───────────────────────────────────────────────────────────────────────────
   // LOAD DATA
-  // ───────────────────────────────────────────────────────────────────────────
 
   const loadFolders = async () => {
     setLoadingFolders(true);
@@ -175,9 +173,7 @@ export const GalleryManager = () => {
     loadFolders();
   }, []);
 
-  // ───────────────────────────────────────────────────────────────────────────
   // FOLDER HANDLERS
-  // ───────────────────────────────────────────────────────────────────────────
 
   const handleOpenCreateFolder = () => {
     setFolderForm({
@@ -334,9 +330,7 @@ export const GalleryManager = () => {
     loadFolderMedia(folder._id);
   };
 
-  // ───────────────────────────────────────────────────────────────────────────
   // MEDIA HANDLERS
-  // ───────────────────────────────────────────────────────────────────────────
 
   const handleImageUploadSubmit = async (e) => {
     e.preventDefault();
@@ -517,9 +511,7 @@ export const GalleryManager = () => {
     }
   };
 
-  // ───────────────────────────────────────────────────────────────────────────
   // FILTERING
-  // ───────────────────────────────────────────────────────────────────────────
 
   const filteredFolders = folders.filter((f) => {
     const matchesSearch =
@@ -544,7 +536,6 @@ export const GalleryManager = () => {
 
   return (
     <div className="space-y-8 animate-in fade-in">
-      {/* Notification Toast */}
       {notice.text && (
         <div
           className={`p-4 rounded-2xl flex items-center justify-between text-sm font-bold shadow-lg transition-all ${
@@ -570,10 +561,8 @@ export const GalleryManager = () => {
         </div>
       )}
 
-      {/* VIEW A: FOLDERS LIST */}
       {currentView === 'FOLDERS' && (
         <div className="space-y-8">
-          {/* Top Bar */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <span className="text-xs font-black text-[var(--orange)] uppercase tracking-wider block">
@@ -606,7 +595,6 @@ export const GalleryManager = () => {
             </div>
           </div>
 
-          {/* Metric Cards Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             <div className="p-5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)]">
               <span className="text-[11px] font-extrabold text-[var(--orange)] block mb-1">
@@ -654,7 +642,6 @@ export const GalleryManager = () => {
             </div>
           </div>
 
-          {/* Filter Bar */}
           <div className="p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2 flex-grow max-w-md">
               <div className="relative w-full">
@@ -687,7 +674,6 @@ export const GalleryManager = () => {
             </div>
           </div>
 
-          {/* Folders Cards Grid */}
           {loadingFolders ? (
             <div className="text-center py-16 text-[var(--text-muted)] font-bold">
               Loading gallery collections...
@@ -715,7 +701,6 @@ export const GalleryManager = () => {
                     key={folder._id}
                     className="rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] overflow-hidden shadow-xl flex flex-col justify-between transition-all hover:border-[var(--orange)]/40"
                   >
-                    {/* Cover Image & Badges - Full Image Totally Visible */}
                     <div className="relative aspect-[4/3] bg-slate-950 overflow-hidden flex items-center justify-center">
                       {folder.coverImage || folder.cover_image ? (
                         <>
@@ -741,7 +726,6 @@ export const GalleryManager = () => {
                         </div>
                       )}
 
-                      {/* Status Badge */}
                       <div className="absolute top-3 left-3">
                         <span
                           className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-md ${
@@ -754,7 +738,6 @@ export const GalleryManager = () => {
                         </span>
                       </div>
 
-                      {/* Media Counts Badge */}
                       <div className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-black bg-black/75 text-white backdrop-blur-md">
                         <ImageIcon className="w-3.5 h-3.5 text-[var(--cyan)]" />
                         <span>{folder.imageCount || 0}</span>
@@ -764,7 +747,6 @@ export const GalleryManager = () => {
                       </div>
                     </div>
 
-                    {/* Content Body */}
                     <div className="p-5 flex-grow flex flex-col justify-between">
                       <div>
                         <span className="text-[10px] font-mono text-[var(--text-muted)] block mb-1">
@@ -786,7 +768,6 @@ export const GalleryManager = () => {
                       </div>
                     </div>
 
-                    {/* Action Buttons Bar */}
                     <div className="p-3 bg-[var(--bg-tertiary)] border-t border-[var(--border-color)] flex items-center justify-between gap-1.5">
                       <button
                         onClick={() => handleOpenFolderMedia(folder)}
@@ -845,10 +826,8 @@ export const GalleryManager = () => {
         </div>
       )}
 
-      {/* VIEW B: MANAGE FOLDER MEDIA */}
       {currentView === 'MEDIA' && selectedFolder && (
         <div className="space-y-6">
-          {/* Breadcrumb Navigation Bar */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)]">
             <div className="flex items-center gap-3">
               <button
@@ -872,7 +851,6 @@ export const GalleryManager = () => {
               </div>
             </div>
 
-            {/* Upload Buttons */}
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowUploadImageModal(true)}
@@ -892,7 +870,6 @@ export const GalleryManager = () => {
             </div>
           </div>
 
-          {/* Folder Details Summary Banner */}
           <div className="p-5 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               {selectedFolder.coverImage || selectedFolder.cover_image ? (
@@ -947,7 +924,6 @@ export const GalleryManager = () => {
             </div>
           </div>
 
-          {/* Media Filter & Search Bar */}
           <div className="p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2 flex-grow max-w-md">
               <div className="relative w-full">
@@ -980,7 +956,6 @@ export const GalleryManager = () => {
             </div>
           </div>
 
-          {/* Media Items Grid */}
           {loadingMedia ? (
             <div className="text-center py-16 text-[var(--text-muted)] font-bold">
               Loading media items...
@@ -1016,7 +991,6 @@ export const GalleryManager = () => {
                     key={item._id}
                     className="rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] overflow-hidden shadow-lg flex flex-col justify-between group hover:border-[var(--orange)]/40 transition-all"
                   >
-                    {/* Media Thumbnail - Full Image Totally Visible */}
                     <div className="relative aspect-[4/3] bg-slate-950 overflow-hidden flex items-center justify-center">
                       {isVideo ? (
                         item.thumbnailUrl ? (
@@ -1060,7 +1034,6 @@ export const GalleryManager = () => {
                         </>
                       )}
 
-                      {/* Play button overlay for videos */}
                       {isVideo && (
                         <div
                           onClick={() => {
@@ -1075,7 +1048,6 @@ export const GalleryManager = () => {
                         </div>
                       )}
 
-                      {/* Type Badge */}
                       <div className="absolute top-2 left-2">
                         <span
                           className={`px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider backdrop-blur-md ${
@@ -1086,7 +1058,6 @@ export const GalleryManager = () => {
                         </span>
                       </div>
 
-                      {/* Order and Status Badge */}
                       <div className="absolute top-2 right-2 flex items-center gap-1">
                         <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-black/70 text-white">
                           #{item.displayOrder || index + 1}
@@ -1103,7 +1074,6 @@ export const GalleryManager = () => {
                       </div>
                     </div>
 
-                    {/* Card Body */}
                     <div className="p-3.5 flex-grow flex flex-col justify-between">
                       <div>
                         {item.tag && (
@@ -1122,9 +1092,7 @@ export const GalleryManager = () => {
                       </div>
                     </div>
 
-                    {/* Card Actions Bar */}
                     <div className="p-2 bg-[var(--bg-tertiary)] border-t border-[var(--border-color)] flex items-center justify-between gap-1">
-                      {/* Reordering Up/Down */}
                       <div className="flex items-center gap-0.5">
                         <button
                           onClick={() => handleMoveMedia(index, 'up')}
@@ -1144,7 +1112,6 @@ export const GalleryManager = () => {
                         </button>
                       </div>
 
-                      {/* Preview, Edit, Delete */}
                       <div className="flex items-center gap-1">
                         <button
                           onClick={() => {
@@ -1183,11 +1150,6 @@ export const GalleryManager = () => {
         </div>
       )}
 
-      {/* ───────────────────────────────────────────────────────────────────────
-          MODALS
-      ─────────────────────────────────────────────────────────────────────── */}
-
-      {/* CREATE FOLDER MODAL */}
       {showCreateFolderModal && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-lg rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-2xl p-6 overflow-hidden">
@@ -1330,7 +1292,6 @@ export const GalleryManager = () => {
         </div>
       )}
 
-      {/* EDIT FOLDER MODAL */}
       {showEditFolderModal && editingFolder && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-lg rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-2xl p-6 overflow-hidden">
@@ -1465,7 +1426,6 @@ export const GalleryManager = () => {
         </div>
       )}
 
-      {/* DELETE FOLDER MODAL */}
       {showDeleteFolderModal && deletingFolder && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-md rounded-3xl bg-[var(--bg-secondary)] border border-red-500/30 shadow-2xl p-6 text-center">
@@ -1499,7 +1459,6 @@ export const GalleryManager = () => {
         </div>
       )}
 
-      {/* UPLOAD IMAGES MODAL */}
       {showUploadImageModal && selectedFolder && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-lg rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-2xl p-6 overflow-hidden">
@@ -1631,7 +1590,6 @@ export const GalleryManager = () => {
         </div>
       )}
 
-      {/* UPLOAD VIDEO MODAL */}
       {showUploadVideoModal && selectedFolder && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-lg rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-2xl p-6 overflow-hidden">
@@ -1777,7 +1735,6 @@ export const GalleryManager = () => {
         </div>
       )}
 
-      {/* EDIT MEDIA MODAL */}
       {showEditMediaModal && editingMedia && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-lg rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-2xl p-6 overflow-hidden">
@@ -1904,7 +1861,6 @@ export const GalleryManager = () => {
         </div>
       )}
 
-      {/* DELETE MEDIA MODAL */}
       {showDeleteMediaModal && deletingMedia && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-md rounded-3xl bg-[var(--bg-secondary)] border border-red-500/30 shadow-2xl p-6 text-center">
@@ -1938,7 +1894,6 @@ export const GalleryManager = () => {
         </div>
       )}
 
-      {/* PREVIEW MODAL */}
       {showPreviewModal && previewItem && (
         <div
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 backdrop-blur-md animate-in fade-in"

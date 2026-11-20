@@ -95,9 +95,6 @@ export const WellnessCentersPage = () => {
     <div className="min-h-screen bg-[var(--bg-primary,#FFFDF9)] py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-10">
         
-        {/* ======================================================== */}
-        {/* PAGE HEADER */}
-        {/* ======================================================== */}
         <header className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading text-[var(--text-primary,#0B2340)] tracking-tight">
             Wellness Centers
@@ -108,14 +105,10 @@ export const WellnessCentersPage = () => {
           </p>
         </header>
 
-        {/* ======================================================== */}
-        {/* SUMMARY STATISTICS (Derived dynamically from dataset) */}
-        {/* ======================================================== */}
         <section
           aria-label="Centers Overview Statistics"
           className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto"
         >
-          {/* Total Centers */}
           <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[var(--border-color,#E5E7EB)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_6px_16px_rgba(11,35,64,0.04)] flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-[var(--orange,#FF6600)]/10 text-[var(--orange,#FF6600)] flex items-center justify-center shrink-0">
               <Building2 className="w-6 h-6" />
@@ -130,7 +123,6 @@ export const WellnessCentersPage = () => {
             </div>
           </div>
 
-          {/* Government Centers */}
           <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[var(--border-color,#E5E7EB)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_6px_16px_rgba(11,35,64,0.04)] flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
               <ShieldCheck className="w-6 h-6" />
@@ -145,7 +137,6 @@ export const WellnessCentersPage = () => {
             </div>
           </div>
 
-          {/* NGO Centers */}
           <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[var(--border-color,#E5E7EB)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_6px_16px_rgba(11,35,64,0.04)] flex items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-600 flex items-center justify-center shrink-0">
               <Stethoscope className="w-6 h-6" />
@@ -161,16 +152,12 @@ export const WellnessCentersPage = () => {
           </div>
         </section>
 
-        {/* ======================================================== */}
-        {/* SEARCH & FILTERS */}
-        {/* ======================================================== */}
         <section
           aria-label="Search and Filter Centers"
           className="p-4 sm:p-6 rounded-3xl bg-white border border-[var(--border-color,#E5E7EB)] shadow-sm space-y-4 max-w-5xl mx-auto"
         >
           <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 sm:gap-4">
             
-            {/* Search Input */}
             <div className="relative flex-1">
               <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none" />
               <input
@@ -193,7 +180,6 @@ export const WellnessCentersPage = () => {
               )}
             </div>
 
-            {/* District Filter Dropdown */}
             <div className="relative w-full md:w-64 shrink-0">
               <Filter className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none" />
               <select
@@ -215,7 +201,6 @@ export const WellnessCentersPage = () => {
 
           </div>
 
-          {/* Active Filter Pills Bar */}
           <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 text-xs">
             <div className="flex items-center gap-2 text-[var(--text-muted)] font-semibold">
               <span>Showing:</span>
@@ -246,9 +231,6 @@ export const WellnessCentersPage = () => {
           </div>
         </section>
 
-        {/* ======================================================== */}
-        {/* CARD GRID (3 cols desktop, 2 cols tablet, 1 col mobile) */}
-        {/* ======================================================== */}
         {filteredCenters.length > 0 ? (
           <section
             aria-label="Wellness Centers List"
@@ -263,10 +245,8 @@ export const WellnessCentersPage = () => {
                   key={center.id}
                   className="rounded-3xl bg-white border border-[var(--border-color,#E5E7EB)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)] hover:shadow-[0_4px_12px_rgba(11,35,64,0.08),0_16px_32px_rgba(11,35,64,0.08)] hover:-translate-y-0.5 transition-all duration-200 flex flex-col justify-between overflow-hidden"
                 >
-                  {/* Card Header & Badges */}
                   <div className="p-5 sm:p-6 space-y-4">
                     
-                    {/* Top Badges: Type and District */}
                     <div className="flex items-center justify-between gap-2 flex-wrap">
                       <span
                         className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider ${
@@ -289,13 +269,11 @@ export const WellnessCentersPage = () => {
                       </span>
                     </div>
 
-                    {/* Hospital / Center Name */}
                     <div>
                       <h2 className="text-lg sm:text-xl font-black font-heading text-[var(--text-primary)] leading-snug">
                         {center.name}
                       </h2>
 
-                      {/* Organization Name (if provided) */}
                       {center.organization && (
                         <p className="text-xs font-bold text-[var(--orange)] mt-1 flex items-start gap-1.5 leading-snug">
                           <Building2 className="w-3.5 h-3.5 shrink-0 mt-0.5 opacity-80" />
@@ -304,7 +282,6 @@ export const WellnessCentersPage = () => {
                       )}
                     </div>
 
-                    {/* Complete Address */}
                     <div className="p-3 rounded-2xl bg-slate-50/80 border border-slate-200/60 space-y-2">
                       <div className="flex items-center justify-between text-[11px] font-black uppercase tracking-wider text-[var(--text-muted)]">
                         <span className="flex items-center gap-1">
@@ -335,7 +312,6 @@ export const WellnessCentersPage = () => {
                       </p>
                     </div>
 
-                    {/* Primary Center Contact Numbers */}
                     <div className="space-y-1.5 pt-1">
                       <span className="text-[11px] font-black uppercase tracking-wider text-[var(--text-muted)] block">
                         Center Contact Numbers
@@ -355,7 +331,6 @@ export const WellnessCentersPage = () => {
                       </div>
                     </div>
 
-                    {/* Doctor & Additional Contact (where provided) */}
                     {(center.doctor || center.doctorPhone) && (
                       <div className="p-3 rounded-2xl bg-amber-50/60 border border-amber-200/60 space-y-1.5">
                         <span className="text-[11px] font-black uppercase tracking-wider text-amber-800 flex items-center gap-1">
@@ -379,7 +354,6 @@ export const WellnessCentersPage = () => {
                       </div>
                     )}
 
-                    {/* Additional Medical Staff / Duty Details (where provided) */}
                     {center.additionalInfo && (
                       <div className="p-3 rounded-2xl bg-cyan-50/50 border border-cyan-200/60 space-y-1">
                         <span className="text-[10px] font-black uppercase tracking-wider text-cyan-800 flex items-center gap-1">
@@ -394,7 +368,6 @@ export const WellnessCentersPage = () => {
 
                   </div>
 
-                  {/* Card Bottom Accent Strip */}
                   <div
                     className={`h-1.5 w-full ${
                       isGovt ? 'bg-gradient-to-r from-emerald-500 to-teal-500' : 'bg-gradient-to-r from-indigo-500 to-purple-500'
@@ -405,7 +378,6 @@ export const WellnessCentersPage = () => {
             })}
           </section>
         ) : (
-          /* Empty State */
           <div className="max-w-md mx-auto text-center p-10 sm:p-12 rounded-3xl bg-white border border-[var(--border-color)] shadow-sm space-y-4">
             <div className="w-14 h-14 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center mx-auto">
               <Search className="w-7 h-7" />
@@ -428,7 +400,6 @@ export const WellnessCentersPage = () => {
           </div>
         )}
 
-        {/* Source Attribution Note */}
         <div className="pt-2 sm:pt-4 text-center">
           <div className="inline-flex flex-wrap items-center justify-center gap-1.5 px-4 py-2.5 rounded-2xl bg-white/80 border border-[var(--border-color)] text-xs text-[var(--text-muted)] shadow-sm">
             <Info className="w-3.5 h-3.5 text-blue-500 shrink-0" />

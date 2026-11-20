@@ -206,7 +206,6 @@ export const GeneralEnquiryManager = () => {
 
   return (
     <div className="space-y-6">
-      {/* Toast Notification */}
       {notification && (
         <div
           className={`fixed top-5 right-5 z-50 flex items-center gap-2.5 px-5 py-3 rounded-2xl shadow-2xl border text-sm font-semibold transition-all duration-300 animate-in slide-in-from-top-3 ${
@@ -230,7 +229,6 @@ export const GeneralEnquiryManager = () => {
         </div>
       )}
 
-      {/* Top Banner / Title Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-xs">
         <div>
           <div className="flex items-center gap-3">
@@ -248,7 +246,6 @@ export const GeneralEnquiryManager = () => {
           </div>
         </div>
 
-        {/* Global Action Buttons */}
         <div className="flex items-center gap-2.5 self-stretch sm:self-auto">
           <button
             onClick={() => fetchEnquiries(true)}
@@ -271,9 +268,7 @@ export const GeneralEnquiryManager = () => {
         </div>
       </div>
 
-      {/* KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {/* Total */}
         <div className="p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex items-center justify-between">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-muted)]">
@@ -286,7 +281,6 @@ export const GeneralEnquiryManager = () => {
           </div>
         </div>
 
-        {/* New */}
         <div className="p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex items-center justify-between">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-wider text-amber-500">
@@ -299,7 +293,6 @@ export const GeneralEnquiryManager = () => {
           </div>
         </div>
 
-        {/* Read */}
         <div className="p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex items-center justify-between">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-wider text-blue-500">
@@ -312,7 +305,6 @@ export const GeneralEnquiryManager = () => {
           </div>
         </div>
 
-        {/* Responded */}
         <div className="p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex items-center justify-between">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-wider text-emerald-500">
@@ -326,9 +318,7 @@ export const GeneralEnquiryManager = () => {
         </div>
       </div>
 
-      {/* Search & Filters Bar */}
       <div className="p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-        {/* Search */}
         <div className="relative flex-1">
           <Search className="w-4 h-4 text-[var(--text-muted)] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
@@ -348,7 +338,6 @@ export const GeneralEnquiryManager = () => {
           )}
         </div>
 
-        {/* Status Pill Filters */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
           {['ALL', 'NEW', 'READ', 'RESPONDED'].map((st) => (
             <button
@@ -365,7 +354,6 @@ export const GeneralEnquiryManager = () => {
           ))}
         </div>
 
-        {/* Sort Order */}
         <div className="flex items-center gap-2">
           <select
             value={sortOrder}
@@ -378,7 +366,6 @@ export const GeneralEnquiryManager = () => {
         </div>
       </div>
 
-      {/* Main Content Table / List */}
       {loading ? (
         <div className="py-20 text-center space-y-3">
           <div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto" />
@@ -417,12 +404,10 @@ export const GeneralEnquiryManager = () => {
                     key={item._id}
                     className="hover:bg-[var(--bg-tertiary)]/50 transition-colors group"
                   >
-                    {/* Status */}
                     <td className="py-3.5 px-4 whitespace-nowrap">
                       {getStatusBadge(item.status)}
                     </td>
 
-                    {/* Name */}
                     <td className="py-3.5 px-4 font-bold text-[var(--text-primary)] whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <div className="w-7 h-7 rounded-full bg-orange-500/10 text-orange-500 flex items-center justify-center font-black text-xs shrink-0">
@@ -432,7 +417,6 @@ export const GeneralEnquiryManager = () => {
                       </div>
                     </td>
 
-                    {/* Email */}
                     <td className="py-3.5 px-4 whitespace-nowrap">
                       <a
                         href={`mailto:${item.email}`}
@@ -444,7 +428,6 @@ export const GeneralEnquiryManager = () => {
                       </a>
                     </td>
 
-                    {/* Mobile Number */}
                     <td className="py-3.5 px-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <a
@@ -467,7 +450,6 @@ export const GeneralEnquiryManager = () => {
                       </div>
                     </td>
 
-                    {/* What do you want to learn from this ? */}
                     <td className="py-3.5 px-4 max-w-xs">
                       <p
                         className="line-clamp-2 text-[var(--text-secondary)] leading-relaxed cursor-pointer hover:text-orange-600 transition-colors"
@@ -478,7 +460,6 @@ export const GeneralEnquiryManager = () => {
                       </p>
                     </td>
 
-                    {/* Date */}
                     <td className="py-3.5 px-4 text-[var(--text-muted)] whitespace-nowrap">
                       <div className="flex items-center gap-1.5">
                         <Calendar className="w-3.5 h-3.5 text-[var(--text-muted)] shrink-0" />
@@ -498,10 +479,8 @@ export const GeneralEnquiryManager = () => {
                       </div>
                     </td>
 
-                    {/* Actions */}
                     <td className="py-3.5 px-4 text-right whitespace-nowrap">
                       <div className="flex items-center justify-end gap-1.5">
-                        {/* Quick View */}
                         <button
                           onClick={() => setSelectedEnquiry(item)}
                           className="w-7 h-7 rounded-lg bg-[var(--bg-tertiary)] hover:bg-orange-500/10 hover:text-orange-500 text-[var(--text-muted)] flex items-center justify-center transition-colors cursor-pointer"
@@ -510,7 +489,6 @@ export const GeneralEnquiryManager = () => {
                           <Eye className="w-3.5 h-3.5" />
                         </button>
 
-                        {/* Status Toggle Dropdown */}
                         <select
                           value={item.status}
                           disabled={actionLoadingId === item._id}
@@ -522,7 +500,6 @@ export const GeneralEnquiryManager = () => {
                           <option value="RESPONDED">RESPONDED</option>
                         </select>
 
-                        {/* Delete Button */}
                         <button
                           onClick={() => setDeleteConfirmId(item._id)}
                           className="w-7 h-7 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 flex items-center justify-center transition-colors cursor-pointer"
@@ -540,11 +517,9 @@ export const GeneralEnquiryManager = () => {
         </div>
       )}
 
-      {/* Detail Modal View */}
       {selectedEnquiry && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
           <div className="w-full max-w-xl rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-            {/* Modal Header */}
             <div className="p-5 border-b border-[var(--border-color)] flex items-center justify-between bg-[var(--bg-tertiary)]">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-2xl bg-orange-500/15 text-orange-500 flex items-center justify-center">
@@ -567,9 +542,7 @@ export const GeneralEnquiryManager = () => {
               </button>
             </div>
 
-            {/* Modal Content */}
             <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
-              {/* Status Header */}
               <div className="flex items-center justify-between p-3.5 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)]">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-semibold text-[var(--text-muted)]">Current Status:</span>
@@ -589,9 +562,7 @@ export const GeneralEnquiryManager = () => {
                 </div>
               </div>
 
-              {/* 2-Column Info Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Name */}
                 <div className="p-3.5 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)]">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] block mb-1 flex items-center gap-1.5">
                     <User className="w-3.5 h-3.5 text-orange-500" />
@@ -602,7 +573,6 @@ export const GeneralEnquiryManager = () => {
                   </p>
                 </div>
 
-                {/* Mobile */}
                 <div className="p-3.5 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)]">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] block mb-1 flex items-center gap-1.5">
                     <Phone className="w-3.5 h-3.5 text-orange-500" />
@@ -627,7 +597,6 @@ export const GeneralEnquiryManager = () => {
                   </div>
                 </div>
 
-                {/* Email (Full row) */}
                 <div className="sm:col-span-2 p-3.5 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)]">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)] block mb-1 flex items-center gap-1.5">
                     <Mail className="w-3.5 h-3.5 text-orange-500" />
@@ -648,7 +617,6 @@ export const GeneralEnquiryManager = () => {
                 </div>
               </div>
 
-              {/* What would you like to know more about? (Message content) */}
               <div className="p-4 rounded-2xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] space-y-2">
                 <span className="text-[11px] font-black uppercase tracking-wider text-orange-500 flex items-center gap-1.5">
                   <HelpCircle className="w-4 h-4" />
@@ -660,7 +628,6 @@ export const GeneralEnquiryManager = () => {
               </div>
             </div>
 
-            {/* Modal Footer */}
             <div className="p-4 border-t border-[var(--border-color)] bg-[var(--bg-tertiary)] flex items-center justify-between">
               <button
                 onClick={() => setDeleteConfirmId(selectedEnquiry._id)}
@@ -681,7 +648,6 @@ export const GeneralEnquiryManager = () => {
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
       {deleteConfirmId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
           <div className="w-full max-w-sm rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] p-6 space-y-4 shadow-2xl animate-in zoom-in-95 duration-200">

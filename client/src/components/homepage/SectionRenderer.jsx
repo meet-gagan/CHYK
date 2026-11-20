@@ -37,11 +37,9 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
 
       return (
         <section className="relative overflow-hidden bg-gradient-to-b from-[#FFFDF9] via-[var(--bg-primary)] to-[#FFFDF9] border-b border-[var(--border-color)]/30 min-h-[440px] md:min-h-[480px] lg:min-h-[520px] flex items-center">
-          {/* Subtle warm decorative glow */}
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-[var(--orange)]/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-10 w-80 h-80 bg-[var(--yellow)]/10 rounded-full blur-3xl pointer-events-none" />
 
-          {/* Desktop & Tablet: Right-side image set as background */}
           <div className="hidden md:block absolute inset-0 z-0 pointer-events-none overflow-hidden">
             <img
               src={heroGraphicUrl}
@@ -51,13 +49,11 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                 e.target.src = heroRunnersImage;
               }}
             />
-            {/* Elegant multi-stop gradient overlay: ensures 100% sharp readability of text on the left while showcasing runners vibrantly on the right */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#FFFDF9] via-[#FFFDF9]/90 md:via-[#FFFDF9]/80 to-[#FFFDF9]/25 lg:to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#FFFDF9]/80 via-transparent to-[#FFFDF9]/40" />
           </div>
 
           <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row items-center justify-between py-6 sm:py-8 md:py-12 lg:py-14 relative z-10 px-4 sm:px-6 lg:px-8 gap-8">
-            {/* Content (Positioned on top of image for Desktop & Tablet) */}
             <div className="w-full md:max-w-xl lg:max-w-2xl flex justify-center md:justify-start items-center py-2 z-10 text-center md:text-left">
               <div className="w-full flex flex-col items-center md:items-start text-center md:text-left space-y-4 sm:space-y-5">
                 <div className="space-y-2 sm:space-y-2.5">
@@ -76,7 +72,6 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                   )}
                 </div>
 
-                {/* Date & Route Pill */}
                 <div className="inline-flex flex-wrap items-center justify-center md:justify-start gap-3 sm:gap-5 px-3.5 sm:px-4 py-2.5 rounded-2xl bg-white/95 backdrop-blur-sm border border-[rgba(11,35,64,0.08)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)] text-xs font-bold text-[var(--text-primary)] mx-auto md:mx-0">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-[var(--orange)] shrink-0" />
@@ -93,7 +88,6 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                   </Link>
                 </div>
 
-                {/* Primary & Secondary Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 pt-1 w-full sm:w-auto mx-auto md:mx-0">
                   {section.primaryButtonText && (
                     <Link
@@ -117,7 +111,6 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
               </div>
             </div>
 
-            {/* Mobile Only: Runners Graphic Card below content (Hidden on tablet and desktop) */}
             <div className="w-full md:hidden shrink-0 flex justify-center items-center">
               <div className="w-full max-w-[340px] sm:max-w-[500px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-[rgba(11,35,64,0.08)] bg-white/60 backdrop-blur-sm group">
                 <img
@@ -187,16 +180,13 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                   key={act._id || act.title}
                   className="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-[var(--orange)]/50 transition-all duration-300 flex flex-col h-full overflow-hidden group"
                 >
-                  {/* Full-width Image Area (Total image fully visible without cropping) */}
                   <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-950 flex items-center justify-center block">
-                    {/* Ambient blurred backdrop so there are no empty borders */}
                     <img
                       src={act.imageUrl}
                       alt=""
                       aria-hidden="true"
                       className="absolute inset-0 w-full h-full object-cover blur-md opacity-35 scale-110 pointer-events-none"
                     />
-                    {/* Full uncropped image visible completely */}
                     <img
                       src={act.imageUrl}
                       alt={act.title}
@@ -212,7 +202,6 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
                     )}
                   </div>
 
-                  {/* Card Content */}
                   <div className="p-5 sm:p-6 flex flex-col flex-1 text-left">
                     <h3 className="text-base sm:text-lg font-bold font-heading text-[var(--text-primary)] group-hover:text-[var(--orange)] transition-colors leading-snug line-clamp-2 mb-2">
                       {act.title}
@@ -380,7 +369,6 @@ export const SectionRenderer = ({ section, eventConfig, banners, activities, faq
 export const QuoteBanner = () => {
   return (
     <section className="relative overflow-hidden min-h-[100px] sm:min-h-[125px] flex items-center justify-center px-4 sm:px-6 lg:px-12 py-5 sm:py-7 lg:py-8 text-white bg-[#07162D] border-y border-slate-800/80 shadow-xl">
-      {/* Background Road Image with Dark Blue Tint */}
       <div
         className="absolute inset-0 bg-cover bg-center pointer-events-none opacity-25 mix-blend-luminosity"
         style={{
@@ -390,7 +378,6 @@ export const QuoteBanner = () => {
       />
       <div className="absolute inset-0 bg-gradient-to-r from-[#07162D]/95 via-[#07162D]/90 to-[#07162D]/95 pointer-events-none" />
 
-      {/* Quote Content - 1 Line on Desktop/Tablet, 2 Lines on Mobile */}
       <div className="relative z-10 w-full max-w-7xl mx-auto text-center px-2">
         <p className="font-serif italic text-xs min-[400px]:text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white font-medium leading-relaxed sm:whitespace-nowrap mb-2 sm:mb-3">
           <span className="block sm:inline">

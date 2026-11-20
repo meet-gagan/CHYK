@@ -95,9 +95,6 @@ export const AboutPage = () => {
   return (
     <div className="min-h-screen bg-[var(--bg-primary,#FFFDF9)] text-[var(--text-primary,#0B2340)] transition-colors duration-200">
       
-      {/* ======================================================== */}
-      {/* HERO SECTION */}
-      {/* ======================================================== */}
       <section className="relative pt-10 pb-14 sm:pt-16 sm:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-[var(--orange,#FF6600)]/10 via-[var(--bg-primary)] to-[var(--bg-primary)] border-b border-[var(--border-color,#E5E7EB)]">
         <div className="max-w-5xl mx-auto text-center space-y-4 sm:space-y-6">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading tracking-tight text-[var(--text-primary)]">
@@ -117,9 +114,6 @@ export const AboutPage = () => {
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-12 sm:space-y-16">
         
-        {/* ======================================================== */}
-        {/* SECTION 1: INTRODUCTION & 3 PILLARS */}
-        {/* ======================================================== */}
         <section className="p-6 sm:p-10 rounded-3xl bg-white border border-[var(--border-color,#E5E7EB)] shadow-sm space-y-6">
           <div className="space-y-4 text-sm sm:text-base leading-relaxed text-[var(--text-muted,#64748B)]">
             <p>
@@ -134,7 +128,6 @@ export const AboutPage = () => {
             </p>
           </div>
 
-          {/* 3 Pillars: We Rise, We Run, We Resist */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
             <div className="p-5 rounded-2xl bg-[var(--orange)]/5 border border-[var(--orange)]/25 flex flex-col justify-between">
               <div>
@@ -187,9 +180,6 @@ export const AboutPage = () => {
           </div>
         </section>
 
-        {/* ======================================================== */}
-        {/* SECTION 2: A COLLECTIVE MISSION */}
-        {/* ======================================================== */}
         <section className="p-6 sm:p-10 rounded-3xl bg-white border border-[var(--border-color,#E5E7EB)] shadow-sm space-y-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-emerald-500/15 text-emerald-600 flex items-center justify-center font-black shrink-0">
@@ -233,9 +223,6 @@ export const AboutPage = () => {
           </div>
         </section>
 
-        {/* ======================================================== */}
-        {/* SECTION 3: OUR VISION */}
-        {/* ======================================================== */}
         <section className="p-6 sm:p-10 rounded-3xl bg-white border border-[var(--border-color,#E5E7EB)] shadow-sm space-y-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-purple-500/15 text-purple-600 flex items-center justify-center font-black shrink-0">
@@ -275,9 +262,6 @@ export const AboutPage = () => {
           </div>
         </section>
 
-        {/* ======================================================== */}
-        {/* SECTION 4: WHY RUN? & PURPOSE */}
-        {/* ======================================================== */}
         <section className="p-6 sm:p-10 rounded-3xl bg-gradient-to-b from-slate-900 to-slate-950 text-white shadow-xl space-y-8">
           <div className="space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-xs font-black tracking-wider uppercase">
@@ -299,7 +283,6 @@ export const AboutPage = () => {
             </p>
           </div>
 
-          {/* WE RUN FOR A REASON: 6 CARDS */}
           <div className="space-y-4 pt-2">
             <div className="flex items-center gap-2">
               <Flag className="w-4 h-4 text-orange-400" />
@@ -334,9 +317,6 @@ export const AboutPage = () => {
           </div>
         </section>
 
-        {/* ======================================================== */}
-        {/* SECTION 5: MORE THAN A MINI-MARATHON. A MOVEMENT. */}
-        {/* ======================================================== */}
         <section className="p-6 sm:p-10 rounded-3xl bg-white border border-[var(--border-color,#E5E7EB)] shadow-sm space-y-4">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 rounded-xl bg-orange-500/15 text-[var(--orange)] flex items-center justify-center font-black shrink-0">
@@ -360,9 +340,6 @@ export const AboutPage = () => {
           </div>
         </section>
 
-        {/* ======================================================== */}
-        {/* SECTION 6: PLEDGE BANNER & CTA */}
-        {/* ======================================================== */}
         <section className="relative p-6 sm:p-10 rounded-3xl bg-gradient-to-r from-[var(--orange)]/15 via-[var(--bg-secondary,#FFFBF5)] to-cyan-500/15 border border-[var(--border-color,#E5E7EB)] shadow-xl overflow-hidden text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="max-w-xl space-y-3">
             <h2 className="text-xl sm:text-3xl font-black font-heading text-[var(--text-primary)]">

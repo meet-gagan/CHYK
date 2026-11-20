@@ -29,10 +29,8 @@ export function App() {
     <AdminAuthProvider>
       <Router>
         <Routes>
-          {/* Public Administrator Login */}
           <Route path="/login" element={<AdminLoginPage />} />
 
-          {/* Protected Administrator Dashboard & CMS Routes */}
           <Route
             path="/"
             element={
@@ -236,7 +234,6 @@ export function App() {
             }
           />
 
-          {/* Catch-all fallback */}
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </Router>

@@ -157,7 +157,6 @@ export const TermsPage = () => {
   return (
     <div className="min-h-screen bg-[var(--bg-primary,#FFFDF9)] py-8 sm:py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        {/* Navigation & Header */}
         <div className="space-y-4">
           <div className="flex items-center justify-between gap-4">
             <Link
@@ -198,7 +197,6 @@ export const TermsPage = () => {
           </div>
         </div>
 
-        {/* Search Filter */}
         <div className="relative max-w-md mx-auto">
           <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
@@ -210,7 +208,6 @@ export const TermsPage = () => {
           />
         </div>
 
-        {/* Clauses List */}
         <div className="bg-white rounded-3xl border border-[rgba(11,35,64,0.08)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)] divide-y divide-[var(--border-color,#E2E8F0)] overflow-hidden">
           {filteredSections.length > 0 ? (
             filteredSections.map((item, idx) => (
@@ -218,12 +215,10 @@ export const TermsPage = () => {
                 key={item.id || idx}
                 className="p-5 sm:p-6 hover:bg-slate-50/70 transition-colors flex items-start gap-4 sm:gap-5 group"
               >
-                {/* Number Badge */}
                 <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[var(--bg-secondary,#FFFBF5)] border border-[var(--orange)]/30 text-[var(--orange)] font-black text-xs sm:text-sm flex items-center justify-center shrink-0 shadow-xs group-hover:bg-[var(--orange)] group-hover:text-white transition-all">
                   <span>{item.number || idx + 1}</span>
                 </div>
 
-                {/* Term Text */}
                 <div className="flex-1 min-w-0 space-y-1.5 pt-0.5">
                   {item.title && (
                     <h3 className="text-sm sm:text-base font-extrabold text-[var(--text-primary)] font-heading">
@@ -244,7 +239,6 @@ export const TermsPage = () => {
           )}
         </div>
 
-        {/* Contact Support Footer Card */}
         <div className="p-6 rounded-3xl bg-[var(--bg-secondary,#FFFBF5)] border border-[var(--border-color,#E2E8F0)] flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="space-y-1">
             <h4 className="text-sm font-black text-[var(--text-primary)] font-heading">

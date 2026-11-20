@@ -270,7 +270,6 @@ _Chinmaya Mission, Adoni_`;
 
   return (
     <div className="space-y-6">
-      {/* Toast Notification */}
       {notification && (
         <div
           className={`p-4 rounded-2xl text-xs font-extrabold flex items-center justify-between border shadow-xl animate-in fade-in ${
@@ -293,7 +292,6 @@ _Chinmaya Mission, Adoni_`;
         </div>
       )}
 
-      {/* Header and Stats */}
       <div className="glass-card p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] space-y-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
@@ -332,9 +330,6 @@ _Chinmaya Mission, Adoni_`;
           </div>
         </div>
 
-        {/* ======================================================== */}
-        {/* 1. PRIMARY CATEGORY SELECTION DROPDOWN (PROMPT SPECIFIED)  */}
-        {/* ======================================================== */}
         <div className="p-4 sm:p-5 rounded-2xl bg-[var(--bg-primary)] border-2 border-[var(--orange)] shadow-lg space-y-3">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="space-y-1.5 flex-1">
@@ -358,7 +353,6 @@ _Chinmaya Mission, Adoni_`;
               </div>
             </div>
 
-            {/* Quick Filter Pill Buttons */}
             <div className="flex flex-wrap items-center gap-2 pt-2 md:pt-5">
               {[
                 { id: 'SANJEEVARAYA', label: '1) Chinmaya Sanjeevaraya' },
@@ -383,7 +377,6 @@ _Chinmaya Mission, Adoni_`;
           </div>
         </div>
 
-        {/* Quick KPI Stat Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
           <div className="p-4 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)]">
             <span className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-wider block">
@@ -423,7 +416,6 @@ _Chinmaya Mission, Adoni_`;
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
       <div className="glass-card p-4 sm:p-5 rounded-2xl border border-[var(--border-color)] flex flex-col md:flex-row items-center justify-between gap-3 text-xs">
         <form onSubmit={handleSearchSubmit} className="flex items-center gap-2 w-full md:w-auto flex-1 max-w-md">
           <div className="relative w-full">
@@ -445,7 +437,6 @@ _Chinmaya Mission, Adoni_`;
         </form>
 
         <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
-          {/* Status Filter */}
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
@@ -460,7 +451,6 @@ _Chinmaya Mission, Adoni_`;
         </div>
       </div>
 
-      {/* Bulk Action Bar */}
       {selectedBookingIds.length > 0 && (
         <div className="p-4 px-5 rounded-2xl bg-red-500/10 border border-red-500/30 flex flex-wrap items-center justify-between gap-3 animate-in fade-in">
           <div className="flex items-center gap-3">
@@ -487,7 +477,6 @@ _Chinmaya Mission, Adoni_`;
         </div>
       )}
 
-      {/* Bookings Table: Displays Pass, Name, Email, Phone, Seva Booked, WhatsApp Link */}
       <div className="glass-card rounded-3xl border border-[var(--border-color)] overflow-hidden shadow-xl">
         {loading ? (
           <div className="py-20 text-center space-y-3">
@@ -549,7 +538,6 @@ _Chinmaya Mission, Adoni_`;
                           className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600"
                         />
                       </td>
-                      {/* 1. Pass / Ref ID */}
                       <td className="py-3.5 px-4">
                         <div className="flex items-center gap-1.5">
                           <span className="font-mono font-black text-amber-600 bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-200 block text-xs">
@@ -573,7 +561,6 @@ _Chinmaya Mission, Adoni_`;
                         </span>
                       </td>
 
-                      {/* 2. Devotee Name */}
                       <td className="py-3.5 px-4">
                         <span className="font-extrabold text-[var(--text-primary)] text-sm block">
                           {booking.devoteeName || booking.name}
@@ -585,7 +572,6 @@ _Chinmaya Mission, Adoni_`;
                         )}
                       </td>
 
-                      {/* 3. Contact Info: Email & Phone Number */}
                       <td className="py-3.5 px-4 space-y-1">
                         <a
                           href={`tel:${booking.phone}`}
@@ -610,7 +596,6 @@ _Chinmaya Mission, Adoni_`;
                         )}
                       </td>
 
-                      {/* 4. Which Seva They Have Booked */}
                       <td className="py-3.5 px-4">
                         <span className="font-extrabold text-[#0C1A30] text-xs block">
                           {booking.sevaName}
@@ -620,7 +605,6 @@ _Chinmaya Mission, Adoni_`;
                         </span>
                       </td>
 
-                      {/* 5. Amount & Payment Proof UTR */}
                       <td className="py-3.5 px-4">
                         <span className="font-extrabold text-amber-600 font-heading text-sm block">
                           ₹{Number(booking.amount || 0).toLocaleString('en-IN')}
@@ -630,7 +614,6 @@ _Chinmaya Mission, Adoni_`;
                         </span>
                       </td>
 
-                      {/* 6. WhatsApp Connection with Pass Mention (PROMPT SPECIFIED) */}
                       <td className="py-3.5 px-4 text-center">
                         <button
                           type="button"
@@ -643,7 +626,6 @@ _Chinmaya Mission, Adoni_`;
                         </button>
                       </td>
 
-                      {/* 7. Status */}
                       <td className="py-3.5 px-4">
                         <span
                           className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold ${
@@ -663,7 +645,6 @@ _Chinmaya Mission, Adoni_`;
                         </span>
                       </td>
 
-                      {/* 8. Actions */}
                       <td className="py-3.5 px-4 text-right">
                         <div className="flex items-center justify-end gap-1.5">
                           <button
@@ -704,7 +685,6 @@ _Chinmaya Mission, Adoni_`;
         )}
       </div>
 
-      {/* Delete Confirmation Modal */}
       {deleteConfirmId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="bg-white rounded-3xl p-6 max-w-sm w-full space-y-4 shadow-2xl text-center border border-slate-200">
@@ -731,7 +711,6 @@ _Chinmaya Mission, Adoni_`;
         </div>
       )}
 
-      {/* Full Booking Pass & Details Modal */}
       {selectedBooking && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full space-y-5 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto text-xs">
@@ -763,7 +742,6 @@ _Chinmaya Mission, Adoni_`;
             </div>
 
             <div className="space-y-4">
-              {/* WhatsApp Quick Dispatch Banner */}
               <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between gap-3">
                 <div className="space-y-0.5">
                   <span className="text-xs font-bold text-emerald-900 block">Dispatch Pass on WhatsApp</span>
@@ -779,7 +757,6 @@ _Chinmaya Mission, Adoni_`;
                 </button>
               </div>
 
-              {/* Devotee Info */}
               <div className="bg-slate-50 p-4 rounded-2xl space-y-2 border border-slate-100">
                 <h4 className="font-extrabold text-slate-900 uppercase text-[11px] tracking-wider">Devotee Information</h4>
                 <div className="grid grid-cols-2 gap-2 text-slate-700">
@@ -822,7 +799,6 @@ _Chinmaya Mission, Adoni_`;
                 </div>
               </div>
 
-              {/* Seva Offering Details */}
               <div className="bg-slate-50 p-4 rounded-2xl space-y-2 border border-slate-100">
                 <h4 className="font-extrabold text-slate-900 uppercase text-[11px] tracking-wider">Seva Offering Details</h4>
                 <div className="grid grid-cols-2 gap-2 text-slate-700">
@@ -845,7 +821,6 @@ _Chinmaya Mission, Adoni_`;
                 </div>
               </div>
 
-              {/* Transaction & Proof */}
               <div className="bg-slate-50 p-4 rounded-2xl space-y-2 border border-slate-100">
                 <h4 className="font-extrabold text-slate-900 uppercase text-[11px] tracking-wider">Payment Verification</h4>
                 <div className="space-y-1 text-slate-700">
@@ -866,7 +841,6 @@ _Chinmaya Mission, Adoni_`;
                 </div>
               </div>
 
-              {/* Status Update Options */}
               <div className="space-y-2 pt-2 border-t border-slate-100">
                 <span className="text-[11px] font-bold text-slate-600 uppercase tracking-wider block">Update Booking Status</span>
                 <div className="grid grid-cols-3 gap-2">
@@ -895,7 +869,6 @@ _Chinmaya Mission, Adoni_`;
         </div>
       )}
 
-      {/* Bulk Delete Confirmation Modal */}
       {showBulkDeleteModal && (
         <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="glass-card max-w-md w-full p-6 sm:p-8 rounded-3xl border border-red-500/40 bg-[var(--bg-secondary)] space-y-6 animate-in zoom-in-95">

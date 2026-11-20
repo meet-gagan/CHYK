@@ -56,7 +56,6 @@ export function ComingSoonPage() {
                 <stop offset="1" stopColor="#ec9a3c" stopOpacity="0" />
               </radialGradient>
             </defs>
-            {/* flame */}
             <path
               className="flame"
               d="M110 22 C122 48 132 66 126 84 C122 95 98 95 94 84 C88 66 99 48 110 22 Z"
@@ -67,9 +66,7 @@ export function ComingSoonPage() {
               d="M110 56 C116 68 119 77 116 86 C113 92 107 92 104 86 C101 77 104 68 110 56 Z"
               fill="#fff8e4"
             />
-            {/* wick */}
             <rect x="108.5" y="92" width="3" height="10" rx="1.5" fill="#3b2412" />
-            {/* bowl */}
             <path d="M38 104 Q110 96 182 104 Q174 138 110 140 Q46 138 38 104 Z" fill="url(#brass)" />
             <path
               d="M38 104 Q110 112 182 104"
@@ -78,7 +75,6 @@ export function ComingSoonPage() {
               strokeOpacity=".6"
               strokeWidth="1.5"
             />
-            {/* stem and base */}
             <path d="M98 139 L122 139 L118 152 L102 152 Z" fill="#a36a2b" />
             <ellipse cx="110" cy="158" rx="38" ry="7" fill="url(#brass)" />
           </svg>

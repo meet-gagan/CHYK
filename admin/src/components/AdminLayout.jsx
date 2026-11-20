@@ -79,7 +79,6 @@ export const AdminLayout = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-[#0B132B] flex flex-col">
-      {/* Top Admin Header */}
       <header className="sticky top-0 z-40 bg-[#1C2541]/95 backdrop-blur-md border-b border-white/10 px-4 sm:px-6 py-3 flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-3">
           <button
@@ -110,7 +109,6 @@ export const AdminLayout = ({ children }) => {
           </div>
         </div>
 
-        {/* Right Admin Profile & Quick Logout */}
         <div className="flex items-center gap-3 sm:gap-4">
           <div className="hidden sm:flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-[#243054]/70 border border-white/10">
             <div className="w-7 h-7 rounded-lg bg-[#00B4D8] text-white flex items-center justify-center font-black text-xs">
@@ -137,9 +135,7 @@ export const AdminLayout = ({ children }) => {
         </div>
       </header>
 
-      {/* Main App Body with Sidebar + Content */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Desktop Sidebar */}
         <aside className="hidden lg:flex flex-col w-64 xl:w-72 bg-[#1C2541]/70 border-r border-white/10 py-6 px-4 space-y-6 overflow-y-auto shrink-0">
           <div className="p-3.5 rounded-2xl bg-[#243054]/80 border border-white/10 space-y-1">
             <span className="text-[10px] font-extrabold text-[#94A3B8] uppercase tracking-wider block">
@@ -194,7 +190,6 @@ export const AdminLayout = ({ children }) => {
           </div>
         </aside>
 
-        {/* Mobile Drawer Sidebar */}
         {mobileSidebarOpen && (
           <div className="fixed inset-0 z-50 lg:hidden flex">
             <div
@@ -268,7 +263,6 @@ export const AdminLayout = ({ children }) => {
           </div>
         )}
 
-        {/* Content Area */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
           {children}
         </main>

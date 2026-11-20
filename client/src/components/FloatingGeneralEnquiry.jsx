@@ -73,7 +73,6 @@ export const FloatingGeneralEnquiry = () => {
 
   return (
     <>
-      {/* Constant Right Bottom Corner Floating Icon */}
       {!isOpen && (
         <button
           type="button"
@@ -87,7 +86,6 @@ export const FloatingGeneralEnquiry = () => {
         </button>
       )}
 
-      {/* Right Bottom Corner Square Popup Box */}
       {isOpen && (
         <GeneralEnquiryPopup
           onClose={handleClose}

@@ -72,7 +72,6 @@ export const WhoAreWePage = () => {
     }
   });
 
-  // If no one clicks, selectedMember is null (shows only the 4-card layout matching Image 2)
   const [selectedMember, setSelectedMember] = useState(null);
   const showcaseRef = useRef(null);
 
@@ -167,7 +166,6 @@ export const WhoAreWePage = () => {
   return (
     <div className="min-h-screen bg-[#F8F3E8] pt-2 sm:pt-4 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       <div className="max-w-4xl mx-auto space-y-8 sm:space-y-10">
-        {/* TOP SECTION HEADER (Faithful to Attachment 1 & 2) */}
         <header className="text-center space-y-1.5">
           <p className="text-xs sm:text-sm font-extrabold tracking-widest text-[#A26E33] uppercase">
             {(f.leadership_hero?.subtitle || 'CHINMAYA MISSION').replace(/[·,]\s*ADONI/gi, '').trim()}
@@ -178,21 +176,15 @@ export const WhoAreWePage = () => {
           <p className="text-sm sm:text-base text-[#526558] font-medium max-w-3xl mx-auto leading-relaxed">
             {formatOverview(f.leadership_hero?.overview)}
           </p>
-          {/* Decorative golden-ochre accent underline */}
           <div className="w-14 sm:w-16 h-1 bg-[#C89B59] rounded-full mx-auto mt-2" />
         </header>
 
-        {/* ============================================================ */}
-        {/* EXPANDED VIEW: When someone clicks on a member's picture/card */}
-        {/* EXACTLY MATCHES ATTACHMENT 1                                */}
-        {/* ============================================================ */}
         {selectedMember && (
           <section
             ref={showcaseRef}
             aria-label="Expanded Member View"
             className="animate-in fade-in zoom-in-95 duration-300 relative space-y-3"
           >
-            {/* Top Toolbar / Action Header */}
             <div className="flex items-center justify-between px-2">
               <span className="text-xs font-bold uppercase tracking-wider text-[#A26E33] flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-[#C89B59]" />
@@ -200,7 +192,6 @@ export const WhoAreWePage = () => {
               </span>
 
               <div className="flex items-center gap-2">
-                {/* Previous Member Button */}
                 <button
                   onClick={handlePrevMember}
                   className="p-1.5 sm:p-2 rounded-full bg-white border border-[#E7DFD3] text-[#1B362A] hover:bg-[#FAF6EE] hover:text-[#A26E33] transition-colors shadow-sm"
@@ -210,7 +201,6 @@ export const WhoAreWePage = () => {
                   <ChevronLeft className="w-4 h-4" />
                 </button>
 
-                {/* Next Member Button */}
                 <button
                   onClick={handleNextMember}
                   className="p-1.5 sm:p-2 rounded-full bg-white border border-[#E7DFD3] text-[#1B362A] hover:bg-[#FAF6EE] hover:text-[#A26E33] transition-colors shadow-sm"
@@ -220,7 +210,6 @@ export const WhoAreWePage = () => {
                   <ChevronRight className="w-4 h-4" />
                 </button>
 
-                {/* Close Button to return to the 2nd image layout */}
                 <button
                   onClick={handleCloseShowcase}
                   className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white border border-[#E7DFD3] text-xs font-bold text-[#1B362A] hover:bg-red-50 hover:text-red-700 hover:border-red-200 transition-colors shadow-sm cursor-pointer ml-1"
@@ -232,9 +221,7 @@ export const WhoAreWePage = () => {
               </div>
             </div>
 
-            {/* EXPANDED CARD (Identical to Attachment 1) */}
             <div className="rounded-2xl sm:rounded-3xl overflow-hidden border border-[#E7DFD3] shadow-[0_4px_24px_rgba(20,50,35,0.08)] bg-white">
-              {/* Photo Area */}
               <div className="relative w-full bg-[#18231C] overflow-hidden group">
                 {selectedMember.isPortraitPlaceholder ? (
                   // Portrait Placeholder view for Brahmachari Narayana Chaitanya
@@ -252,14 +239,12 @@ export const WhoAreWePage = () => {
                 ) : (
                   // Full Photo view: ALWAYS 100% VISIBLE, NEVER CUT OFF, PERFECTLY CLEAR
                   <div className="relative w-full h-[380px] sm:h-[460px] md:h-[520px] bg-[#0E1A13] overflow-hidden flex items-center justify-center">
-                    {/* Ambient blurred backdrop so every image fills container gracefully */}
                     <img
                       src={selectedMember.largeImage}
                       alt=""
                       aria-hidden="true"
                       className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none"
                     />
-                    {/* The crisp high-resolution photo: FULL, COMPLETE, NEVER CROPPED */}
                     <img
                       src={selectedMember.largeImage}
                       alt={selectedMember.name}
@@ -269,7 +254,6 @@ export const WhoAreWePage = () => {
                 )}
               </div>
 
-              {/* White card container below the photo (Exact layout of Image 1) */}
               <div className="p-6 sm:p-8 bg-white space-y-2 border-t border-[#E7DFD3]/80">
                 <p className="text-xs sm:text-sm font-bold tracking-wider text-[#A26E33] uppercase">
                   {selectedMember.role}
@@ -281,7 +265,6 @@ export const WhoAreWePage = () => {
                   {selectedMember.description}
                 </p>
 
-                {/* Extended Context details */}
                 {selectedMember.extendedBio && (
                   <p className="text-xs sm:text-sm text-[#6C7B71] leading-relaxed pt-2 border-t border-slate-100 mt-3">
                     {selectedMember.extendedBio}
@@ -292,10 +275,6 @@ export const WhoAreWePage = () => {
           </section>
         )}
 
-        {/* ============================================================ */}
-        {/* 4-MEMBER LIST SECTION: Matches Attachment 2                  */}
-        {/* "Leadership & Local Mission" with all 4 members             */}
-        {/* ============================================================ */}
         <section aria-label="Leadership & Local Mission" className="space-y-4">
           <div className="pb-1">
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#1F3D2F] font-heading">
@@ -303,7 +282,6 @@ export const WhoAreWePage = () => {
             </h2>
           </div>
 
-          {/* Cards Stack */}
           <div className="space-y-4 sm:space-y-5">
             {MEMBERS_DATA.map((member) => {
               const isCurrentlySelected = selectedMember?.id === member.id;
@@ -318,10 +296,8 @@ export const WhoAreWePage = () => {
                       : 'border-[#E7DFD3] hover:border-[#C89B59]/60'
                   }`}
                 >
-                  {/* Left Column: Photo / Thumbnail */}
                   <div className="shrink-0 relative">
                     {member.isPortraitPlaceholder ? (
-                      // Portrait Placeholder box for Brahmachari Narayana Chaitanya (Image 2 style)
                       <div className="w-24 h-28 sm:w-32 sm:h-36 rounded-xl sm:rounded-2xl bg-[#EADBCC] flex flex-col items-center justify-center text-[#554B3E] shadow-inner transition-transform group-hover:scale-105 border border-[#554B3E]/15">
                         <User className="w-8 h-8 sm:w-10 sm:h-10 text-[#554B3E] mb-1 opacity-80" />
                         <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#554B3E]">
@@ -337,7 +313,6 @@ export const WhoAreWePage = () => {
                           className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-500"
                           loading="lazy"
                         />
-                        {/* Hover hint */}
                         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                           <Maximize2 className="w-5 h-5 text-white drop-shadow-md" />
                         </div>
@@ -345,7 +320,6 @@ export const WhoAreWePage = () => {
                     )}
                   </div>
 
-                  {/* Right Column: Information */}
                   <div className="flex-1 min-w-0 flex flex-col justify-center space-y-1 sm:space-y-1.5">
                     <p className="text-[10px] sm:text-xs font-bold tracking-wider text-[#A26E33] uppercase">
                       {member.role}
@@ -363,12 +337,8 @@ export const WhoAreWePage = () => {
           </div>
         </section>
 
-        {/* ============================================================ */}
-        {/* MANAGING COMMITTEE SECTION                                   */}
-        {/* ============================================================ */}
         <ManagingCommittee />
 
-        {/* BOTTOM CALLOUT / LINK TO ACTIVITIES & LET'S CONNECT */}
         <footer className="pt-6 border-t border-[#E7DFD3]/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-[#6C7B71]">
           <div className="flex items-center gap-2">
             <Flame className="w-4 h-4 text-[#A26E33]" />

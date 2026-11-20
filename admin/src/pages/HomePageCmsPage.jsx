@@ -164,7 +164,6 @@ export const HomePageCmsPage = () => {
         </div>
       )}
 
-      {/* Navigation Tabs */}
       <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-[#1C2541] border border-white/10">
         {[
           { id: 'SECTIONS', label: 'Page Sections' },
@@ -185,7 +184,6 @@ export const HomePageCmsPage = () => {
         ))}
       </div>
 
-      {/* TAB 1: SECTIONS MANAGER */}
       {activeTab === 'SECTIONS' && (
         <div className="p-6 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-5">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
@@ -219,7 +217,6 @@ export const HomePageCmsPage = () => {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    {/* Move Up */}
                     <button
                       onClick={() => handleMoveSection(idx, 'up')}
                       disabled={idx === 0}
@@ -229,7 +226,6 @@ export const HomePageCmsPage = () => {
                       <ArrowUp className="w-3.5 h-3.5" />
                     </button>
 
-                    {/* Move Down */}
                     <button
                       onClick={() => handleMoveSection(idx, 'down')}
                       disabled={idx === sections.length - 1}
@@ -239,7 +235,6 @@ export const HomePageCmsPage = () => {
                       <ArrowDown className="w-3.5 h-3.5" />
                     </button>
 
-                    {/* Toggle Status */}
                     <button
                       onClick={() => handleToggleSection(idx)}
                       className={`px-3 py-1 rounded-lg font-bold text-[10px] ${
@@ -251,7 +246,6 @@ export const HomePageCmsPage = () => {
                       {sec.isEnabled !== false ? 'Visible' : 'Hidden'}
                     </button>
 
-                    {/* Delete */}
                     <button
                       onClick={() => handleDeleteSection(idx)}
                       className="p-1.5 rounded-lg bg-red-500/15 text-red-400 hover:bg-red-500 hover:text-white"
@@ -271,7 +265,6 @@ export const HomePageCmsPage = () => {
         </div>
       )}
 
-      {/* TAB 2: THEME CUSTOMIZER */}
       {activeTab === 'THEME' && (
         <div className="p-6 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-5 text-xs">
           <h3 className="text-sm font-black font-heading text-white uppercase tracking-wider border-b border-white/10 pb-3">
@@ -362,7 +355,6 @@ export const HomePageCmsPage = () => {
         </div>
       )}
 
-      {/* TAB 3: MAINTENANCE STATUS */}
       {activeTab === 'MAINTENANCE' && (
         <div className="p-6 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-5 text-xs">
           <h3 className="text-sm font-black font-heading text-white uppercase tracking-wider border-b border-white/10 pb-3">

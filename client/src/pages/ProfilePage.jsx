@@ -284,7 +284,6 @@ export const ProfilePage = ({ initialTab }) => {
 
   return (
     <div className="min-h-[85vh] pt-3 sm:pt-4 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-6 sm:space-y-8">
-      {/* Top Header Card */}
       <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[32px] p-6 sm:p-8 shadow-xl relative overflow-hidden backdrop-blur-md">
         <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--orange)]/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -338,7 +337,6 @@ export const ProfilePage = ({ initialTab }) => {
         </div>
       </div>
 
-      {/* Navigation Tabs Bar */}
       <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] overflow-x-auto shadow-sm">
         <button
           onClick={() => switchTab('PROFILE')}
@@ -389,9 +387,6 @@ export const ProfilePage = ({ initialTab }) => {
         </button>
       </div>
 
-      {/* ============================================================== */}
-      {/* TAB 1: MY PROFILE */}
-      {/* ============================================================== */}
       {activeTab === 'PROFILE' && (
         <div className="space-y-6">
           {profileSuccess && (
@@ -504,7 +499,6 @@ export const ProfilePage = ({ initialTab }) => {
               ) : (
                 <form onSubmit={handleProfileSubmit} className="space-y-5 max-w-2xl">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Full Name */}
                     <div className="space-y-1">
                       <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                         Full Name <span className="text-red-500">*</span>
@@ -518,7 +512,6 @@ export const ProfilePage = ({ initialTab }) => {
                       />
                     </div>
 
-                    {/* Email */}
                     <div className="space-y-1">
                       <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                         Email Address
@@ -532,7 +525,6 @@ export const ProfilePage = ({ initialTab }) => {
                       />
                     </div>
 
-                    {/* Phone */}
                     <div className="space-y-1">
                       <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                         Phone Number <span className="text-red-500">*</span>
@@ -552,7 +544,6 @@ export const ProfilePage = ({ initialTab }) => {
                       </div>
                     </div>
 
-                    {/* Date of Birth (DOB) */}
                     <div className="space-y-1">
                       <div className="flex items-center justify-between">
                         <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
@@ -581,7 +572,6 @@ export const ProfilePage = ({ initialTab }) => {
                       />
                     </div>
 
-                    {/* Profession */}
                     <div className="sm:col-span-2 space-y-1">
                       <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                         Profession / Role
@@ -626,9 +616,6 @@ export const ProfilePage = ({ initialTab }) => {
         </div>
       )}
 
-      {/* ============================================================== */}
-      {/* TAB 2: MY SEVA BOOKINGS & DONATIONS */}
-      {/* ============================================================== */}
       {activeTab === 'BOOKINGS' && (
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -766,9 +753,6 @@ export const ProfilePage = ({ initialTab }) => {
         </div>
       )}
 
-      {/* ============================================================== */}
-      {/* TAB 3: ACTIVITY & PASSES */}
-      {/* ============================================================== */}
       {activeTab === 'ACTIVITY' && (
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -842,9 +826,6 @@ export const ProfilePage = ({ initialTab }) => {
         </div>
       )}
 
-      {/* ============================================================== */}
-      {/* TAB 4: CHANGE PASSWORD */}
-      {/* ============================================================== */}
       {activeTab === 'PASSWORD' && (
         <div className="space-y-6 max-w-xl">
           <div>
@@ -872,7 +853,6 @@ export const ProfilePage = ({ initialTab }) => {
 
           <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[32px] p-6 sm:p-8 shadow-xl backdrop-blur-md">
             <form onSubmit={handlePasswordSubmit} className="space-y-5">
-              {/* Current Password */}
               <div className="space-y-1">
                 <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                   Current Password <span className="text-red-500">*</span>
@@ -899,7 +879,6 @@ export const ProfilePage = ({ initialTab }) => {
                 </div>
               </div>
 
-              {/* New Password */}
               <div className="space-y-1">
                 <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                   New Password <span className="text-red-500">*</span>
@@ -926,7 +905,6 @@ export const ProfilePage = ({ initialTab }) => {
                 </div>
               </div>
 
-              {/* Confirm New Password */}
               <div className="space-y-1">
                 <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
                   Confirm New Password <span className="text-red-500">*</span>
@@ -965,9 +943,6 @@ export const ProfilePage = ({ initialTab }) => {
         </div>
       )}
 
-      {/* ============================================================== */}
-      {/* 1-PAGE PRINTABLE RECEIPT PORTAL */}
-      {/* ============================================================== */}
       {selectedBookingForReceipt &&
         typeof document !== 'undefined' &&
         createPortal(
@@ -1014,7 +989,6 @@ export const ProfilePage = ({ initialTab }) => {
               }
             `}</style>
             <div className="print-card">
-              {/* Header */}
               <div style={{ textAlign: 'center', borderBottom: '2px solid #E27B1E', paddingBottom: '10px', marginBottom: '12px' }}>
                 <h1 style={{ margin: 0, fontSize: '18pt', fontWeight: '900', color: '#E27B1E', textTransform: 'uppercase' }}>
                   {selectedBookingForReceipt.templeName || 'Chinmaya Mission, Adoni'}
@@ -1027,7 +1001,6 @@ export const ProfilePage = ({ initialTab }) => {
                 </div>
               </div>
 
-              {/* Summary Bar */}
               <div style={{ display: 'flex', justifyContent: 'space-between', background: '#F8FAFC', padding: '8px 12px', borderRadius: '8px', border: '1px solid #E2E8F0', marginBottom: '12px', fontSize: '9pt' }}>
                 <div>
                   <span style={{ color: '#64748B', fontWeight: '600' }}>Receipt No: </span>
@@ -1043,7 +1016,6 @@ export const ProfilePage = ({ initialTab }) => {
                 </div>
               </div>
 
-              {/* Devotee & Seva Grid */}
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '9.5pt', marginBottom: '14px' }}>
                 <tbody>
                   <tr style={{ borderBottom: '1px solid #F1F5F9' }}>
@@ -1087,7 +1059,6 @@ export const ProfilePage = ({ initialTab }) => {
                 </tbody>
               </table>
 
-              {/* Footer Stamp & Blessings */}
               <div style={{ borderTop: '1px solid #E2E8F0', paddingTop: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', fontSize: '8.5pt', color: '#64748B' }}>
                 <div>
                   <p style={{ margin: '0 0 2px', fontWeight: 'bold', color: '#E27B1E' }}>Om Tat Sat</p>

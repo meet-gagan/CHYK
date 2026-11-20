@@ -111,7 +111,6 @@ export const CommunityStoryBoardSection = ({ content }) => {
     <section className="w-full py-12 sm:py-16 bg-gradient-to-b from-[var(--bg-secondary,#FFFBF5)] to-[var(--bg-primary,#FFFFFF)] border-y border-[var(--border-color,rgba(11,35,64,0.08))]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header Block */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 sm:mb-12">
           <div className="flex-1 min-w-0">
             <h2 className="text-[17px] min-[420px]:text-xl sm:text-2xl md:text-3xl lg:text-[2rem] xl:text-4xl font-black text-[var(--text-primary,#0B2340)] tracking-tight whitespace-nowrap">
@@ -128,7 +127,6 @@ export const CommunityStoryBoardSection = ({ content }) => {
             </p>
           </div>
 
-          {/* Action CTAs */}
           <div className="flex flex-wrap items-center gap-3 shrink-0">
             <Link
               to="/your-thoughts"
@@ -147,7 +145,6 @@ export const CommunityStoryBoardSection = ({ content }) => {
           </div>
         </div>
 
-        {/* Sticky Notes Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-2">
           {thoughts.map((thought, idx) => {
             const theme = COLOR_THEMES[thought.color] || COLOR_THEMES.yellow;
@@ -158,13 +155,11 @@ export const CommunityStoryBoardSection = ({ content }) => {
                 key={thought._id || idx}
                 className={`relative group ${theme.bg} ${theme.border} border-2 rounded-2xl sm:rounded-3xl p-5 shadow-[0_10px_25px_-5px_rgba(7,22,45,0.06)] hover:shadow-[0_20px_35px_-5px_rgba(7,22,45,0.12)] transition-all duration-300 transform ${rotationClass} hover:scale-[1.02] hover:z-20 flex flex-col justify-between min-h-[220px]`}
               >
-                {/* Washi Tape Strip */}
                 <div
                   className={`absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-4 ${theme.tape} rounded-xs shadow-xs backdrop-blur-xs transform -rotate-1 border border-black/5 pointer-events-none`}
                   aria-hidden="true"
                 />
 
-                {/* Top Note Meta */}
                 <div className="flex items-center justify-between pt-1 pb-2 border-b border-black/5 text-[11px] font-bold opacity-75">
                   <span className="uppercase tracking-wider">
                     {theme.name}
@@ -174,14 +169,12 @@ export const CommunityStoryBoardSection = ({ content }) => {
                   </span>
                 </div>
 
-                {/* Content */}
                 <div className="py-3 flex-1">
                   <p className={`text-xs sm:text-sm leading-relaxed font-medium ${theme.text} line-clamp-5 whitespace-pre-line`}>
                     "{thought.content}"
                   </p>
                 </div>
 
-                {/* Note Footer */}
                 <div className="pt-2.5 border-t border-black/5 flex items-center justify-between text-[11px] font-bold opacity-70">
                   <span className="inline-flex items-center gap-1">
                     <Lock className="w-3 h-3" />
@@ -196,7 +189,6 @@ export const CommunityStoryBoardSection = ({ content }) => {
           })}
         </div>
 
-        {/* Bottom Banner Strip */}
         <div className="mt-10 p-5 rounded-2xl bg-gradient-to-r from-[#0B2340] to-[#1E3A8A] text-white flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
           <div className="flex items-center gap-3 text-center sm:text-left">
             <div className="w-10 h-10 rounded-full bg-[var(--orange)] flex items-center justify-center shrink-0 shadow-md">

@@ -99,18 +99,15 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
   return (
     <div className="w-full overflow-hidden py-10 sm:py-14 bg-[var(--bg-dark-section)] relative border-y border-[var(--border-color)]">
       
-      {/* Header Container aligned with main layout */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 text-center space-y-2">
         <h3 className="text-xl sm:text-2xl font-extrabold font-heading text-white tracking-tight uppercase">
           CHINMAYA YUVA KENDRA, ADONI
         </h3>
       </div>
 
-      {/* Visual Overlay Gradients for smooth fade on left/right edges */}
       <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-r from-[var(--bg-dark-section)] to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-l from-[var(--bg-dark-section)] to-transparent z-10 pointer-events-none" />
 
-      {/* Infinite Right-to-Left Continuous Loop Container */}
       <div className="animate-scroll gap-5 sm:gap-6 px-4">
         {duplicatedItems.map((item, idx) => {
           const cleanTag = (item.tag || item.category || '')
@@ -142,13 +139,11 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
                 loading="lazy"
               />
 
-              {/* Hover Click to Enlarge Badge */}
               <div className="absolute top-3.5 right-3.5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold flex items-center gap-1.5 shadow-lg z-10 pointer-events-none">
                 <ZoomIn className="w-3 h-3 text-[var(--orange)]" />
                 <span>Click to expand</span>
               </div>
               
-              {/* Poster Card Overlay Gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent p-5 sm:p-6 flex flex-col justify-end text-left space-y-2">
                 {cleanTag && cleanTag.toLowerCase() !== 'banner' ? (
                   <span className="inline-block self-start px-2.5 py-1 text-[10px] font-black tracking-wider rounded-lg bg-[var(--orange)] text-white shadow-md uppercase">
@@ -167,7 +162,6 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
         })}
       </div>
 
-      {/* Lightbox Pop-up Modal for Full Image Display */}
       {activeModalIndex !== null && activeItem && (
         <div
           role="dialog"
@@ -175,12 +169,10 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
           onClick={() => setActiveModalIndex(null)}
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200"
         >
-          {/* Modal Container */}
           <div
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-4xl max-h-[92vh] flex flex-col items-center justify-between rounded-3xl bg-slate-950/95 border border-white/20 p-3 sm:p-5 shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
           >
-            {/* Top Bar: Counter & Close Button */}
             <div className="w-full flex items-center justify-between gap-3 pb-3 mb-2 border-b border-white/10 px-2">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[var(--orange)] animate-pulse" />
@@ -199,9 +191,7 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
               </button>
             </div>
 
-            {/* Main Image with Navigation Arrows */}
             <div className="relative w-full flex items-center justify-center overflow-hidden my-auto py-2">
-              {/* Prev Button */}
               {itemsToDisplay.length > 1 && (
                 <button
                   type="button"
@@ -216,7 +206,6 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
                 </button>
               )}
 
-              {/* Full Image */}
               <div className="max-h-[66vh] sm:max-h-[72vh] flex items-center justify-center overflow-hidden rounded-2xl bg-black/50">
                 <img
                   src={activeItem.imageUrl}
@@ -225,7 +214,6 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
                 />
               </div>
 
-              {/* Next Button */}
               {itemsToDisplay.length > 1 && (
                 <button
                   type="button"
@@ -241,7 +229,6 @@ export const ContinuousVerticalBannerSlider = ({ banners = [] }) => {
               )}
             </div>
 
-            {/* Bottom Caption & Tag */}
             <div className="w-full pt-3 mt-2 border-t border-white/10 px-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
               <div className="text-left">
                 <h4 className="text-base sm:text-lg font-black text-white leading-snug">

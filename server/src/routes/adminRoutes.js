@@ -66,9 +66,7 @@ router.delete('/batches/:batchId', deleteBulkBatch);
 // Integrations
 router.post('/registrations/:id/sync-sheets', retrySheetsSync);
 
-// ==========================================
 // Story Board Moderation
-// ==========================================
 router.get('/thoughts', getAdminThoughts);
 router.get('/thoughts/stats', getAdminThoughtStats);
 router.patch('/thoughts/:id/approve', approveThought);

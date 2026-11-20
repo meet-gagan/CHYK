@@ -179,7 +179,6 @@ export const StoryBoardPage = () => {
         </div>
       )}
 
-      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
@@ -209,7 +208,6 @@ export const StoryBoardPage = () => {
         </button>
       </div>
 
-      {/* Statistics */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         <div className="p-6 rounded-3xl bg-[#1C2541] border-2 border-amber-500/30 shadow-xl">
           <div className="flex items-center justify-between mb-2">
@@ -257,7 +255,6 @@ export const StoryBoardPage = () => {
         </div>
       </div>
 
-      {/* Controls */}
       <div className="p-4 sm:p-5 rounded-2xl bg-[#1C2541] border border-white/10 space-y-4">
         <div className="flex items-center gap-2 border-b border-white/10 pb-3">
           <button
@@ -332,7 +329,6 @@ export const StoryBoardPage = () => {
         </div>
       </div>
 
-      {/* Submissions List */}
       {!loading && filteredThoughts.length > 0 && (
         <div className="space-y-4">
           {filteredThoughts.map((thought) => {
@@ -467,7 +463,6 @@ export const StoryBoardPage = () => {
         </div>
       )}
 
-      {/* Confirmation Dialog */}
       {rejectDialogItem && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
           <div

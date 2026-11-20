@@ -143,7 +143,6 @@ async function savePujaToSupabase(booking) {
   }
 }
 
-// 8 Seva Cards Data matching the reference specification
 export const POOJA_SERVICES = [
   {
     id: 'nitya-pratah',
@@ -277,9 +276,6 @@ export const POOJA_SERVICES = [
   },
 ];
 
-// ==========================================
-// Unified Seva Booking Modal (Exact Image 1 Theme)
-// ==========================================
 export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
   const { normalUser, isUserAuthenticated } = useAuth();
   const [step, setStep] = useState('form'); // 'form' | 'review' | 'proof' | 'confirmed'
@@ -323,7 +319,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
       return;
     }
     if (service.options && service.options.length > 0) {
-      // 1. Try exact match on selectedOptionName
       if (service.selectedOptionName) {
         const targetClean = service.selectedOptionName.trim().toLowerCase();
         const exactMatch = service.options.find(
@@ -335,7 +330,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
         }
       }
 
-      // 2. Try match on service.name or title
       const targetName = (service.selectedOptionName || service.name || service.title || '')
         .replace('|', ' ')
         .trim()
@@ -479,22 +473,8 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
     }));
   };
 
-  // Step 3 (proof) Validation
   const validateProof = () => {
     const newErrors = {};
-
-    /*
-    // Commented out as requested for Chinmaya Sanjeevaraya & Shri Shantamalleshwara
-    if (!formData.utrId.trim()) {
-      newErrors.utrId = 'Please enter the UTR ID / UPI Transaction Reference Number';
-    } else if (formData.utrId.trim().length < 6) {
-      newErrors.utrId = 'Please enter a valid transaction reference number';
-    }
-
-    if (!formData.screenshot) {
-      newErrors.screenshot = 'Please upload a screenshot of your payment as transaction proof';
-    }
-    */
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -537,11 +517,9 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
     };
 
     try {
-      // 1. Persist to MongoDB Atlas Database
       const apiRes = await sevaBookingService.submitBooking(bookingData);
       const savedDoc = apiRes.data?.data || bookingData;
 
-      // 2. Save to local storage for offline fast access & unified records
       storeBooking(savedDoc);
       try {
         const existing = JSON.parse(localStorage.getItem('devotee_donations_history') || '[]');
@@ -557,10 +535,8 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
         localStorage.setItem('devotee_donations_history', JSON.stringify(existing.slice(0, 50)));
       } catch (_) {}
 
-      // 3. Sync to Supabase in background
       savePujaToSupabase(bookingData).catch((err) => console.warn('Supabase sync:', err));
 
-      // 4. Update UI to Confirmed Step
       setBookingReceipt(savedDoc);
       setStep('confirmed');
       if (onBookingSuccess) onBookingSuccess();
@@ -611,7 +587,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
 
   return (
     <>
-      {/* DEDICATED 1-PAGE PRINTABLE TEMPLE RECEIPT (Rendered into document.body outside #root) */}
       {typeof document !== 'undefined' &&
         createPortal(
           <div id="temple-seva-printable-receipt" aria-hidden="true">
@@ -670,7 +645,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 breakInside: 'avoid',
               }}
             >
-              {/* Header */}
               <div
                 style={{
                   textAlign: 'center',
@@ -723,7 +697,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </div>
               </div>
 
-              {/* Reference & Date Bar */}
               <div
                 style={{
                   display: 'flex',
@@ -759,7 +732,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </div>
               </div>
 
-              {/* Seva Offering Highlight Box */}
               <div
                 style={{
                   background: '#fffbeb',
@@ -833,7 +805,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </div>
               </div>
 
-              {/* Devotee Sankalpa Details (Structured 2-column Grid) */}
               <div style={{ marginBottom: '10px' }}>
                 <div
                   style={{
@@ -927,7 +898,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </table>
               </div>
 
-              {/* Sacred Blessing & Agamic Notice */}
               <div
                 style={{
                   background: '#f8fafc',
@@ -947,7 +917,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 happiness, and peace.
               </div>
 
-              {/* Footer & Signature Section */}
               <div
                 style={{
                   display: 'flex',
@@ -994,22 +963,18 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
 
       <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-y-auto">
 
-      {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Modal Dialog Card */}
       <div
         className="relative bg-white rounded-3xl shadow-2xl border border-[#ECE3D4] w-full max-w-2xl max-h-[92vh] flex flex-col overflow-hidden z-10 animate-in zoom-in-95 duration-200"
         style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
       >
-        {/* Top Decorative Amber Bar */}
         <div className="h-1.5 w-full bg-gradient-to-r from-[var(--orange,#FF8A3D)] via-[#FFA14A] to-[var(--yellow,#D97706)] shrink-0" />
 
-        {/* Modal Header */}
         <div className="px-5 sm:px-6 pt-5 pb-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-b from-[#FFFDF9] to-white shrink-0">
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <div className="w-10 h-10 rounded-2xl bg-[var(--orange)]/10 text-[var(--orange)] flex items-center justify-center shrink-0 shadow-sm">
@@ -1056,7 +1021,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
           </button>
         </div>
 
-        {/* Step Progress Pill */}
         {step !== 'confirmed' && (
           <div className="px-5 sm:px-6 py-2.5 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between text-xs font-semibold shrink-0">
             <span className={`flex items-center gap-1.5 ${step === 'form' ? 'text-[var(--orange)] font-bold' : 'text-slate-700'}`}>
@@ -1118,14 +1082,9 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
           </div>
         )}
 
-        {/* Modal Scrollable Body */}
         <div className="p-5 sm:p-7 overflow-y-auto space-y-6 flex-1 bg-white">
-          {/* ========================================================= */}
-          {/* STEP 1: FORM INPUTS                                       */}
-          {/* ========================================================= */}
           {step === 'form' && (
             <form onSubmit={handleReviewClick} className="space-y-5">
-              {/* Seva Offering Overview & Available Poojas Selection */}
               <div className="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3.5">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-3 border-b border-slate-200/70">
                   <div>
@@ -1148,7 +1107,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                   </div>
                 </div>
 
-                {/* Seva Offering Selection if multiple poojas/options exist */}
                 {service.options && service.options.length > 1 ? (
                   <div className="space-y-2.5 pt-1">
                     <div className="flex items-center justify-between">
@@ -1161,7 +1119,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                       </span>
                     </div>
 
-                    {/* Scrollable interactive list of available poojas */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-56 overflow-y-auto pr-1">
                       {service.options.map((opt) => {
                         const isSelected = selectedOption?.name === opt.name;
@@ -1189,7 +1146,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                       })}
                     </div>
 
-                    {/* Dropdown for quick alternative selection */}
                     <div className="pt-1">
                       <select
                         value={selectedOption?.name}
@@ -1219,9 +1175,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 )}
               </div>
 
-              {/* Devotee Sacred Form Fields */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* 1. Full Name */}
                 <div className="space-y-1.5 sm:col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Full Name <span className="text-red-500">*</span>
@@ -1243,7 +1197,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                   {errors.name && <p className="text-xs text-red-500 font-medium">{errors.name}</p>}
                 </div>
 
-                {/* 2. Phone Number */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Phone Number <span className="text-red-500">*</span>
@@ -1267,7 +1220,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                   )}
                 </div>
 
-                {/* 3. Email ID */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Email Address <span className="text-red-500">*</span>
@@ -1291,7 +1243,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                   )}
                 </div>
 
-                {/* 4. Seva Date */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Seva Date <span className="text-red-500">*</span>
@@ -1318,7 +1269,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                   )}
                 </div>
 
-                {/* 5. Gotram */}
                 <div className="space-y-1.5 sm:col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Gotram (గోత్రం)
@@ -1336,7 +1286,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                   </div>
                 </div>
 
-                {/* 6. Address */}
                 <div className="space-y-1.5 sm:col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Address (నివాసం)
@@ -1355,7 +1304,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </div>
               </div>
 
-              {/* Action Buttons */}
               <div className="pt-2 flex items-center justify-end gap-3">
                 <button
                   type="button"
@@ -1375,12 +1323,8 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
             </form>
           )}
 
-          {/* ========================================================= */}
-          {/* STEP 2: REVIEW DETAILS VIEW                               */}
-          {/* ========================================================= */}
           {step === 'review' && (
             <div className="space-y-6">
-              {/* Review Card */}
               <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 space-y-5 relative overflow-hidden">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <div className="flex items-center gap-2 text-[#0A192F]">
@@ -1399,7 +1343,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                   </button>
                 </div>
 
-                {/* Details Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3.5 gap-x-6 text-sm">
                   <div>
                     <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
@@ -1481,7 +1424,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </div>
               </div>
 
-              {/* QR Code Container */}
               <div className="bg-gradient-to-br from-orange-50/40 via-amber-50/30 to-slate-50 rounded-2xl border-2 border-dashed border-orange-200 p-6 text-center space-y-3 shadow-inner">
                 <div className="w-16 h-16 rounded-2xl bg-white border border-orange-200 flex items-center justify-center mx-auto text-[var(--orange)] shadow-sm">
                   <QrCode className="w-8 h-8 text-[var(--orange)]" />
@@ -1499,7 +1441,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </div>
               </div>
 
-              {/* Bottom Review Actions */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                 <button
                   type="button"
@@ -1511,7 +1452,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </button>
 
                 <div className="flex items-center gap-2">
-                  {/* "Done / I Have Paid" → go to proof step */}
                   <button
                     type="button"
                     onClick={handleDonePaymentClick}
@@ -1526,9 +1466,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
             </div>
           )}
 
-          {/* ========================================================= */}
-          {/* STEP 3: PAYMENT PROOF SUBMISSION FORM                     */}
-          {/* ========================================================= */}
           {step === 'proof' && (
             <form onSubmit={handleSubmitProof} className="space-y-5">
               {errors.general && (
@@ -1538,7 +1475,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </div>
               )}
 
-              {/* Info Banner */}
               <div className="bg-orange-50/60 border border-orange-200/70 p-4 rounded-2xl text-xs sm:text-sm text-slate-700 leading-relaxed shadow-sm">
                 <p className="flex items-start gap-2">
                   <Sparkles className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
@@ -1548,7 +1484,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </p>
               </div>
 
-              {/* Pre-filled Devotee Details Summary Card */}
               <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm space-y-3">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -1598,7 +1533,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </div>
               </div>
 
-              {/* Payment details notice for Chinmaya Sanjeevaraya & Shri Shantamalleshwara */}
               <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3.5 shadow-sm text-left">
                 <p className="text-sm font-semibold text-[#0A192F] leading-snug">
                   Share the payment details to the what number or email attached below.
@@ -1629,7 +1563,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                 </div>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                 <button
                   type="button"
@@ -1652,9 +1585,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
             </form>
           )}
 
-          {/* ========================================================= */}
-          {/* STEP 4: CONFIRMED VIEW                                    */}
-          {/* ========================================================= */}
           {step === 'confirmed' && (
             <div className="text-center py-6 sm:py-8 space-y-5">
               <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto border-2 border-emerald-300">
@@ -1734,7 +1664,6 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
       </div>
     </div>
 
-    {/* Devotee Authentication Gate Modal */}
     <AuthModal
       isOpen={authModalOpen}
       onClose={() => setAuthModalOpen(false)}
@@ -1757,9 +1686,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
   );
 }
 
-// ==========================================
 // Devotee Bookings Drawer / Modal
-// ==========================================
 export function MyBookingsModal({ open, onClose }) {
   const { isUserAuthenticated } = useAuth();
   const [bookings, setBookings] = useState([]);
@@ -1961,9 +1888,6 @@ export function MyBookingsModal({ open, onClose }) {
   );
 }
 
-// ==========================================
-// Main Exported Component: The Hours of Devotion & Seva
-// ==========================================
 export const TempleSevaSection = () => {
   const location = useLocation();
   const [activeService, setActiveService] = useState(null);
@@ -2030,7 +1954,6 @@ export const TempleSevaSection = () => {
 
   return (
     <div className="temple-seva-wrapper">
-      {/* Top Bar with Brand & My Bookings Action */}
       <header className="seva-top-bar">
         <a href="#services" className="seva-temple-brand">
           <span className="seva-temple-om">ॐ</span>
@@ -2045,12 +1968,10 @@ export const TempleSevaSection = () => {
         </div>
       </header>
 
-      {/* Seva Section */}
       <section id="services" className="seva-section" data-screen-label="03 Pooja Timings">
         <div className="seva-ambient-glow-bottom"></div>
 
         <div className="seva-container">
-          {/* Header */}
           <div className="seva-header-block">
             <h2>
               The Hours of <span className="seva-serif-display" style={{ color: 'var(--seva-gold)' }}>Devotion &amp; Seva</span>
@@ -2060,7 +1981,6 @@ export const TempleSevaSection = () => {
             </p>
           </div>
 
-          {/* 8 Cards Grid (4x2 on Desktop) */}
           <div className="seva-grid">
             {POOJA_SERVICES.map((p) => {
               const isShivaratri = p.id === 'maha-shivaratri';
@@ -2085,10 +2005,8 @@ export const TempleSevaSection = () => {
                     </div>
                   )}
 
-                  {/* Icon */}
                   <div className="seva-pooja-card-icon">{p.icon}</div>
 
-                  {/* Name */}
                   <h3>
                     {p.name.includes('|') ? (
                       p.name.split('|').map((line, li) => (
@@ -2102,10 +2020,8 @@ export const TempleSevaSection = () => {
                     )}
                   </h3>
 
-                  {/* Description */}
                   <div className="seva-pooja-card-desc">{p.desc}</div>
 
-                  {/* Book Now Action */}
                   <button
                     className={`seva-btn ${isHighlighted ? 'seva-btn-highlighted' : ''}`}
                     onClick={() => handleBookClick(p)}
@@ -2120,7 +2036,6 @@ export const TempleSevaSection = () => {
         </div>
       </section>
 
-      {/* Unified Booking Modal */}
       {activeService && (
         <UnifiedBookingModal
           service={activeService}
@@ -2129,7 +2044,6 @@ export const TempleSevaSection = () => {
         />
       )}
 
-      {/* Devotee's Bookings Drawer / List */}
       <MyBookingsModal open={myBookingsOpen} onClose={() => setMyBookingsOpen(false)} />
     </div>
   );

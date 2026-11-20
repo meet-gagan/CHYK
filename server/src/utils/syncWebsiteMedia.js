@@ -11,7 +11,6 @@ import Media from '../models/Media.js';
 import HomePage from '../models/HomePage.js';
 
 export const CHINMAYA_MISSION_MEDIA = [
-  // --- Temples & Sevas ---
   {
     fileName: 'hero-lingam-new.jpeg',
     title: 'Shri Shantamalleshwara Swami Sanctum Lingam',
@@ -269,7 +268,6 @@ export const CHINMAYA_MISSION_MEDIA = [
     usedIn: [{ page: 'Sevas', section: 'Seva Booking Cards', component: 'SevaCards' }],
   },
 
-  // --- On Going Events ---
   {
     fileName: 'karthika-masam.jpg',
     title: 'Karthika Masam',
@@ -288,7 +286,6 @@ export const CHINMAYA_MISSION_MEDIA = [
     usedIn: [{ page: 'Home', section: 'On Going Events', component: 'OngoingEventsSection' }],
   },
 
-  // --- Nitya Poojalu ---
   {
     fileName: 'temple-seva-nitya-poojalu.jpg',
     title: 'Nitya Poojalu',
@@ -308,7 +305,6 @@ export const CHINMAYA_MISSION_MEDIA = [
     usedIn: [{ page: 'Temples', section: 'Nitya Poojalu', component: 'SriShanthaMamleshwaraSwamiTemplePage' }],
   },
 
-  // --- Festivals & Gallery ---
   {
     fileName: 'Maha_Shivaratri_upcome_2027.jpeg',
     title: 'Maha Shivaratri 2027 Mahotsavam',
@@ -582,7 +578,6 @@ export const CHINMAYA_MISSION_MEDIA = [
     usedIn: [{ page: 'Home', section: 'Upcoming Events', component: 'EventsSection' }],
   },
 
-  // --- Ashram & Activities ---
   {
     fileName: 'about-ashram-hero.jpg',
     title: 'Chinmaya Mission Adoni Ashram Sanctuary',
@@ -788,7 +783,6 @@ export const CHINMAYA_MISSION_MEDIA = [
     usedIn: [{ page: 'Activities', section: 'Programs', component: 'ProgramsList' }],
   },
 
-  // --- Leadership & Gurus ---
   {
     fileName: 'swami-chinmayananda.png',
     title: 'Pujya Swami Chinmayananda (Founding Master)',
@@ -960,7 +954,6 @@ export const CHINMAYA_MISSION_MEDIA = [
     usedIn: [{ page: 'About', section: 'Leadership', component: 'GuruLineage' }],
   },
 
-  // --- Logos & Maps ---
   {
     fileName: 'logo-1.png',
     title: 'Chinmaya Mission Official Emblem',
@@ -1377,7 +1370,6 @@ export const MARATHON_MEDIA = [
 export async function syncDatabaseMedia() {
   console.log('[Sync] Starting Media Library database cleanup and synchronization...');
 
-  // 1. Purge all dummy / base64 / test entries that don't match our real website assets
   const deleteResult = await Media.deleteMany({
     $or: [
       { url: { $regex: '^data:image' } },
@@ -1387,7 +1379,6 @@ export async function syncDatabaseMedia() {
   });
   console.log(`[Sync] Removed ${deleteResult.deletedCount} dummy/base64 media records.`);
 
-  // 2. Synchronize Chinmaya Mission main website images
   let cmInserted = 0;
   let cmUpdated = 0;
   for (const item of CHINMAYA_MISSION_MEDIA) {
@@ -1412,7 +1403,6 @@ export async function syncDatabaseMedia() {
   }
   console.log(`[Sync] Chinmaya Mission Media: ${cmInserted} inserted, ${cmUpdated} updated.`);
 
-  // 3. Synchronize Marathon website images
   let marInserted = 0;
   let marUpdated = 0;
   for (const item of MARATHON_MEDIA) {
@@ -1437,7 +1427,6 @@ export async function syncDatabaseMedia() {
   }
   console.log(`[Sync] Marathon Media: ${marInserted} inserted, ${marUpdated} updated.`);
 
-  // 4. Clean up any remaining legacy entries in HomePage CMS pointing to older hero banner
   try {
     const homePage = await HomePage.findOne();
     if (homePage && homePage.sections) {

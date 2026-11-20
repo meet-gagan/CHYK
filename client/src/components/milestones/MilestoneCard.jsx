@@ -71,7 +71,6 @@ export const MilestoneCard = ({
           : 'opacity-60 hover:opacity-95 z-10'
       }`}
     >
-      {/* Main Card Shell */}
       <div
         className={`relative p-4 sm:p-5 rounded-2xl bg-white transition-all duration-300 border-2 ${
           isActive
@@ -79,16 +78,13 @@ export const MilestoneCard = ({
             : 'border-[#EBD6A2] hover:border-[#F4511E]/50 shadow-[0_2px_12px_rgba(11,35,64,0.04)] hover:shadow-md'
         }`}
       >
-        {/* Top Header Row: Stop Tag & Year Signboard */}
         <div
           className={`flex flex-wrap items-center gap-2 mb-2.5 ${
             isLeft ? 'md:justify-end' : 'md:justify-start'
           } justify-start`}
         >
-          {/* Historical Era Tag */}
           <EraBadge era={milestone.era} />
 
-          {/* Prominent Year Badge */}
           {milestone.isContinuing ? (
             <span className="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#F4511E] to-[#FFC107] text-white text-[11px] font-black font-heading tracking-wide shadow-sm flex items-center gap-1">
               <Sparkles className="w-3 h-3" />
@@ -111,13 +107,11 @@ export const MilestoneCard = ({
             </span>
           )}
 
-          {/* Category Tag */}
           <span className="text-[10px] font-bold text-[#3D607E] uppercase tracking-wider hidden sm:inline-block">
             • {milestone.tag}
           </span>
         </div>
 
-        {/* Milestone Title */}
         <h3
           className={`text-sm sm:text-base font-black font-heading leading-snug mb-1.5 transition-colors ${
             isActive
@@ -128,7 +122,6 @@ export const MilestoneCard = ({
           {milestone.title}
         </h3>
 
-        {/* Description */}
         <p
           className={`text-xs text-[#24415C] leading-relaxed ${
             isLeft ? 'md:text-right' : 'md:text-left'
@@ -137,7 +130,6 @@ export const MilestoneCard = ({
           {milestone.description}
         </p>
 
-        {/* SPECIAL HIGHLIGHT BADGE for Milestone 3 (1995): BEST UPCOMING CENTER */}
         {milestone.highlightBadge && (
           <div
             className={`mt-3 pt-2.5 border-t border-[#EBD6A2]/60 flex items-center gap-2 ${

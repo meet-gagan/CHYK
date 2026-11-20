@@ -167,7 +167,6 @@ export const FaqPage = () => {
     <div className="min-h-screen pt-2 sm:pt-4 pb-14 px-4 sm:px-6 lg:px-8 bg-[var(--bg-primary)]">
       <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
         
-        {/* Header Section */}
         <div className="text-center space-y-3">
           <h1 className="text-3xl sm:text-5xl font-black font-heading text-[var(--text-primary)] tracking-tight">
             {f.faq_list?.title || 'FREQUENTLY ASKED QUESTIONS'}
@@ -180,7 +179,6 @@ export const FaqPage = () => {
             )}
           </p>
 
-          {/* Action Button: Ask Your FAQ */}
           <div className="pt-2">
             <button
               onClick={() => {
@@ -196,7 +194,6 @@ export const FaqPage = () => {
           </div>
         </div>
 
-        {/* INLINE FORM: Ask Your FAQ */}
         {showAskForm && (
           <div className="p-6 sm:p-8 rounded-3xl bg-white border border-[var(--orange)]/30 shadow-xl space-y-5 animate-in fade-in slide-in-from-top-4 duration-300">
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
@@ -246,7 +243,6 @@ export const FaqPage = () => {
                   </div>
                 )}
 
-                {/* Field: Full Name */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-black text-slate-700 uppercase tracking-wider block">
                     Your Full Name <span className="text-red-500">*</span>
@@ -261,7 +257,6 @@ export const FaqPage = () => {
                   />
                 </div>
 
-                {/* Field: Phone (Optional) */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-black text-slate-700 uppercase tracking-wider block">
                     Contact Phone Number <span className="text-slate-400 font-normal lowercase">(optional)</span>
@@ -275,7 +270,6 @@ export const FaqPage = () => {
                   />
                 </div>
 
-                {/* Field: Question / Doubt */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-black text-slate-700 uppercase tracking-wider block">
                     What is your doubt / question? <span className="text-red-500">*</span>
@@ -290,7 +284,6 @@ export const FaqPage = () => {
                   />
                 </div>
 
-                {/* Form Buttons */}
                 <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-2">
                   <button
                     type="button"
@@ -322,7 +315,6 @@ export const FaqPage = () => {
           </div>
         )}
 
-        {/* FAQ Accordion List matching screenshot */}
         <div className="space-y-3.5">
           {faqs.map((faq, idx) => {
             const isOpen = openFaq === idx;
@@ -359,7 +351,6 @@ export const FaqPage = () => {
           })}
         </div>
 
-        {/* Bottom Help Box */}
         <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200/80 text-center space-y-3">
           <ShieldCheck className="w-8 h-8 text-[var(--orange)] mx-auto" />
           <h4 className="text-sm font-black text-[var(--text-primary)] uppercase tracking-wider">

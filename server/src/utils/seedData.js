@@ -71,7 +71,6 @@ export const adoniInstitutionsList = [
 
 export const seedInitialData = async () => {
   try {
-    // 1. Admin User
     const adminExists = await User.findOne({ role: 'admin' });
     if (!adminExists) {
       await User.create({
@@ -84,7 +83,6 @@ export const seedInitialData = async () => {
       console.log('[Seed] Default admin created: admin@anti-drug-marathon.org / adminpassword123');
     }
 
-    // 2. Event Config
     const configExists = await EventConfig.findOne();
     if (!configExists) {
       await EventConfig.create({
@@ -115,7 +113,6 @@ export const seedInitialData = async () => {
       }
     }
 
-    // 3. Institutions
     const instCount = await Institution.countDocuments();
     if (instCount === 0) {
       const docs = adoniInstitutionsList.map((name) => ({
@@ -127,7 +124,6 @@ export const seedInitialData = async () => {
       console.log(`[Seed] ${docs.length} Adoni institutions seeded.`);
     }
 
-    // 4. Initial Banners (Poster styling inspired SVGs / default URLs)
     const bannerCount = await Banner.countDocuments();
     if (bannerCount === 0) {
       await Banner.create([
@@ -143,7 +139,6 @@ export const seedInitialData = async () => {
       console.log('[Seed] Default banners created.');
     }
 
-    // 5. Initial Activities
     const activityCount = await Activity.countDocuments();
     if (activityCount === 0) {
       await Activity.create([
@@ -178,7 +173,6 @@ export const seedInitialData = async () => {
       console.log('[Seed] Activities gallery seeded.');
     }
 
-    // 6. Initial FAQs
     const defaultFaqsList = [
       {
         question: 'When and where is the Anti-Drug Mini-Marathon Run 2026?',
@@ -223,7 +217,6 @@ export const seedInitialData = async () => {
       console.log('[Seed] FAQs updated with latest text.');
     }
 
-    // 7. Initial PageContent for About Page
     const aboutContent = await PageContent.findOne({ sectionKey: 'about_page' });
     if (!aboutContent) {
       await PageContent.create({
@@ -352,7 +345,6 @@ export const seedInitialData = async () => {
       console.log('[Seed] Default About Page content seeded.');
     }
 
-    // 8. Initial HomePage CMS Configuration
     const homePageExists = await HomePage.findOne();
     if (!homePageExists) {
       await HomePage.create({
@@ -447,14 +439,12 @@ export const seedInitialData = async () => {
       }
     }
 
-    // 9. Initial Footer CMS Configuration
     const footerExists = await Footer.findOne();
     if (!footerExists) {
       await Footer.create(defaultFooterConfig);
       console.log('[Seed] Default Footer CMS configuration created.');
     }
 
-    // 10. Centralized Media Library Assets Seeding
     const mediaCount = await Media.countDocuments();
     if (mediaCount === 0) {
       const initialMediaList = [
@@ -1479,7 +1469,6 @@ export const seedInitialData = async () => {
       }
     }
 
-    // 12. Seed Initial YouTube Videos for Videos Page if empty
     const videoCount = await Video.countDocuments();
     if (videoCount === 0) {
       const initialVideos = [
@@ -1510,10 +1499,8 @@ export const seedInitialData = async () => {
       console.log(`[Seed] Seeded ${initialVideos.length} initial YouTube videos for Marathon Videos page.`);
     }
 
-    // 13. Seed Initial Gallery Folder & Sacred Images if empty
     await seedGalleryInitialData();
 
-    // 14. Seed Legal Documents (Terms & Conditions, Privacy Policy for Chinmaya & Marathon)
     try {
       await ensureLegalDoc('chinmaya', 'terms');
       await ensureLegalDoc('chinmaya', 'privacy');

@@ -47,7 +47,6 @@ export const EntryPassModal = ({ data, eventConfig, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-md overflow-y-auto animate-in fade-in">
       
-      {/* Print-specific style to isolate ONLY the Entry Pass on a single clean page */}
       <style>{`
         @media print {
           body * {
@@ -77,7 +76,6 @@ export const EntryPassModal = ({ data, eventConfig, onClose }) => {
 
       <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[32px] max-w-xl w-full p-6 sm:p-8 relative shadow-2xl space-y-6 my-auto">
         
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-5 right-5 p-2 rounded-full bg-[var(--bg-tertiary)] text-[var(--text-muted)] hover:text-red-500 transition-colors"
@@ -86,7 +84,6 @@ export const EntryPassModal = ({ data, eventConfig, onClose }) => {
           <X className="w-5 h-5" />
         </button>
 
-        {/* 1. REGISTRATION SUCCESS CONFIRMATION HEADER */}
         <div className="text-center space-y-2 pt-1">
           <div className="w-14 h-14 rounded-full bg-emerald-500/15 border-2 border-emerald-500 text-emerald-500 flex items-center justify-center mx-auto animate-bounce">
             <CheckCircle className="w-8 h-8" />
@@ -114,7 +111,6 @@ export const EntryPassModal = ({ data, eventConfig, onClose }) => {
           </p>
         </div>
 
-        {/* 2. PROMINENT SAVE ENTRY PASS BUTTON */}
         <div className="space-y-2 pt-1">
           <button
             type="button"
@@ -146,7 +142,6 @@ export const EntryPassModal = ({ data, eventConfig, onClose }) => {
           </div>
         </div>
 
-        {/* 3. ENTRY PASS VISUAL PREVIEW */}
         <div className="pt-2 border-t border-[var(--border-color)]">
           <p className="text-[11px] font-black uppercase tracking-wider text-[var(--text-muted)] text-center mb-3">
             OFFICIAL ENTRY PASS PREVIEW
@@ -161,7 +156,6 @@ export const EntryPassModal = ({ data, eventConfig, onClose }) => {
           </div>
         </div>
 
-        {/* 4. MODAL FOOTER */}
         <div className="pt-2 text-center">
           <button
             onClick={onClose}

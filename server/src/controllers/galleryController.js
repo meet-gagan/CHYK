@@ -19,9 +19,7 @@ const generateSlug = (name) => {
 // Helper to check valid ObjectId
 const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
-// ─────────────────────────────────────────────────────────────────────────────
 // PUBLIC ENDPOINTS
-// ─────────────────────────────────────────────────────────────────────────────
 
 // @desc    Get all published gallery folders with media counts
 // @route   GET /api/gallery/folders/public
@@ -254,9 +252,7 @@ export const getPublicFolderMedia = async (req, res) => {
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
 // ADMIN ENDPOINTS
-// ─────────────────────────────────────────────────────────────────────────────
 
 // @desc    Get all gallery folders with summary statistics
 // @route   GET /api/gallery/folders

@@ -149,7 +149,6 @@ const ActivityCard = ({ activity, onSelect }) => {
 
   return (
     <article className="bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-lg hover:border-[var(--orange)]/50 transition-all duration-300 hover:-translate-y-1.5 flex flex-col h-full overflow-hidden group w-full">
-      {/* Full-width Image Area */}
       <div className="relative h-56 sm:h-60 md:h-64 w-full shrink-0 overflow-hidden bg-slate-950 flex items-center justify-center p-2.5 border-b border-slate-100/10 block">
         <img
           src={cardImgSrc}
@@ -186,7 +185,6 @@ const ActivityCard = ({ activity, onSelect }) => {
         </button>
       </div>
 
-      {/* Card Body */}
       <div className="p-5 sm:p-6 flex flex-col flex-1 text-left">
         <div className="flex items-center gap-3 mb-2.5">
           <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[var(--orange)]/10 text-[var(--orange)] flex items-center justify-center shrink-0 group-hover:bg-[var(--orange)] group-hover:text-white transition-colors duration-300">
@@ -201,7 +199,6 @@ const ActivityCard = ({ activity, onSelect }) => {
           {activity.description}
         </p>
 
-        {/* Card Footer Meta */}
         <div className="mt-auto pt-3 border-t border-slate-100 text-xs font-semibold text-slate-500 flex items-center justify-between">
           <span className="truncate max-w-[55%] text-slate-500 font-medium text-xs">
             {activity.imageSource || activity.subtitle || 'Chinmaya Mission'}
@@ -380,9 +377,7 @@ export const ActivitiesPage = () => {
 
   return (
     <div className="min-h-screen pt-4 sm:pt-6 pb-20 px-4 sm:px-8 lg:px-12 w-full space-y-14 sm:space-y-18">
-      {/* 1. STARTING SECTION: EXACT "OUR ACTIVITIES" HERO, CARDS & CHYK BANNER */}
       <section className="w-full space-y-10 sm:space-y-12">
-        {/* Header Block matching user image */}
         <header className="text-center max-w-4xl mx-auto space-y-3">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading text-[var(--text-primary)] tracking-tight uppercase">
             OUR ACTIVITIES
@@ -392,7 +387,6 @@ export const ActivitiesPage = () => {
           </p>
         </header>
 
-        {/* 2 Wing Cards: DEVI GROUP & BALVIHAR CLASSES */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 w-full items-stretch">
           {FEATURED_WINGS.map((card) => (
             <article
@@ -403,7 +397,6 @@ export const ActivitiesPage = () => {
                   : 'border-slate-200/90 hover:border-[var(--orange)]/50'
               }`}
             >
-              {/* Full-width Top Image Area with full visibility & crystal clear presentation */}
               <div className="relative h-64 sm:h-72 md:h-80 w-full shrink-0 overflow-hidden bg-slate-950 flex items-center justify-center p-2.5 sm:p-3 border-b border-slate-100/10 block">
                 <img
                   src={card.imageUrl}
@@ -419,7 +412,6 @@ export const ActivitiesPage = () => {
                 />
               </div>
 
-              {/* Card Body */}
               <div className="p-6 sm:p-8 flex flex-col flex-1 text-left">
                 <div className="flex items-center gap-3.5 mb-3">
                   <div className="w-10 h-10 rounded-full bg-[var(--orange)]/10 text-[var(--orange)] flex items-center justify-center shrink-0 group-hover:bg-[var(--orange)] group-hover:text-white transition-colors duration-300">
@@ -434,7 +426,6 @@ export const ActivitiesPage = () => {
                   {card.content}
                 </p>
 
-                {/* Bottom Action Button: Know More */}
                 <div className="mt-auto pt-4 border-t border-slate-100">
                   <button
                     type="button"
@@ -450,13 +441,10 @@ export const ActivitiesPage = () => {
           ))}
         </div>
 
-        {/* CHINMAYA YUVA KENDRA (CHYK), ADONI Banner Card */}
         <div className="p-8 sm:p-14 rounded-3xl bg-white border border-[rgba(11,35,64,0.08)] border-l-4 border-l-[var(--orange)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)] space-y-10 relative overflow-hidden">
-          {/* Accent Glow */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--orange)]/15 rounded-full blur-3xl pointer-events-none" />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            {/* Left Content */}
             <div className="lg:col-span-7 space-y-6 text-left">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black font-heading text-[var(--text-primary)] leading-tight">
                 {CHYK_FEATURE_DATA.heading}
@@ -470,7 +458,6 @@ export const ActivitiesPage = () => {
                 {CHYK_FEATURE_DATA.p2}
               </p>
 
-              {/* Dynamic Youth Keywords */}
               <div className="pt-2">
                 <span className="text-[11px] font-extrabold uppercase text-[var(--text-muted)] tracking-wider block mb-3">
                   CORE VALUES & DRIVING FORCE
@@ -506,7 +493,6 @@ export const ActivitiesPage = () => {
               </div>
             </div>
 
-            {/* Right Visual Image */}
             <div className="lg:col-span-5">
               <div className="relative rounded-3xl overflow-hidden border-2 border-[var(--orange)] shadow-2xl group bg-slate-900 flex items-center justify-center h-80 sm:h-[400px]">
                 <img
@@ -533,9 +519,7 @@ export const ActivitiesPage = () => {
         </div>
       </section>
 
-      {/* 2. PROGRAMMES & SACRED INITIATIVES SECTION */}
       <section className="w-full">
-        {/* Structured Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 w-full items-stretch">
           {additionalActivities.map((act) => (
             <ActivityCard
@@ -547,7 +531,6 @@ export const ActivitiesPage = () => {
         </div>
       </section>
 
-      {/* Detail & History Modal for Activity */}
       {selectedActivity && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-sm animate-in fade-in overflow-y-auto"
@@ -559,16 +542,13 @@ export const ActivitiesPage = () => {
             className="bg-white border border-[rgba(11,35,64,0.08)] rounded-3xl max-w-3xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative my-auto flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Image Area: 100% Full Uncropped Image Presentation */}
             <div className="relative w-full min-h-[280px] sm:min-h-[360px] md:min-h-[420px] max-h-[60vh] bg-[#0B1320] shrink-0 overflow-hidden flex items-center justify-center p-3 sm:p-5">
-              {/* Ambient blurred backdrop so any aspect ratio fills gracefully */}
               <img
                 src={selectedActivity.imageUrl}
                 alt=""
                 aria-hidden="true"
                 className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none"
               />
-              {/* Full uncropped, complete image */}
               <img
                 src={selectedActivity.imageUrl}
                 alt={selectedActivity.imageAlt || selectedActivity.title}
@@ -603,7 +583,6 @@ export const ActivitiesPage = () => {
                 className="relative z-10 w-full h-full max-h-[55vh] object-contain mx-auto my-auto drop-shadow-2xl rounded-xl block"
               />
 
-              {/* Close Button */}
               <button
                 type="button"
                 onClick={() => setSelectedActivity(null)}
@@ -613,7 +592,6 @@ export const ActivitiesPage = () => {
                 <X className="w-5 h-5" />
               </button>
 
-              {/* Header Info Floating on Image */}
               {selectedActivity.detailedInfo?.location && (
                 <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 z-20 pointer-events-none">
                   <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/70 backdrop-blur-md text-white text-xs font-bold shadow-lg border border-white/10">
@@ -624,9 +602,7 @@ export const ActivitiesPage = () => {
               )}
             </div>
 
-            {/* Scrollable Modal Content */}
             <div className="p-6 sm:p-8 space-y-6 text-left">
-              {/* Title & Subtitle */}
               <div className="border-b border-slate-100 pb-4">
                 <h2 className="text-xl sm:text-2xl font-black font-heading text-[var(--text-primary)] leading-snug">
                   {selectedActivity.detailedInfo?.title || selectedActivity.title}
@@ -644,14 +620,12 @@ export const ActivitiesPage = () => {
                 )}
               </div>
 
-              {/* Summary Box */}
               {(selectedActivity.content || selectedActivity.description) && (
                 <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200/70 text-slate-700 text-sm sm:text-base leading-relaxed">
                   {selectedActivity.content || selectedActivity.description}
                 </div>
               )}
 
-              {/* Detailed Sections if available */}
               {selectedActivity.detailedInfo?.sections?.map((section, sIdx) => (
                 <div key={sIdx} className="space-y-3">
                   <div className="flex items-center gap-2.5 pb-1.5 border-b border-slate-100">
@@ -692,7 +666,6 @@ export const ActivitiesPage = () => {
               ))}
             </div>
 
-            {/* Modal Footer */}
             <div className="px-6 sm:px-8 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 shrink-0">
               <span className="truncate max-w-[50%]">
                 {selectedActivity.imageSource || 'Chinmaya Mission, Adoni'}

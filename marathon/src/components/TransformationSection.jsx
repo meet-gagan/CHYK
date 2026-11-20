@@ -109,7 +109,6 @@ export const TransformationSection = ({ content }) => {
 
   return (
     <section id="about" className="pt-2 sm:pt-4 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
         <h2 className="text-3xl sm:text-5xl font-black font-heading text-[var(--text-primary)]">
           {title.includes('YOUR CHOICE') ? (
@@ -125,9 +124,7 @@ export const TransformationSection = ({ content }) => {
         </p>
       </div>
 
-      {/* Side-by-Side Visual Storytelling Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch max-w-5xl mx-auto">
-        {/* Dark / Negative Side Card */}
         <div className="gradient-negative p-6 sm:p-8 rounded-2xl relative overflow-hidden shadow-sm flex flex-col justify-between border border-slate-800 group">
           <div className="absolute top-0 right-0 w-48 h-48 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -141,13 +138,11 @@ export const TransformationSection = ({ content }) => {
               Curiosity, stress, and negative influences lead young minds down a dangerous spiral, robbing youth of their dreams and peace.
             </p>
 
-            {/* Hint */}
             <div className="flex items-center gap-1.5 text-[11px] text-red-300/80 mb-3 bg-red-950/40 border border-red-500/20 px-3 py-1.5 rounded-lg">
               <Info className="w-3.5 h-3.5 text-red-400 shrink-0" />
               <span>Click any factor below to view in-depth guide, impacts & prevention</span>
             </div>
 
-            {/* List of Negative Factors */}
             <div className="space-y-2.5">
               {negativeTraits.map((trait, idx) => {
                 const IconComponent = trait.icon;
@@ -184,7 +179,6 @@ export const TransformationSection = ({ content }) => {
           </div>
         </div>
 
-        {/* Bright / Positive Side Card */}
         <div className="bg-white p-6 sm:p-8 rounded-2xl relative overflow-hidden shadow-sm hover:shadow-md flex flex-col justify-between border border-slate-200/90 border-l-4 border-l-[var(--orange)] group">
           <div>
             <div className="flex items-center justify-between mb-2">
@@ -196,13 +190,11 @@ export const TransformationSection = ({ content }) => {
               Running builds physical stamina, mental clarity, genuine friendships, and lasting self-respect.
             </p>
 
-            {/* Hint */}
             <div className="flex items-center gap-1.5 text-[11px] text-emerald-800/90 mb-3 bg-emerald-50/80 border border-emerald-200/80 px-3 py-1.5 rounded-lg">
               <Info className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
               <span>Click any pillar below to view health benefits, real examples & key message</span>
             </div>
 
-            {/* List of Positive Factors - Now fully interactive */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {positiveTraits.map((trait, idx) => {
                 const IconComp = trait.icon;
@@ -242,7 +234,6 @@ export const TransformationSection = ({ content }) => {
         </div>
       </div>
 
-      {/* POPUP MODAL 1: Dark Escape Factors (Peer Pressure & Addiction) */}
       {selectedTrait && activeDarkData && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-md animate-fade-in"
@@ -255,10 +246,8 @@ export const TransformationSection = ({ content }) => {
             className="relative max-w-2xl w-full max-h-[90vh] bg-[#0A1324] border border-red-500/30 rounded-2xl shadow-2xl flex flex-col overflow-hidden text-slate-100 animate-scale-up"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Ambient Red Glow */}
             <div className="absolute top-0 right-1/4 w-80 h-36 bg-red-600/15 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Modal Header */}
             <div className="relative z-10 px-5 sm:px-7 pt-5 sm:pt-6 pb-4 border-b border-white/10 flex items-start justify-between gap-4 bg-[#07101E]">
               <div>
                 <div className="flex items-center gap-2 mb-1.5">
@@ -287,14 +276,11 @@ export const TransformationSection = ({ content }) => {
               </button>
             </div>
 
-            {/* Scrollable Modal Content */}
             <div className="relative z-10 p-5 sm:p-7 overflow-y-auto space-y-5 text-xs sm:text-sm leading-relaxed text-slate-300 max-h-[calc(90vh-140px)]">
-              {/* Overview */}
               <div className="p-3.5 sm:p-4 rounded-xl bg-white/5 border border-white/10 text-slate-200">
                 <p className="leading-relaxed">{activeDarkData.overview}</p>
               </div>
 
-              {/* How it can lead to addiction */}
               <div className="space-y-2.5">
                 <h4 className="text-sm font-bold text-white flex items-center gap-2 uppercase tracking-wide">
                   <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
@@ -315,7 +301,6 @@ export const TransformationSection = ({ content }) => {
                 )}
               </div>
 
-              {/* Real Example */}
               <div className="p-4 rounded-xl bg-gradient-to-r from-red-950/30 to-slate-900/40 border border-red-500/20">
                 <div className="text-[11px] font-bold uppercase tracking-wider text-red-400 mb-1 flex items-center gap-1.5">
                   <Info className="w-3.5 h-3.5" />
@@ -326,7 +311,6 @@ export const TransformationSection = ({ content }) => {
                 </p>
               </div>
 
-              {/* Impact */}
               <div className="p-4 rounded-xl bg-red-950/20 border border-red-500/25 space-y-1">
                 <div className="text-[11px] font-bold uppercase tracking-wider text-red-400 flex items-center gap-1.5">
                   <AlertTriangle className="w-3.5 h-3.5" />
@@ -337,7 +321,6 @@ export const TransformationSection = ({ content }) => {
                 </p>
               </div>
 
-              {/* Prevention */}
               <div className="p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/30 space-y-1.5">
                 <div className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
                   <ShieldCheck className="w-3.5 h-3.5" />
@@ -348,7 +331,6 @@ export const TransformationSection = ({ content }) => {
                 </p>
               </div>
 
-              {/* Key Message */}
               <div className="p-4 sm:p-5 rounded-xl bg-gradient-to-r from-amber-500/15 via-orange-500/15 to-transparent border border-amber-500/30">
                 <div className="text-[11px] font-extrabold uppercase tracking-wider text-amber-300 mb-1 flex items-center gap-1.5">
                   <Lightbulb className="w-4 h-4 text-amber-400" />
@@ -360,7 +342,6 @@ export const TransformationSection = ({ content }) => {
               </div>
             </div>
 
-            {/* Modal Footer: Navigation between factors */}
             <div className="relative z-10 px-5 sm:px-7 py-3.5 border-t border-white/10 flex items-center justify-between bg-[#07101E] gap-2">
               <button
                 type="button"
@@ -372,7 +353,6 @@ export const TransformationSection = ({ content }) => {
                 <span className="hidden sm:inline">Previous</span>
               </button>
 
-              {/* Factor Dots */}
               <div className="flex items-center gap-1.5">
                 {ORDERED_TRAIT_NAMES.map((traitName) => (
                   <button
@@ -404,7 +384,6 @@ export const TransformationSection = ({ content }) => {
         </div>
       )}
 
-      {/* POPUP MODAL 2: Positive Pillars (Clarity, Strength & Purpose) */}
       {selectedPositiveTrait && activePositiveData && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-md animate-fade-in"
@@ -417,11 +396,9 @@ export const TransformationSection = ({ content }) => {
             className="relative max-w-2xl w-full max-h-[90vh] bg-[#0A1629] border border-[var(--orange)]/35 rounded-2xl shadow-2xl flex flex-col overflow-hidden text-slate-100 animate-scale-up"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Ambient Gold/Orange Glow */}
             <div className="absolute top-0 right-1/4 w-80 h-36 bg-[var(--orange)]/15 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-0 left-10 w-64 h-32 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Modal Header */}
             <div className="relative z-10 px-5 sm:px-7 pt-5 sm:pt-6 pb-4 border-b border-white/10 flex items-start justify-between gap-4 bg-[#071120]">
               <div>
                 <div className="flex items-center gap-2 mb-1.5">
@@ -451,14 +428,11 @@ export const TransformationSection = ({ content }) => {
               </button>
             </div>
 
-            {/* Scrollable Modal Content */}
             <div className="relative z-10 p-5 sm:p-7 overflow-y-auto space-y-5 text-xs sm:text-sm leading-relaxed text-slate-300 max-h-[calc(90vh-140px)]">
-              {/* Overview */}
               <div className="p-3.5 sm:p-4 rounded-xl bg-white/5 border border-white/10 text-slate-200">
                 <p className="leading-relaxed">{activePositiveData.overview}</p>
               </div>
 
-              {/* Key Benefits */}
               <div className="space-y-2.5">
                 <h4 className="text-sm font-bold text-white flex items-center gap-2 uppercase tracking-wide">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
@@ -474,7 +448,6 @@ export const TransformationSection = ({ content }) => {
                 </ul>
               </div>
 
-              {/* Real Example */}
               <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-950/30 to-slate-900/40 border border-emerald-500/25">
                 <div className="text-[11px] font-bold uppercase tracking-wider text-emerald-400 mb-1 flex items-center gap-1.5">
                   <Info className="w-3.5 h-3.5" />
@@ -485,7 +458,6 @@ export const TransformationSection = ({ content }) => {
                 </p>
               </div>
 
-              {/* Key Message */}
               <div className="p-4 sm:p-5 rounded-xl bg-gradient-to-r from-[var(--orange)]/15 via-amber-500/15 to-emerald-500/10 border border-[var(--orange)]/35">
                 <div className="text-[11px] font-extrabold uppercase tracking-wider text-[var(--orange)] mb-1 flex items-center gap-1.5">
                   <Lightbulb className="w-4 h-4 text-amber-400" />
@@ -497,7 +469,6 @@ export const TransformationSection = ({ content }) => {
               </div>
             </div>
 
-            {/* Modal Footer: Navigation between positive pillars */}
             <div className="relative z-10 px-5 sm:px-7 py-3.5 border-t border-white/10 flex items-center justify-between bg-[#071120] gap-2">
               <button
                 type="button"
@@ -509,7 +480,6 @@ export const TransformationSection = ({ content }) => {
                 <span className="hidden sm:inline">Previous</span>
               </button>
 
-              {/* Pillar Dots */}
               <div className="flex items-center gap-1.5">
                 {ORDERED_POSITIVE_TRAIT_NAMES.map((traitName) => (
                   <button

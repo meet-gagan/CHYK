@@ -42,7 +42,6 @@ export const DonationModal = ({
     email: normalUser?.email || '',
     dob: '',
     address: '',
-    // Step 3 verification proof fields
     utrId: '',
     screenshot: '',
     screenshotPreview: '',
@@ -102,7 +101,6 @@ export const DonationModal = ({
     }
   };
 
-  // Step 1 Validation (Amount, Name, Phone, Email)
   const validateStep1 = () => {
     const newErrors = {};
 
@@ -131,22 +129,8 @@ export const DonationModal = ({
     return Object.keys(newErrors).length === 0;
   };
 
-  // Step 3 Validation (UTR ID, Screenshot Upload)
   const validateStep3 = () => {
     const newErrors = {};
-
-    /*
-    // Commented out as requested for Supports Our Mission
-    if (!formData.utrId.trim()) {
-      newErrors.utrId = 'Please enter the 12-digit UTR ID / UPI Transaction Reference Number';
-    } else if (formData.utrId.trim().length < 6) {
-      newErrors.utrId = 'Please enter a valid transaction reference number';
-    }
-
-    if (!formData.screenshot) {
-      newErrors.screenshot = 'Please upload a screenshot of your payment as transaction proof';
-    }
-    */
 
     setStep3Errors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -160,7 +144,6 @@ export const DonationModal = ({
   };
 
   const handleDonePaymentClick = () => {
-    // Moves to Step 3 (Payment Proof form) as requested
     setStep('proof');
   };
 
@@ -243,18 +226,15 @@ export const DonationModal = ({
     };
 
     try {
-      // 1. Persist to MongoDB Atlas Database
       const apiRes = await sevaBookingService.submitBooking(record);
       const savedDoc = apiRes.data?.data || record;
 
-      // 2. Persist to localStorage for offline cache
       try {
         const existing = JSON.parse(localStorage.getItem('devotee_donations_history') || '[]');
         existing.unshift(savedDoc);
         localStorage.setItem('devotee_donations_history', JSON.stringify(existing.slice(0, 50)));
       } catch (_) {}
 
-      // 3. Set confirmed receipt and progress step
       setSubmittedReceipt(savedDoc);
       setStep('confirmed');
     } catch (err) {
@@ -290,7 +270,6 @@ export const DonationModal = ({
 
   return (
     <>
-      {/* DEDICATED 1-PAGE PRINTABLE DONATION RECEIPT (Rendered into document.body outside #root) */}
       {typeof document !== 'undefined' &&
         createPortal(
           <div id="donation-printable-receipt" aria-hidden="true">
@@ -349,7 +328,6 @@ export const DonationModal = ({
                 breakInside: 'avoid',
               }}
             >
-              {/* Header */}
               <div
                 style={{
                   textAlign: 'center',
@@ -402,7 +380,6 @@ export const DonationModal = ({
                 </div>
               </div>
 
-              {/* Reference & Date Bar */}
               <div
                 style={{
                   display: 'flex',
@@ -442,7 +419,6 @@ export const DonationModal = ({
                 </div>
               </div>
 
-              {/* Donation Amount Highlight Box */}
               <div
                 style={{
                   background: '#fffbeb',
@@ -526,7 +502,6 @@ export const DonationModal = ({
                 </div>
               </div>
 
-              {/* Devotee Details */}
               <div style={{ marginBottom: '10px' }}>
                 <div
                   style={{
@@ -612,7 +587,6 @@ export const DonationModal = ({
                 </table>
               </div>
 
-              {/* Acknowledgement Notice */}
               <div
                 style={{
                   background: '#f8fafc',
@@ -631,7 +605,6 @@ export const DonationModal = ({
                 Pujya Gurudev’s divine grace be with you and your family.
               </div>
 
-              {/* Footer & Signature Section */}
               <div
                 style={{
                   display: 'flex',
@@ -678,22 +651,18 @@ export const DonationModal = ({
 
       <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-y-auto">
 
-      {/* Backdrop */}
       <div
         className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Modal Dialog Card */}
       <div
         className="relative bg-white rounded-3xl shadow-2xl border border-[#ECE3D4] w-full max-w-2xl max-h-[92vh] flex flex-col overflow-hidden z-10 animate-in zoom-in-95 duration-200"
         style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
       >
-        {/* Top Decorative Amber Bar */}
         <div className="h-1.5 w-full bg-gradient-to-r from-[var(--orange,#FF8A3D)] via-[#FFA14A] to-[var(--yellow,#D97706)] shrink-0" />
 
-        {/* Modal Header */}
         <div className="px-5 sm:px-6 pt-5 pb-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-b from-[#FFFDF9] to-white shrink-0">
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <div className="w-10 h-10 rounded-2xl bg-[var(--orange)]/10 text-[var(--orange)] flex items-center justify-center shrink-0 shadow-sm">
@@ -730,10 +699,8 @@ export const DonationModal = ({
           </button>
         </div>
 
-        {/* 3-Step Progress Indicator */}
         {step !== 'confirmed' && (
           <div className="px-5 sm:px-6 py-2.5 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between text-xs font-semibold shrink-0">
-            {/* Step 1 */}
             <span
               className={`flex items-center gap-1.5 ${
                 step === 'form' ? 'text-[var(--orange)] font-bold' : 'text-slate-700'
@@ -757,7 +724,6 @@ export const DonationModal = ({
               />
             </div>
 
-            {/* Step 2 */}
             <span
               className={`flex items-center gap-1.5 ${
                 step === 'review' ? 'text-[var(--orange)] font-bold' : step === 'proof' ? 'text-slate-700' : 'text-slate-400'
@@ -785,7 +751,6 @@ export const DonationModal = ({
               />
             </div>
 
-            {/* Step 3 */}
             <span
               className={`flex items-center gap-1.5 ${
                 step === 'proof' ? 'text-[var(--orange)] font-bold' : 'text-slate-400'
@@ -805,14 +770,9 @@ export const DonationModal = ({
           </div>
         )}
 
-        {/* Modal Scrollable Body */}
         <div className="p-5 sm:p-7 overflow-y-auto space-y-6 flex-1 bg-white">
-          {/* ========================================================= */}
-          {/* STEP 1: FORM INPUTS (Exact User Order)                    */}
-          {/* ========================================================= */}
           {step === 'form' && (
             <form onSubmit={handleReviewClick} className="space-y-5">
-              {/* 1st Field: Enter the amount how much you will donate */}
               <div className="bg-slate-50 p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                   Enter Donation Amount (₹) <span className="text-red-500">*</span>
@@ -838,7 +798,6 @@ export const DonationModal = ({
                   <p className="text-xs text-red-500 font-medium">{errors.amount}</p>
                 )}
 
-                {/* Quick Presets */}
                 <div className="flex flex-wrap items-center gap-2 pt-1">
                   <span className="text-[11px] text-slate-500 font-semibold mr-1">
                     Quick Select:
@@ -864,7 +823,6 @@ export const DonationModal = ({
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* 2nd Field: Name */}
                 <div className="space-y-1.5 sm:col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Full Name <span className="text-red-500">*</span>
@@ -886,7 +844,6 @@ export const DonationModal = ({
                   {errors.name && <p className="text-xs text-red-500 font-medium">{errors.name}</p>}
                 </div>
 
-                {/* 3rd & 4th Field: Phone Number */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Phone Number <span className="text-red-500">*</span>
@@ -910,7 +867,6 @@ export const DonationModal = ({
                   )}
                 </div>
 
-                {/* 5th Field: Email id */}
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Email Address <span className="text-red-500">*</span>
@@ -934,7 +890,6 @@ export const DonationModal = ({
                   )}
                 </div>
 
-                {/* 6th Field: Address */}
                 <div className="space-y-1.5 sm:col-span-2">
                   <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                     Address (నివాసం)
@@ -953,7 +908,6 @@ export const DonationModal = ({
                 </div>
               </div>
 
-              {/* Action Buttons */}
               <div className="pt-2 flex items-center justify-end gap-3">
                 <button
                   type="button"
@@ -973,12 +927,8 @@ export const DonationModal = ({
             </form>
           )}
 
-          {/* ========================================================= */}
-          {/* STEP 2: REVIEW DETAILS & PHONEPE QR CODE                   */}
-          {/* ========================================================= */}
           {step === 'review' && (
             <div className="space-y-6">
-              {/* Devotee Details Summary Card */}
               <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6 space-y-4 relative overflow-hidden">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                   <div className="flex items-center gap-2 text-[#0A192F]">
@@ -997,7 +947,6 @@ export const DonationModal = ({
                   </button>
                 </div>
 
-                {/* Prominent Amount Banner */}
                 <div className="bg-gradient-to-r from-orange-50/80 via-amber-50/60 to-slate-50 p-4 rounded-xl border border-orange-200/70 flex items-center justify-between">
                   <div>
                     <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--orange)] block">
@@ -1012,7 +961,6 @@ export const DonationModal = ({
                   </div>
                 </div>
 
-                {/* Details Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-sm">
                   <div>
                     <span className="block text-xs font-semibold uppercase tracking-wider text-slate-500">
@@ -1052,7 +1000,6 @@ export const DonationModal = ({
                 </div>
               </div>
 
-              {/* PhonePe QR Code Container */}
               <div className="bg-gradient-to-br from-orange-50/40 via-amber-50/30 to-slate-50 rounded-2xl border-2 border-dashed border-orange-200 p-5 sm:p-6 text-center space-y-4 shadow-inner">
                 <div className="flex items-center justify-center gap-2">
                   <div className="w-9 h-9 rounded-xl bg-[#5f259f] text-white flex items-center justify-center font-bold text-xs shadow-sm">
@@ -1072,7 +1019,6 @@ export const DonationModal = ({
                   .
                 </p>
 
-                {/* QR Code Graphic Box */}
                 <div className="bg-white rounded-2xl p-6 border-2 border-dashed border-orange-200 max-w-xs mx-auto shadow-sm text-center space-y-3">
                   <div className="w-44 h-44 sm:w-48 sm:h-48 mx-auto bg-gradient-to-br from-slate-50 to-orange-50/30 rounded-xl border border-slate-200 flex flex-col items-center justify-center p-3 relative">
                     <div className="w-14 h-14 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-center mb-2 shadow-sm">
@@ -1090,7 +1036,6 @@ export const DonationModal = ({
                   </div>
                 </div>
 
-                {/* Instructional Note */}
                 <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-orange-200 text-xs font-bold text-[var(--orange)]">
                   <span>✨ PhonePe QR code will be added here. Once paid, click Done below!</span>
                 </div>
@@ -1104,7 +1049,6 @@ export const DonationModal = ({
                 </div>
               </div>
 
-              {/* Bottom Review Actions */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                 <button
                   type="button"
@@ -1116,7 +1060,6 @@ export const DonationModal = ({
                 </button>
 
                 <div className="flex items-center gap-2">
-                  {/* "Done" Button which redirects to Step 3 (Proof form) */}
                   <button
                     type="button"
                     onClick={handleDonePaymentClick}
@@ -1131,9 +1074,6 @@ export const DonationModal = ({
             </div>
           )}
 
-          {/* ========================================================= */}
-          {/* STEP 3: REDIRECT / PAYMENT PROOF SUBMISSION FORM           */}
-          {/* ========================================================= */}
           {step === 'proof' && (
             <form onSubmit={handleSubmitProof} className="space-y-5">
               {step3Errors.general && (
@@ -1143,7 +1083,6 @@ export const DonationModal = ({
                 </div>
               )}
 
-              {/* Info Banner */}
               <div className="bg-orange-50/60 border border-orange-200/70 p-4 rounded-2xl text-xs sm:text-sm text-slate-700 leading-relaxed shadow-sm">
                 <p className="flex items-start gap-2">
                   <Sparkles className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
@@ -1153,7 +1092,6 @@ export const DonationModal = ({
                 </p>
               </div>
 
-              {/* Redirected Devotee Details Summary Card */}
               <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-sm space-y-3">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -1203,7 +1141,6 @@ export const DonationModal = ({
                 </div>
               </div>
 
-              {/* Payment details notice for Support Our Mission */}
               <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3.5 shadow-sm text-left">
                 <p className="text-sm font-semibold text-[#0A192F] leading-snug">
                   Share the payment details to the what number or email attached below.
@@ -1234,7 +1171,6 @@ export const DonationModal = ({
                 </div>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                 <button
                   type="button"
@@ -1257,9 +1193,6 @@ export const DonationModal = ({
             </form>
           )}
 
-          {/* ========================================================= */}
-          {/* STEP 4: CONFIRMED VIEW (Success Screen)                    */}
-          {/* ========================================================= */}
           {step === 'confirmed' && (
             <div className="text-center py-6 sm:py-8 space-y-5">
               <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto border-2 border-emerald-300">
@@ -1280,7 +1213,6 @@ export const DonationModal = ({
                 </p>
               </div>
 
-              {/* Receipt Summary Card */}
               {submittedReceipt && (
                 <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 max-w-md mx-auto text-xs text-slate-700 space-y-2.5 shadow-sm text-left">
                   <div className="flex justify-between border-b border-slate-200 pb-2">
@@ -1334,7 +1266,6 @@ export const DonationModal = ({
                 </div>
               )}
 
-              {/* Contribution Acknowledgement Note */}
               <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 max-w-md mx-auto text-xs text-slate-600 leading-relaxed shadow-sm">
                 <p>
                   Official receipt and formal acknowledgement will be emailed to{' '}

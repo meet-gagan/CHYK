@@ -95,7 +95,6 @@ adminApi.interceptors.response.use(
   }
 );
 
-// --- 1. AUTHENTICATION & ADMIN PROFILE ---
 export const adminAuthService = {
   loginAdmin: (credentials) =>
     adminApi.post('/auth/admin/login', credentials),
@@ -113,12 +112,10 @@ export const adminAuthService = {
     adminApi.post('/auth/admin/change-password', passwordData),
 };
 
-// --- 2. DASHBOARD STATS ---
 export const adminStatsService = {
   getStats: () => adminApi.get('/admin/dashboard-stats'),
 };
 
-// --- 3. USER MANAGEMENT ---
 export const adminUserService = {
   getUsers: (params) => adminApi.get('/admin/users', { params }),
   getUserById: (id) => adminApi.get(`/admin/users/${id}`),
@@ -127,7 +124,6 @@ export const adminUserService = {
   bulkDeleteUsers: (userIds) => adminApi.post('/admin/users/bulk-delete', { userIds }),
 };
 
-// --- 4. REGISTRATIONS & BULK BATCHES ---
 export const adminRegistrationService = {
   getRegistrations: (params) => adminApi.get('/admin/registrations', { params }),
   getRegistrationById: (id) => adminApi.get(`/admin/registrations/${id}`),
@@ -144,13 +140,11 @@ export const adminRegistrationService = {
   retrySheetsSync: (id) => adminApi.post(`/admin/registrations/${id}/sync-sheets`),
 };
 
-// --- 5. EVENT CONTROL ---
 export const adminEventService = {
   getConfig: () => adminApi.get('/events/config'),
   updateConfig: (data) => adminApi.put('/events/config', data),
 };
 
-// --- 6. BANNER UPLOADS ---
 export const adminBannerService = {
   getAllAdmin: () => adminApi.get('/banners/admin/all'),
   uploadBanner: (formData) =>
@@ -161,7 +155,6 @@ export const adminBannerService = {
   deleteBanner: (id) => adminApi.delete(`/banners/${id}`),
 };
 
-// --- 7. ACTIVITIES CMS ---
 export const adminActivityService = {
   getAllAdmin: () => adminApi.get('/activities/admin/all'),
   createActivity: (formData) =>
@@ -172,13 +165,11 @@ export const adminActivityService = {
   deleteActivity: (id) => adminApi.delete(`/activities/${id}`),
 };
 
-// --- 8. ABOUT PAGE CMS ---
 export const adminContentService = {
   getContent: (sectionKey) => adminApi.get(`/content/${sectionKey}`),
   updateContent: (sectionKey, content) => adminApi.put(`/content/${sectionKey}`, { content }),
 };
 
-// --- 9. HOME PAGE CMS ---
 export const adminHomepageService = {
   getAdminHomepage: () => adminApi.get('/homepage/admin'),
   updateHomepage: (data) => adminApi.put('/homepage/admin', data),
@@ -190,7 +181,6 @@ export const adminHomepageService = {
   updateTheme: (themeData) => adminApi.put('/homepage/admin/theme', themeData),
 };
 
-// --- 10. FOOTER CMS ---
 export const adminFooterService = {
   getAdminFooter: () => adminApi.get('/footer/admin'),
   createFooter: (data) => adminApi.post('/footer/admin', data),
@@ -198,7 +188,6 @@ export const adminFooterService = {
   deleteFooter: (id) => adminApi.delete(`/footer/admin/${id || 'default'}`),
 };
 
-// --- 11. IMAGES & MEDIA LIBRARY ---
 export const adminMediaService = {
   getMedia: (params) => adminApi.get('/media', { params }),
   getMediaById: (id) => adminApi.get(`/media/${id}`),
@@ -222,14 +211,12 @@ export const adminMediaService = {
   deleteMedia: (id, force = false) => adminApi.delete(`/media/${id}`, { params: { force } }),
 };
 
-// --- 12. LET'S CONNECT (INQUIRIES) ---
 export const adminContactService = {
   getMessagesAdmin: () => adminApi.get('/contact/admin/all'),
   updateStatus: (id, status) => adminApi.patch(`/contact/admin/${id}/status`, { status }),
   deleteMessage: (id) => adminApi.delete(`/contact/admin/${id}`),
 };
 
-// --- 13. STORY BOARD MODERATION ---
 export const adminThoughtService = {
   getThoughts: (params) => adminApi.get('/admin/thoughts', { params }),
   getStats: () => adminApi.get('/admin/thoughts/stats'),
@@ -237,7 +224,6 @@ export const adminThoughtService = {
   rejectThought: (id) => adminApi.delete(`/admin/thoughts/${id}`),
 };
 
-// --- 14. MULTI-WEBSITE CONTENT MANAGEMENT (UPDATE CONTENT) ---
 export const adminWebContentService = {
   getWebsites: () => adminApi.get('/admin/content/websites'),
   getPages: (website) => adminApi.get('/admin/content/pages', { params: { website } }),
@@ -252,7 +238,6 @@ export const adminWebContentService = {
   getPublicPage: (website, pageSlug) => adminApi.get(`/content/website/${website}/page/${pageSlug}`),
 };
 
-// --- 15. GALLERY MANAGEMENT ---
 export const adminGalleryService = {
   getAdminFolders: (params) => adminApi.get('/gallery/folders', { params }),
   getAdminFolderById: (id) => adminApi.get(`/gallery/folders/${id}`),
@@ -295,7 +280,6 @@ export const adminGeneralEnquiryService = {
   deleteEnquiry: (id) => adminApi.delete(`/general-enquiry/${id}`),
 };
 
-// --- 16. LEGAL DOCUMENTS (T&C and PP) ---
 export const adminLegalService = {
   getAll: () => adminApi.get('/legal/all'),
   getDoc: (website, type) => adminApi.get(`/legal/${website}/${type}`),

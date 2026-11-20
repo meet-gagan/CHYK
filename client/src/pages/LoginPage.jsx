@@ -68,11 +68,9 @@ export const LoginPage = () => {
   return (
     <div className="min-h-[75vh] flex items-center justify-center py-4 sm:py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent via-[var(--bg-secondary)]/40 to-transparent">
       <div className="w-full max-w-md space-y-8 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[32px] p-6 sm:p-10 shadow-2xl relative overflow-hidden backdrop-blur-md">
-        {/* Glow accent */}
         <div className="absolute -top-24 -right-24 w-48 h-48 bg-[var(--orange)]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-[var(--cyan)]/10 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Header */}
         <div className="text-center space-y-2 relative z-10">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--orange)]/15 border border-[var(--orange)]/30 text-[var(--orange)] mb-2 shadow-inner">
             <LogIn className="w-7 h-7" />
@@ -85,7 +83,6 @@ export const LoginPage = () => {
           </p>
         </div>
 
-        {/* Notice for protected action */}
         {redirectUrl && redirectUrl !== '/my-activity' && redirectUrl !== '/' && (
           <div className="p-3.5 rounded-2xl bg-[var(--orange)]/10 border border-[var(--orange)]/25 flex items-start gap-3">
             <Sparkles className="w-5 h-5 text-[var(--orange)] shrink-0 mt-0.5" />
@@ -95,7 +92,6 @@ export const LoginPage = () => {
           </div>
         )}
 
-        {/* Error Alert */}
         {error && (
           <div className="p-3.5 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-start gap-3 text-red-500 animate-in fade-in">
             <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
@@ -103,9 +99,7 @@ export const LoginPage = () => {
           </div>
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
-          {/* Phone Field */}
           <div className="space-y-1.5">
             <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
               Phone Number
@@ -127,7 +121,6 @@ export const LoginPage = () => {
             </div>
           </div>
 
-          {/* Password Field */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
               <label className="block text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
@@ -160,7 +153,6 @@ export const LoginPage = () => {
             </div>
           </div>
 
-          {/* Submit CTA */}
           <button
             type="submit"
             disabled={submitting}
@@ -180,7 +172,6 @@ export const LoginPage = () => {
           </button>
         </form>
 
-        {/* Footer / Switch to Signup */}
         <div className="text-center pt-4 border-t border-[var(--border-color)] relative z-10 space-y-3">
           <p className="text-xs text-[var(--text-muted)] font-medium">
             New to Chinmaya Mission?{' '}

@@ -152,7 +152,6 @@ export const AdminProfilePage = () => {
 
   return (
     <div className="space-y-8 max-w-4xl mx-auto animate-in fade-in">
-      {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs font-black tracking-widest text-[#00B4D8] uppercase">
@@ -176,7 +175,6 @@ export const AdminProfilePage = () => {
         </button>
       </div>
 
-      {/* Admin Card Info */}
       <div className="p-6 rounded-3xl bg-gradient-to-r from-[#1C2541] to-[#243054] border border-[#00B4D8]/30 shadow-2xl flex flex-col sm:flex-row items-center gap-6">
         <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-[#00B4D8] to-blue-600 text-white flex items-center justify-center font-black text-2xl shadow-xl shadow-[#00B4D8]/30 shrink-0">
           {profile?.fullName ? profile.fullName.charAt(0).toUpperCase() : 'A'}
@@ -200,7 +198,6 @@ export const AdminProfilePage = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Section 1: Profile Details Form */}
         <div className="p-6 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-5">
           <div className="flex items-center gap-2.5 border-b border-white/10 pb-3">
             <User className="w-5 h-5 text-[#00B4D8]" />
@@ -308,7 +305,6 @@ export const AdminProfilePage = () => {
           </form>
         </div>
 
-        {/* Section 2: Security & Password Update */}
         <div className="p-6 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-5">
           <div className="flex items-center gap-2.5 border-b border-white/10 pb-3">
             <KeyRound className="w-5 h-5 text-[#FF7B00]" />

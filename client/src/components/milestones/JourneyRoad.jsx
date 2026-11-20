@@ -68,7 +68,6 @@ export const JourneyRoad = ({
           </filter>
         </defs>
 
-        {/* 1. Road Deep Ground Shadow */}
         <path
           d={pathD}
           stroke="#0B2340"
@@ -78,7 +77,6 @@ export const JourneyRoad = ({
           opacity="0.35"
         />
 
-        {/* 2. Road Outer Curbs / Concrete Shoulder */}
         <path
           d={pathD}
           stroke="#64748B"
@@ -86,7 +84,6 @@ export const JourneyRoad = ({
           strokeLinecap="round"
         />
 
-        {/* 3. Main Asphalt Highway Surface (Straight Dark Slate/Charcoal) */}
         <path
           d={pathD}
           stroke="#1E293B"
@@ -94,14 +91,12 @@ export const JourneyRoad = ({
           strokeLinecap="round"
         />
 
-        {/* 4. White Highway Lane Boundary Edge Stripes */}
         <path
           d={pathD}
           stroke="rgba(255, 255, 255, 0.4)"
           strokeWidth="44"
           strokeLinecap="round"
         />
-        {/* Core Asphalt Inner Layer */}
         <path
           d={pathD}
           stroke="#1E293B"
@@ -109,7 +104,6 @@ export const JourneyRoad = ({
           strokeLinecap="round"
         />
 
-        {/* 5. Center Dashed Highway Dividing Line (Yellow, Perfectly Vertical) */}
         <path
           ref={pathRef}
           id="straight-road-path"
@@ -120,7 +114,6 @@ export const JourneyRoad = ({
           strokeLinecap="round"
         />
 
-        {/* 6. Horizontal Milestone Road Connectors (Straight horizontal lines: Road -> Milestone) */}
         {stopPoints.map((pt, idx) => {
           const isActive = activeStopIndex === idx;
           const isPassed = activeStopIndex > idx;
@@ -129,7 +122,6 @@ export const JourneyRoad = ({
 
           return (
             <g key={`connector-${idx}`} className="transition-opacity duration-300">
-              {/* Horizontal Connecting Line */}
               <line
                 x1="500"
                 y1={pt.y}
@@ -141,7 +133,6 @@ export const JourneyRoad = ({
                 className="transition-colors duration-300"
               />
 
-              {/* Small Connector Endpoint Circle near Milestone Card */}
               <circle
                 cx={connectorEndX}
                 cy={pt.y}
@@ -153,7 +144,6 @@ export const JourneyRoad = ({
           );
         })}
 
-        {/* 7. Roadside Natural Landscape Scatter (Trees & Heritage Lamps on Left and Right) */}
         {stopPoints.map((pt, idx) => {
           const showTreeLeft = idx % 2 === 0;
           const showTreeRight = idx % 2 !== 0;
@@ -174,7 +164,6 @@ export const JourneyRoad = ({
           );
         })}
 
-        {/* 8. Road Stop Station Node Beacons on the Center Road */}
         {stopPoints.map((pt, idx) => {
           const isActive = activeStopIndex === idx;
           const isPassed = activeStopIndex > idx;
@@ -186,7 +175,6 @@ export const JourneyRoad = ({
               className="pointer-events-auto cursor-pointer"
               onClick={() => onStopClick && onStopClick(idx)}
             >
-              {/* Outer Pulse Wave when Active */}
               {isActive && (
                 <circle
                   cx="0"
@@ -198,7 +186,6 @@ export const JourneyRoad = ({
                 />
               )}
 
-              {/* Station Outer Ring / Base */}
               <circle
                 cx="0"
                 cy="0"
@@ -209,7 +196,6 @@ export const JourneyRoad = ({
                 filter="drop-shadow(0 3px 6px rgba(0,0,0,0.25))"
               />
 
-              {/* Stop Number text */}
               <text
                 x="0"
                 y="3.5"

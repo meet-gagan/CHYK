@@ -50,11 +50,9 @@ export const VerifyPassPage = () => {
     <div className="min-h-[85vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-lg bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-[32px] p-6 sm:p-10 shadow-2xl relative overflow-hidden backdrop-blur-md space-y-6">
         
-        {/* Glow Accents */}
         <div className="absolute -top-24 -right-24 w-48 h-48 bg-[var(--orange)]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Back Link */}
         <Link
           to="/"
           className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--text-muted)] hover:text-[var(--orange)] transition-colors text-decoration-none"
@@ -94,7 +92,6 @@ export const VerifyPassPage = () => {
           </div>
         ) : (
           <div className="space-y-6 animate-in fade-in">
-            {/* Header Success Badge */}
             <div className="text-center space-y-2">
               <div className="w-16 h-16 rounded-2xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center mx-auto border-2 border-emerald-500 shadow-lg shadow-emerald-500/20">
                 <ShieldCheck className="w-9 h-9" />
@@ -116,7 +113,6 @@ export const VerifyPassPage = () => {
               </div>
             </div>
 
-            {/* Details Card */}
             <div className="bg-[var(--bg-primary)] p-5 rounded-2xl border border-[var(--border-color)] space-y-3.5 text-xs">
               <div className="flex items-center justify-between pb-2 border-b border-[var(--border-color)]">
                 <span className="text-[var(--text-muted)] font-bold">Registration ID:</span>
@@ -156,7 +152,6 @@ export const VerifyPassPage = () => {
                 </div>
               )}
 
-              {/* Event Info */}
               <div className="pt-2 flex items-center justify-between text-[11px] font-bold text-[var(--text-muted)]">
                 <div className="flex items-center gap-1.5">
                   <Calendar className="w-3.5 h-3.5 text-[var(--orange)]" />
@@ -169,7 +164,6 @@ export const VerifyPassPage = () => {
               </div>
             </div>
 
-            {/* Organizers Branding */}
             <p className="text-[10px] text-center font-bold text-[var(--text-muted)] uppercase tracking-wider">
               Chinmaya Mission, Adoni • Chinmaya Yuva Kendra, Adoni
             </p>

@@ -115,9 +115,7 @@ export function App() {
             <ScrollToTop />
             <SiteAccessGate>
               <Routes>
-            {/* 1. Main Chinmaya Mission Website Pages */}
             <Route element={<PublicLayout />}>
-              {/* Main Landing Page */}
               <Route path="/" element={<HomePage />} />
               <Route path="/chinmaya-mission-adoni" element={<ChinmayaMissionAdoniPage />} />
               <Route path="/about" element={<AboutPage />} />
@@ -134,7 +132,6 @@ export function App() {
               <Route path="/support-mission" element={<SupportOurMissionPage />} />
               <Route path="/supportourmission" element={<SupportOurMissionPage />} />
               
-              {/* Dedicated Temple & Centre Pages */}
               <Route path="/chinmaya-sanjeevaraya-temple" element={<ChinmayaSanjeevarayaTemplePage />} />
               <Route path="/chinmaya-sanjeevaraya" element={<ChinmayaSanjeevarayaTemplePage />} />
               <Route path="/sanjeevaraya-temple" element={<ChinmayaSanjeevarayaTemplePage />} />
@@ -145,7 +142,6 @@ export function App() {
               <Route path="/maga-masam-poojalu" element={<MagaMasamPoojaluPage />} />
               <Route path="/magha-masam-poojalu" element={<MagaMasamPoojaluPage />} />
               
-              {/* Sacred Image Gallery Pages */}
               <Route path="/gallery" element={<GalleryPage />} />
               <Route path="/gallery/" element={<GalleryPage />} />
               <Route path="/gallery/:slug" element={<FolderDetailsPage />} />
@@ -157,7 +153,6 @@ export function App() {
               <Route path="/sacred-gallery" element={<GalleryPage />} />
               <Route path="/sacred-gallery/:slug" element={<FolderDetailsPage />} />
               
-              {/* Authentication & User Account Routes */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
               <Route
@@ -225,7 +220,6 @@ export function App() {
                 }
               />
 
-              {/* Marathon portal redirects (marathon is hosted separately) */}
               <Route path="/register" element={<MarathonPortalRedirect path="/register" />} />
               <Route path="/route-map" element={<MarathonPortalRedirect path="/route-map" />} />
               <Route path="/route" element={<MarathonPortalRedirect path="/route-map" />} />
@@ -240,26 +234,21 @@ export function App() {
               <Route path="/about-the-marathon" element={<MarathonPortalRedirect path="/about" />} />
               <Route path="/marathon-about" element={<MarathonPortalRedirect path="/about" />} />
 
-              {/* Terms and Conditions */}
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/terms-and-conditions" element={<TermsPage />} />
               <Route path="/terms-conditions" element={<TermsPage />} />
 
-              {/* Privacy Policy */}
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             </Route>
 
-            {/* Standalone Teaser / Coming Soon Page */}
             <Route path="/coming-soon" element={<ComingSoonPage />} />
             <Route path="/comming-soon" element={<ComingSoonPage />} />
             <Route path="/launch" element={<ComingSoonPage />} />
             <Route path="/teaser" element={<ComingSoonPage />} />
 
-            {/* 2. Standalone Admin Login (NO Public Navbar, NO Public Footer, NO Normal User Pill) */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
 
-            {/* 3. Standalone Admin Control Panel (Strict RBAC, Dedicated Admin Navigation) */}
             <Route
               path="/admin"
               element={
@@ -513,7 +502,6 @@ export function App() {
               }
             />
 
-            {/* Catch-all Redirect */}
             <Route path="*" element={<Navigate to="/chinmaya-mission-adoni" replace />} />
           </Routes>
         </SiteAccessGate>

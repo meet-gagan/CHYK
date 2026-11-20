@@ -13,26 +13,14 @@ import { requireAdmin } from '../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
-// ==========================================
-// 1. PUBLIC STORY BOARD ENDPOINTS (ANONYMOUS)
-// ==========================================
-
 // Publicly browse all approved thoughts (ZERO author identity exposed)
 router.get('/', getApprovedThoughts);
 
 // Publicly view single approved thought
 router.get('/:id', getApprovedThoughtById);
 
-// ==========================================
-// 2. USER THOUGHT SUBMISSION (AUTHENTICATED)
-// ==========================================
-
 // Submit a new thought (saved as PENDING)
 router.post('/', protect, createThought);
-
-// ==========================================
-// 3. ADMIN MODERATION ENDPOINTS
-// ==========================================
 
 // Moderation list (all submissions with submitter details)
 router.get('/admin/list', protect, requireAdmin, getAdminThoughts);

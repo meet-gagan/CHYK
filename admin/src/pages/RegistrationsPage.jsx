@@ -321,7 +321,6 @@ export const RegistrationsPage = () => {
 
   return (
     <div className="space-y-6 animate-in fade-in">
-      {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs font-black tracking-widest text-[#00B4D8] uppercase">
@@ -357,7 +356,6 @@ export const RegistrationsPage = () => {
         </div>
       </div>
 
-      {/* Action Feedback Alerts */}
       {feedback.message && (
         <div
           className={`p-4 rounded-2xl text-xs font-bold flex items-center justify-between ${
@@ -373,13 +371,10 @@ export const RegistrationsPage = () => {
         </div>
       )}
 
-      {/* Summary Cards */}
       <RegistrationSummaryCards summary={summaryData} loading={loadingSummary} />
 
-      {/* Class Summary */}
       <ClassSummary summary={summaryData} loading={loadingSummary} />
 
-      {/* Tabs Bar */}
       <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-[#1C2541] border border-white/10">
         {[
           { id: 'ALL', label: 'All Registrations' },
@@ -404,7 +399,6 @@ export const RegistrationsPage = () => {
         ))}
       </div>
 
-      {/* Search & Filters */}
       <div className="p-4 rounded-2xl bg-[#1C2541] border border-white/10 space-y-3">
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
           <div className="sm:col-span-2 relative">
@@ -459,10 +453,8 @@ export const RegistrationsPage = () => {
         </div>
       </div>
 
-      {/* Main Table: Registrations OR Bulk Batches */}
       {regType !== 'BATCHES' ? (
         <div className="p-6 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-4">
-          {/* Bulk Action Bar */}
           {selectedRegIds.length > 0 && (
             <div className="p-4 px-5 rounded-2xl bg-red-500/10 border border-red-500/30 flex flex-wrap items-center justify-between gap-3 animate-in fade-in">
               <div className="flex items-center gap-3">
@@ -616,7 +608,6 @@ export const RegistrationsPage = () => {
             </table>
           </div>
 
-          {/* Pagination */}
           {regPagination.pages > 1 && (
             <div className="flex items-center justify-between pt-4 border-t border-white/10 text-xs">
               <span className="text-[#94A3B8]">
@@ -645,7 +636,6 @@ export const RegistrationsPage = () => {
           )}
         </div>
       ) : (
-        /* Batches View */
         <div className="p-6 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-4">
           <div className="overflow-x-auto rounded-2xl border border-white/10">
             <table className="w-full text-left text-xs">
@@ -725,7 +715,6 @@ export const RegistrationsPage = () => {
         </div>
       )}
 
-      {/* Details Modal */}
       {viewingRegistration && (
         <RegistrationDetailsModal
           registration={viewingRegistration}
@@ -737,7 +726,6 @@ export const RegistrationsPage = () => {
         />
       )}
 
-      {/* Edit Modal */}
       {editingRegistration && (
         <RegistrationEditModal
           registration={editingRegistration}
@@ -746,7 +734,6 @@ export const RegistrationsPage = () => {
         />
       )}
 
-      {/* Bulk Delete Confirmation Modal */}
       {showBulkDeleteRegModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
           <div className="bg-[#1C2541] border border-red-500/40 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">

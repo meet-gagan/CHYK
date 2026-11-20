@@ -329,7 +329,6 @@ export const MarathonImagesManager = () => {
 
   return (
     <div className="space-y-6">
-      {/* Toast Notification */}
       {statusMessage.text && (
         <div
           className={`p-4 rounded-2xl flex items-center gap-3 text-xs font-bold shadow-xl border animate-in fade-in slide-in-from-top-2 ${
@@ -347,7 +346,6 @@ export const MarathonImagesManager = () => {
         </div>
       )}
 
-      {/* Header Banner */}
       <div className="p-6 sm:p-8 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] relative overflow-hidden shadow-xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2">
@@ -385,7 +383,6 @@ export const MarathonImagesManager = () => {
           </div>
         </div>
 
-        {/* Stats Strip */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-[var(--border-color)]">
           <div>
             <span className="text-[10px] font-extrabold uppercase text-[var(--text-muted)] tracking-wider">
@@ -422,10 +419,8 @@ export const MarathonImagesManager = () => {
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
       <div className="p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] space-y-4 shadow-md">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          {/* Search Input */}
           <div className="relative flex-grow max-w-md">
             <Search className="w-4 h-4 text-[var(--text-muted)] absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
@@ -451,7 +446,6 @@ export const MarathonImagesManager = () => {
           </div>
         </div>
 
-        {/* Section Filter Pills */}
         <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[var(--border-color)]">
           <span className="text-[10px] font-extrabold uppercase text-[var(--text-muted)] flex items-center gap-1.5 mr-2">
             <SlidersHorizontal className="w-3 h-3" />
@@ -473,7 +467,6 @@ export const MarathonImagesManager = () => {
         </div>
       </div>
 
-      {/* Images Grid */}
       {loading ? (
         <div className="min-h-[40vh] flex flex-col items-center justify-center space-y-3">
           <div className="w-10 h-10 rounded-full border-4 border-[var(--orange)] border-t-transparent animate-spin" />
@@ -515,7 +508,6 @@ export const MarathonImagesManager = () => {
                 key={img._id}
                 className="rounded-3xl overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group"
               >
-                {/* Visual Thumbnail Container */}
                 <div className="relative aspect-video sm:aspect-square bg-slate-900/60 overflow-hidden flex items-center justify-center">
                   <img
                     src={img.url}
@@ -527,12 +519,10 @@ export const MarathonImagesManager = () => {
                     }}
                   />
 
-                  {/* Section Badge */}
                   <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md text-white text-[10px] font-extrabold uppercase border border-white/20">
                     {img.section || 'General'}
                   </span>
 
-                  {/* Status Indicator */}
                   <span
                     className={`absolute top-3 right-3 px-2 py-0.5 rounded-full text-[9px] font-black uppercase ${
                       img.status === 'ACTIVE'
@@ -543,7 +533,6 @@ export const MarathonImagesManager = () => {
                     {img.status || 'ACTIVE'}
                   </span>
 
-                  {/* Hover Quick Actions Overlay */}
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
                     <button
                       onClick={() => setPreviewImage(img)}
@@ -572,7 +561,6 @@ export const MarathonImagesManager = () => {
                   </div>
                 </div>
 
-                {/* Card Content Info */}
                 <div className="p-4 space-y-3 flex-grow flex flex-col justify-between">
                   <div className="space-y-1">
                     <h4 className="text-sm font-extrabold text-[var(--text-primary)] line-clamp-1">
@@ -585,7 +573,6 @@ export const MarathonImagesManager = () => {
                     )}
                   </div>
 
-                  {/* URL Snippet with Copy Button */}
                   <div className="pt-2 border-t border-[var(--border-color)] space-y-2">
                     <div className="flex items-center justify-between text-[10px] text-[var(--text-muted)]">
                       <span className="font-mono truncate max-w-[160px] sm:max-w-[180px]">
@@ -605,7 +592,6 @@ export const MarathonImagesManager = () => {
                       </button>
                     </div>
 
-                    {/* Bottom Action Buttons */}
                     <div className="flex items-center justify-between pt-1">
                       <button
                         onClick={() => openEditModal(img)}
@@ -634,9 +620,6 @@ export const MarathonImagesManager = () => {
         </div>
       )}
 
-      {/* ========================================================================= */}
-      {/* MODAL 1: ADD MARATHON IMAGE                                               */}
-      {/* ========================================================================= */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
           <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative">
@@ -657,7 +640,6 @@ export const MarathonImagesManager = () => {
               </button>
             </div>
 
-            {/* Mode Toggle: Upload File vs Direct URL */}
             <div className="grid grid-cols-2 gap-2 p-1 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)]">
               <button
                 type="button"
@@ -686,7 +668,6 @@ export const MarathonImagesManager = () => {
             </div>
 
             <form onSubmit={handleAddSubmit} className="space-y-4">
-              {/* Title */}
               <div>
                 <label className="block text-xs font-bold text-[var(--text-primary)] mb-1">
                   Image Title *
@@ -701,7 +682,6 @@ export const MarathonImagesManager = () => {
                 />
               </div>
 
-              {/* Section Dropdown */}
               <div>
                 <label className="block text-xs font-bold text-[var(--text-primary)] mb-1">
                   Marathon Website Section *
@@ -722,7 +702,6 @@ export const MarathonImagesManager = () => {
                 </select>
               </div>
 
-              {/* Source: File or URL */}
               {addMode === 'file' ? (
                 <div>
                   <label className="block text-xs font-bold text-[var(--text-primary)] mb-1">
@@ -757,7 +736,6 @@ export const MarathonImagesManager = () => {
                 </div>
               )}
 
-              {/* Caption */}
               <div>
                 <label className="block text-xs font-bold text-[var(--text-primary)] mb-1">
                   Caption / Description (Optional)
@@ -771,7 +749,6 @@ export const MarathonImagesManager = () => {
                 />
               </div>
 
-              {/* Display Order */}
               <div>
                 <label className="block text-xs font-bold text-[var(--text-primary)] mb-1">
                   Display Order
@@ -785,7 +762,6 @@ export const MarathonImagesManager = () => {
                 />
               </div>
 
-              {/* Submit Buttons */}
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
                 <button
                   type="button"
@@ -817,9 +793,6 @@ export const MarathonImagesManager = () => {
         </div>
       )}
 
-      {/* ========================================================================= */}
-      {/* MODAL 2: EDIT MARATHON IMAGE                                              */}
-      {/* ========================================================================= */}
       {showEditModal && selectedItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
           <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 space-y-6 shadow-2xl relative">
@@ -965,9 +938,6 @@ export const MarathonImagesManager = () => {
         </div>
       )}
 
-      {/* ========================================================================= */}
-      {/* MODAL 3: DELETE CONFIRMATION                                              */}
-      {/* ========================================================================= */}
       {showDeleteModal && selectedItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
           <div className="bg-[var(--bg-secondary)] border border-red-500/40 rounded-3xl max-w-md w-full p-6 sm:p-8 space-y-6 shadow-2xl relative text-center">
@@ -988,7 +958,6 @@ export const MarathonImagesManager = () => {
               </p>
             </div>
 
-            {/* Thumbnail Preview */}
             <div className="rounded-2xl overflow-hidden border border-[var(--border-color)] max-h-36 mx-auto bg-black flex items-center justify-center">
               <img
                 src={selectedItem.url}
@@ -1029,9 +998,6 @@ export const MarathonImagesManager = () => {
         </div>
       )}
 
-      {/* ========================================================================= */}
-      {/* MODAL 4: FULL SIZE PREVIEW                                                */}
-      {/* ========================================================================= */}
       {previewImage && (
         <div
           onClick={() => setPreviewImage(null)}

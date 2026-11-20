@@ -606,13 +606,10 @@ export const ChinmayaMissionAdoniPage = () => {
 
   return (
     <div className="min-h-screen pb-12 space-y-8 sm:space-y-10">
-      {/* 1. ABOUT HERO SECTION */}
       <section className="relative pt-2 sm:pt-3 pb-3 px-4 sm:px-8 lg:px-12 w-full overflow-hidden">
-        {/* Subtle Background Glow */}
         <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-[var(--orange)]/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-          {/* Left Column: Title & Intro */}
           <div className="lg:col-span-7 space-y-6 text-left">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[38px] xl:text-[44px] font-black font-heading tracking-tight text-[var(--text-primary)] leading-tight">
               {(() => {
@@ -646,7 +643,6 @@ export const ChinmayaMissionAdoniPage = () => {
             </div>
           </div>
 
-          {/* Right Column: Organization Visual Card */}
           <div className="lg:col-span-5 relative">
             <div className="relative rounded-3xl overflow-hidden border-2 border-[var(--border-color)] bg-[var(--bg-secondary)] shadow-2xl group hover:border-[var(--orange)] transition-colors duration-500">
               <img
@@ -659,7 +655,6 @@ export const ChinmayaMissionAdoniPage = () => {
         </div>
       </section>
 
-      {/* 2. WHO WE ARE SECTION */}
       <section id="who-we-are" className="w-full px-4 sm:px-8 lg:px-12 scroll-mt-24">
         <div className="p-8 sm:p-12 rounded-3xl bg-white border border-[rgba(11,35,64,0.08)] border-l-4 border-l-[var(--orange)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)] space-y-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-[var(--border-color)]">
@@ -671,7 +666,6 @@ export const ChinmayaMissionAdoniPage = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-            {/* Left: Pujya Gurudev Swami Chinmayananda Image */}
             <div className="lg:col-span-5">
               <div className="relative group overflow-hidden rounded-2xl border border-[rgba(11,35,64,0.1)] bg-gradient-to-b from-[#fbf8f3] to-white shadow-md">
                 <div className="relative w-full overflow-hidden bg-slate-900 flex items-center justify-center">
@@ -699,7 +693,6 @@ export const ChinmayaMissionAdoniPage = () => {
               </div>
             </div>
 
-            {/* Right: Existing Content */}
             <div className="lg:col-span-7 space-y-5 text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed font-normal">
               <p className="p-5 sm:p-6 rounded-2xl bg-white border border-[rgba(11,35,64,0.08)] shadow-sm">
                 {data.whoWeAre.p1}
@@ -714,13 +707,10 @@ export const ChinmayaMissionAdoniPage = () => {
         </div>
       </section>
 
-      {/* 3. OUR MILESTONES (INTERACTIVE ROAD JOURNEY THROUGH TIME) */}
       <div className="!mt-4 sm:!mt-6">
         <MilestoneJourney />
       </div>
 
-
-      {/* 5. OUR MISSION SECTION */}
       <section className="w-full px-4 sm:px-8 lg:px-12">
         <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-12 space-y-2.5">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-heading text-[var(--text-primary)] tracking-tight">
@@ -731,7 +721,6 @@ export const ChinmayaMissionAdoniPage = () => {
           </p>
         </div>
 
-        {/* All 5 Mission Items in One Line */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 xl:gap-5 w-full items-stretch">
           {data.ourMission.items.map((item, index) => (
             <div
@@ -756,11 +745,9 @@ export const ChinmayaMissionAdoniPage = () => {
         </div>
       </section>
 
-      {/* GEETA JNANA MANDIRAM SECTION */}
       <section id="geeta-jnana-mandiram" className="w-full px-4 sm:px-8 lg:px-12 scroll-mt-24">
         <div className="p-8 sm:p-12 rounded-3xl bg-white border border-[rgba(11,35,64,0.08)] border-l-4 border-l-[var(--orange)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)] space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left: Geeta Jnana Mandiram Sacred Image */}
             <div className="lg:col-span-5">
               <div className="relative group overflow-hidden rounded-2xl border border-[rgba(11,35,64,0.1)] bg-gradient-to-b from-[#fbf8f3] to-white shadow-lg">
                 <div className="relative w-full overflow-hidden bg-slate-900 flex items-center justify-center">
@@ -776,7 +763,6 @@ export const ChinmayaMissionAdoniPage = () => {
               </div>
             </div>
 
-            {/* Right: Sacred Content */}
             <div className="lg:col-span-7 space-y-5 text-left">
               <h2 className="text-3xl sm:text-4xl font-extrabold font-heading text-[var(--text-primary)] tracking-tight">
                 {data.geetaJnanaMandiram?.heading || 'Geeta Jnana Mandiram'}
@@ -796,7 +782,6 @@ export const ChinmayaMissionAdoniPage = () => {
         </div>
       </section>
 
-      {/* CONTINUING THE LEGACY SECTION */}
       <section className="w-full px-4 sm:px-8 lg:px-12">
         <div className="p-8 sm:p-12 rounded-3xl bg-white border border-[rgba(11,35,64,0.08)] border-l-4 border-l-[var(--orange)] shadow-[0_1px_3px_rgba(11,35,64,0.04),0_8px_24px_rgba(11,35,64,0.06)] space-y-8">
           <div className="text-center max-w-3xl mx-auto space-y-3">
@@ -808,7 +793,6 @@ export const ChinmayaMissionAdoniPage = () => {
             </p>
           </div>
 
-          {/* Key Values Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 pt-4">
             {filterLegacyHighlights(data.continuingLegacy?.highlights).map((item, idx) => (
                 <div
@@ -825,7 +809,6 @@ export const ChinmayaMissionAdoniPage = () => {
         </div>
       </section>
 
-      {/* 10. CLOSING STATEMENT / CTA SECTION */}
       <section className="w-full px-4 sm:px-8 lg:px-12 text-center">
         <div className="p-10 sm:p-16 rounded-3xl bg-gradient-to-r from-[var(--orange)] via-[#E64A19] to-[var(--orange)] text-white shadow-2xl space-y-6 relative overflow-hidden">
           <div className="relative z-10 space-y-6">
@@ -840,7 +823,6 @@ export const ChinmayaMissionAdoniPage = () => {
         </div>
       </section>
 
-      {/* Activity Details Modal Popup */}
       {selectedActivity && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-sm animate-in fade-in overflow-y-auto"
@@ -852,7 +834,6 @@ export const ChinmayaMissionAdoniPage = () => {
             className="bg-white border border-slate-200 rounded-3xl max-w-2xl sm:max-w-3xl w-full max-h-[92vh] overflow-hidden shadow-2xl relative my-auto flex flex-col animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Image Area: Full uncropped presentation */}
             <div className="relative w-full h-56 sm:h-72 md:h-80 bg-slate-950 shrink-0 overflow-hidden flex items-center justify-center p-3 sm:p-4 border-b border-slate-100">
               <img
                 src={
@@ -875,7 +856,6 @@ export const ChinmayaMissionAdoniPage = () => {
                 className="relative z-10 max-h-full max-w-full w-auto h-auto object-contain rounded-xl shadow-md block"
               />
 
-              {/* Close Button */}
               <button
                 type="button"
                 onClick={() => setSelectedActivity(null)}
@@ -885,7 +865,6 @@ export const ChinmayaMissionAdoniPage = () => {
                 <X className="w-5 h-5" />
               </button>
 
-              {/* Floating Badges */}
               <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 right-3 sm:right-4 flex flex-wrap items-center justify-between gap-2 z-20 pointer-events-none">
                 {selectedActivity.badge && (
                   <span className="px-3.5 py-1.5 rounded-full bg-[var(--orange)] text-white text-xs font-extrabold uppercase tracking-wider shadow-lg">
@@ -901,7 +880,6 @@ export const ChinmayaMissionAdoniPage = () => {
               </div>
             </div>
 
-            {/* Scrollable Modal Content */}
             {(() => {
               const isDevi = selectedActivity.title?.toLowerCase().includes('devi');
               const fallbackDef = isDevi
@@ -911,7 +889,6 @@ export const ChinmayaMissionAdoniPage = () => {
 
               return (
                 <div className="p-6 sm:p-8 space-y-6 text-left overflow-y-auto max-h-[calc(92vh-220px)]">
-                  {/* Header Title */}
                   <div className="border-b border-slate-100 pb-4">
                     <div className="flex items-center gap-3 mb-1.5">
                       <div className="w-9 h-9 rounded-full bg-[var(--orange)]/10 text-[var(--orange)] flex items-center justify-center shrink-0">
@@ -934,12 +911,10 @@ export const ChinmayaMissionAdoniPage = () => {
                     )}
                   </div>
 
-                  {/* Summary Box */}
                   <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200/70 text-slate-700 text-sm sm:text-base leading-relaxed">
                     {selectedActivity.content || fallbackDef.content}
                   </div>
 
-                  {/* Detailed Sections */}
                   {details?.sections?.map((section, sIdx) => (
                     <div key={sIdx} className="space-y-3">
                       <div className="flex items-center gap-2.5 pb-1 border-b border-slate-100">
@@ -982,7 +957,6 @@ export const ChinmayaMissionAdoniPage = () => {
               );
             })()}
 
-            {/* Modal Footer without Join / Enquire */}
             <div className="px-6 sm:px-8 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs font-medium text-slate-500 shrink-0">
               <span className="truncate">Chinmaya Mission, Adoni</span>
               <button

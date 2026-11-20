@@ -379,7 +379,6 @@ export const AdminImagesPage = () => {
   return (
     <div className="space-y-6">
       
-      {/* Top Banner & Title Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-xl">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--cyan)]/15 text-[var(--cyan)] font-extrabold text-xs tracking-wider uppercase mb-2">
@@ -406,7 +405,6 @@ export const AdminImagesPage = () => {
         </button>
       </div>
 
-      {/* Status Notifications */}
       {statusMsg.text && (
         <div
           className={`p-4 rounded-2xl text-xs font-extrabold flex items-center justify-between gap-3 shadow-md ${
@@ -425,11 +423,9 @@ export const AdminImagesPage = () => {
         </div>
       )}
 
-      {/* SEARCH & FILTERS CONTROLS */}
       <div className="p-4 sm:p-6 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-lg space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
           
-          {/* Search Bar */}
           <form onSubmit={handleSearchSubmit} className="md:col-span-5 flex items-center relative">
             <input
               type="text"
@@ -447,7 +443,6 @@ export const AdminImagesPage = () => {
             </button>
           </form>
 
-          {/* Category Filter */}
           <div className="md:col-span-3 flex items-center gap-2">
             <span className="text-xs font-bold text-[var(--text-muted)] whitespace-nowrap hidden sm:inline">Category:</span>
             <select
@@ -463,7 +458,6 @@ export const AdminImagesPage = () => {
             </select>
           </div>
 
-          {/* Status Filter */}
           <div className="md:col-span-2 flex items-center gap-2">
             <select
               value={statusFilter}
@@ -476,7 +470,6 @@ export const AdminImagesPage = () => {
             </select>
           </div>
 
-          {/* View Mode Toggle */}
           <div className="md:col-span-2 flex items-center justify-end gap-1">
             <button
               onClick={() => setViewMode('grid')}
@@ -504,7 +497,6 @@ export const AdminImagesPage = () => {
 
         </div>
 
-        {/* Quick Category Pills */}
         <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[var(--border-color)]/50">
           <span className="text-[11px] font-extrabold uppercase tracking-wider text-[var(--text-muted)] mr-1">
             Section:
@@ -526,7 +518,6 @@ export const AdminImagesPage = () => {
         </div>
       </div>
 
-      {/* MEDIA ASSETS CONTAINER */}
       {loading ? (
         <div className="p-16 text-center space-y-4 glass-card rounded-3xl">
           <div className="w-10 h-10 border-4 border-[var(--cyan)] border-t-transparent rounded-full animate-spin mx-auto" />
@@ -555,7 +546,6 @@ export const AdminImagesPage = () => {
           </button>
         </div>
       ) : viewMode === 'grid' ? (
-        /* GRID VIEW */
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {items.map((item) => (
             <div
@@ -563,7 +553,6 @@ export const AdminImagesPage = () => {
               className="glass-card rounded-3xl overflow-hidden border border-[var(--border-color)] hover:border-[var(--cyan)]/60 transition-all shadow-md group flex flex-col justify-between"
             >
               <div>
-                {/* Image Preview Window */}
                 <div className="relative aspect-[4/3] bg-[var(--bg-primary)] overflow-hidden border-b border-[var(--border-color)]">
                   <img
                     src={item.url}
@@ -589,7 +578,6 @@ export const AdminImagesPage = () => {
                   </div>
                 </div>
 
-                {/* Card Content Details */}
                 <div className="p-4 space-y-2">
                   <h4 className="text-sm font-extrabold font-heading text-[var(--text-primary)] truncate" title={item.title || item.fileName}>
                     {item.title || item.fileName}
@@ -608,7 +596,6 @@ export const AdminImagesPage = () => {
                 </div>
               </div>
 
-              {/* Action Buttons */}
               <div className="p-3 bg-[var(--bg-tertiary)]/50 border-t border-[var(--border-color)] grid grid-cols-4 gap-1 text-center">
                 <button
                   onClick={() => openDetailsModal(item)}
@@ -643,7 +630,6 @@ export const AdminImagesPage = () => {
           ))}
         </div>
       ) : (
-        /* TABLE VIEW */
         <div className="glass-card rounded-3xl border border-[var(--border-color)] overflow-hidden shadow-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
@@ -699,7 +685,6 @@ export const AdminImagesPage = () => {
         </div>
       )}
 
-      {/* PAGINATION BAR */}
       {pagination.pages > 1 && (
         <div className="flex items-center justify-between p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-xs font-bold text-[var(--text-muted)]">
           <span>
@@ -725,7 +710,6 @@ export const AdminImagesPage = () => {
         </div>
       )}
 
-      {/* MODAL 1: ADD IMAGE */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
           <div className="glass-card w-full max-w-2xl p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] shadow-2xl space-y-6 my-8 max-h-[90vh] overflow-y-auto">
@@ -741,7 +725,6 @@ export const AdminImagesPage = () => {
 
             <form onSubmit={handleAddSubmit} className="space-y-4">
               
-              {/* File Dropzone */}
               <div
                 onClick={() => fileInputRef.current?.click()}
                 className="p-6 rounded-2xl border-2 border-dashed border-[var(--cyan)]/50 bg-[var(--bg-primary)] text-center space-y-3 cursor-pointer hover:border-[var(--cyan)] transition-colors relative"
@@ -771,7 +754,6 @@ export const AdminImagesPage = () => {
                 />
               </div>
 
-              {/* Metadata Fields */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase">Image Title *</label>
@@ -895,7 +877,6 @@ export const AdminImagesPage = () => {
         </div>
       )}
 
-      {/* MODAL 2: EDIT IMAGE & METADATA */}
       {showEditModal && selectedMedia && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
           <div className="glass-card w-full max-w-2xl p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] shadow-2xl space-y-5 my-8 max-h-[90vh] overflow-y-auto">
@@ -911,7 +892,6 @@ export const AdminImagesPage = () => {
 
             <form onSubmit={handleEditSubmit} className="space-y-4 text-xs">
               
-              {/* Image Preview & Change Image Option */}
               <div className="p-4 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="font-extrabold text-[var(--text-primary)] uppercase tracking-wider">
@@ -966,7 +946,6 @@ export const AdminImagesPage = () => {
                 </div>
               </div>
 
-              {/* Title & Alt Text */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase">Title *</label>
@@ -991,7 +970,6 @@ export const AdminImagesPage = () => {
                 </div>
               </div>
 
-              {/* Category, Page, Section */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase">Category</label>
@@ -1030,7 +1008,6 @@ export const AdminImagesPage = () => {
                 </div>
               </div>
 
-              {/* Description */}
               <div>
                 <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase">Description</label>
                 <textarea
@@ -1041,7 +1018,6 @@ export const AdminImagesPage = () => {
                 />
               </div>
 
-              {/* Tags & Status */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-[var(--text-primary)] mb-1 uppercase">Tags (comma separated)</label>
@@ -1066,7 +1042,6 @@ export const AdminImagesPage = () => {
                 </div>
               </div>
 
-              {/* Action buttons */}
               <div className="pt-3 flex items-center justify-end gap-3 border-t border-[var(--border-color)]">
                 <button type="button" onClick={() => setShowEditModal(false)} className="btn-secondary py-2.5 px-5 text-xs">
                   CANCEL
@@ -1080,7 +1055,6 @@ export const AdminImagesPage = () => {
         </div>
       )}
 
-      {/* MODAL 3: REPLACE IMAGE FILE */}
       {showReplaceModal && selectedMedia && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
           <div className="glass-card w-full max-w-md p-6 rounded-3xl border border-[var(--border-color)] shadow-2xl space-y-4">
@@ -1128,7 +1102,6 @@ export const AdminImagesPage = () => {
         </div>
       )}
 
-      {/* MODAL 4: IMAGE DETAILS */}
       {showDetailsModal && selectedMedia && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
           <div className="glass-card w-full max-w-3xl p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] shadow-2xl space-y-6 my-8 max-h-[90vh] overflow-y-auto">
@@ -1203,7 +1176,6 @@ export const AdminImagesPage = () => {
         </div>
       )}
 
-      {/* MODAL 5: DELETE CONFIRMATION */}
       {showDeleteModal && selectedMedia && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="glass-card w-full max-w-md p-6 rounded-3xl border border-[var(--border-color)] shadow-2xl space-y-4">

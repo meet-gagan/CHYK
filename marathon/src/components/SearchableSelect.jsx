@@ -43,7 +43,6 @@ export const SearchableSelect = ({
   return (
     <div className="relative w-full" ref={dropdownRef}>
       
-      {/* Input / Selector Box */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -64,11 +63,9 @@ export const SearchableSelect = ({
         <ChevronDown className={`w-5 h-5 text-[var(--text-muted)] transition-transform duration-200 ${isOpen ? `rotate-180 ${accentText}` : ''}`} />
       </button>
 
-      {/* Floating Dropdown List */}
       {isOpen && (
         <div className="absolute left-0 right-0 mt-2 z-50 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-2xl shadow-2xl overflow-hidden max-h-72 flex flex-col animate-in fade-in slide-in-from-top-2">
           
-          {/* Search Header */}
           <div className="p-3 border-b border-[var(--border-color)] bg-[var(--bg-tertiary)] sticky top-0 z-10">
             <div className="relative">
               <Search className="w-4 h-4 text-[var(--text-muted)] absolute left-3 top-3" />
@@ -83,7 +80,6 @@ export const SearchableSelect = ({
             </div>
           </div>
 
-          {/* Options Scroll List */}
           <div className="overflow-y-auto py-1 divide-y divide-[var(--border-color)]/30">
             {filteredOptions.length > 0 ? (
               filteredOptions.map((item) => (

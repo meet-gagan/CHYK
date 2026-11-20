@@ -123,7 +123,6 @@ function sanitizeMainSiteFooter(rawData) {
 
   const data = { ...rawData };
 
-  // 1. Sanitize Brand Title & Description (No "ANTI-DRUG 2026")
   const brandTitle = data.brand?.title || '';
   if (!brandTitle || brandTitle.includes('ANTI-DRUG') || brandTitle.includes('2026')) {
     data.brand = {
@@ -134,7 +133,6 @@ function sanitizeMainSiteFooter(rawData) {
     };
   }
 
-  // 2. Sanitize Quick Navigation Links (Remove "Home", "What We Do" and "Marathon Registration")
   const rawLinks = data.quickNavigation?.links || MAIN_SITE_FALLBACK_FOOTER.quickNavigation.links;
   const filteredLinks = rawLinks
     .filter((link) => {
@@ -205,7 +203,6 @@ function sanitizeMainSiteFooter(rawData) {
     links: filteredLinks,
   };
 
-  // 3. Sanitize Contact Heading & Address
   if (data.contact) {
     const addr = data.contact.address || {};
     data.contact = {
@@ -228,7 +225,6 @@ function sanitizeMainSiteFooter(rawData) {
     data.organizedBy.text = 'Chinmaya Mission, Adoni & Chinmaya Yuva Kendra, Adoni';
   }
 
-  // 4. Sanitize Pledge Section (Replace "THE MARATHON PLEDGE" / "OUR INSPIRATION" with Gurudev's Motto)
   const pledgeHeading = data.pledge?.heading || '';
   const pledgeTitle = data.pledge?.title || '';
   if (
@@ -403,7 +399,6 @@ export const Footer = ({ overrideData = null }) => {
       <div className="w-full px-4 sm:px-8 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 mb-7 items-start">
           
-          {/* Column 1: Quick Navigation (Single column line) */}
           <div className="md:col-span-1 lg:col-span-4 space-y-3">
             <h4
               style={headingStyle}
@@ -416,7 +411,6 @@ export const Footer = ({ overrideData = null }) => {
             </ul>
           </div>
 
-          {/* Column 2: Location & Contact */}
           <div className="space-y-3 md:col-span-1 lg:col-span-5">
             <h4
               style={headingStyle}
@@ -455,7 +449,6 @@ export const Footer = ({ overrideData = null }) => {
                 </p>
               )}
 
-              {/* Contact Buttons */}
               <div className="flex flex-wrap gap-2.5 pt-1">
                 {contact.googleMapsUrl ? (
                   <a
@@ -491,7 +484,6 @@ export const Footer = ({ overrideData = null }) => {
             </div>
           </div>
 
-          {/* Column 3: Connect With Us */}
           <div className="space-y-3 md:col-span-2 lg:col-span-3">
             <h4
               style={headingStyle}
@@ -521,7 +513,6 @@ export const Footer = ({ overrideData = null }) => {
               })}
             </div>
 
-            {/* An Initiative By */}
             <div className="pt-2">
               <span
                 style={headingStyle}
@@ -537,7 +528,6 @@ export const Footer = ({ overrideData = null }) => {
 
         </div>
 
-        {/* Bottom Footer Section */}
         <div
           style={{ borderColor: appearance?.dividerColor || 'rgba(255, 255, 255, 0.1)' }}
           className="pt-4 border-t flex flex-col sm:flex-row items-center justify-between text-[11px] sm:text-xs opacity-75 gap-2 sm:gap-3"

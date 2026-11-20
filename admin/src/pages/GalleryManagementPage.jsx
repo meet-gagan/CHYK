@@ -941,7 +941,6 @@ export const GalleryManagementPage = () => {
         </div>
       )}
 
-      {/* CREATE FOLDER MODAL */}
       {showCreateFolderModal && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-lg rounded-3xl bg-[#1C2541] border border-white/10 shadow-2xl p-6 overflow-hidden">
@@ -1027,7 +1026,6 @@ export const GalleryManagementPage = () => {
         </div>
       )}
 
-      {/* EDIT FOLDER MODAL */}
       {showEditFolderModal && editingFolder && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-lg rounded-3xl bg-[#1C2541] border border-white/10 shadow-2xl p-6 overflow-hidden">
@@ -1109,7 +1107,6 @@ export const GalleryManagementPage = () => {
         </div>
       )}
 
-      {/* DELETE FOLDER MODAL */}
       {showDeleteFolderModal && deletingFolder && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-md rounded-3xl bg-[#1C2541] border border-red-500/30 shadow-2xl p-6 text-center">
@@ -1137,7 +1134,6 @@ export const GalleryManagementPage = () => {
         </div>
       )}
 
-      {/* UPLOAD IMAGES MODAL */}
       {showUploadImageModal && selectedFolder && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-lg rounded-3xl bg-[#1C2541] border border-white/10 shadow-2xl p-6 overflow-hidden">
@@ -1213,7 +1209,6 @@ export const GalleryManagementPage = () => {
         </div>
       )}
 
-      {/* UPLOAD VIDEO MODAL */}
       {showUploadVideoModal && selectedFolder && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-lg rounded-3xl bg-[#1C2541] border border-white/10 shadow-2xl p-6 overflow-hidden">
@@ -1283,7 +1278,6 @@ export const GalleryManagementPage = () => {
         </div>
       )}
 
-      {/* EDIT MEDIA MODAL */}
       {showEditMediaModal && editingMedia && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-lg rounded-3xl bg-[#1C2541] border border-white/10 shadow-2xl p-6 overflow-hidden">
@@ -1345,7 +1339,6 @@ export const GalleryManagementPage = () => {
         </div>
       )}
 
-      {/* DELETE MEDIA MODAL */}
       {showDeleteMediaModal && deletingMedia && (
         <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-md rounded-3xl bg-[#1C2541] border border-red-500/30 shadow-2xl p-6 text-center">
@@ -1373,7 +1366,6 @@ export const GalleryManagementPage = () => {
         </div>
       )}
 
-      {/* PREVIEW MODAL */}
       {showPreviewModal && previewItem && (
         <div
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 backdrop-blur-md animate-in fade-in"

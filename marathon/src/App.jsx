@@ -53,7 +53,6 @@ function MarathonLayout() {
       </main>
       <Footer />
 
-      {/* Global Registration Auth Modal (Asks Sign Up or Login when clicking Register Now) */}
       <RegistrationAuthModal
         isOpen={Boolean(authModalState?.isOpen)}
         onClose={closeAuthModal}
@@ -103,64 +102,51 @@ export function App() {
             <ScrollToTop />
             <MarathonSiteAccessGate>
               <Routes>
-                {/* Standalone Coming Soon / Launch Routes */}
                 <Route path="/coming-soon" element={<MarathonComingSoonPage />} />
                 <Route path="/comming-soon" element={<MarathonComingSoonPage />} />
                 <Route path="/launch" element={<MarathonComingSoonPage />} />
                 <Route path="/teaser" element={<MarathonComingSoonPage />} />
 
                 <Route element={<MarathonLayout />}>
-                  {/* Marathon Landing Page */}
                   <Route path="/" element={<HomePage />} />
 
-                  {/* Dedicated About The Mini-Marathon Page */}
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/about-us" element={<AboutPage />} />
                   <Route path="/about-the-marathon" element={<AboutPage />} />
                   <Route path="/about-the-mini-marathon" element={<AboutPage />} />
 
-              {/* Dedicated FAQs Page with Ask Your FAQ doubt submission */}
               <Route path="/faqs" element={<FaqPage />} />
               <Route path="/faq" element={<FaqPage />} />
               <Route path="/lets-connect" element={<Navigate to="/faqs" replace />} />
               <Route path="/contact" element={<Navigate to="/faqs" replace />} />
 
-              {/* Dedicated Public Udaan (Videos) Page */}
               <Route path="/udaan" element={<VideosPage />} />
               <Route path="/videos" element={<VideosPage />} />
 
-              {/* Dedicated Wellness Centers Directory Page */}
               <Route path="/wellness-centers" element={<WellnessCentersPage />} />
               <Route path="/wellness" element={<WellnessCentersPage />} />
 
-              {/* Your Thoughts & Community Story Board */}
               <Route path="/your-thoughts" element={<YourThoughtsPage />} />
               <Route path="/story-board" element={<YourThoughtsPage />} />
               <Route path="/storyboard" element={<YourThoughtsPage />} />
 
-              {/* Dedicated Route Map Page (Public - No signup/login required to view) */}
               <Route path="/route-map" element={<RouteMapPage />} />
               <Route path="/route" element={<RouteMapPage />} />
               <Route path="/marathon-map" element={<RouteMapPage />} />
               <Route path="/mini-marathon-map" element={<RouteMapPage />} />
 
-              {/* Terms and Conditions Page */}
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/terms-and-conditions" element={<TermsPage />} />
               <Route path="/terms-conditions" element={<TermsPage />} />
 
-              {/* Privacy Policy Page */}
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
 
-              {/* Marathon Registration Page */}
               <Route path="/register" element={<RegistrationPage />} />
 
-              {/* Authentication Routes */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
 
-              {/* User Account & Passes */}
               <Route
                 path="/profile"
                 element={
@@ -186,12 +172,10 @@ export function App() {
                 }
               />
 
-              {/* Entry Pass Verification Route (Opaque / QR Scan verification) */}
               <Route path="/verify-pass/:passId" element={<VerifyPassPage />} />
               <Route path="/pass/:passId/verify" element={<VerifyPassPage />} />
             </Route>
 
-            {/* Catch-all Redirect */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </MarathonSiteAccessGate>

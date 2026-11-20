@@ -35,13 +35,11 @@ export const CountdownTimer = ({ targetDate = '2027-01-24T06:00:00.000+05:30' })
     <div className="w-full max-w-5xl mx-auto px-3 sm:px-6 py-2 sm:py-3">
       <div className="glass-card p-4 sm:p-6 md:p-7 rounded-2xl sm:rounded-3xl border-l-4 sm:border-l-6 border-l-[var(--orange)] relative overflow-hidden shadow-lg w-full">
         
-        {/* Glow Accent */}
         <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[var(--orange)]/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -left-20 -top-20 w-64 h-64 bg-[var(--cyan)]/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 sm:gap-6 lg:gap-8 relative z-10 w-full">
           
-          {/* Header Info */}
           <div className="text-center lg:text-left space-y-1 sm:space-y-1.5">
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-black font-heading text-[var(--text-primary)] tracking-tight">
               24 JANUARY <span className="text-[var(--orange)]">2027</span>
@@ -59,7 +57,6 @@ export const CountdownTimer = ({ targetDate = '2027-01-24T06:00:00.000+05:30' })
             </p>
           </div>
 
-          {/* Timer Digits Display (Compact Size) */}
           <div className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-3.5 w-full lg:w-auto">
             {[
               { label: 'DAYS', value: formatUnit(timeLeft.days), color: 'text-[var(--orange)]' },

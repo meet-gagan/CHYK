@@ -39,7 +39,6 @@ export const DashboardStatsPage = () => {
 
   return (
     <div className="space-y-8 animate-in fade-in">
-      {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs font-black tracking-widest text-[var(--cyan)] uppercase">
@@ -69,7 +68,6 @@ export const DashboardStatsPage = () => {
         </div>
       )}
 
-      {/* Main Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <div className="p-6 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-xl relative overflow-hidden">
           <div className="flex items-center justify-between">
@@ -116,7 +114,6 @@ export const DashboardStatsPage = () => {
         </div>
       </div>
 
-      {/* Secondary Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div className="p-5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-center">
           <span className="text-[11px] font-bold text-[var(--text-muted)] block">REGISTERED USERS</span>
@@ -147,7 +144,6 @@ export const DashboardStatsPage = () => {
         </div>
       </div>
 
-      {/* Recent Registrations Table */}
       <div className="p-6 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-xl space-y-4">
         <div className="flex items-center justify-between">
           <h4 className="text-lg font-black font-heading text-[var(--text-primary)]">
@@ -228,7 +224,6 @@ export const DashboardStatsPage = () => {
         </div>
       </div>
 
-      {/* Details Modal */}
       {viewingRegistration && (
         <RegistrationDetailsModal
           registration={viewingRegistration}

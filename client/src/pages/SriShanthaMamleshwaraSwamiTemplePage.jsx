@@ -107,12 +107,10 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
 
   return (
     <div className="min-h-screen bg-[#FFFDF8] text-[var(--text-primary)] transition-colors duration-300">
-      {/* 1. HERO BANNER: SACRED TEMPLE PRESENTATION */}
       <section className="relative overflow-hidden bg-gradient-to-b from-[#1C160C] via-[#241B0E] to-[#120E08] text-white py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 opacity-15 pointer-events-none bg-[radial-gradient(#F59E0B_1px,transparent_1px)] [background-size:16px_16px]" />
 
         <div className="max-w-6xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Column: Sacred Title & Overview */}
           <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-left">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading text-white tracking-tight leading-tight">
               SHRI SHANTAMALLESHWARA SWAMI TEMPLE
@@ -129,14 +127,11 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
             </p>
           </div>
 
-          {/* Right Column: Full Deity Image (100% Uncropped & Highlighted) */}
           <div className="lg:col-span-5 flex justify-center">
             <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-black/80 via-slate-950 to-black border-2 border-amber-500/40 shadow-2xl shadow-amber-950/50 p-2 sm:p-3 group max-w-sm w-full">
-              {/* Soft Golden Ambient Glow */}
               <div className="absolute -inset-1 bg-gradient-to-tr from-amber-500/20 via-orange-500/20 to-transparent blur-xl pointer-events-none" />
 
               <div className="relative rounded-2xl overflow-hidden bg-black/60 flex items-center justify-center min-h-[360px] sm:min-h-[420px]">
-                {/* Full Uncropped Deity Image (Garlanded Sanctum) */}
                 <img
                   src={
                     (f.temple_hero?.imageUrl && !f.temple_hero.imageUrl.includes('media_'))
@@ -171,7 +166,6 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
         </div>
       </section>
 
-      {/* 2. TEMPLE HISTORY & SPIRITUAL SIGNIFICANCE */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-10">
         <div className="text-center max-w-3xl mx-auto space-y-2">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-black font-heading text-slate-900 tracking-tight">
@@ -186,7 +180,6 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-          {/* Section 1: History and Spiritual Significance */}
           <div className="bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-200/90 space-y-5 text-left leading-relaxed flex flex-col justify-start">
             <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
               <div className="w-2.5 h-2.5 rounded-full bg-[var(--orange)] shrink-0" />
@@ -221,7 +214,6 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
             </p>
           </div>
 
-          {/* Section 2: Daily Worship and Annual Celebrations */}
           <div className="bg-white rounded-3xl p-6 sm:p-8 md:p-10 shadow-sm border border-slate-200/90 space-y-5 text-left leading-relaxed flex flex-col justify-start">
             <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
               <div className="w-2.5 h-2.5 rounded-full bg-[var(--orange)] shrink-0" />
@@ -249,7 +241,6 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
         </div>
       </section>
 
-      {/* NITYA POOJALU SECTION */}
       <section className="bg-[#090909] text-white py-12 sm:py-16 border-t border-[#2d2723]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10">
           <div className="text-center max-w-3xl mx-auto space-y-2">
@@ -291,10 +282,8 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
         </div>
       </section>
 
-      {/* THE HOURS OF DEVOTION & SEVA */}
       <TempleSevaSection />
 
-      {/* 3. ANNUAL FESTIVALS & SPECIAL CELEBRATIONS */}
       <section className="bg-gradient-to-b from-amber-50/50 to-white py-12 sm:py-16 border-t border-amber-900/10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="text-center max-w-3xl mx-auto space-y-2">

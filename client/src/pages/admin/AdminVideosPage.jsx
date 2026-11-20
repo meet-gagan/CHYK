@@ -242,7 +242,6 @@ export const AdminVideosPage = () => {
 
   return (
     <div className="space-y-6">
-      {/* Toast Alert */}
       {statusMessage.text && (
         <div
           className={`p-4 rounded-2xl text-xs font-black flex items-center gap-3 shadow-xl transition-all ${
@@ -260,7 +259,6 @@ export const AdminVideosPage = () => {
         </div>
       )}
 
-      {/* Header Banner */}
       <div className="p-6 sm:p-8 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] relative overflow-hidden shadow-xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2">
@@ -298,7 +296,6 @@ export const AdminVideosPage = () => {
           </div>
         </div>
 
-        {/* Stats Strip */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6 pt-6 border-t border-[var(--border-color)]">
           <div>
             <span className="text-[10px] font-extrabold uppercase text-[var(--text-muted)] tracking-wider">
@@ -327,7 +324,6 @@ export const AdminVideosPage = () => {
         </div>
       </div>
 
-      {/* Search Bar */}
       <div className="p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-md">
         <div className="relative flex-grow max-w-md">
           <Search className="w-4 h-4 text-[var(--text-muted)] absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -354,7 +350,6 @@ export const AdminVideosPage = () => {
         </div>
       </div>
 
-      {/* Videos List / Grid */}
       {loading ? (
         <div className="p-16 text-center space-y-4 glass-card rounded-3xl">
           <div className="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin mx-auto" />
@@ -389,7 +384,6 @@ export const AdminVideosPage = () => {
               className="glass-card rounded-2xl overflow-hidden border border-[var(--border-color)] hover:border-red-500/40 transition-all duration-300 shadow-md flex flex-col justify-between group"
             >
               <div>
-                {/* 16:9 Thumbnail Container */}
                 <div className="relative aspect-video bg-black overflow-hidden">
                   <img
                     src={video.thumbnailUrl || getYouTubeThumbnailUrl(video.youtubeId)}
@@ -399,7 +393,6 @@ export const AdminVideosPage = () => {
                       e.target.src = getYouTubeThumbnailUrl(video.youtubeId);
                     }}
                   />
-                  {/* Play badge overlay */}
                   <div className="absolute inset-0 bg-black/30 group-hover:bg-black/15 transition-colors flex items-center justify-center">
                     <div className="w-10 h-10 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                       <Play className="w-5 h-5 fill-current ml-0.5" />
@@ -407,7 +400,6 @@ export const AdminVideosPage = () => {
                   </div>
                 </div>
 
-                {/* Content */}
                 <div className="p-4 space-y-2">
                   <h4
                     className="font-heading font-black text-sm text-[var(--text-primary)] line-clamp-2 leading-tight"
@@ -424,7 +416,6 @@ export const AdminVideosPage = () => {
                 </div>
               </div>
 
-              {/* Action Buttons */}
               <div className="p-4 pt-0 border-t border-[var(--border-color)]/50 mt-2 flex items-center justify-between gap-2">
                 <a
                   href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
@@ -459,7 +450,6 @@ export const AdminVideosPage = () => {
         </div>
       )}
 
-      {/* MODAL: ADD YOUTUBE VIDEO */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
           <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative space-y-5 max-h-[90vh] overflow-y-auto">
@@ -486,7 +476,6 @@ export const AdminVideosPage = () => {
             </div>
 
             <form onSubmit={handleAddSubmit} className="space-y-4">
-              {/* Field 1: YouTube Video URL */}
               <div className="space-y-1.5">
                 <label className="text-xs font-black uppercase text-[var(--text-primary)] tracking-wide flex items-center justify-between">
                   <span>1. YouTube Video URL *</span>
@@ -519,7 +508,6 @@ export const AdminVideosPage = () => {
                   </p>
                 )}
 
-                {/* Live Preview Box when valid ID detected */}
                 {detectedId && (
                   <div className="mt-2 p-2.5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border-color)] flex items-center gap-3">
                     <div className="w-24 aspect-video rounded-lg overflow-hidden bg-black shrink-0 relative">
@@ -540,7 +528,6 @@ export const AdminVideosPage = () => {
                 )}
               </div>
 
-              {/* Field 2: Video Title */}
               <div className="space-y-1.5">
                 <label className="text-xs font-black uppercase text-[var(--text-primary)] tracking-wide">
                   2. Video Title *
@@ -555,7 +542,6 @@ export const AdminVideosPage = () => {
                 />
               </div>
 
-              {/* Field 3: One-Line Description */}
               <div className="space-y-1.5">
                 <label className="text-xs font-black uppercase text-[var(--text-primary)] tracking-wide">
                   3. One-Line Description *
@@ -573,7 +559,6 @@ export const AdminVideosPage = () => {
                 </p>
               </div>
 
-              {/* Action Buttons */}
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
                 <button
                   type="button"
@@ -605,7 +590,6 @@ export const AdminVideosPage = () => {
         </div>
       )}
 
-      {/* MODAL: EDIT YOUTUBE VIDEO */}
       {showEditModal && selectedVideo && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
           <div className="bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative space-y-5 max-h-[90vh] overflow-y-auto">
@@ -632,7 +616,6 @@ export const AdminVideosPage = () => {
             </div>
 
             <form onSubmit={handleEditSubmit} className="space-y-4">
-              {/* Field 1: YouTube Video URL */}
               <div className="space-y-1.5">
                 <label className="text-xs font-black uppercase text-[var(--text-primary)] tracking-wide flex items-center justify-between">
                   <span>1. YouTube Video URL *</span>
@@ -681,7 +664,6 @@ export const AdminVideosPage = () => {
                 )}
               </div>
 
-              {/* Field 2: Video Title */}
               <div className="space-y-1.5">
                 <label className="text-xs font-black uppercase text-[var(--text-primary)] tracking-wide">
                   2. Video Title *
@@ -696,7 +678,6 @@ export const AdminVideosPage = () => {
                 />
               </div>
 
-              {/* Field 3: One-Line Description */}
               <div className="space-y-1.5">
                 <label className="text-xs font-black uppercase text-[var(--text-primary)] tracking-wide">
                   3. One-Line Description *
@@ -711,7 +692,6 @@ export const AdminVideosPage = () => {
                 />
               </div>
 
-              {/* Action Buttons */}
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-[var(--border-color)]">
                 <button
                   type="button"
@@ -743,7 +723,6 @@ export const AdminVideosPage = () => {
         </div>
       )}
 
-      {/* MODAL: DELETE CONFIRMATION */}
       {showDeleteModal && selectedVideo && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
           <div className="bg-[var(--bg-secondary)] border border-red-500/30 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative space-y-4">
@@ -764,7 +743,6 @@ export const AdminVideosPage = () => {
               </p>
             </div>
 
-            {/* Thumbnail Preview of Item Being Deleted */}
             <div className="aspect-video w-full rounded-xl overflow-hidden bg-black border border-[var(--border-color)]">
               <img
                 src={selectedVideo.thumbnailUrl || getYouTubeThumbnailUrl(selectedVideo.youtubeId)}

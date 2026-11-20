@@ -39,7 +39,6 @@ export const ScrollingAnnouncementEditor = ({
 
   return (
     <div className="rounded-3xl bg-[var(--bg-secondary)] border-2 border-orange-500/30 overflow-hidden shadow-2xl transition-all">
-      {/* Scoped CSS for seamless continuous marquee loop & accessibility */}
       <style>{`
         @keyframes scrollAnnouncementAdmin {
           0% {
@@ -70,7 +69,6 @@ export const ScrollingAnnouncementEditor = ({
         }
       `}</style>
 
-      {/* 1. Header Bar */}
       <div className="p-5 sm:p-6 bg-gradient-to-r from-orange-500/15 via-[var(--bg-tertiary)] to-[var(--bg-secondary)] border-b border-[var(--border-color)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-start sm:items-center gap-3.5">
           <div className="w-10 h-10 rounded-2xl bg-orange-500/20 text-orange-400 border border-orange-500/30 flex items-center justify-center shrink-0 shadow-inner">
@@ -102,7 +100,6 @@ export const ScrollingAnnouncementEditor = ({
           </div>
         </div>
 
-        {/* Quick Actions in Header */}
         <div className="flex items-center gap-2 shrink-0">
           {onReset && (
             <button
@@ -134,10 +131,8 @@ export const ScrollingAnnouncementEditor = ({
         </div>
       </div>
 
-      {/* 2. Body Content */}
       <div className="p-5 sm:p-6 space-y-6 bg-[var(--bg-primary)]/40">
         
-        {/* A. ENABLE / DISABLE TOGGLE */}
         <div className="p-4 sm:p-5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
@@ -181,10 +176,8 @@ export const ScrollingAnnouncementEditor = ({
           </div>
         </div>
 
-        {/* B & C. ENGLISH & TELUGU EDITABLE TEXTAREAS */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           
-          {/* English Announcement Textarea */}
           <div className="space-y-2 p-4 sm:p-5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)]">
             <div className="flex items-center justify-between">
               <label className="text-xs font-extrabold uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-1.5">
@@ -213,7 +206,6 @@ export const ScrollingAnnouncementEditor = ({
             </p>
           </div>
 
-          {/* Telugu Announcement Textarea */}
           <div className="space-y-2 p-4 sm:p-5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)]">
             <div className="flex items-center justify-between">
               <label className="text-xs font-extrabold uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-1.5">
@@ -248,7 +240,6 @@ export const ScrollingAnnouncementEditor = ({
           </div>
         </div>
 
-        {/* Redirect Target Link Input */}
         <div className="space-y-2 p-4 sm:p-5 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)]">
           <div className="flex items-center justify-between">
             <label className="text-xs font-extrabold uppercase tracking-wider text-[var(--text-primary)] flex items-center gap-1.5">
@@ -273,7 +264,6 @@ export const ScrollingAnnouncementEditor = ({
           </p>
         </div>
 
-        {/* 3. PHASE 3 – ANNOUNCEMENT PREVIEW */}
         <div className="space-y-3 pt-2">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
@@ -313,21 +303,17 @@ export const ScrollingAnnouncementEditor = ({
             </div>
           </div>
 
-          {/* Banner Container: Chinmaya Website Color Palette & Height */}
           <div className="rounded-2xl border border-orange-300/40 bg-gradient-to-r from-[#FFF7ED] via-[#FFF5E5] to-[#FFF7ED] p-1 shadow-md overflow-hidden relative">
             <div className="announcement-preview-box relative w-full h-[42px] sm:h-[44px] overflow-hidden flex items-center rounded-xl bg-orange-50/60 select-none">
               
-              {/* Left / Right edge subtle fade for elegant appearance */}
               <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#FFF7ED] to-transparent z-10 pointer-events-none" />
               <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#FFF7ED] to-transparent z-10 pointer-events-none" />
 
-              {/* Scrolling marquee track */}
               <div
                 className={`announcement-marquee-track ${
                   isPausedManually ? 'is-paused' : ''
                 }`}
               >
-                {/* Repetition 1 */}
                 <span className="inline-flex items-center text-xs sm:text-sm font-semibold text-[#7C2D12] tracking-wide shrink-0 pr-8">
                   <span className="font-sans font-medium text-[#7C2D12]">
                     {englishContent || DEFAULT_ENGLISH}
@@ -345,7 +331,6 @@ export const ScrollingAnnouncementEditor = ({
                   <span className="mx-4 text-[#EA580C] font-black select-none text-base">•</span>
                 </span>
 
-                {/* Repetition 2 (Seamless continuous loop, aria-hidden to prevent redundant screen reader announcements) */}
                 <span
                   aria-hidden="true"
                   className="inline-flex items-center text-xs sm:text-sm font-semibold text-[#7C2D12] tracking-wide shrink-0 pr-8"
@@ -369,7 +354,6 @@ export const ScrollingAnnouncementEditor = ({
             </div>
           </div>
 
-          {/* Status Note */}
           <div className="flex items-center justify-between text-[11px] text-[var(--text-muted)] px-1">
             <span className="flex items-center gap-1.5">
               <Sparkles className="w-3 h-3 text-orange-400" />
@@ -386,7 +370,6 @@ export const ScrollingAnnouncementEditor = ({
           </div>
         </div>
 
-        {/* 4. PHASE 4 – SAVE & RESET ACTIONS */}
         <div className="pt-2 border-t border-[var(--border-color)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="text-xs text-[var(--text-muted)] font-medium">
             {hasUnsavedChanges ? (

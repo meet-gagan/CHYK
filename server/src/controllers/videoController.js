@@ -45,7 +45,6 @@ export const createVideo = async (req, res) => {
   try {
     const { youtubeUrl, title, description } = req.body;
 
-    // 1. Validation: Required fields
     if (!youtubeUrl || !youtubeUrl.trim()) {
       return res.status(400).json({
         success: false,
@@ -70,7 +69,6 @@ export const createVideo = async (req, res) => {
       });
     }
 
-    // 2. Extract and validate YouTube ID
     const youtubeId = extractYouTubeId(youtubeUrl);
     if (!youtubeId) {
       return res.status(400).json({

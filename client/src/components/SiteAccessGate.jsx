@@ -16,7 +16,6 @@ export function SiteAccessGate({ children }) {
   // Controlled dynamically by DB sitesettings (true = Live website, false = Coming Soon)
   const effectiveIsLive = Boolean(isLive);
 
-  // 1. Always allow Admin routes unconditionally so admins can manage and toggle the site
   if (pathname.startsWith('/admin')) {
     return (
       <>
@@ -26,7 +25,6 @@ export function SiteAccessGate({ children }) {
     );
   }
 
-  // 2. Loading state while checking site settings from API
   if (loading) {
     return (
       <div className="min-h-screen bg-[#161a33] flex flex-col items-center justify-center text-amber-200">
@@ -38,7 +36,6 @@ export function SiteAccessGate({ children }) {
 
   const isComingSoonRoute = COMING_SOON_PATHS.includes(pathname);
 
-  // 3. When isLive === false (Coming Soon mode active):
   //    Block all public routes and display the Coming Soon page
   if (!effectiveIsLive) {
     if (isComingSoonRoute) {
@@ -53,7 +50,6 @@ export function SiteAccessGate({ children }) {
     return <Navigate to="/coming-soon" replace />;
   }
 
-  // 4. When isLive === true (Live mode active):
   //    Display everything EXCEPT the coming soon page (which redirects to /)
   if (effectiveIsLive && isComingSoonRoute) {
     return <Navigate to="/" replace />;

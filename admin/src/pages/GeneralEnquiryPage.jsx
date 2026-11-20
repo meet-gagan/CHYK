@@ -139,7 +139,6 @@ export const GeneralEnquiryPage = () => {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto animate-in fade-in">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs font-black tracking-widest text-[#FF5722] uppercase">
@@ -195,7 +194,6 @@ export const GeneralEnquiryPage = () => {
         </div>
       )}
 
-      {/* Filter and Search */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#0B1528] p-3 rounded-2xl border border-white/5">
         <div className="relative w-full sm:w-80">
           <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -225,7 +223,6 @@ export const GeneralEnquiryPage = () => {
         </div>
       </div>
 
-      {/* List */}
       {loading ? (
         <div className="py-20 text-center space-y-3">
           <div className="w-8 h-8 border-2 border-[#FF5722] border-t-transparent rounded-full animate-spin mx-auto" />
@@ -281,7 +278,6 @@ export const GeneralEnquiryPage = () => {
                 </div>
               </div>
 
-              {/* Contact info row */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                 <div className="flex items-center gap-2 text-gray-300">
                   <Mail className="w-3.5 h-3.5 text-[#FF5722]" />
@@ -305,7 +301,6 @@ export const GeneralEnquiryPage = () => {
                 </div>
               </div>
 
-              {/* What would you like to know more about? */}
               <div className="p-3 rounded-xl bg-[#070F1E] border border-white/5 space-y-1">
                 <span className="text-[10px] font-black uppercase tracking-wider text-[#FF5722]">
                   What would you like to know more about?

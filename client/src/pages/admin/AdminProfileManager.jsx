@@ -152,7 +152,6 @@ export const AdminProfileManager = () => {
 
   return (
     <div className="space-y-8 animate-in fade-in max-w-5xl mx-auto">
-      {/* Header Banner */}
       <div className="glass-card p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-[var(--orange)] text-white flex items-center justify-center shadow-lg">
@@ -187,7 +186,6 @@ export const AdminProfileManager = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column: Admin Identity Card */}
           <div className="space-y-6">
             <div className="glass-card p-6 rounded-3xl border border-[var(--border-color)] bg-[var(--bg-secondary)] space-y-6 text-center">
               <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[var(--orange)] to-amber-500 text-white flex items-center justify-center font-black text-2xl mx-auto shadow-xl">
@@ -236,9 +234,7 @@ export const AdminProfileManager = () => {
             </div>
           </div>
 
-          {/* Right Column: Forms for Profile & Password */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Form 1: Edit Profile Details */}
             <div className="glass-card p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] space-y-6">
               <div className="flex items-center gap-3 border-b border-[var(--border-color)] pb-4">
                 <div className="p-2.5 rounded-xl bg-[var(--cyan)]/15 text-[var(--cyan)]">
@@ -366,7 +362,6 @@ export const AdminProfileManager = () => {
               </form>
             </div>
 
-            {/* Form 2: Change Password Form */}
             <div className="glass-card p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] space-y-6">
               <div className="flex items-center gap-3 border-b border-[var(--border-color)] pb-4">
                 <div className="p-2.5 rounded-xl bg-[var(--orange)]/15 text-[var(--orange)]">

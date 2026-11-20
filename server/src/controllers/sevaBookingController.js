@@ -80,7 +80,6 @@ export const submitSevaBooking = async (req, res) => {
     const finalSevaName = (sevaName || pujaName || 'General Seva').trim();
     const finalUtrId = (utrId || '').trim() || `WA-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
 
-    // 1. Deduplication Guard: Check if this UTR Reference was already submitted (only for manual UTRs)
     if (!finalUtrId.startsWith('WA-')) {
       const existingUtr = await SevaBooking.findOne({ utrId: finalUtrId });
       if (existingUtr) {
@@ -92,7 +91,6 @@ export const submitSevaBooking = async (req, res) => {
       }
     }
 
-    // 2. Double-Click Concurrency Guard: 15-second window for exact same phone and seva
     const fifteenSecondsAgo = new Date(Date.now() - 15 * 1000);
     const recentDuplicate = await SevaBooking.findOne({
       phone: cleanPhone,

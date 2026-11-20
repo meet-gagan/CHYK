@@ -205,7 +205,6 @@ export const MythsVsFactsSection = ({ content }) => {
   return (
     <section id="myths-vs-facts" className="mvf-section" aria-label="Myths vs Facts Awareness Slider">
       <div className="mvf-container">
-        {/* Section Heading */}
         <div className="mvf-header">
           <h2 className="mvf-title">
             {sectionTitle}
@@ -215,9 +214,7 @@ export const MythsVsFactsSection = ({ content }) => {
           </p>
         </div>
 
-        {/* Slider Controls & Card Viewport */}
         <div className="mvf-slider-wrapper">
-          {/* Previous Arrow Button */}
           <button
             type="button"
             className="mvf-nav-btn mvf-nav-btn-prev"
@@ -229,7 +226,6 @@ export const MythsVsFactsSection = ({ content }) => {
             <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
-          {/* Main Card Viewport */}
           <div
             className="mvf-card-viewport"
             onTouchStart={handleTouchStart}
@@ -242,7 +238,6 @@ export const MythsVsFactsSection = ({ content }) => {
               }`}
             >
               {currentCard.type === 'intro' ? (
-                /* Card 1 — Introductory Card (Myth Busters Cover Image) */
                 <div
                   className="mvf-intro-card mvf-intro-card-image group"
                   onClick={handleNext}
@@ -261,7 +256,6 @@ export const MythsVsFactsSection = ({ content }) => {
                     alt="Myth Busters - Anti-Drug Awareness Campaign"
                     className="mvf-intro-cover-img"
                   />
-                  {/* Floating counter badge on intro card */}
                   <div className="mvf-intro-counter-badge">
                     <span>{formattedCounter}</span>
                   </div>
@@ -281,10 +275,8 @@ export const MythsVsFactsSection = ({ content }) => {
                   </div>
                 </div>
               ) : (
-                /* Cards 2-16 — Myth & Fact Content Cards */
                 <div>
                   <div className="mvf-card-grid">
-                    {/* MYTH Block */}
                     <div className="mvf-block-myth">
                       <div className="mvf-block-header">
                         <span className="mvf-block-badge mvf-badge-myth">
@@ -298,7 +290,6 @@ export const MythsVsFactsSection = ({ content }) => {
                       </p>
                     </div>
 
-                    {/* FACT Block (Click-to-reveal interaction) */}
                     <div
                       className={`mvf-block-fact ${revealedCardIds.has(currentCard.id) ? 'is-revealed' : 'is-hidden'}`}
                       role="button"
@@ -342,7 +333,6 @@ export const MythsVsFactsSection = ({ content }) => {
                 </div>
               )}
 
-              {/* Card Footer: Counter & Metadata (Rendered only on content cards) */}
               {currentCard.type !== 'intro' && (
                 <div className="mvf-card-footer">
                   <span className="mvf-card-category">
@@ -356,7 +346,6 @@ export const MythsVsFactsSection = ({ content }) => {
             </div>
           </div>
 
-          {/* Next Arrow Button */}
           <button
             type="button"
             className="mvf-nav-btn mvf-nav-btn-next"
@@ -369,7 +358,6 @@ export const MythsVsFactsSection = ({ content }) => {
           </button>
         </div>
 
-        {/* Mobile Dedicated Thumb Navigation Bar (Zero overlap on card content) */}
         <div className="mvf-mobile-controls">
           <button
             type="button"
@@ -398,7 +386,6 @@ export const MythsVsFactsSection = ({ content }) => {
           </button>
         </div>
 
-        {/* Progress Indicator Dots */}
         <div className="mvf-progress-container">
           <div className="mvf-progress-track" role="tablist" aria-label="Card selection pagination">
             {CARDS_DATA.map((card, idx) => (

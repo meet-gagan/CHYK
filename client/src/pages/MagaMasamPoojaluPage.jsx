@@ -104,7 +104,6 @@ export const MagaMasamPoojaluPage = () => {
 
   return (
     <div className="min-h-screen bg-white text-slate-800">
-      {/* 1. HERO / TITLE SECTION */}
       <section className="pt-12 sm:pt-16 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-amber-50/60 via-orange-50/20 to-white">
         <div className="max-w-4xl mx-auto space-y-6 text-center">
 
@@ -121,7 +120,6 @@ export const MagaMasamPoojaluPage = () => {
             <div className="w-20 h-1 bg-[var(--orange)] rounded-full mx-auto mt-4" />
           </div>
 
-          {/* Sacred Mantra Header Callout */}
           <div className="mt-6 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-orange-50 via-amber-50 to-orange-50 border border-orange-200 text-center space-y-2 shadow-sm">
             <span className="text-2xl sm:text-3xl font-serif text-[var(--orange)] font-bold block tracking-wider">
               ॥ ॐ नमः शिवाय ॥
@@ -133,7 +131,6 @@ export const MagaMasamPoojaluPage = () => {
         </div>
       </section>
 
-      {/* 2. SACRED TRADITION & SRI RUDRAM DISCOURSE */}
       <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="space-y-6 text-sm sm:text-base text-slate-700 leading-relaxed font-normal bg-[#FAFAFA] p-6 sm:p-10 rounded-3xl border border-slate-200/90 shadow-sm">
@@ -149,7 +146,6 @@ export const MagaMasamPoojaluPage = () => {
               Sri Rudram, an ancient and revered hymn from the Krishna Yajurveda, is dedicated to Lord Rudra, the Supreme Divine. Its profound Vedic mantras express our salutations, devotion, and surrender to the Divine, who pervades all creation.
             </p>
 
-            {/* Namakam & Chamakam Pillars */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
               <div className="bg-white p-5 rounded-2xl border border-orange-200/80 shadow-sm space-y-2">
                 <div className="flex items-center gap-2">
@@ -183,7 +179,6 @@ export const MagaMasamPoojaluPage = () => {
         </div>
       </section>
 
-      {/* 3. SANKALPAM FOR DEVOTEES AND THEIR FAMILIES */}
       <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8 bg-[#FAFAFA] border-t border-slate-100">
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="text-center space-y-2">
@@ -229,7 +224,6 @@ export const MagaMasamPoojaluPage = () => {
         </div>
       </section>
 
-      {/* 4. PRAYERS FOR INDIVIDUAL AND UNIVERSAL WELL-BEING */}
       <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-100">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="text-center space-y-2">
@@ -242,7 +236,6 @@ export const MagaMasamPoojaluPage = () => {
             <div className="w-16 h-1 bg-[var(--orange)] rounded-full mx-auto mt-1" />
           </div>
 
-          {/* 6 Blessing Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {prayers.map((prayer, idx) => (
               <div
@@ -277,7 +270,6 @@ export const MagaMasamPoojaluPage = () => {
         </div>
       </section>
 
-      {/* 5. PARTICIPATE IN THIS SACRED VEDIC SEVA */}
       <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8 bg-[#FAFAFA] border-t border-slate-100">
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="text-center space-y-2">
@@ -305,9 +297,6 @@ export const MagaMasamPoojaluPage = () => {
             </p>
           </div>
 
-          {/* ========================================================= */}
-          {/* 6. THE PAYMENT BOX (Here is the PAYMENT Box)              */}
-          {/* ========================================================= */}
           <div
             id="payment-box"
             className="rounded-3xl bg-gradient-to-b from-amber-500/10 via-white to-amber-500/5 border-2 border-orange-300 p-6 sm:p-10 shadow-lg space-y-8 scroll-mt-20"
@@ -321,7 +310,6 @@ export const MagaMasamPoojaluPage = () => {
               </p>
             </div>
 
-            {/* Seva Options Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {maghaMasamService.options.map((opt, idx) => (
                 <div
@@ -368,7 +356,6 @@ export const MagaMasamPoojaluPage = () => {
               ))}
             </div>
 
-            {/* Quick Summary Banner inside Payment Box */}
             <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-3 text-left">
                 <div className="w-10 h-10 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0">
@@ -394,7 +381,6 @@ export const MagaMasamPoojaluPage = () => {
             </div>
           </div>
 
-          {/* 7. CLOSING BENEDICTION & UNIVERSAL PEACE */}
           <div className="space-y-6 pt-6">
             <p className="text-center text-sm sm:text-base text-slate-700 leading-relaxed max-w-2xl mx-auto italic font-medium">
               May the sacred vibrations of Sri Rudram bring peace to our minds, harmony to our families, strength to our communities, and welfare to the entire world.
@@ -420,7 +406,6 @@ export const MagaMasamPoojaluPage = () => {
         </div>
       </section>
 
-      {/* 8. UNIFIED SEVA BOOKING MODAL */}
       {activeBookingService && (
         <UnifiedBookingModal
           service={activeBookingService}

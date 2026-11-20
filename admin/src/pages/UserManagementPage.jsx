@@ -211,7 +211,6 @@ export const UserManagementPage = () => {
 
   return (
     <div className="space-y-6 animate-in fade-in">
-      {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs font-black tracking-widest text-[#00B4D8] uppercase">
@@ -235,7 +234,6 @@ export const UserManagementPage = () => {
         </button>
       </div>
 
-      {/* Action Feedback Alerts */}
       {actionFeedback.message && (
         <div
           className={`p-4 rounded-2xl text-xs font-bold flex items-center justify-between ${
@@ -261,7 +259,6 @@ export const UserManagementPage = () => {
         </div>
       )}
 
-      {/* User Stats Pills */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="p-5 rounded-2xl bg-[#1C2541] border border-white/10 flex items-center justify-between">
           <div>
@@ -306,7 +303,6 @@ export const UserManagementPage = () => {
         </div>
       </div>
 
-      {/* Filters & Search Bar */}
       <div className="p-4 sm:p-5 rounded-2xl bg-[#1C2541] border border-white/10 space-y-4">
         <div className="flex flex-col sm:flex-row gap-3">
           <form onSubmit={handleSearchSubmit} className="flex-1 relative">
@@ -344,7 +340,6 @@ export const UserManagementPage = () => {
         </div>
       </div>
 
-      {/* Bulk Action Bar */}
       {selectedUserIds.length > 0 && (
         <div className="p-4 px-5 rounded-2xl bg-red-500/10 border border-red-500/30 flex flex-wrap items-center justify-between gap-3 animate-in fade-in">
           <div className="flex items-center gap-3">
@@ -371,7 +366,6 @@ export const UserManagementPage = () => {
         </div>
       )}
 
-      {/* User Table */}
       <div className="p-6 rounded-3xl bg-[#1C2541] border border-white/10 shadow-xl space-y-4">
         <div className="overflow-x-auto rounded-2xl border border-white/10">
           <table className="w-full text-left text-xs">
@@ -425,7 +419,6 @@ export const UserManagementPage = () => {
                           className="w-4 h-4 rounded text-red-600 focus:ring-red-500 cursor-pointer accent-red-600 disabled:opacity-20 disabled:cursor-not-allowed"
                         />
                       </td>
-                      {/* Name & ID */}
                       <td className="p-3.5">
                         <div className="flex items-center gap-2.5">
                           <div
@@ -453,7 +446,6 @@ export const UserManagementPage = () => {
                         </div>
                       </td>
 
-                      {/* Phone */}
                       <td className="p-3.5 font-mono text-[#94A3B8]">
                         +91 {u.phone}
                         {u.email && (
@@ -463,13 +455,11 @@ export const UserManagementPage = () => {
                         )}
                       </td>
 
-                      {/* Age & Profession */}
                       <td className="p-3.5">
                         <span className="text-white block">{u.profession || 'N/A'}</span>
                         <span className="text-[10px] text-[#94A3B8]">{u.age ? `${u.age} yrs` : 'N/A'}</span>
                       </td>
 
-                      {/* Role */}
                       <td className="p-3.5">
                         <span
                           className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
@@ -483,7 +473,6 @@ export const UserManagementPage = () => {
                         </span>
                       </td>
 
-                      {/* Created At */}
                       <td className="p-3.5 text-[#94A3B8]">
                         {new Date(u.createdAt).toLocaleDateString('en-IN', {
                           day: 'numeric',
@@ -492,10 +481,8 @@ export const UserManagementPage = () => {
                         })}
                       </td>
 
-                      {/* Actions */}
                       <td className="p-3.5 text-right">
                         <div className="flex items-center justify-end gap-1.5">
-                          {/* View Details */}
                           <button
                             onClick={() => handleViewDetails(u._id)}
                             className="p-1.5 rounded-lg bg-[#243054] text-[#00B4D8] hover:bg-[#00B4D8] hover:text-white transition-colors"
@@ -504,7 +491,6 @@ export const UserManagementPage = () => {
                             <Eye className="w-4 h-4" />
                           </button>
 
-                          {/* Role Toggle */}
                           <button
                             onClick={() => handleRoleToggle(u)}
                             disabled={updatingRole === u._id || (u.role === 'admin' && stats.totalAdmins <= 1)}
@@ -524,7 +510,6 @@ export const UserManagementPage = () => {
                             )}
                           </button>
 
-                          {/* Delete User */}
                           <button
                             onClick={() => setUserToDelete(u)}
                             disabled={isCurrentAdmin || (u.role === 'admin' && stats.totalAdmins <= 1)}
@@ -553,7 +538,6 @@ export const UserManagementPage = () => {
           </table>
         </div>
 
-        {/* Pagination Controls */}
         {pagination.totalPages > 1 && (
           <div className="flex items-center justify-between pt-4 border-t border-white/10 text-xs">
             <span className="text-[#94A3B8]">
@@ -582,7 +566,6 @@ export const UserManagementPage = () => {
         )}
       </div>
 
-      {/* User Details Modal */}
       {selectedUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
           <div className="bg-[#1C2541] border border-white/10 rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl relative">
@@ -639,7 +622,6 @@ export const UserManagementPage = () => {
               </div>
             </div>
 
-            {/* Linked Registrations */}
             <div className="space-y-3 pt-2">
               <h4 className="text-xs font-black uppercase tracking-wider text-white flex items-center gap-2">
                 <Award className="w-4 h-4 text-[#FF7B00]" />
@@ -680,7 +662,6 @@ export const UserManagementPage = () => {
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
       {userToDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
           <div className="bg-[#1C2541] border border-red-500/40 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">
@@ -721,7 +702,6 @@ export const UserManagementPage = () => {
         </div>
       )}
 
-      {/* Bulk Delete Confirmation Modal */}
       {showBulkDeleteModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
           <div className="bg-[#1C2541] border border-red-500/40 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl relative">

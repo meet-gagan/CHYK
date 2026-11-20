@@ -230,7 +230,6 @@ export const LetsConnectManager = () => {
 
   return (
     <div className="space-y-8 animate-in fade-in pb-12">
-      {/* Toast Notification */}
       {notification && (
         <div
           className={`fixed top-20 right-6 z-50 p-4 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-extrabold border transition-all animate-in slide-in-from-top-4 ${
@@ -248,7 +247,6 @@ export const LetsConnectManager = () => {
         </div>
       )}
 
-      {/* Top Banner Header */}
       <div className="glass-card p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[var(--orange)] to-amber-600 text-white flex items-center justify-center shadow-lg shadow-[var(--orange)]/20">
@@ -293,7 +291,6 @@ export const LetsConnectManager = () => {
         </div>
       </div>
 
-      {/* KPI Stats Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div
           onClick={() => setStatusFilter('ALL')}
@@ -365,10 +362,8 @@ export const LetsConnectManager = () => {
         </div>
       </div>
 
-      {/* Filters & Search Control Bar */}
       <div className="glass-card p-5 rounded-3xl border border-[var(--border-color)] space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {/* Search Box */}
           <div className="md:col-span-2 relative flex items-center">
             <Search className="w-4 h-4 absolute left-4 text-[var(--text-muted)] pointer-events-none" />
             <input
@@ -388,7 +383,6 @@ export const LetsConnectManager = () => {
             )}
           </div>
 
-          {/* Category Filter */}
           <div>
             <select
               value={categoryFilter}
@@ -404,7 +398,6 @@ export const LetsConnectManager = () => {
             </select>
           </div>
 
-          {/* Sort Order */}
           <div>
             <select
               value={sortOrder}
@@ -417,7 +410,6 @@ export const LetsConnectManager = () => {
           </div>
         </div>
 
-        {/* Status Pill Filters */}
         <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[var(--border-color)]/40 text-xs">
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-[var(--text-muted)] font-bold mr-1">Status:</span>
@@ -448,7 +440,6 @@ export const LetsConnectManager = () => {
         </div>
       </div>
 
-      {/* Messages List / Grid */}
       {loading ? (
         <div className="glass-card p-16 rounded-3xl border border-[var(--border-color)] text-center space-y-4">
           <RefreshCw className="w-8 h-8 mx-auto text-[var(--orange)] animate-spin" />
@@ -503,7 +494,6 @@ export const LetsConnectManager = () => {
                     : 'border-[var(--border-color)] hover:border-[var(--border-color)]/80'
                 }`}
               >
-                {/* Header: Sender Info & Status */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-color)]/40 pb-4">
                   <div className="flex items-center gap-3.5">
                     <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[var(--orange)] to-amber-600 text-white font-black text-lg flex items-center justify-center shadow-md flex-shrink-0">
@@ -534,7 +524,6 @@ export const LetsConnectManager = () => {
                   <div className="flex items-center gap-3">
                     {getStatusBadge(msg.status)}
 
-                    {/* Quick status toggle dropdown */}
                     <select
                       value={msg.status}
                       disabled={actionLoadingId === msg._id}
@@ -548,7 +537,6 @@ export const LetsConnectManager = () => {
                   </div>
                 </div>
 
-                {/* Contact Info Pills */}
                 <div className="flex flex-wrap items-center gap-3 text-xs">
                   <a
                     href={`mailto:${msg.email}`}
@@ -579,12 +567,10 @@ export const LetsConnectManager = () => {
                   )}
                 </div>
 
-                {/* Message Body */}
                 <div className="p-4 rounded-2xl bg-[var(--bg-primary)]/80 border border-[var(--border-color)]/60 text-sm text-[var(--text-primary)] font-medium leading-relaxed whitespace-pre-wrap">
                   {msg.message}
                 </div>
 
-                {/* Bottom Actions Toolbar */}
                 <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                   <div className="flex flex-wrap items-center gap-2">
                     {msg.status !== 'READ' && (

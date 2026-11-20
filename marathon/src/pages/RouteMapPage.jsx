@@ -33,7 +33,6 @@ export const RouteMapPage = () => {
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-200">
-      {/* Hero Banner */}
       <section className="relative pt-8 pb-12 sm:pt-12 sm:pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-b from-[var(--orange)]/10 via-[var(--bg-primary)] to-[var(--bg-primary)] border-b border-[var(--border-color)]">
         <div className="max-w-6xl mx-auto">
           <div className="max-w-3xl">
@@ -47,7 +46,6 @@ export const RouteMapPage = () => {
             </p>
           </div>
 
-          {/* Quick Stats Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-6 sm:mt-8">
             <div className="p-3.5 sm:p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-sm">
               <div className="flex items-center gap-2 text-xs font-extrabold text-[var(--orange)] uppercase tracking-wider mb-1">
@@ -88,13 +86,11 @@ export const RouteMapPage = () => {
         </div>
       </section>
 
-      {/* Main Interactive Map Section */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-12">
         <div className="space-y-4">
           <MarathonRouteMap className="w-full" />
         </div>
 
-        {/* Medical & Participant Safety Guarantees */}
         <section className="p-6 sm:p-8 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-sm">
           <h2 className="text-lg sm:text-xl font-black font-heading text-[var(--text-primary)] mb-4 flex items-center gap-2">
             <ShieldCheck className="w-5 h-5 text-emerald-500" />
@@ -124,7 +120,6 @@ export const RouteMapPage = () => {
           </div>
         </section>
 
-        {/* Bottom CTA Card */}
         <section className="relative p-6 sm:p-10 rounded-3xl bg-gradient-to-r from-[var(--orange)]/15 via-[var(--bg-secondary)] to-[var(--cyan)]/15 border border-[var(--border-color)] shadow-xl overflow-hidden text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="max-w-xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[var(--orange)]/20 text-[var(--orange)] mb-2">

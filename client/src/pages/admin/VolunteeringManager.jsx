@@ -225,7 +225,6 @@ export const VolunteeringManager = () => {
 
   return (
     <div className="space-y-6">
-      {/* Toast Notification */}
       {notification && (
         <div
           className={`p-4 rounded-xl shadow-lg border flex items-center justify-between text-sm font-medium animate-in fade-in slide-in-from-top-2 ${
@@ -251,7 +250,6 @@ export const VolunteeringManager = () => {
         </div>
       )}
 
-      {/* Header & Metrics */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5 mb-1">
@@ -289,7 +287,6 @@ export const VolunteeringManager = () => {
         </div>
       </div>
 
-      {/* Metric Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 sm:gap-4">
         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
           <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -328,7 +325,6 @@ export const VolunteeringManager = () => {
         </div>
       </div>
 
-      {/* Search & Filter Toolbar */}
       <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3.5">
         <div className="relative flex-1">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -359,7 +355,6 @@ export const VolunteeringManager = () => {
         </div>
       </div>
 
-      {/* Main Table / List */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         {loading ? (
           <div className="py-20 text-center space-y-3">
@@ -400,7 +395,6 @@ export const VolunteeringManager = () => {
                       key={vol._id}
                       className="hover:bg-amber-50/40 transition-colors group"
                     >
-                      {/* Name */}
                       <td className="py-3.5 px-4 sm:px-6">
                         <div className="flex items-center gap-3">
                           <div className="w-9 h-9 rounded-xl bg-[var(--orange)]/10 text-[var(--orange)] flex items-center justify-center font-bold text-sm shrink-0">
@@ -418,7 +412,6 @@ export const VolunteeringManager = () => {
                         </div>
                       </td>
 
-                      {/* DOB */}
                       <td className="py-3.5 px-4 whitespace-nowrap">
                         <div className="font-medium text-slate-800 flex items-center gap-1.5">
                           <Calendar className="w-3.5 h-3.5 text-slate-400" />
@@ -431,7 +424,6 @@ export const VolunteeringManager = () => {
                         )}
                       </td>
 
-                      {/* Phone & Email */}
                       <td className="py-3.5 px-4">
                         <div className="space-y-1">
                           <div className="flex items-center gap-2 font-medium text-slate-800">
@@ -460,14 +452,12 @@ export const VolunteeringManager = () => {
                         </div>
                       </td>
 
-                      {/* Interest */}
                       <td className="py-3.5 px-4 max-w-xs">
                         <p className="line-clamp-2 text-xs text-slate-700 font-normal leading-relaxed">
                           {vol.interest}
                         </p>
                       </td>
 
-                      {/* Status */}
                       <td className="py-3.5 px-4 whitespace-nowrap">
                         <div className="relative inline-block">
                           <select
@@ -484,7 +474,6 @@ export const VolunteeringManager = () => {
                         </div>
                       </td>
 
-                      {/* Submitted At */}
                       <td className="py-3.5 px-4 whitespace-nowrap text-xs text-slate-500">
                         {new Date(vol.createdAt).toLocaleDateString('en-IN', {
                           day: '2-digit',
@@ -493,7 +482,6 @@ export const VolunteeringManager = () => {
                         })}
                       </td>
 
-                      {/* Actions */}
                       <td className="py-3.5 px-4 text-right whitespace-nowrap">
                         <div className="flex items-center justify-end gap-1.5">
                           <button
@@ -540,7 +528,6 @@ export const VolunteeringManager = () => {
         )}
       </div>
 
-      {/* Volunteer Details Modal */}
       {selectedVolunteer && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
@@ -549,7 +536,6 @@ export const VolunteeringManager = () => {
           }}
         >
           <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-lg w-full overflow-hidden flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200">
-            {/* Header */}
             <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
               <div className="flex items-center gap-2.5">
                 <div className="w-9 h-9 rounded-xl bg-[var(--orange)]/10 text-[var(--orange)] flex items-center justify-center">
@@ -568,9 +554,7 @@ export const VolunteeringManager = () => {
               </button>
             </div>
 
-            {/* Content */}
             <div className="p-6 overflow-y-auto space-y-5 text-sm">
-              {/* Profile Card */}
               <div className="p-4 rounded-2xl bg-amber-50/50 border border-amber-200/60 space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
@@ -605,7 +589,6 @@ export const VolunteeringManager = () => {
                 </div>
               </div>
 
-              {/* Contact Actions */}
               <div className="grid grid-cols-2 gap-3">
                 <a
                   href={`tel:${selectedVolunteer.phone}`}
@@ -632,7 +615,6 @@ export const VolunteeringManager = () => {
                 </a>
               </div>
 
-              {/* Email */}
               <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2 truncate">
                   <Mail className="w-4 h-4 text-slate-400 shrink-0" />
@@ -646,7 +628,6 @@ export const VolunteeringManager = () => {
                 </a>
               </div>
 
-              {/* Interest in Volunteering */}
               <div className="space-y-1.5">
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-600 block">
                   Interest in Volunteering
@@ -656,7 +637,6 @@ export const VolunteeringManager = () => {
                 </div>
               </div>
 
-              {/* Status Update Quick Bar */}
               <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
                 <span className="text-xs font-bold text-slate-600">Change Status:</span>
                 <div className="flex items-center gap-1.5">
