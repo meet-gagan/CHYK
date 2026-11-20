@@ -338,7 +338,6 @@ export const MagaMasamPoojaluPage = () => {
                       <span className="text-2xl sm:text-3xl font-black text-slate-900 font-heading">
                         ₹{opt.price.toLocaleString('en-IN')}
                       </span>
-                      <span className="text-xs text-slate-500 block">per family offering</span>
                     </div>
                   </div>
 
@@ -355,30 +354,6 @@ export const MagaMasamPoojaluPage = () => {
                 </div>
               ))}
             </div>
-
-            <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-3 text-left">
-                <div className="w-10 h-10 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <h5 className="font-bold text-xs sm:text-sm text-slate-900">
-                    Sankalpam Details &amp; Payment Verification
-                  </h5>
-                  <p className="text-[11px] sm:text-xs text-slate-600">
-                    Submit Devotee Name, Gotram, Nakshatram and UPI reference via our secure booking portal.
-                  </p>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => handleOpenBooking()}
-                className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-[var(--orange)] to-amber-600 hover:from-amber-600 hover:to-[var(--orange)] text-white text-xs font-bold uppercase tracking-wider shadow-sm transition-all cursor-pointer whitespace-nowrap"
-              >
-                Open Seva Booking Form
-              </button>
-            </div>
           </div>
 
           <div className="space-y-6 pt-6">
@@ -391,14 +366,14 @@ export const MagaMasamPoojaluPage = () => {
                 ॥ लोकाः समस्ताः सुखिनो भवन्तु ॥
               </p>
               <p className="text-sm sm:text-base font-bold text-slate-800 tracking-wide">
-                *LOKAH SAMASTAH SUKHINO BHAVANTU*
+                LOKAH SAMASTAH SUKHINO BHAVANTU
               </p>
               <div className="pt-2 border-t border-orange-200/60 max-w-xs mx-auto">
                 <span className="text-2xl sm:text-3xl font-serif text-slate-900 font-black block tracking-wider">
                   ॥ ॐ नमः शिवाय ॥
                 </span>
                 <span className="text-base sm:text-lg font-bold text-[var(--orange)] font-serif block mt-1">
-                  *OM NAMAH SHIVAYA!*
+                  OM NAMAH SHIVAYA!
                 </span>
               </div>
             </div>
