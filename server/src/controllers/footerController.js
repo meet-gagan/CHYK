@@ -21,7 +21,7 @@ export const defaultFooterConfig = {
       { label: 'About Us', url: '/about', openInNewTab: false, enabled: true, displayOrder: 2 },
       { label: 'Events', url: '/events', openInNewTab: false, enabled: true, displayOrder: 3 },
       { label: 'Chinmaya Sanjeevaraya Temple', url: '/chinmaya-sanjeevaraya-temple', openInNewTab: false, enabled: true, displayOrder: 4 },
-      { label: 'Shri Shantamalleshwara Swami Temple', url: '/sswt', openInNewTab: false, enabled: true, displayOrder: 5 },
+      { label: 'Shri Shantamalleshwara Swami Temple', url: '/ssmt', openInNewTab: false, enabled: true, displayOrder: 5 },
     ],
   },
   contact: {

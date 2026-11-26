@@ -148,6 +148,14 @@ export const FolderDetailsPage = () => {
     };
   }, [slug]);
 
+  useEffect(() => {
+    if (folder?.name) {
+      document.title = `${folder.name} | Chinmaya Mission, Adoni`;
+    } else {
+      document.title = 'Gallery | Chinmaya Mission, Adoni';
+    }
+  }, [folder]);
+
   // Dynamic Categories from media
   // Image items only for the Lightbox carousel
   const imageItems = useMemo(() => {

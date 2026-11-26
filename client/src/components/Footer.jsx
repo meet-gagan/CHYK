@@ -155,11 +155,15 @@ function sanitizeMainSiteFooter(rawData) {
         lower.includes('shantha') ||
         lower === 'sswt' ||
         lower.includes('sswt') ||
+        lower === 'ssmt' ||
+        lower.includes('ssmt') ||
         url.includes('shantamalleshwara') ||
         url.includes('malleshwara') ||
         url.includes('mamleshwara') ||
         url === '/sswt' ||
-        url.includes('/sswt')
+        url.includes('/sswt') ||
+        url === '/ssmt' ||
+        url.includes('/ssmt')
       ) return false;
       return true;
     })

@@ -27,6 +27,10 @@ export const LoginPage = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
+  useEffect(() => {
+    document.title = 'Sign In | Chinmaya Mission, Adoni';
+  }, []);
+
   const handlePhoneChange = (e) => {
     const formatted = formatPhoneInput(e.target.value);
     setPhone(formatted);

@@ -218,6 +218,11 @@ export const GalleryPage = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
 
+  useEffect(() => {
+    document.title = 'Gallery | Chinmaya Mission, Adoni';
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, []);
+
   // Fetch Public Folders
   useEffect(() => {
     let isMounted = true;

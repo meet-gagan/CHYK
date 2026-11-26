@@ -79,11 +79,45 @@ function PublicLayout() {
   );
 }
 
-// Scroll to top helper on route change, preserving anchor hash links
+const ROUTE_TITLES = {
+  '/': 'Home | Chinmaya Mission, Adoni',
+  '/home': 'Home | Chinmaya Mission, Adoni',
+  '/gallery': 'Gallery | Chinmaya Mission, Adoni',
+  '/gallery/': 'Gallery | Chinmaya Mission, Adoni',
+  '/images': 'Gallery | Chinmaya Mission, Adoni',
+  '/sacred-gallery': 'Gallery | Chinmaya Mission, Adoni',
+  '/lets-connect': "Let's Connect | Chinmaya Mission, Adoni",
+  '/lets-connect/': "Let's Connect | Chinmaya Mission, Adoni",
+  '/activities': 'Activities | Chinmaya Mission, Adoni',
+  '/activities/': 'Activities | Chinmaya Mission, Adoni',
+  '/events': 'Activities | Chinmaya Mission, Adoni',
+  '/chinmaya-mission-adoni': 'Chinmaya Mission, Adoni',
+  '/who-we-are': 'Who We Are | Chinmaya Mission',
+  '/who-are-we': 'Who We Are | Chinmaya Mission',
+  '/chinmaya-sanjeevaraya-temple': 'Chinmaya Sanjeevaraya Temple | Chinmaya Mission',
+  '/ssmt': 'Shri Shantamalleshwara Swami Temple | Chinmaya Mission',
+  '/ssmt/': 'Shri Shantamalleshwara Swami Temple | Chinmaya Mission',
+  '/magha-masam-poojalu': 'Magha Masam Shiva Pooja – 30 Days of Sri Rudra Parayanam | Chinmaya Mission',
+  '/magha-masam-poojalu/': 'Magha Masam Shiva Pooja – 30 Days of Sri Rudra Parayanam | Chinmaya Mission',
+  '/support-our-mission': 'Support Our Mission | Chinmaya Mission',
+  '/login': 'Sign In | Chinmaya Mission, Adoni',
+  '/signup': 'Sign Up | Chinmaya Mission, Adoni',
+  '/profile': 'Profile | Chinmaya Mission, Adoni',
+  '/privacy': 'Privacy Policy • Chinmaya Mission, Adoni',
+  '/privacy-policy': 'Privacy Policy • Chinmaya Mission, Adoni',
+  '/terms': 'Terms & Conditions • Chinmaya Mission, Adoni',
+};
+
+// Scroll to top helper on route change, preserving anchor hash links and syncing document title
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
+    const matchedTitle = ROUTE_TITLES[pathname] || ROUTE_TITLES[pathname.replace(/\/$/, '')];
+    if (matchedTitle) {
+      document.title = matchedTitle;
+    }
+
     if (hash) {
       setTimeout(() => {
         try {
@@ -106,10 +140,16 @@ function ScrollToTop() {
   return null;
 }
 
-// Helper to redirect legacy temple URLs to /sswt while preserving hash & query
-const SSWTRedirect = () => {
+// Helper to redirect legacy temple URLs to /ssmt while preserving hash & query
+const SSMTRedirect = () => {
   const location = useLocation();
-  return <Navigate to={`/sswt${location.search}${location.hash}`} replace />;
+  return <Navigate to={`/ssmt${location.search}${location.hash}`} replace />;
+};
+
+// Helper to redirect legacy maga-masam-poojalu URL to /magha-masam-poojalu
+const MaghaMasamRedirect = () => {
+  const location = useLocation();
+  return <Navigate to={`/magha-masam-poojalu${location.search}${location.hash}`} replace />;
 };
 
 export function App() {
@@ -141,16 +181,20 @@ export function App() {
               <Route path="/chinmaya-sanjeevaraya-temple" element={<ChinmayaSanjeevarayaTemplePage />} />
               <Route path="/chinmaya-sanjeevaraya" element={<ChinmayaSanjeevarayaTemplePage />} />
               <Route path="/sanjeevaraya-temple" element={<ChinmayaSanjeevarayaTemplePage />} />
-              <Route path="/sswt" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
-              <Route path="/sswt/" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
-              <Route path="/shri-shantamalleshwara-swami-temple" element={<SSWTRedirect />} />
-              <Route path="/shri-shantamalleshwara-swami-temple/" element={<SSWTRedirect />} />
-              <Route path="/sri-shantha-mamleshwara-swami-temple" element={<SSWTRedirect />} />
-              <Route path="/sri-shantha-mamleshwara-swami-temple/" element={<SSWTRedirect />} />
-              <Route path="/shantamalleshwara-temple" element={<SSWTRedirect />} />
-              <Route path="/shanta-malleshwara-temple" element={<SSWTRedirect />} />
-              <Route path="/maga-masam-poojalu" element={<MagaMasamPoojaluPage />} />
+              <Route path="/ssmt" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
+              <Route path="/ssmt/" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
+              <Route path="/sswt" element={<SSMTRedirect />} />
+              <Route path="/sswt/" element={<SSMTRedirect />} />
+              <Route path="/shri-shantamalleshwara-swami-temple" element={<SSMTRedirect />} />
+              <Route path="/shri-shantamalleshwara-swami-temple/" element={<SSMTRedirect />} />
+              <Route path="/sri-shantha-mamleshwara-swami-temple" element={<SSMTRedirect />} />
+              <Route path="/sri-shantha-mamleshwara-swami-temple/" element={<SSMTRedirect />} />
+              <Route path="/shantamalleshwara-temple" element={<SSMTRedirect />} />
+              <Route path="/shanta-malleshwara-temple" element={<SSMTRedirect />} />
               <Route path="/magha-masam-poojalu" element={<MagaMasamPoojaluPage />} />
+              <Route path="/magha-masam-poojalu/" element={<MagaMasamPoojaluPage />} />
+              <Route path="/maga-masam-poojalu" element={<MaghaMasamRedirect />} />
+              <Route path="/maga-masam-poojalu/" element={<MaghaMasamRedirect />} />
               
               <Route path="/gallery" element={<GalleryPage />} />
               <Route path="/gallery/" element={<GalleryPage />} />

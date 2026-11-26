@@ -157,6 +157,10 @@ export function HomePage() {
   const mobileVideoRef = useRef(null);
 
   useEffect(() => {
+    document.title = 'Home | Chinmaya Mission, Adoni';
+  }, []);
+
+  useEffect(() => {
     if (mobileVideoRef.current) {
       mobileVideoRef.current.defaultMuted = true;
       mobileVideoRef.current.muted = true;
@@ -459,7 +463,7 @@ export function HomePage() {
   const announcementLink =
     announcementFields?.link_url ||
     announcementSec?.fields?.find((field) => field.key === 'link_url')?.value ||
-    '/sswt#maha-shivaratri';
+    '/ssmt#maha-shivaratri';
 
   return (
     <div className="site-shell">

@@ -214,7 +214,7 @@ const ActivityCard = ({ activity, onSelect }) => {
             </Link>
           ) : activity.id === 'shanta-malleshwara-temple' || activity.title?.toLowerCase().includes('malleshwara') ? (
             <Link
-              to="/sswt"
+              to="/ssmt"
               className="text-[var(--orange)] hover:text-[#d04a02] font-bold text-xs sm:text-sm flex items-center gap-1 group/btn transition-colors cursor-pointer shrink-0"
               title="Explore Shri Shantamalleshwara Swami Temple Page"
             >
@@ -684,7 +684,7 @@ export const ActivitiesPage = () => {
                 {(selectedActivity.id === 'shanta-malleshwara-temple' ||
                   selectedActivity.title?.toLowerCase().includes('malleshwara')) && (
                   <Link
-                    to="/sswt"
+                    to="/ssmt"
                     className="text-[var(--orange)] hover:underline font-bold text-xs flex items-center gap-1 mr-2"
                   >
                     <span>Full Temple Page</span>

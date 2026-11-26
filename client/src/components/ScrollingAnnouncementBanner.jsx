@@ -25,7 +25,7 @@ export const ScrollingAnnouncementBanner = ({
     isEnabled: propIsEnabled !== undefined ? propIsEnabled : true,
     englishContent: propEnglish || DEFAULT_EN,
     teluguContent: propTelugu || DEFAULT_TE,
-    linkUrl: propLink || '/maga-masam-poojalu',
+    linkUrl: propLink || '/magha-masam-poojalu',
   });
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export const ScrollingAnnouncementBanner = ({
         isEnabled: propIsEnabled,
         englishContent: propEnglish || DEFAULT_EN,
         teluguContent: propTelugu || DEFAULT_TE,
-        linkUrl: propLink || '/maga-masam-poojalu',
+        linkUrl: propLink || '/magha-masam-poojalu',
       });
       return;
     }
@@ -59,7 +59,7 @@ export const ScrollingAnnouncementBanner = ({
               isEnabled: enabled !== false,
               englishContent: en || DEFAULT_EN,
               teluguContent: te || DEFAULT_TE,
-              linkUrl: link || '/maga-masam-poojalu',
+              linkUrl: link || '/magha-masam-poojalu',
             });
           }
         })
@@ -89,9 +89,10 @@ export const ScrollingAnnouncementBanner = ({
     data.linkUrl !== '#' &&
     !data.linkUrl.includes('shantamalleshwara') &&
     !data.linkUrl.includes('sswt') &&
+    !data.linkUrl.includes('ssmt') &&
     !data.linkUrl.includes('maha-shivaratri')
       ? data.linkUrl
-      : '/maga-masam-poojalu';
+      : '/magha-masam-poojalu';
 
   const renderUnits = (prefix = 'seq') => {
     return Array.from({ length: 3 }).map((_, idx) => (
@@ -121,7 +122,7 @@ export const ScrollingAnnouncementBanner = ({
       <Link
         to={targetLink}
         className="announcement-banner-link"
-        title="Chinmaya Mission Adoni — Maga Masam Poojalu"
+        title="Chinmaya Mission Adoni — Magha Masam Poojalu"
       >
         <div className="announcement-marquee-track">
           <div className="announcement-track-content">

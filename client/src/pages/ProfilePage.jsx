@@ -87,6 +87,10 @@ export const ProfilePage = ({ initialTab }) => {
   const [passwordSuccess, setPasswordSuccess] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
+  useEffect(() => {
+    document.title = 'Profile | Chinmaya Mission, Adoni';
+  }, []);
+
   // Sync state when active user updates
   useEffect(() => {
     if (activeUser) {
@@ -661,7 +665,7 @@ export const ProfilePage = ({ initialTab }) => {
                   Chinmaya Sanjeevaraya Temple
                 </Link>
                 <Link
-                  to="/sswt"
+                  to="/ssmt"
                   className="px-4 py-2.5 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] text-xs font-bold text-[var(--text-primary)] hover:border-[var(--orange)] text-decoration-none transition-colors whitespace-nowrap"
                 >
                   Shri Shantamalleshwara Temple

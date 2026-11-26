@@ -46,6 +46,8 @@ export const LetsConnectPage = () => {
   };
 
   useEffect(() => {
+    document.title = "Let's Connect | Chinmaya Mission, Adoni";
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     fetchContent();
     window.addEventListener('cms_updated', fetchContent);
     return () => window.removeEventListener('cms_updated', fetchContent);
@@ -104,13 +106,13 @@ export const LetsConnectPage = () => {
 
   return (
     <div className="min-h-screen pt-2 sm:pt-4 pb-14 px-4 max-w-7xl mx-auto space-y-8 sm:space-y-10">
-      <div className="text-center max-w-3xl mx-auto space-y-2.5">
+      <div className="text-center max-w-5xl mx-auto space-y-2.5">
         <h1 className="text-4xl sm:text-5xl font-black font-heading text-[var(--text-primary)] leading-tight">
           <span>{f.contact_info?.heading && !f.contact_info.heading.toLowerCase().includes('us') ? f.contact_info.heading : "Let's Connect With"}</span>
-          <span className="block text-[var(--orange)] mt-1 sm:mt-2">CHINMAYA MISSION, Adoni</span>
+          <span className="block text-[var(--orange)] mt-1 sm:mt-2">Chinmaya Mission, Adoni</span>
         </h1>
-        <p className="text-base text-[var(--text-muted)] font-medium">
-          {f.contact_info?.subtitle ? f.contact_info.subtitle.replace(/,\s*Adoni/gi, '') : 'Have questions regarding marathon registration, volunteering opportunities, youth programs, or community activities? Reach out to our Chinmaya Mission team.'}
+        <p className="text-sm sm:text-base text-[var(--text-muted)] font-medium max-w-5xl mx-auto whitespace-normal md:whitespace-nowrap">
+          {f.contact_info?.subtitle ? f.contact_info.subtitle.replace(/,\s*Adoni/gi, '') : 'We welcome your questions, thoughts, and participation in our spiritual, educational, and cultural activities.'}
         </p>
       </div>
 

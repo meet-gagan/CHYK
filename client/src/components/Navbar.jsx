@@ -94,11 +94,13 @@ export const Navbar = () => {
       );
     }
     if (
+      path === '/ssmt' ||
       path === '/sswt' ||
       path === '/sri-shantha-mamleshwara-swami-temple' ||
       path === '/shri-shantamalleshwara-swami-temple'
     ) {
       return (
+        location.pathname === '/ssmt' ||
         location.pathname === '/sswt' ||
         location.pathname === '/sri-shantha-mamleshwara-swami-temple' ||
         location.pathname === '/shri-shantamalleshwara-swami-temple' ||
@@ -117,8 +119,10 @@ export const Navbar = () => {
 
   const isAnyTempleActive =
     isTempleActive('/chinmaya-sanjeevaraya-temple') ||
+    isTempleActive('/ssmt') ||
     isTempleActive('/sswt') ||
     isTempleActive('/sri-shantha-mamleshwara-swami-temple') ||
+    isTempleActive('/magha-masam-poojalu') ||
     isTempleActive('/maga-masam-poojalu');
 
   const isChinmayaMissionAdoniActive =
@@ -166,11 +170,11 @@ export const Navbar = () => {
         },
         {
           name: 'Shri Shantamalleshwara Swami Temple',
-          path: '/sswt',
+          path: '/ssmt',
         },
         {
-          name: 'Maga Masam Poojalu',
-          path: '/maga-masam-poojalu',
+          name: 'Magha Masam Poojalu',
+          path: '/magha-masam-poojalu',
         },
       ],
     },

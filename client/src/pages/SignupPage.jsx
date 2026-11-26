@@ -43,6 +43,10 @@ export const SignupPage = () => {
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState('');
 
+  useEffect(() => {
+    document.title = 'Sign Up | Chinmaya Mission, Adoni';
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'phone') {
