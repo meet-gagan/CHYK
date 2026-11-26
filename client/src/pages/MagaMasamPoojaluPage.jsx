@@ -59,7 +59,7 @@ export const MagaMasamPoojaluPage = () => {
 
   const prayers = [
     {
-      title: 'Arogya',
+      title: 'Arogyam',
       telugu: 'ఆరోగ్యం',
       desc: 'Health and well-being.',
       icon: <Sun className="w-5 h-5 text-amber-500" />,
@@ -73,28 +73,28 @@ export const MagaMasamPoojaluPage = () => {
       bg: 'bg-rose-50/70 border-rose-200/80',
     },
     {
-      title: 'Aishwarya',
+      title: 'Aishwaryam',
       telugu: 'ఐశ్వర్యం',
       desc: 'Prosperity and auspiciousness.',
       icon: <Sparkles className="w-5 h-5 text-yellow-600" />,
       bg: 'bg-yellow-50/70 border-yellow-200/80',
     },
     {
-      title: 'Jnana',
+      title: 'Jnanam',
       telugu: 'జ్ఞానం',
       desc: 'Wisdom and spiritual enlightenment.',
       icon: <BookOpen className="w-5 h-5 text-sky-500" />,
       bg: 'bg-sky-50/70 border-sky-200/80',
     },
     {
-      title: 'Kshema',
+      title: 'Kshemam',
       telugu: 'క్షేమం',
       desc: 'Protection and overall well-being.',
       icon: <ShieldCheck className="w-5 h-5 text-emerald-500" />,
       bg: 'bg-emerald-50/70 border-emerald-200/80',
     },
     {
-      title: 'Lokakshema',
+      title: 'Lokakshemam',
       telugu: 'లోకక్షేమం',
       desc: 'Peace and welfare of all beings.',
       icon: <Globe className="w-5 h-5 text-purple-500" />,
