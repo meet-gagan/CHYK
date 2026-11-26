@@ -661,8 +661,8 @@ export const ProfilePage = ({ initialTab }) => {
                   Chinmaya Sanjeevaraya Temple
                 </Link>
                 <Link
-                  to="/shri-shantamalleshwara-swami-temple"
-                  className="px-4 py-2.5 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] text-xs font-bold text-[var(--text-primary)] hover:border-[var(--orange)] text-decoration-none transition-colors"
+                  to="/sswt"
+                  className="px-4 py-2.5 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-color)] text-xs font-bold text-[var(--text-primary)] hover:border-[var(--orange)] text-decoration-none transition-colors whitespace-nowrap"
                 >
                   Shri Shantamalleshwara Temple
                 </Link>

@@ -303,7 +303,7 @@ export const MagaMasamPoojaluPage = () => {
           >
             <div className="text-center space-y-2">
               <h3 className="text-2xl sm:text-3xl font-black font-heading text-slate-900">
-                Magha Masa Seva Offerings
+                Magha Masam Seva Offerings
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
                 Choose a seva offering below. Devotee names and Gotras will be included in the daily Sankalpam performed during the 30-day worship.
@@ -347,7 +347,7 @@ export const MagaMasamPoojaluPage = () => {
                       onClick={() => handleOpenBooking(opt.name)}
                       className="w-full py-3 px-4 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer bg-gradient-to-r from-[var(--orange)] to-amber-600 hover:from-amber-600 hover:to-[var(--orange)] text-white shadow-md shadow-orange-500/20"
                     >
-                      <span>Participate • ₹{opt.price.toLocaleString('en-IN')}</span>
+                      <span>Offerings • ₹{opt.price.toLocaleString('en-IN')}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>

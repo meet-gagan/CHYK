@@ -266,7 +266,7 @@ export const LetsConnectPage = () => {
                           : ''
                       }`}
                     >
-                      <h3 className="text-lg sm:text-xl font-black font-heading text-[var(--text-primary)] leading-tight tracking-wide">
+                      <h3 className="text-base sm:text-lg md:text-xl font-black font-heading text-[var(--text-primary)] leading-tight tracking-wide whitespace-nowrap overflow-hidden text-ellipsis">
                         {title}
                       </h3>
 

@@ -112,7 +112,7 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
 
         <div className="max-w-6xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-left">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black font-heading text-white tracking-tight leading-tight">
+            <h1 className="text-lg min-[380px]:text-xl sm:text-2xl md:text-3xl lg:text-[1.85rem] xl:text-[2.25rem] font-black font-heading text-white tracking-tight leading-tight whitespace-nowrap">
               SHRI SHANTAMALLESHWARA SWAMI TEMPLE
             </h1>
 
@@ -167,8 +167,8 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
       </section>
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-10">
-        <div className="text-center max-w-3xl mx-auto space-y-2">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black font-heading text-slate-900 tracking-tight">
+        <div className="text-center max-w-4xl mx-auto space-y-2">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black font-heading text-slate-900 tracking-tight whitespace-nowrap">
             Shri Shantamalleshwara Swami Temple
           </h2>
           <p className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-[var(--orange)]">

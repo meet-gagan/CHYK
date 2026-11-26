@@ -459,7 +459,7 @@ export function HomePage() {
   const announcementLink =
     announcementFields?.link_url ||
     announcementSec?.fields?.find((field) => field.key === 'link_url')?.value ||
-    '/shri-shantamalleshwara-swami-temple#maha-shivaratri';
+    '/sswt#maha-shivaratri';
 
   return (
     <div className="site-shell">

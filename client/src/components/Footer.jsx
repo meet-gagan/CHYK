@@ -153,9 +153,13 @@ function sanitizeMainSiteFooter(rawData) {
         lower.includes('malleshwara') ||
         lower.includes('mamleshwara') ||
         lower.includes('shantha') ||
+        lower === 'sswt' ||
+        lower.includes('sswt') ||
         url.includes('shantamalleshwara') ||
         url.includes('malleshwara') ||
-        url.includes('mamleshwara')
+        url.includes('mamleshwara') ||
+        url === '/sswt' ||
+        url.includes('/sswt')
       ) return false;
       return true;
     })

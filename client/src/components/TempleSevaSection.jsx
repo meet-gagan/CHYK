@@ -672,6 +672,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                     margin: '3px 0 2px',
                     textTransform: 'uppercase',
                     letterSpacing: '0.04em',
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   {activeTempleName}
@@ -773,7 +774,7 @@ export function UnifiedBookingModal({ service, onClose, onBookingSuccess }) {
                       {printPujaName}
                     </div>
                     <div style={{ fontSize: '11px', color: '#475569', marginTop: '2px' }}>
-                      Temple: <strong>{activeTempleName}</strong>
+                      Temple: <strong style={{ whiteSpace: 'nowrap' }}>{activeTempleName}</strong>
                     </div>
                   </div>
                   <div style={{ textAlign: 'right' }}>
@@ -1957,7 +1958,7 @@ export const TempleSevaSection = () => {
       <header className="seva-top-bar">
         <a href="#services" className="seva-temple-brand">
           <span className="seva-temple-om">ॐ</span>
-          <span className="seva-temple-title">Shri Shantamalleshwara Swami Temple</span>
+          <span className="seva-temple-title whitespace-nowrap">Shri Shantamalleshwara Swami Temple</span>
         </a>
 
         <div className="seva-top-actions">

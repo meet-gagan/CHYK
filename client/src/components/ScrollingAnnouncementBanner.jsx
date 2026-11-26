@@ -88,6 +88,7 @@ export const ScrollingAnnouncementBanner = ({
     data.linkUrl &&
     data.linkUrl !== '#' &&
     !data.linkUrl.includes('shantamalleshwara') &&
+    !data.linkUrl.includes('sswt') &&
     !data.linkUrl.includes('maha-shivaratri')
       ? data.linkUrl
       : '/maga-masam-poojalu';

@@ -98,6 +98,7 @@
   text-transform: uppercase;
   font-weight: 600;
   color: var(--seva-ivory);
+  white-space: nowrap;
 }
 
 @media (min-width: 640px) {

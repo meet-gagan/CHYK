@@ -35,7 +35,7 @@ export const ScrollingAnnouncementEditor = ({
 
   const englishContent = englishField?.value ?? DEFAULT_ENGLISH;
   const teluguContent = teluguField?.value ?? DEFAULT_TELUGU;
-  const linkUrl = linkField?.value ?? '/shri-shantamalleshwara-swami-temple#maha-shivaratri';
+  const linkUrl = linkField?.value ?? '/sswt#maha-shivaratri';
 
   return (
     <div className="rounded-3xl bg-[var(--bg-secondary)] border-2 border-orange-500/30 overflow-hidden shadow-2xl transition-all">
@@ -255,7 +255,7 @@ export const ScrollingAnnouncementEditor = ({
             onChange={(e) =>
               onContentChange(sectionIndex, 'link_url', e.target.value)
             }
-            placeholder="/shri-shantamalleshwara-swami-temple#maha-shivaratri"
+            placeholder="/sswt#maha-shivaratri"
             className="w-full p-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border-color)] text-xs text-[var(--text-primary)] focus:outline-hidden focus:border-orange-500 transition-colors font-mono"
           />
           <p className="text-[11px] text-[var(--text-muted)] flex items-center gap-1.5">

@@ -106,6 +106,12 @@ function ScrollToTop() {
   return null;
 }
 
+// Helper to redirect legacy temple URLs to /sswt while preserving hash & query
+const SSWTRedirect = () => {
+  const location = useLocation();
+  return <Navigate to={`/sswt${location.search}${location.hash}`} replace />;
+};
+
 export function App() {
   return (
     <ThemeProvider>
@@ -135,10 +141,14 @@ export function App() {
               <Route path="/chinmaya-sanjeevaraya-temple" element={<ChinmayaSanjeevarayaTemplePage />} />
               <Route path="/chinmaya-sanjeevaraya" element={<ChinmayaSanjeevarayaTemplePage />} />
               <Route path="/sanjeevaraya-temple" element={<ChinmayaSanjeevarayaTemplePage />} />
-              <Route path="/sri-shantha-mamleshwara-swami-temple" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
-              <Route path="/shri-shantamalleshwara-swami-temple" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
-              <Route path="/shantamalleshwara-temple" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
-              <Route path="/shanta-malleshwara-temple" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
+              <Route path="/sswt" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
+              <Route path="/sswt/" element={<SriShanthaMamleshwaraSwamiTemplePage />} />
+              <Route path="/shri-shantamalleshwara-swami-temple" element={<SSWTRedirect />} />
+              <Route path="/shri-shantamalleshwara-swami-temple/" element={<SSWTRedirect />} />
+              <Route path="/sri-shantha-mamleshwara-swami-temple" element={<SSWTRedirect />} />
+              <Route path="/sri-shantha-mamleshwara-swami-temple/" element={<SSWTRedirect />} />
+              <Route path="/shantamalleshwara-temple" element={<SSWTRedirect />} />
+              <Route path="/shanta-malleshwara-temple" element={<SSWTRedirect />} />
               <Route path="/maga-masam-poojalu" element={<MagaMasamPoojaluPage />} />
               <Route path="/magha-masam-poojalu" element={<MagaMasamPoojaluPage />} />
               

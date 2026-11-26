@@ -230,6 +230,7 @@ export const Footer = ({ overrideData = null }) => {
     '/events',
     '/chinmaya-sanjeevaraya-temple',
     '/shri-shantamalleshwara-swami-temple',
+    '/sswt',
   ];
 
   const defaultMarathonLinks = [

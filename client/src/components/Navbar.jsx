@@ -93,8 +93,13 @@ export const Navbar = () => {
         location.pathname === '/sanjeevaraya-temple'
       );
     }
-    if (path === '/sri-shantha-mamleshwara-swami-temple') {
+    if (
+      path === '/sswt' ||
+      path === '/sri-shantha-mamleshwara-swami-temple' ||
+      path === '/shri-shantamalleshwara-swami-temple'
+    ) {
       return (
+        location.pathname === '/sswt' ||
         location.pathname === '/sri-shantha-mamleshwara-swami-temple' ||
         location.pathname === '/shri-shantamalleshwara-swami-temple' ||
         location.pathname === '/shantamalleshwara-temple' ||
@@ -112,6 +117,7 @@ export const Navbar = () => {
 
   const isAnyTempleActive =
     isTempleActive('/chinmaya-sanjeevaraya-temple') ||
+    isTempleActive('/sswt') ||
     isTempleActive('/sri-shantha-mamleshwara-swami-temple') ||
     isTempleActive('/maga-masam-poojalu');
 
@@ -160,7 +166,7 @@ export const Navbar = () => {
         },
         {
           name: 'Shri Shantamalleshwara Swami Temple',
-          path: '/shri-shantamalleshwara-swami-temple',
+          path: '/sswt',
         },
         {
           name: 'Maga Masam Poojalu',
@@ -309,7 +315,7 @@ export const Navbar = () => {
 
                     {desktopTemplesOpen && (
                       <div
-                        className="absolute top-full left-0 mt-2 min-w-[280px] sm:min-w-[310px] bg-white rounded-xl shadow-xl border border-[var(--border-color,#EBD6A2)]/70 py-2 z-50 animate-in fade-in-50 zoom-in-95 duration-150 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3"
+                        className="absolute top-full left-0 mt-2 min-w-[320px] sm:min-w-[360px] bg-white rounded-xl shadow-xl border border-[var(--border-color,#EBD6A2)]/70 py-2 z-50 animate-in fade-in-50 zoom-in-95 duration-150 before:content-[''] before:absolute before:-top-3 before:left-0 before:right-0 before:h-3"
                         role="menu"
                         aria-orientation="vertical"
                       >
@@ -320,7 +326,7 @@ export const Navbar = () => {
                               key={subItem.name}
                               to={subItem.path}
                               onClick={() => setDesktopTemplesOpen(false)}
-                              className={`block px-4 py-2.5 text-xs xl:text-sm font-bold transition-colors text-decoration-none whitespace-normal leading-snug ${
+                              className={`block px-4 py-2.5 text-xs xl:text-sm font-bold transition-colors text-decoration-none whitespace-nowrap leading-snug ${
                                 active
                                   ? 'text-[var(--orange)] bg-[var(--orange)]/10 font-extrabold'
                                   : 'text-[var(--text-primary)] hover:bg-[var(--bg-primary,#FFF5E5)] hover:text-[var(--orange)]'
@@ -567,7 +573,7 @@ export const Navbar = () => {
                                 setMobileTemplesOpen(false);
                                 setMobileMenuOpen(false);
                               }}
-                              className={`text-xs sm:text-sm font-bold px-3 py-2 rounded-lg text-decoration-none transition-colors ${
+                              className={`text-xs sm:text-sm font-bold px-3 py-2 rounded-lg text-decoration-none transition-colors whitespace-nowrap ${
                                 active
                                   ? 'bg-[var(--orange)]/15 text-[var(--orange)] font-extrabold'
                                   : 'text-[var(--text-primary)] hover:bg-[var(--bg-tertiary)]'

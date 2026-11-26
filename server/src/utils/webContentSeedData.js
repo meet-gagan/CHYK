@@ -455,7 +455,7 @@ export const DEFAULT_WEBSITE_PAGES = {
       website: 'chinmaya',
       pageSlug: 'shantamalleshwara_temple',
       pageTitle: 'Shri Shantamalleshwara Swami Temple',
-      route: '/shri-shantamalleshwara-swami-temple',
+      route: '/sswt',
       isSystemPage: true,
       status: 'PUBLISHED',
       seo: {
