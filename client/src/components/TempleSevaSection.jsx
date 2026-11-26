@@ -263,13 +263,13 @@ export const POOJA_SERVICES = [
     pujaType: 'maha_shivaratri',
     isSpecial: true,
     options: [
-      { name: 'Daily Sankalpa Rudrabhisheka Puja (30 Days)', price: 1221 },
+      { name: 'Daily Sankalpam Rudrabhishekam Pooja (30 Days)', price: 1221 },
       {
-        name: 'Shiva Parvati Kalyana Seva + Daily Sankalpa Rudrabhisheka Puja (30 Days)',
+        name: 'Shiva Parvati Kalyanam Seva + Daily Sankalpam Rudrabhishekam Pooja (30 Days)',
         price: 10008,
       },
       {
-        name: 'Shiva Parvati Kalyana Seva + Anna Prasada Seva + Daily Sankalpa Rudrabhisheka Puja (30 Days)',
+        name: 'Shiva Parvati Kalyanam Seva + Anna Prasadam Seva + Daily Sankalpam Rudrabhishekam Pooja (30 Days)',
         price: 15116,
       },
     ],

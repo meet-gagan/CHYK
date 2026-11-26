@@ -98,7 +98,7 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
       icon: <Sun className="w-5 h-5 text-amber-500" />,
     },
     {
-      name: 'Magha Masam Special Daily Pujas',
+      name: 'Magha Masam Special Daily Poojalu',
       period: 'Month of Magha Masam',
       desc: 'Month-long daily special abhishekams and sacred archanas supported by hundreds of community devotee sponsors, culminating in the joyous celebrations of Mahashivaratri.',
       icon: <Sparkles className="w-5 h-5 text-[var(--orange)]" />,
