@@ -112,8 +112,9 @@ export const SriShanthaMamleshwaraSwamiTemplePage = () => {
 
         <div className="max-w-6xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-left">
-            <h1 className="text-lg min-[380px]:text-xl sm:text-2xl md:text-3xl lg:text-[1.85rem] xl:text-[2.25rem] font-black font-heading text-white tracking-tight leading-tight whitespace-nowrap">
-              SHRI SHANTAMALLESHWARA SWAMI TEMPLE
+            <h1 className="text-xl min-[400px]:text-2xl sm:text-3xl md:text-4xl lg:text-[2.15rem] xl:text-[2.65rem] 2xl:text-5xl font-black font-heading text-white tracking-tight leading-tight">
+              <span className="block whitespace-nowrap">SHRI SHANTAMALLESHWARA</span>
+              <span className="block whitespace-nowrap">SWAMI TEMPLE</span>
             </h1>
 
             <p className="text-amber-200/90 text-sm sm:text-base font-serif italic">
